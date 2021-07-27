@@ -30,6 +30,10 @@ public class LoginResponse
         this.msg = msg;
         this.jwtToken = jwtToken;
     }
+
+
+    //==================================================
+    // getters and setters
     public HttpStatus getStatusCode() {
         return statusCode;
     }
@@ -48,61 +52,4 @@ public class LoginResponse
     public void setJwtToken(String jwtToken) {
         this.jwtToken = jwtToken;
     }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public HttpStatus getStatusCode() {
-    //     return statusCode;
-    // }
-    // public void setStatusCode(HttpStatus statusCode) {
-    //     this.statusCode = statusCode;
-    // }
-    
-    // public String getMsg() {
-    //     return msg;
-    // }
-
-    // public void setMsg(String msg) {
-    //     this.msg = msg;
-    // }
-
-    // public String getUsername() {
-    //     return username;
-    // }
-    // public void setUsername(String username) {
-    //     this.username = username;
-    // }
-    // public String getAccountType() {
-    //     return accountType;
-    // }
-    // public void setAccountType(String accountType) {
-    //     this.accountType = accountType;
-    // }
-    // public String getJwtToken() {
-    //     return jwtToken;
-    // }
-    // public void setJwtToken(String jwtToken) {
-    //     this.jwtToken = jwtToken;
-    // }
-    // @Override
-    // public String toString() {
-    //     return "LoginResponse [accountType=" + accountType + ", jwtToken=" + jwtToken + ", username=" + username + "]";
-    // }
-
 }
