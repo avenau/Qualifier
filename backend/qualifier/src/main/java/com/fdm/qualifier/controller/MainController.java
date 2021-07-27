@@ -19,4 +19,13 @@ public class MainController
         log.info("accessing index route");
         return ResponseEntity.ok("returning main page");
     }
+
+
+    @GetMapping(value = "/private")
+    public ResponseEntity<?> whenlogin_GET()
+    {
+        log.info("accessing private page");;
+        return ResponseEntity.ok("you have accessed a private page");
+
+    }
 }
