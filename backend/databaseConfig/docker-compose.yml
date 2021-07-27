@@ -1,0 +1,12 @@
+version: '3'
+# In command line, with docker running
+# $: docker-compose up
+services:
+  mysql-development:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: groupproject
+    ports: 
+      - "3331:3306"
+# mapping 3331 port
