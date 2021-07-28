@@ -9,13 +9,11 @@ import com.fdm.qualifier.service.NotificationService;
 @Controller
 public class NotificationController {
 	private NotificationService notificationService;
-	private NotificationRepo notificationRepo;
 	
 	@Autowired
-	public NotificationController(NotificationService notificationService, NotificationRepo notificationRepo) {
+	public NotificationController(NotificationService notificationService) {
 		super();
 		this.notificationService = notificationService;
-		this.notificationRepo = notificationRepo;
 	}
 	
 }
