@@ -8,65 +8,71 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class SkillLevel {
-    @Id
-    @GeneratedValue
-    private int skillLevelId;
-    @ManyToOne
-    @JoinColumn(name = "FK_SKILL")
-    private Skill skill;
-    @ManyToOne
-    @JoinColumn(name = "FK_QUIZ")
-    private Quiz quiz;
-    private String level;
-    
-    public SkillLevel() {
-        super();
-    }
+	@Id
+	@GeneratedValue
+	private int skillLevelId;
+	private KnowledgeLevel level;
 
-    public SkillLevel(Skill skill, Quiz quiz, String level) {
-        this.skill = skill;
-        this.quiz = quiz;
-        this.level = level;
-    }
+	@ManyToOne
+	@JoinColumn(name = "FK_SKILL")
+	private Skill skill;
 
-    public int getSkillLevelId() {
-        return skillLevelId;
-    }
+	@ManyToOne
+	@JoinColumn(name = "FK_QUIZ")
+	private Quiz quiz;
 
-    public void setSkillLevelId(int skillLevelId) {
-        this.skillLevelId = skillLevelId;
-    }
+	public enum KnowledgeLevel {
+		BEGINNER, INTERMEDIATE, EXPERT
+	}
 
-    public Skill getSkill() {
-        return skill;
-    }
+	public SkillLevel() {
+		super();
+	}
 
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
+	public SkillLevel(KnowledgeLevel level, Skill skill, Quiz quiz) {
+		super();
+		this.level = level;
+		this.skill = skill;
+		this.quiz = quiz;
+	}
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
+	public int getSkillLevelId() {
+		return skillLevelId;
+	}
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+	public void setSkillLevelId(int skillLevelId) {
+		this.skillLevelId = skillLevelId;
+	}
 
-    public String getLevel() {
-        return level;
-    }
+	public Skill getSkill() {
+		return skill;
+	}
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
+	public void setSkill(Skill skill) {
+		this.skill = skill;
+	}
 
-    @Override
-    public String toString() {
-        return "SkillLevel [" + (level != null ? "level=" + level + ", " : "")
-                + (quiz != null ? "quiz=" + quiz + ", " : "") + (skill != null ? "skill=" + skill + ", " : "")
-                + "skillLevelId=" + skillLevelId + "]";
-    }
+	public Quiz getQuiz() {
+		return quiz;
+	}
 
-    
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
+	}
+
+	public KnowledgeLevel getLevel() {
+		return level;
+	}
+
+	public void setLevel(KnowledgeLevel level) {
+		this.level = level;
+	}
+
+	@Override
+	public String toString() {
+		return "SkillLevel [" + (level != null ? "level=" + level + ", " : "")
+				+ (quiz != null ? "quiz=" + quiz + ", " : "") + (skill != null ? "skill=" + skill + ", " : "")
+				+ "skillLevelId=" + skillLevelId + "]";
+	}
+
 }

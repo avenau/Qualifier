@@ -12,11 +12,13 @@ public class Results {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int resultId;
 	private double mark;
+	private boolean passed;
+
 	@ManyToOne //#TODO add mappedBy
 	private Trainee trainee;
+	
 	@ManyToOne//#TODO add mappedBy
 	private Quiz quiz;
-	private boolean passed;
 	
 	public Results() {
 		super();

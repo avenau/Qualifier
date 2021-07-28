@@ -10,27 +10,29 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Quiz {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int quizId;
 	private String name;
+	private String description;
 	private double duration;
 	private int questionCount;
 	private double passingMark;
+
 	@OneToMany(mappedBy = "quiz")
 	private List<Question> questions;
-	
+
 	public Quiz() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Quiz(int quizId, String name, double duration, int questionCount, double passingMark,
+	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
 			List<Question> questions) {
 		super();
-		this.quizId = quizId;
 		this.name = name;
+		this.description = description;
 		this.duration = duration;
 		this.questionCount = questionCount;
 		this.passingMark = passingMark;
@@ -51,6 +53,14 @@ public class Quiz {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public double getDuration() {
@@ -87,9 +97,9 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return "Quiz [quizId=" + quizId + ", name=" + name + ", duration=" + duration + ", questionCount="
-				+ questionCount + ", passingMark=" + passingMark + "]";
+		return "Quiz [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration=" + duration
+				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark + ", questions=" + questions
+				+ "]";
 	}
-	
-	
+
 }

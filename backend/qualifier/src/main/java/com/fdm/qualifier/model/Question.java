@@ -15,12 +15,14 @@ public class Question {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int questionId;
-	@ManyToOne
-	private Quiz quiz;
 	private String content;
 	private QuestionType type;
 	private int points;
 	private byte[] image;
+
+	@ManyToOne
+	private Quiz quiz;
+	
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	

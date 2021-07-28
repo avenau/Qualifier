@@ -62,8 +62,7 @@ public class Answer {
 
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", content=" + content + ", question=" + question + ", correct="
-				+ correct + "]";
+		return "Answer [answerId=" + answerId + ", content=" + content + ", correct=" + correct + "]";
 	}
 	
 	

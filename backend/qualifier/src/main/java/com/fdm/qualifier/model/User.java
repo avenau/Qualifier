@@ -31,8 +31,8 @@ public class User {
 	private String lastName;
 	private LocalDate dob;
 	private boolean isActive; // needed for spring security OR just return true always
-	private String userType; // can do clever things later
-	
+	private String roles; // can do clever things later
+
 	@OneToMany(mappedBy = "user")
 	private List<UserNotification> userNotification;
 
@@ -44,26 +44,26 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.isActive = true;
-		this.userType = "admin";
+		this.roles = "admin";
 	}
 
 	public User(String username, String password, boolean isActive) {
 		this.username = username;
 		this.password = password;
 		this.isActive = isActive;
-		this.userType = "admin";
+		this.roles = "admin";
 	}
 
-	public User(String username, String password, boolean isActive, String userType) {
+	public User(String username, String password, boolean isActive, String roles) {
 		this.username = username;
 		this.password = password;
 		this.isActive = isActive;
-		this.userType = userType;
+		this.roles = roles;
 	}
 
 	public User(String username, String password, String email, String address, int phoneNumber, String city,
 			String firstName, String lastName, LocalDate dob, List<UserNotification> userNotification, boolean isActive,
-			String userType) {
+			String roles) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -76,7 +76,7 @@ public class User {
 		this.dob = dob;
 		this.userNotification = userNotification;
 		this.isActive = isActive;
-		this.userType = userType;
+		this.roles = roles;
 	}
 
 	// !!! PLACEHOLDER ONLY !!!
@@ -88,15 +88,6 @@ public class User {
 
 	// ========================================
 	// getters and setters
-
-
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", address=" + address + ", phoneNumber=" + phoneNumber + ", city=" + city + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", dob=" + dob + ", isActive=" + isActive + ", userType="
-				+ userType + "]";
-	}
 
 	public int getUserId() {
 		return userId;
@@ -194,11 +185,19 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	public String getUserType() {
-		return userType;
+	public String getRoles() {
+		return roles;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", address=" + address + ", phoneNumber=" + phoneNumber + ", city=" + city + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", dob=" + dob + ", isActive=" + isActive + ", userType="
+				+ roles + "]";
 	}
 }
