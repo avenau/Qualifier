@@ -50,14 +50,6 @@ public class Trainee extends User{
         this.stream = stream;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -77,6 +69,6 @@ public class Trainee extends User{
     @Override
     public String toString() {
         return "Trainee [" + (date != null ? "date=" + date + ", " : "")
-                + (stream != null ? "stream=" + stream + ", " : "") + "userId=" + userId + "]";
+                + (stream != null ? "stream=" + stream + ", " : "") + "]";
     }
 }
