@@ -21,7 +21,7 @@ public class Question {
 	private QuestionType type;
 	private int points;
 	private byte[] image;
-	@OneToMany
+	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
 	public enum QuestionType {
