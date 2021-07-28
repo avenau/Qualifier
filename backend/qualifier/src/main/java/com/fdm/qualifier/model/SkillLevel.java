@@ -22,7 +22,7 @@ public class SkillLevel {
 	private Quiz quiz;
 
 	public enum KnowledgeLevel {
-		BEGINNER, INTERMEDIATE, EXPERT
+		UNVERIFIED, BEGINNER, INTERMEDIATE, EXPERT
 	}
 
 	public SkillLevel() {
