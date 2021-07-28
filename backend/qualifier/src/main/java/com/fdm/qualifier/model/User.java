@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, columnDefinition = "user_type")
+@DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
