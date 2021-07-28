@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Results {
+public class Result {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int resultId;
@@ -20,12 +20,12 @@ public class Results {
 	@ManyToOne//#TODO add mappedBy
 	private Quiz quiz;
 	
-	public Results() {
+	public Result() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Results(double mark, Trainee trainee, Quiz quiz, boolean passed) {
+	public Result(double mark, Trainee trainee, Quiz quiz, boolean passed) {
 		super();
 		this.mark = mark;
 		this.trainee = trainee;

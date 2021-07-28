@@ -22,7 +22,7 @@ public class Trainee extends User {
 	private List<Placement> placements;
 
 	@ManyToOne
-	private List<Results> results;
+	private List<Result> results;
 
 	@ManyToMany
 	@JoinColumn(name = "FK_SKILL_LEVEL")
@@ -83,11 +83,11 @@ public class Trainee extends User {
 		this.placements = placements;
 	}
 
-	public List<Results> getResults() {
+	public List<Result> getResults() {
 		return results;
 	}
 
-	public void setResults(List<Results> results) {
+	public void setResults(List<Result> results) {
 		this.results = results;
 	}
 
