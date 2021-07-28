@@ -30,6 +30,18 @@ public class Placement {
 	}
 
 	public Placement(String startDate, String description, String location, Client client,
+			boolean status, Quiz quiz) {
+		super();
+		this.startDate = startDate;
+		this.description = description;
+		this.location = location;
+		this.client = client;
+		this.status = status;
+		this.quiz = quiz;
+		this.trainee = null;
+	}
+	
+	public Placement(String startDate, String description, String location, Client client,
 			boolean status, Quiz quiz, Trainee trainee) {
 		super();
 		this.startDate = startDate;
