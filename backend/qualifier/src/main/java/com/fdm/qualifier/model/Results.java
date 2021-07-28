@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Results {
@@ -11,7 +12,9 @@ public class Results {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int resultId;
 	private double mark;
+	@ManyToOne //#TODO add mappedBy
 	private Trainee trainee;
+	@ManyToOne//#TODO add mappedBy
 	private Quiz quiz;
 	private boolean passed;
 	
