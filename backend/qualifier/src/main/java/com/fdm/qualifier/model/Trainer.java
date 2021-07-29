@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue(value = "trainer")
 public class Trainer extends User {
+	@ManyToMany
 	private List<Skill> skills;
 
 	public Trainer() {
