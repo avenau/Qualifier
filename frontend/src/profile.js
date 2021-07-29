@@ -9,9 +9,7 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-);
-
-<body>
+  <body>
     <h1>[Trainee Name]</h1>
     <p>Stream: [Stream]</p>
     <p>Email: [Email]</p>
@@ -19,4 +17,8 @@ ReactDOM.render(
     <p>Phone Number: [Phone Number]</p>
     <p>City: [City]</p>
     <p>Date of Birth: [DOB]</p>
+    <h1>Skills</h1>
 </body>
+);
+
+
