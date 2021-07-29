@@ -16,7 +16,7 @@ public class Notification {
 	private String notification;
 	private LocalDate date;
 	
-	@OneToMany(mappedBy="notificationId")
+	@OneToMany(mappedBy="notification")
 	private List<UserNotification> userNotifications;
 
 	public Notification() {
