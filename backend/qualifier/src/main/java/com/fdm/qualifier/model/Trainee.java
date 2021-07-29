@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue(value = "trainee")
@@ -18,18 +19,21 @@ public class Trainee extends User {
 	@JoinColumn(name = "FK_STREAM")
 	private Stream stream;
 
-	@ManyToOne
+	@ManyToMany
 	private List<Placement> placements;
 
-	@ManyToOne
+	@ManyToMany
+	private List<Placement> appliedPlacements;
+	
+	@OneToMany
 	private List<Result> results;
 
 	@ManyToMany
-	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JoinColumn(name = "FK_SKILL_LEVEL")
 	private List<SkillLevel> skills;
 
 	@ManyToMany
-	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JoinColumn(name = "FK_SKILL_LEVEL")
 	private List<SkillLevel> pinnedSkills;
 
 	public Trainee() {
