@@ -13,7 +13,6 @@ public class SuggestedSkill {
 
 	public SuggestedSkill() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SuggestedSkill(String name) {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 
 function QuizStartPage() {
     const axios = require('axios');
@@ -25,12 +26,17 @@ function QuizStartPage() {
         .catch(() => {});  
     }, [quiz.passingMark]);
 
+    const startQuiz = (evt) => {
+
+    }
+
     return (
         <div>
             <p>{quiz.name}</p>
             <p>Time Limit: {quiz.duration}</p>
             <p>Number of Questions: {quiz.questionCount}</p>
             <p>Marks Required: {quiz.passingMark}%</p>
+            <button onClick={startQuiz}>Start Quiz</button>
             
         </div>
     )
