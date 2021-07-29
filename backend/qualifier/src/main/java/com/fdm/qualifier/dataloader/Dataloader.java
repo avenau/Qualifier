@@ -18,10 +18,6 @@ public class Dataloader implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		// TODO Auto-generated method stub
-		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
-		
-		suggestedSkillService.save(suggestedSkill);
 	}
 
 }

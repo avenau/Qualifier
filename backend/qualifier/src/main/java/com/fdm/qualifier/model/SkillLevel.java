@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SkillLevel {
@@ -19,6 +20,7 @@ public class SkillLevel {
 
 	@ManyToOne
 	@JoinColumn(name = "FK_QUIZ")
+	@OneToOne
 	private Quiz quiz;
 
 	public enum KnowledgeLevel {

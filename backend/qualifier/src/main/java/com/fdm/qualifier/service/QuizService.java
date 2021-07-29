@@ -1,5 +1,7 @@
 package com.fdm.qualifier.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,10 @@ public class QuizService {
 		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
 				
 		return result;
+	}
+	
+	public Optional<Quiz> findQuizById(int id) {
+		return quizRepo.findById(id);
 	}
 
 }

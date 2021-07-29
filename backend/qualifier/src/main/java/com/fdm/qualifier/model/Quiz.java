@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Quiz {
@@ -19,6 +20,8 @@ public class Quiz {
 	private double duration;
 	private int questionCount;
 	private double passingMark;
+	@OneToOne
+	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
 	private List<Question> questions;
