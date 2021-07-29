@@ -1,0 +1,12 @@
+package com.fdm.qualifier.repository;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.fdm.qualifier.model.Stream;
+
+@Repository
+public interface StreamRepository extends JpaRepository<Stream, Integer>{
+	public List<Stream> findByName(String name);
+}

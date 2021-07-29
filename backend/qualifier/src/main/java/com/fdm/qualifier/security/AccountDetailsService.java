@@ -3,7 +3,7 @@ package com.fdm.qualifier.security;
 import java.util.Optional;
 
 import com.fdm.qualifier.model.User;
-import com.fdm.qualifier.repository.UserRepo;
+import com.fdm.qualifier.repository.UserRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +22,7 @@ public class AccountDetailsService implements UserDetailsService
     private Log log = LogFactory.getLog(AccountDetailsService.class);
 
     @Autowired
-    private UserRepo userRepository;
+    private UserRepository userRepository;
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
