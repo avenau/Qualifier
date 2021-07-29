@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .csrf().disable()   // Cross-site request forgery
 
             .authorizeRequests()
-            .antMatchers("/").permitAll()
+            .antMatchers("/", "/saveSuggestedSkill", "/getAllSuggestedSkills").permitAll()
             // put .antMatcher(route).permitAll() for public access
             //.antMatchers("/auth/**").permitAll()
             

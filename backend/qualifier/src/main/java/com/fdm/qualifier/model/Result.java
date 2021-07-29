@@ -14,7 +14,7 @@ public class Result {
 	private double mark;
 	private boolean passed;
 
-	@ManyToOne //#TODO add mappedBy
+	@ManyToOne
 	private Trainee trainee;
 	
 	@ManyToOne//#TODO add mappedBy

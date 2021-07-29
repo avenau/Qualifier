@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	private int uid;
 
 	private String username;
 	private String password;
@@ -90,11 +90,11 @@ public class User {
 	// getters and setters
 
 	public int getUserId() {
-		return userId;
+		return uid;
 	}
 
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.uid = userId;
 	}
 
 	public String getUsername() {
@@ -195,7 +195,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+		return "User [userId=" + uid + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", address=" + address + ", phoneNumber=" + phoneNumber + ", city=" + city + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", dob=" + dob + ", isActive=" + isActive + ", userType="
 				+ roles + "]";
