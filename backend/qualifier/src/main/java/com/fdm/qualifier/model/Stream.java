@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Stream {
@@ -14,7 +15,7 @@ public class Stream {
 	private int streamId;
 	private String name;
 
-	@ManyToOne
+	@OneToMany
 	private List<Trainee> trainees;
 
 	public Stream() {

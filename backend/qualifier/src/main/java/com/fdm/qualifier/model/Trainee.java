@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue(value = "trainee")
@@ -18,15 +19,22 @@ public class Trainee extends User {
 	@JoinColumn(name = "FK_STREAM")
 	private Stream stream;
 
-	@ManyToOne
+	@ManyToMany
 	private List<Placement> placements;
 
-	@ManyToOne
+	@ManyToMany
+	private List<Placement> appliedPlacements;
+	
+	@OneToMany
 	private List<Result> results;
 
 	@ManyToMany
-	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JoinColumn(name = "FK_SKILL_LEVEL")
 	private List<SkillLevel> skills;
+
+	@ManyToMany
+//	@JoinColumn(name = "FK_SKILL_LEVEL")
+	private List<SkillLevel> pinnedSkills;
 
 	public Trainee() {
 		super();
@@ -50,13 +58,15 @@ public class Trainee extends User {
 		this.stream = stream;
 	}
 
-	public Trainee(String username, String password, String email, String address, int phoneNumber, String city,
-			String firstName, String lastName, LocalDate dob, List<UserNotification> userNotification, boolean isActive,
-			String userType, LocalDate date, Stream stream) {
-		super(username, password, email, address, phoneNumber, city, firstName, lastName, dob, userNotification,
-				isActive, userType);
-		this.completionDate = date;
+	public Trainee(LocalDate completionDate, Stream stream, List<Placement> placements, List<Result> results,
+			List<SkillLevel> skills, List<SkillLevel> pinnedSkills) {
+		super();
+		this.completionDate = completionDate;
 		this.stream = stream;
+		this.placements = placements;
+		this.results = results;
+		this.skills = skills;
+		this.pinnedSkills = pinnedSkills;
 	}
 
 	public LocalDate getCompletionDate() {
@@ -99,8 +109,17 @@ public class Trainee extends User {
 		this.skills = skills;
 	}
 
+	public List<SkillLevel> getPinnedSkills() {
+		return pinnedSkills;
+	}
+
+	public void setPinnedSkills(List<SkillLevel> pinnedSkills) {
+		this.pinnedSkills = pinnedSkills;
+	}
+
 	@Override
 	public String toString() {
-		return "Trainee [date=" + completionDate + ", stream=" + stream + ", toString()=" + super.toString() + "]";
+		return "Trainee [completionDate=" + completionDate + ", stream=" + stream + ", placements=" + placements
+				+ ", results=" + results + ", skills=" + skills + ", pinnedSkills=" + pinnedSkills + "]";
 	}
 }
