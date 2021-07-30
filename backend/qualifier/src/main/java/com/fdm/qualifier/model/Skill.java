@@ -39,7 +39,9 @@ public class Skill {
 
 	@Override
 	public String toString() {
-		return "Skill [skillId=" + skillId + ", name=" + name + "]";
+		return "Skill [skillId=" + skillId + ", " + (name != null ? "name=" + name : "") + "]";
 	}
+
+	
 
 }

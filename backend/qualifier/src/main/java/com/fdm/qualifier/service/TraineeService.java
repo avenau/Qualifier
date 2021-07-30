@@ -19,5 +19,9 @@ public class TraineeService {
 	public Trainee getTraineeByID(int id) {
 		return traineeRepo.getTraineeByuid(id);
 	}
+	
+	public Trainee save(Trainee trainee) {
+		return traineeRepo.save(trainee);
+	}
 
 }

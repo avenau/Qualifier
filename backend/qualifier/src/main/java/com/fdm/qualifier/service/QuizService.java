@@ -30,9 +30,12 @@ public class QuizService {
 	
 	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
 		boolean passed = mark >=finishedQuiz.getPassingMark();
-		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
-				
+		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
 		return result;
+	}
+	
+	public Quiz save(Quiz quiz) {
+		return quizRepo.save(quiz);
 	}
 
 }

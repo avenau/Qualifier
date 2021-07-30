@@ -1,7 +1,5 @@
 package com.fdm.qualifier.controller;
 
-import java.time.LocalDate;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +30,8 @@ public class PlacementController {
 	
 	@PostMapping("/savePlacement")
 	public void save(@RequestBody Placement placement) {
-		Client client = new Client("danny", null);
-		clientService.saveClient(client);
+		Client client = new Client("ANZ");
+		clientService.save(client);
 		placement.setClient(client);
 		log.trace("save() called");
 		log.info("Saving placement: " + placement);

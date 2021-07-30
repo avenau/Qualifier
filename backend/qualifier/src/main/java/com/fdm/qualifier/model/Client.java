@@ -22,9 +22,8 @@ public class Client {
         super();
     }
 
-    public Client(String name, List<Placement> placements) {
+    public Client(String name) {
         this.name = name;
-        this.placements = placements;
     }
 
     public int getClientId() {
@@ -50,7 +49,7 @@ public class Client {
     public void setPlacements(List<Placement> placements) {
         this.placements = placements;
     }
-
+    
     @Override
     public String toString() {
         return "Client [" + "clientId=" + clientId + ""

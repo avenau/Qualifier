@@ -11,17 +11,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
 @Entity
 public class Placement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int placementId;
+	private String name;
 	private LocalDate startDate;
 	private LocalDate completionDate;
 	private String description;
@@ -43,10 +38,10 @@ public class Placement {
 		super();
 	}
 
-	public Placement(int placementId, LocalDate startDate, LocalDate completionDate, String description,
+	public Placement(String name, LocalDate startDate, LocalDate completionDate, String description,
 			String location, Client client, List<SkillLevel> skillsNeeded) {
 		super();
-		this.placementId = placementId;
+		this.name = name;
 		this.startDate = startDate;
 		this.completionDate = completionDate;
 		this.description = description;
@@ -55,9 +50,11 @@ public class Placement {
 		this.skillsNeeded = skillsNeeded;
 	}
 
-	public Placement(LocalDate startDate, LocalDate completionDate, String description, String location, Client client,
+
+	public Placement(String name, LocalDate startDate, LocalDate completionDate, String description, String location, Client client,
 			Trainee trainee, List<Trainee> appliedTrainees, List<SkillLevel> skillsNeeded) {
 		super();
+		this.name = name;
 		this.startDate = startDate;
 		this.completionDate = completionDate;
 		this.description = description;
@@ -74,6 +71,14 @@ public class Placement {
 
 	public void setPlacementId(int placementId) {
 		this.placementId = placementId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public LocalDate getStartDate() {
@@ -142,9 +147,17 @@ public class Placement {
 
 	@Override
 	public String toString() {
-		return "Placement [placementId=" + placementId + ", startDate=" + startDate + ", completionDate="
-				+ completionDate + ", description=" + description + ", location=" + location + ", client=" + client
-				+ ", skillsNeeded=" + skillsNeeded + "]";
+		return "Placement [placementId=" + placementId + ", " + (name != null ? "name=" + name + ", " : "")
+				+ (startDate != null ? "startDate=" + startDate + ", " : "")
+				+ (completionDate != null ? "completionDate=" + completionDate + ", " : "")
+				+ (description != null ? "description=" + description + ", " : "")
+				+ (location != null ? "location=" + location + ", " : "")
+				+ (client != null ? "client=" + client + ", " : "")  + "]";
+				//+ (trainee != null ? "trainee=" + trainee + ", " : "")
+				//+ (appliedTrainees != null ? "appliedTrainees=" + appliedTrainees + ", " : "")
+				//+ (skillsNeeded != null ? "skillsNeeded=" + skillsNeeded : "")
 	}
+	
+	
 
 }
