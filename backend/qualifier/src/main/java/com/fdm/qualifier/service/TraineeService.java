@@ -17,7 +17,7 @@ public class TraineeService {
 	}
 	
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getTraineeByid(id);
+		return traineeRepo.getTraineeByuid(id);
 	}
 
 }

@@ -11,13 +11,20 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 @Entity
 public class Placement {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int placementId;
+	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
+	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate completionDate;
 	private String description;
 	private String location;
@@ -36,6 +43,18 @@ public class Placement {
 	
 	public Placement() {
 		super();
+	}
+
+	public Placement(int placementId, LocalDate startDate, LocalDate completionDate, String description,
+			String location, Client client, List<SkillLevel> skillsNeeded) {
+		super();
+		this.placementId = placementId;
+		this.startDate = startDate;
+		this.completionDate = completionDate;
+		this.description = description;
+		this.location = location;
+		this.client = client;
+		this.skillsNeeded = skillsNeeded;
 	}
 
 	public Placement(LocalDate startDate, LocalDate completionDate, String description, String location, Client client,
