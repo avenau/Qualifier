@@ -14,6 +14,7 @@ import com.fdm.qualifier.repository.TraineeRepository;
 
 @Service
 public class TraineeService {
+	protected static final int MAX_PINNED_SKILLS = 3;
 	protected static final String NO_SKILLS_MESSAGE = "No skills";
 	protected static final String TOO_MANY_PINNED_SKILLS_MESSAGE = "Too many pinned skills, maximum of 3 pinned skills";
 	protected static final String NO_PINNED_SKILLS_MESSAGE = "No pinned skills";
@@ -100,11 +101,7 @@ public class TraineeService {
 			log.debug("skills was null or size 0");
 			returnMessage = NO_SKILLS_MESSAGE;
 		} else {
-			if (pinnedSkills == null) {
-				log.debug("pinnedSkills was null");
-				pinnedSkills = new ArrayList<>();
-			}
-			if (pinnedSkills.size() > 2) {
+			if (pinnedSkills.size() > (MAX_PINNED_SKILLS - 1)) {
 				log.debug("pinned skills full");
 				returnMessage = TOO_MANY_PINNED_SKILLS_MESSAGE;
 			} else if (!skills.contains(skillToPin)) {
@@ -138,11 +135,6 @@ public class TraineeService {
 			log.debug("pinnedSkills was null or size 0");
 			returnMessage = NO_PINNED_SKILLS_MESSAGE;
 		} else {
-			if (skills == null) {
-				log.debug("skills was null");
-				skills = new ArrayList<>();
-			}
-
 			if (!pinnedSkills.contains(skillToUnpin)) {
 				log.debug("" + skillToUnpin + "not found in pinnedSkills");
 				returnMessage = createMessageWithSkillNameAndLevel(NO_SKILL_IN_PINNED_SKILLS_PATTERN, skillToUnpin);
