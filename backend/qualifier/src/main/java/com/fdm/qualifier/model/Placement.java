@@ -22,9 +22,7 @@ public class Placement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int placementId;
-	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
-	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate completionDate;
 	private String description;
 	private String location;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.model.SuggestedSkill;
@@ -27,10 +28,10 @@ public class SuggestedSkillController {
 	}
 
 	@PostMapping("/saveSuggestedSkill")
-	public void save(SuggestedSkill suggestedSkill) {
+	public String save(@RequestBody SuggestedSkill suggestedSkill) {
 		log.trace("save() called");
 		log.info("Saving suggested skill: " + suggestedSkill);
-		suggestedSkillService.save(suggestedSkill);
+		return suggestedSkillService.save(suggestedSkill);
 	}
 	
 	@GetMapping("/getAllSuggestedSkills")

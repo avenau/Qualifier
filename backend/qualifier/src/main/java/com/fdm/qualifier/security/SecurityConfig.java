@@ -39,7 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .csrf().disable()   // Cross-site request forgery
 
             .authorizeRequests()
-            .antMatchers("/", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/savePlacement").permitAll()
+
+            .antMatchers("/", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/savePlacement", "/getStartQuizDetails").permitAll()
+
             // put .antMatcher(route).permitAll() for public access
             //.antMatchers("/auth/**").permitAll()
             
