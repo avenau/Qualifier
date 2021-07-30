@@ -37,8 +37,8 @@ public class QuizController {
 		suggestedSkillService.save(suggestedSkill);
 	}*/
 	
-	@GetMapping("/getStartQuizDetails")
-	public Quiz startQuizDetails(int id) {
+	@GetMapping("/getQuizDetails")
+	public Quiz quizDetails(int id) {
 		System.out.println("ID adfd: " + id);
 		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
 		if (!selectedQuiz.isPresent()) {
@@ -47,6 +47,28 @@ public class QuizController {
 		}
 		return selectedQuiz.get();
 	}
+	
+	@GetMapping("/getQuizQuestions")
+	public List<Question> getQuizQuestions(int id) {
+		System.out.println("ID adfd: " + id);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+		if (!selectedQuiz.isPresent()) {
+			System.out.println("ERROR");
+			return null;
+		}
+		return selectedQuiz.get().getQuestions();
+	}
+	
+/*	@GetMapping("/loadQuizPage")
+	public Quiz loadQuizPage(int id) {
+		System.out.println("ID adfd: " + id);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+		if (!selectedQuiz.isPresent()) {
+			System.out.println("ERROR");
+			return null;
+		}
+		return selectedQuiz.get();
+	}*/
 
 
 }

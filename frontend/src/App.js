@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import SuggestSkill from './components/trainee/suggestSkill';
 import QuizStartPage from './components/quiz/QuizStartPage';
+import AttemptQuiz from './components/quiz/AttemptQuiz';
 import Home from './pages/Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,6 +26,7 @@ function App() {
         <Route exact path='/' component={Home} />
         <Route exact path='/suggestskill' component={SuggestSkill}/>
         <Route exact path='/startquiz' component={QuizStartPage}/>
+        <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 

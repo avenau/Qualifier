@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button, Container } from 'react-bootstrap';
 
 function QuizStartPage() {
     const axios = require('axios');
+    let history = useHistory();
     const quizTemplate = {
                             quizId: 0,
                             name: "",
@@ -17,7 +18,7 @@ function QuizStartPage() {
 
     useEffect(() => {
         axios
-        .get('http://localhost:9999/getStartQuizDetails', {   
+        .get('http://localhost:9999/getQuizDetails', {   
             params: {
                 id:1
             },
@@ -25,9 +26,10 @@ function QuizStartPage() {
             setQuiz(response.data)
         })
         .catch(() => {});  
-    }, [quiz.passingMark]);
+    }, [quiz.questions]);
 
-    const startQuiz = (evt) => {
+    const startQuiz = () => {
+        history.push("/quiz/" + quiz.quizId);
 
     }
 

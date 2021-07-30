@@ -2,12 +2,15 @@ package com.fdm.qualifier.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Quiz {
@@ -24,6 +27,7 @@ public class Quiz {
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
+	@JsonManagedReference(value = "quiz")
 	private List<Question> questions;
 
 	public Quiz() {
@@ -91,11 +95,15 @@ public class Quiz {
 	}
 
 	public List<Question> getQuestions() {
-		return questions;
+		return this.questions;
 	}
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+	
+	public void addQuestion(Question question) {
+		this.questions.add(question);
 	}
 
 	@Override

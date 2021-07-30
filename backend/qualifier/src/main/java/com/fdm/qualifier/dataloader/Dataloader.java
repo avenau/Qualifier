@@ -2,7 +2,7 @@ package com.fdm.qualifier.dataloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +12,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Question.QuestionType;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
@@ -58,9 +60,49 @@ public class Dataloader implements ApplicationRunner {
 	}
 	
 	public void createQuiz() {
+
 		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 200, 5, 50.0,new ArrayList<Question>());
+		
+		Question q1 = new Question(quiz,"Test Quiz", QuestionType.MUTIPLE_CHOICE, 4, new ArrayList<Answer>());
+		Answer q1a = new Answer("Answer 1", q1, false);
+		Answer q1a1 = new Answer("Answer 2", q1, true);
+		Answer q1a2 = new Answer("Answer 3", q1, false);
+		q1.addAnswers(q1a);
+		q1.addAnswers(q1a1);
+		q1.addAnswers(q1a2);
+		quizService.saveAnswer(q1a);
+		quizService.saveAnswer(q1a1);
+		quizService.saveAnswer(q1a2);
+		quizService.saveQuestion(q1);
+		
+		Question q2 = new Question(quiz,"MultiSelect", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
+		Answer q2a = new Answer("Answer 1", q2, true);
+		Answer q2a1 = new Answer("Answer 2", q2, false);
+		Answer q2a2 = new Answer("Answer 3", q2, true);	
+		q2.addAnswers(q2a);
+		q2.addAnswers(q2a1);
+		q2.addAnswers(q2a2);
+		quizService.saveAnswer(q2a);
+		quizService.saveAnswer(q2a1);
+		quizService.saveAnswer(q2a2);
+		quizService.saveQuestion(q2);
+		
+		
+		Question q3 = new Question(quiz,"Short Answer", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
+		Answer q3a1 = new Answer("Short Answer", q3, true);
+		q3.addAnswers(q3a1);
+		
+		quiz.addQuestion(q1);
+		quiz.addQuestion(q2);
+		quiz.addQuestion(q3);
+		quizService.saveAnswer(q3a1);
+		quizService.saveQuestion(q3);
+		
+
+		
 		Quiz savedQuiz = quizService.saveQuiz(quiz);
 		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
+		log.info("Questions: " + savedQuiz.getQuestions());
 		
 		
 	}
