@@ -2,10 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import SuggestSkill from './components/trainee/suggestSkill';
 import QuizStartPage from './components/quiz/QuizStartPage';
-<<<<<<< HEAD
-=======
 import Home from './pages/Home'
->>>>>>> master
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
 import DoesNotExistPage from './pages/NotExistPage';
@@ -19,12 +18,7 @@ import DoesNotExistPage from './pages/NotExistPage';
 */
 function App() {
   return (
-<<<<<<< HEAD
-    <div className="App">
-      <SuggestSkill></SuggestSkill>
-      <QuizStartPage></QuizStartPage>
-    </div>
-=======
+
     <Router>
       
       <Switch>
@@ -35,7 +29,6 @@ function App() {
       </Switch>
 
     </Router>
->>>>>>> master
   );
 }
 

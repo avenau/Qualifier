@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import { Button, Container } from 'react-bootstrap';
 
 function QuizStartPage() {
     const axios = require('axios');
@@ -31,14 +32,14 @@ function QuizStartPage() {
     }
 
     return (
-        <div>
+        <Container>
             <p>{quiz.name}</p>
             <p>Time Limit: {quiz.duration}</p>
             <p>Number of Questions: {quiz.questionCount}</p>
             <p>Marks Required: {quiz.passingMark}%</p>
-            <button onClick={startQuiz}>Start Quiz</button>
+            <Button variant="primary" onClick={startQuiz}>Start Quiz</Button>
             
-        </div>
+        </Container>
     )
 
 }

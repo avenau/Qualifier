@@ -1,5 +1,6 @@
 package com.fdm.qualifier.dataloader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -11,10 +12,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.SuggestedSkillService;
@@ -26,32 +30,46 @@ public class Dataloader implements ApplicationRunner {
 	private SkillService skillService;
 	private SkillLevelService skillLevelService;
 	private TraineeService traineeService;
+	private QuizService quizService;
 
 	private Log log = LogFactory.getLog(Dataloader.class);
 	
 	public Dataloader(SuggestedSkillService suggestedSkillService, SkillService skillService,
-			SkillLevelService skillLevelService, TraineeService traineeService) {
+			SkillLevelService skillLevelService, TraineeService traineeService, QuizService quizService) {
 		super();
 		this.suggestedSkillService = suggestedSkillService;
 		this.skillService = skillService;
 		this.skillLevelService = skillLevelService;
 		this.traineeService = traineeService;
+		this.quizService = 	quizService;
 	}
 
+	@Override
 	@Transactional
 	@Modifying
-	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		log.info("Starting Data Setup");
-		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
-		suggestedSkillService.save(suggestedSkill);
 
+		createQuiz();
 		createTrainee();
+		
 		log.info("Finished Data Setup");
 
 	}
+	
+	public void createQuiz() {
+		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 200, 5, 50.0,new ArrayList<Question>());
+		Quiz savedQuiz = quizService.saveQuiz(quiz);
+		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
+		
+		
+	}
 
 	public void createTrainee() {
+		//Create Suggested Skills
+		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
+		suggestedSkillService.save(suggestedSkill);
+		
 		//Create Skills
 		Skill java = new Skill("java");
 		Skill cpp = new Skill("cpp");

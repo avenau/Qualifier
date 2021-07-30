@@ -37,6 +37,10 @@ public class QuizService {
 		return result;
 	}
 	
+	public Quiz saveQuiz(Quiz quiz) {
+		return quizRepo.save(quiz);
+	}
+	
 	public Optional<Quiz> findQuizById(int id) {
 		return quizRepo.findById(id);
 	}
