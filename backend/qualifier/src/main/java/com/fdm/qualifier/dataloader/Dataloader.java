@@ -1,7 +1,8 @@
 package com.fdm.qualifier.dataloader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,10 +81,24 @@ public class Dataloader implements ApplicationRunner {
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
 		log.info("Saving Trainee");
-		trainee = traineeService.save(trainee);
+//		trainee = traineeService.save(trainee);
 		log.debug(trainee);
-		SkillLevel javaBeginnerFound = skillLevelService.save(javaBeginner);
-		trainee.setSkills(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner));
+		trainee.setSkills(new ArrayList<>(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner)));
 		
+		List<SkillLevel> skills = traineeService.getSkills(trainee);
+		log.debug(skills);
+		
+		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee);
+		log.debug(pinnedSkills);
+		
+		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee);
+		log.debug(allSkills);
+		
+		//Change pinned skills		
+		traineeService.pinSkill(trainee, javaBeginner);
+		log.debug(trainee);
+		
+		traineeService.unpinSkill(trainee, javaBeginner);
+		log.debug(trainee);
 	}
 }
