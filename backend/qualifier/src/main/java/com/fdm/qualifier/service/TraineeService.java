@@ -20,7 +20,7 @@ public class TraineeService {
 	protected static final String NO_PINNED_SKILLS_MESSAGE = "No pinned skills";
 	protected static final String NO_SKILL_IN_PINNED_SKILLS_PATTERN = "You do not have pinned skill %s: %s cannot unpin";
 	protected static final String NO_SKILL_IN_SKILLS_PATTERN = "You do not have skill %s: %s cannot pin";
-	
+
 	private TraineeRepository traineeRepo;
 
 	private Log log = LogFactory.getLog(TraineeService.class);
@@ -120,6 +120,7 @@ public class TraineeService {
 
 	/**
 	 * Removes skillToUnpin from pinnedSkills list in trainee to skills list
+	 * 
 	 * @param trainee
 	 * @param skillToUnpin
 	 * @return
@@ -150,7 +151,9 @@ public class TraineeService {
 	}
 
 	/**
-	 * Creates a String message from pattern, and skill using name and level of skill
+	 * Creates a String message from pattern, and skill using name and level of
+	 * skill
+	 * 
 	 * @param pattern
 	 * @param skill
 	 * @return
