@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 
@@ -23,6 +24,10 @@ public class SkillLevelService {
 	
 	public List<SkillLevel>findAll(){
 		return skillLevelRepo.findAll();
+	}
+	
+	public List<SkillLevel> findBySkill(Skill skill){
+		return skillLevelRepo.findBySkill(skill);
 	}
 	
 	public void delete(SkillLevel skillLevel) {

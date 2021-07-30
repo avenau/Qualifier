@@ -97,9 +97,11 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return "Quiz [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration=" + duration
-				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark + ", questions=" + questions
-				+ "]";
+		return "Quiz [quizId=" + quizId + ", " + (name != null ? "name=" + name + ", " : "")
+				+ (description != null ? "description=" + description + ", " : "") + "duration=" + duration
+				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark +  "]";
 	}
+
+	
 
 }

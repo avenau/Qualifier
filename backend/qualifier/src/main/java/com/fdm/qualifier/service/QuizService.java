@@ -3,6 +3,7 @@ package com.fdm.qualifier.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.repository.AnswerRepository;
 import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
@@ -23,6 +24,10 @@ public class QuizService {
 		this.quizRepo = quizRepo;
 		this.questionRepository = questionRepository;
 		this.answerRepository = answerRepository;
+	}
+	
+	public Quiz save(Quiz quiz) {
+		return quizRepo.save(quiz);
 	}
 
 }
