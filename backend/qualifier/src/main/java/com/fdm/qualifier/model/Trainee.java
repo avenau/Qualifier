@@ -40,6 +40,10 @@ public class Trainee extends User {
 		super();
 	}
 
+	public Trainee(String username, String password) {
+		super(username, password);
+	}
+
 	public Trainee(String username, String password, LocalDate date, Stream stream) {
 		super(username, password);
 		this.completionDate = date;
@@ -119,7 +123,10 @@ public class Trainee extends User {
 
 	@Override
 	public String toString() {
-		return "Trainee [completionDate=" + completionDate + ", stream=" + stream + ", placements=" + placements
-				+ ", results=" + results + ", skills=" + skills + ", pinnedSkills=" + pinnedSkills + "]";
+		return "Trainee [" + (completionDate != null ? "completionDate=" + completionDate + ", " : "")
+				+ (stream != null ? "stream=" + stream + ", " : "")
+				+ (skills != null ? "skills=" + skills + ", " : "")
+				+ (pinnedSkills != null ? "pinnedSkills=" + pinnedSkills : "") + "]";
 	}
+
 }
