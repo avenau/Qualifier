@@ -24,10 +24,10 @@ public class TraineeService {
 	}
 
 	public List<SkillLevel> getPinnedSkills(Trainee trainee) {
-		return traineeRepo.findAllPinnedSkills();
+		return traineeRepo.getPinnedSkillsByUid(trainee.getUserId());
 	}
 	
 	public List<SkillLevel> getSkills(Trainee trainee) {
-		return traineeRepo.findAllSkills();
+		return traineeRepo.getSkillsByUid(trainee.getUserId());
 	}
 }

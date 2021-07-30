@@ -11,8 +11,8 @@ import com.fdm.qualifier.model.SkillLevel;
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 
-	List<SkillLevel> findAllPinnedSkills();
+	List<SkillLevel> getPinnedSkillsByUid(int id);
 
-	List<SkillLevel> findAllSkills();
+	List<SkillLevel> getSkillsByUid(int id);
 
 }

@@ -2,7 +2,6 @@ package com.fdm.qualifier.dataloader;
 
 import java.util.Arrays;
 
-import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,6 +9,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
@@ -80,11 +80,11 @@ public class Dataloader implements ApplicationRunner {
 		
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
+		log.info("Saving Trainee");
 		trainee = traineeService.save(trainee);
 		log.debug(trainee);
 		SkillLevel javaBeginnerFound = skillLevelService.save(javaBeginner);
 		trainee.setSkills(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner));
-		log.info("Saving Trainee");
 		
 	}
 }
