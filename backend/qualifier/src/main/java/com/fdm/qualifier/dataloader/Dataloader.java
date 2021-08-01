@@ -114,11 +114,15 @@ public class Dataloader implements ApplicationRunner {
 		quizService.saveAnswer(q5a1);
 		quizService.saveAnswer(q5a);
 		quizService.saveQuestion(q5);
+		Quiz cpp = new Quiz("C++", "For C++ Students", 10, 5, 50.0,new ArrayList<Question>());
+		Quiz linux = new Quiz("Linux Quiz", "Debian and linux for the bois", 10, 5, 50.0,new ArrayList<Question>());
 		
 		
 
 		
 		Quiz savedQuiz = quizService.saveQuiz(quiz);
+		quizService.saveQuiz(linux);
+		quizService.saveQuiz(cpp);
 		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
 		log.info("Questions: " + savedQuiz.getQuestions());
 		

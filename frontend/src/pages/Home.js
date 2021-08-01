@@ -17,7 +17,7 @@ function HomePage() {
         <Container>
             <h1>HOME</h1>
             <Button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</Button>
-            <Button variant="primary" onClick={() => {history.push('/startquiz')} }>Start Skill Quiz</Button>
+            <Button variant="primary" onClick={() => {history.push('/browsequiz')} }>Browse Quiz</Button>
 
         </Container>
     )

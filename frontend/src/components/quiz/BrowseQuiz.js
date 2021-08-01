@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Tab , Nav} from 'react-bootstrap';
+import { Container, Row, Col, Tab , Button, Card, ListGroup, Form, InputGroup, FormControl} from 'react-bootstrap';
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 
 function BrowseQuiz() {
@@ -26,35 +26,73 @@ function BrowseQuiz() {
             history.push("/*");
         })
 
-    })
+    }, [quizzes.length])
 
     
 
     return (
-        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row>
-            <Col sm={3}>
-            <Nav variant="pills" className="flex-column">
-                <Nav.Item>
-                <Nav.Link eventKey="first">Tab 1</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                <Nav.Link eventKey="second">Tab 2</Nav.Link>
-                </Nav.Item>
-            </Nav>
-            </Col>
-            <Col sm={9}>
-            <Tab.Content>
-                <Tab.Pane eventKey="first">
-                    <h1>First Pane</h1>
-                </Tab.Pane>
-                <Tab.Pane eventKey="second">
-                    <h1>Second Pane</h1>
-                </Tab.Pane>
-            </Tab.Content>
-            </Col>
-        </Row>
-        </Tab.Container>
+        <Container className = "d-flex justify-content-center pt-5">
+            <Card className="w-75">
+                <Card.Header as="h5">
+                    Quizzes
+                    <Form className = "pt-2">
+                        <Row className="align-items-center">
+                            <InputGroup className="mb-3 w-50">
+                                <FormControl
+                                placeholder="Search Quiz"
+                                aria-label="Search Quiz"
+                                aria-describedby="basic-addon2"
+                                />
+                                <Button variant="outline-secondary" id="button-addon2">
+                                    Search
+                                </Button>
+                            </InputGroup>
+                        </Row>
+                    </Form>
+                </Card.Header>
+                <Card.Body>
+                        <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + quizzes[0].quizId}>
+                            <Row>
+                                <Col sm={4}>
+                                    <ListGroup>
+                                        {quizzes.map(quiz => (
+                                            <ListGroup.Item action href= {'#' + quiz.quizId}>
+                                                {quiz.name}
+                                            </ListGroup.Item>  
+                                        ))}
+                                    </ListGroup>
+                                </Col>
+                                <Col sm={8}>
+                                    <Tab.Content>
+                                        {quizzes.map(quiz => (
+                                            <Tab.Pane eventKey={'#' + quiz.quizId}>
+                                                <Row>
+                                                    <Col sm={8}>
+                                                        <h3>{quiz.name}</h3>
+                                                        <p>{quiz.description}</p>
+                                                    </Col>
+                                                    <Col>
+                                                        <Button variant="primary" onClick={(()=>{
+                                                            history.push('/startquiz/' + quiz.quizId);
+                                                        })}>Take Quiz</Button>
+                                                        <p class="pt-2"><strong>Time Limit: </strong>{quiz.duration} sec<br/>
+                                                        <strong>No. Questions: </strong>{quiz.questionCount}<br/>
+                                                        <strong>Pass Mark: </strong>{quiz.passingMark}%
+                                                        </p>
+                                                    </Col>
+                                                </Row>
+                                            </Tab.Pane> 
+                                        ))}
+                                        
+    
+                                    </Tab.Content>
+                                </Col>
+                            </Row>
+                        </Tab.Container>
+                </Card.Body>
+            </Card>
+
+        </Container>
     )
 
 }
