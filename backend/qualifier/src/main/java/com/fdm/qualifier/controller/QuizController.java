@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 
@@ -31,8 +33,13 @@ public class QuizController {
 	}
 	
 	@PostMapping("/submitQuiz")
-	public void submitQuiz(SuggestedSkill suggestedSkill) {
-		quizService.saveQuizResult(null, 0, null);
+	public void submitQuiz(int quizId, @RequestParam List<String> answers) {
+		//quizService.saveQuizResult(null, 0, null);
+		System.out.println("SUBMIT QUIZ ID: " + quizId);
+		//System.out.println(answers);
+//		for (int hi : answers) {
+//			System.out.println("ANSWER ARRAY: " + hi);
+//		}
 	}
 	
 	@GetMapping("/getQuizDetails")

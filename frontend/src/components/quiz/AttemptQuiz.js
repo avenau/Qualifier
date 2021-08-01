@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {useLocation, useHistory} from "react-router-dom";
-import { Form, Check, Button } from 'react-bootstrap';
+import { Form, Check, Button, Container } from 'react-bootstrap';
 import Questions from './Questions';
 
 function AttemptQuizPage() {
@@ -22,8 +22,14 @@ function AttemptQuizPage() {
                         }]
                     }]
   
+  
     const [questions, setQuestion] = useState(questionTemplate);
     const [mark, setMark] = useState(0);
+    //const [answers, setAnswers] = useState([]);
+
+    // const addAnswer = ((value) => {
+    //     setAnswers(answers.concat(value))
+    // })
 
     const submitQuestion = (() => {
         axios
@@ -55,86 +61,11 @@ function AttemptQuizPage() {
 
 
     return (
-        <div>
-            <p>HELLO</p>
-            <p>{questions.length}</p>
-            <Form>
-                {['checkbox', 'radio'].map((type) => (
-                    <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check
-                        inline
-                        label="1"
-                        name="group1"
-                        type={type}
-                        id={`inline-${type}-1`}
-                    />
-                    <Form.Check
-                        inline
-                        label="2"
-                        name="group1"
-                        type={type}
-                        id={`inline-${type}-2`}
-                    />
-                    <Form.Check
-                        inline
-                        disabled
-                        label="3 (disabled)"
-                        type={type}
-                        id={`inline-${type}-3`}
-                    />
-                    </div>
-                ))}
-            </Form>
-            <Form>
-                {questions.map(question => (
-                    <div>
-                        Question id: {question.questionId} <br/>
-                        Question Content: {question.content} <br/>
-                        Question Type: {question.type} <br/>
-                        <div key={`inline-${question.type}`} className="mb-3">
+        <Container>
 
-                            {question.answers.map(answer =>{
-                 
-                                if (question.type === "MUTIPLE_CHOICE") {
-                                    
-                                    return( 
-                                        <Form.Check
-                                        inline
-                                        label={answer.content}
-                                        name={question.questionId}
-                                        type="radio"
-                                        id={`inline-radio-${answer.answerId}`}
-                                        />
-                                    )
-                                } else if (question.type === "MULTI_SELECT"){
-                                    return(
-                                        <Form.Check
-                                        inline
-                                        label={answer.content}
-                                        name={question.questionId}
-                                        type="checkbox"
-                                        id={`inline-checkbox-${answer.answerId}`}
-                                        /> 
-                                    )
-                                } else if (question.type === "SHORT_ANSWER"){
-                                    return(
-                                    <Form.Group className="mb-3" controlId="shortAnswerInput">
-                                        <Form.Label>Enter your answer</Form.Label>
-                                        <Form.Control as="textarea" rows={3} />
-                                      </Form.Group>
-                                    )
-                                }                                
-                            })}
-                        </div>
-                    </div>
+            <Questions questions={questions}/>
 
-                )) }
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-                <Questions questions={questions}/>
-            </Form>
-        </div>
+        </Container>
     )
 }
 export default AttemptQuizPage;

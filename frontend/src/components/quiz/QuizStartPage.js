@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
-import { Button, Container } from 'react-bootstrap';
+import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { Button, Container, Card } from 'react-bootstrap';
 
+// #TODO ADD SESSION LOGIN TO CHECK PAGE
 function QuizStartPage() {
     const axios = require('axios');
     let history = useHistory();
+    const quizId = useLocation().pathname.split("/")[2];
     const quizTemplate = {
                             quizId: 0,
                             name: "",
@@ -20,26 +22,32 @@ function QuizStartPage() {
         axios
         .get('http://localhost:9999/getQuizDetails', {   
             params: {
-                id:1
+                id: quizId
             },
         }).then(response => {
             setQuiz(response.data)
         })
-        .catch(() => {});  
-    }, [quiz.questions]);
+        .catch((error) => {
+            history.push("/*");
+        }) 
+    }, [quiz.questions.length]);
 
     const startQuiz = () => {
-        history.push("/quiz/" + quiz.quizId);
+        history.push("/quiz/" + quizId);
 
     }
 
     return (
-        <Container>
-            <p>{quiz.name}</p>
-            <p>Time Limit: {quiz.duration}</p>
-            <p>Number of Questions: {quiz.questionCount}</p>
-            <p>Marks Required: {quiz.passingMark}%</p>
-            <Button variant="primary" onClick={startQuiz}>Start Quiz</Button>
+        <Container className="text-center d-flex justify-content-center pt-5">
+            <Card style={{ width: '15rem', paddingTop: '15px' }}>
+            <Card.Body>
+                <Card.Title>{quiz.name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">No. of Questions: {quiz.questionCount}</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Marks Required: {quiz.passingMark}%</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Time Limit: {quiz.duration}</Card.Subtitle>
+                <Button variant="primary" onClick={startQuiz}>Start Quiz</Button>
+            </Card.Body>
+            </Card>
             
         </Container>
     )

@@ -25,7 +25,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/suggestskill' component={SuggestSkill}/>
-        <Route exact path='/startquiz' component={QuizStartPage}/>
+        <Route exact path='/startquiz/:quiz_id' component={QuizStartPage}/>
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
