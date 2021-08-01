@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import { Form, Check, Button } from 'react-bootstrap';
+import Questions from './Questions';
 
 function AttemptQuizPage() {
 
@@ -22,7 +23,7 @@ function AttemptQuizPage() {
                     }]
   
     const [questions, setQuestion] = useState(questionTemplate);
-    const [answerCounter, setAnswerCounter] = useState(0);
+    const [mark, setMark] = useState(0);
 
     const submitQuestion = (() => {
         axios
@@ -112,7 +113,7 @@ function AttemptQuizPage() {
                                         label={answer.content}
                                         name={question.questionId}
                                         type="checkbox"
-                                        id={`inline-checkbox-${answerCounter}`}
+                                        id={`inline-checkbox-${answer.answerId}`}
                                         /> 
                                     )
                                 } else if (question.type === "SHORT_ANSWER"){
@@ -131,6 +132,7 @@ function AttemptQuizPage() {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+                <Questions questions={questions}/>
             </Form>
         </div>
     )
