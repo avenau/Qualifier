@@ -30,12 +30,10 @@ public class QuizController {
 		this.quizService = quizService;
 	}
 	
-	/*@PostMapping("/saveSuggestedSkill")
-	public void save(SuggestedSkill suggestedSkill) {
-		log.trace("save() called");
-		log.info("Saving suggested skill: " + suggestedSkill);
-		suggestedSkillService.save(suggestedSkill);
-	}*/
+	@PostMapping("/submitQuiz")
+	public void submitQuiz(SuggestedSkill suggestedSkill) {
+		quizService.saveQuizResult(null, 0, null);
+	}
 	
 	@GetMapping("/getQuizDetails")
 	public Quiz quizDetails(int id) {
