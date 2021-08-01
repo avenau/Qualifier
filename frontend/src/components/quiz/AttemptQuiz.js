@@ -22,7 +22,7 @@ function AttemptQuizPage() {
                     }]
   
     const [questions, setQuestion] = useState(questionTemplate);
-    const [questionType, setQuestionType] = useState("");
+    const [answerCounter, setAnswerCounter] = useState(0);
 
     useEffect (() => {
         axios
@@ -80,10 +80,51 @@ function AttemptQuizPage() {
                     <p>
                         Question id: {question.questionId} <br/>
                         Question Content: {question.content} <br/>
-                        {question.answers.map(answer =>(
-                        <p>Answer id {answer.answerId} , Content {answer.content}, Correct Answer? {answer.correct}</p> 
-                        ))}
+                        <div key={`inline-${question.type}`} className="mb-3">
 
+                            {question.answers.map(answer =>(
+                                <div>
+                                    {(() => {
+                                        {
+                                            if (question.type === "MUTIPLE_CHOICE") {
+                                                
+                                                return( 
+                                                    <Form.Check
+                                                    inline
+                                                    label={answer.content}
+                                                    name={answer.answerId}
+                                                    type="radio"
+                                                    id={`inline-radio-${answerCounter}`}
+                                                    />
+                                                )
+                                            } else if (question.type === "MULTI_SELECT"){
+                                                return(
+                                                    <Form.Check
+                                                    inline
+                                                    label={answer.content}
+                                                    name={answer.answerId}
+                                                    type="checkbox"
+                                                    id={`inline-checkbox-${answerCounter}`}
+                                                    /> 
+                                                )
+                                            } else if (question.type === "SHORT_ANSWER"){
+                                                return(
+                                                    <Form.Check
+                                                    inline
+                                                    label={answer.content}
+                                                    name={answer.answerId}
+                                                    type="checkbox"
+                                                    id={`inline-checkbox-${answerCounter}`}
+                                                    /> 
+                                                )
+                                            }
+                                        }
+                                        
+                                    })()}
+                                </div>
+                                
+                            ))}
+                        </div>
                     </p>
 
                 )) }
