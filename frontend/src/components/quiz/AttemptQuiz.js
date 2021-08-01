@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import { Form, Check, Button, Container } from 'react-bootstrap';
 import Questions from './Questions';
+import Timer from './Timer';
 
 function AttemptQuizPage() {
 
@@ -61,8 +62,8 @@ function AttemptQuizPage() {
 
 
     return (
-        <Container>
-
+        <Container className="d-flex justify-content-center pt-5 w-100">
+            <Timer quizId={quizId}/>
             <Questions questions={questions}/>
 
         </Container>

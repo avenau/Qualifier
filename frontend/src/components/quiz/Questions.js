@@ -27,13 +27,11 @@ function Questions(props) {
     })
 
     return (
-        <Form>
+        <Form className = "w-50">
                 {questions.map(question => (
                     <div>
-                        Question id: {question.questionId} <br/>
-                        Question Content: {question.content} <br/>
-                        Question Type: {question.type} <br/>
-                        <div key={`inline-${question.type}`} className="mb-3">
+                        <div className = "pb-2"><strong>Q{questions.indexOf(question) + 1}. </strong>{question.content} <br/></div>
+                        <div key={`${question.questionId}`} className="mb-3">
 
                             {question.answers.map(answer =>{
                  
@@ -41,7 +39,6 @@ function Questions(props) {
                                     
                                     return( 
                                         <Form.Check
-                                        inline
                                         label={answer.content}
                                         name={question.questionId}
                                         type="radio"
@@ -51,7 +48,6 @@ function Questions(props) {
                                 } else if (question.type === "MULTI_SELECT"){
                                     return(
                                         <Form.Check
-                                        inline
                                         label={answer.content}
                                         name={question.questionId}
                                         type="checkbox"
@@ -61,8 +57,7 @@ function Questions(props) {
                                 } else if (question.type === "SHORT_ANSWER"){
                                     return(
                                     <Form.Group className="mb-3" controlId="shortAnswerInput" id={answer}>
-                                        <Form.Label>Enter your answer</Form.Label>
-                                        <Form.Control as="textarea" rows={3} />
+                                        <Form.Control as="textarea" placeholder= "Enter your answer here" rows={3} />
                                       </Form.Group>
                                     )
                                 }                                
