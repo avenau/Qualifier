@@ -64,6 +64,13 @@ public class QuizController {
 		return selectedQuiz.get().getQuestions();
 	}
 	
+	@GetMapping("/getAllQuizzes")
+	public List<Quiz> getAllQuizzes() {
+
+		return quizService.findAllQuiz();
+	}
+	
+	
 /*	@GetMapping("/loadQuizPage")
 	public Quiz loadQuizPage(int id) {
 		System.out.println("ID adfd: " + id);

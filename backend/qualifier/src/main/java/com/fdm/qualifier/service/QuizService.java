@@ -1,5 +1,6 @@
 package com.fdm.qualifier.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,10 @@ public class QuizService {
 	
 	public Optional<Quiz> findQuizById(int id) {
 		return quizRepo.findById(id);
+	}
+	
+	public List<Quiz> findAllQuiz(){
+		return quizRepo.findAll();
 	}
 
 }
