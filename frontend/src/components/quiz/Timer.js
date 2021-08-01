@@ -26,7 +26,7 @@ import {useEffect, useState} from "react";
   }, [startTime, startTimer]);
 
   return (
-    <div>
+    <div className="sticky-top">
       <div>CountDown: {startTime} </div>
       <br/>
     </div>

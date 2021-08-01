@@ -82,10 +82,7 @@ public class Dataloader implements ApplicationRunner {
 		q2.addAnswers(q2a);
 		q2.addAnswers(q2a1);
 		q2.addAnswers(q2a2);
-		quizService.saveAnswer(q2a);
-		quizService.saveAnswer(q2a1);
-		quizService.saveAnswer(q2a2);
-		quizService.saveQuestion(q2);
+
 		
 		
 		Question q3 = new Question(quiz,"Short Answer", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
@@ -93,10 +90,31 @@ public class Dataloader implements ApplicationRunner {
 		q3.addAnswers(q3a1);
 		
 		quiz.addQuestion(q1);
-		quiz.addQuestion(q2);
+		
 		quiz.addQuestion(q3);
+		quiz.addQuestion(q2);
+		
+		Question q5 = new Question(quiz,"MultiSelectadifsjklfj;lasdkjf;laskdjf;alsdkjf", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
+		Answer q5a = new Answer("Answer 1", q5, true);
+		Answer q5a1 = new Answer("Answer 2", q5, false);
+		Answer q5a2 = new Answer("Answer 3", q5, true);	
+		q5.addAnswers(q5a);
+		q5.addAnswers(q5a1);
+		q5.addAnswers(q5a2);
+		
+		
 		quizService.saveAnswer(q3a1);
 		quizService.saveQuestion(q3);
+		
+		quizService.saveAnswer(q2a);
+		quizService.saveAnswer(q2a1);
+		quizService.saveAnswer(q2a2);
+		quizService.saveQuestion(q2);
+		quizService.saveAnswer(q5a2);
+		quizService.saveAnswer(q5a1);
+		quizService.saveAnswer(q5a);
+		quizService.saveQuestion(q5);
+		
 		
 
 		

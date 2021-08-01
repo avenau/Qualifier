@@ -80,10 +80,12 @@ function AttemptQuizPage() {
     }
 
     return (
-        <Container className="d-flex justify-content-center pt-5 w-100">
-            <Timer duration={quiz.duration}/>
-            <br></br>
-            <Questions questions={quiz.questions}/>
+        <Container className="d-flex justify-content-center">
+                <Timer duration={quiz.duration}/>
+
+
+                <Questions questions={quiz.questions}/>
+
 
         </Container>
     )
