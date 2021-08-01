@@ -57,5 +57,9 @@ public class QuizService {
 	public List<Quiz> findAllQuiz(){
 		return quizRepo.findAll();
 	}
+	
+	public Quiz save(Quiz quiz) {
+		return quizRepo.save(quiz);
+	}
 
 }

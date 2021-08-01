@@ -18,6 +18,10 @@ public class TraineeService {
 		super();
 		this.traineeRepo = traineeRepo;
 	}
+	
+	public Trainee save(Trainee trainee) {
+		return traineeRepo.save(trainee);
+	}
 
 	public Trainee save(Trainee trainee) {
 		return traineeRepo.save(trainee);		

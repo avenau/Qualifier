@@ -125,7 +125,10 @@ public class Trainee extends User {
 
 	@Override
 	public String toString() {
-		return "Trainee [completionDate=" + completionDate + ", stream=" + stream + ", placements=" + placements
-				+ ", results=" + results + ", skills=" + skills + ", pinnedSkills=" + pinnedSkills + "]";
+		return "Trainee [" + (completionDate != null ? "completionDate=" + completionDate + ", " : "")
+				+ (stream != null ? "stream=" + stream + ", " : "")
+				+ (skills != null ? "skills=" + skills + ", " : "")
+				+ (pinnedSkills != null ? "pinnedSkills=" + pinnedSkills : "") + "]";
 	}
+
 }
