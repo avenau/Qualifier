@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
-
+import {useLocation, useHistory} from "react-router-dom";
  function Timer(props) {
   const [startTimer, setStartTimer] = useState(false);
   const [startTime, setStartTime] = useState(-10);
+  const history = useHistory();
   var axios = require('axios');
 
   const submitQuiz= (() => {
@@ -14,6 +15,9 @@ import {useEffect, useState} from "react";
     })
     .catch(()=>{
 
+    })
+    .finally(() => {
+        history.push('/finishquiz');
     })
    })
 

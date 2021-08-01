@@ -52,6 +52,9 @@ function AttemptQuizPage() {
         .catch(()=>{
 
         })
+        .finally(() => {
+            history.push('/finishquiz');
+        })
     })
 
     useEffect (() => {
