@@ -1,5 +1,8 @@
 package com.fdm.qualifier.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,6 +75,7 @@ public class Result {
 	public void setPassed(boolean passed) {
 		this.passed = passed;
 	}
+	
 
 	@Override
 	public String toString() {

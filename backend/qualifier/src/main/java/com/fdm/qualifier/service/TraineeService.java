@@ -1,8 +1,11 @@
 package com.fdm.qualifier.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.TraineeRepository;
 
@@ -20,4 +23,15 @@ public class TraineeService {
 		return traineeRepo.save(trainee);
 	}
 
+	public Trainee save(Trainee trainee) {
+		return traineeRepo.save(trainee);		
+	}
+
+	public List<SkillLevel> getPinnedSkills(Trainee trainee) {
+		return traineeRepo.getPinnedSkillsByUid(trainee.getUserId());
+	}
+	
+	public List<SkillLevel> getSkills(Trainee trainee) {
+		return traineeRepo.getSkillsByUid(trainee.getUserId());
+	}
 }

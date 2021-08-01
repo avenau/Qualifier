@@ -38,4 +38,8 @@ public class SkillLevelService {
 		return skillLevelRepo.save(skillLevel);
 	}
 
+	public void save(List<SkillLevel> skillLevels) {
+		skillLevelRepo.saveAll(skillLevels);
+		skillLevelRepo.flush();
+	}
 }

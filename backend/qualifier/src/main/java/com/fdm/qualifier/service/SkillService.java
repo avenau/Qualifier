@@ -17,6 +17,11 @@ public class SkillService {
 		super();
 		this.skillRepo = skillRepo;
 	}
+
+	public void save(List<Skill> skills) {
+		skillRepo.saveAll(skills);
+		skillRepo.flush();
+	}
 	
 	public Skill findByName(String name) {
 		return skillRepo.findByName(name);

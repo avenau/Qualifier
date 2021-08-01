@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,11 +25,12 @@ public class Trainee extends User {
 
 	@ManyToMany
 	private List<Placement> appliedPlacements;
-	
+
 	@OneToMany
 	private List<Result> results;
 
 	@ManyToMany
+	@JoinTable(name = "trainee_skills")
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
 	private List<SkillLevel> skills;
 
