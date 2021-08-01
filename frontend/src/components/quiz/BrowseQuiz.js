@@ -5,6 +5,7 @@ import { Redirect, useHistory, useLocation } from "react-router-dom";
 function BrowseQuiz() {
     const axios = require('axios');
     let history = useHistory();
+    const [isLoading, setLoading] = useState(true);
     const [quizzes, setQuizzes] = useState([{
         quizId: 0,
         name: "",
@@ -21,6 +22,7 @@ function BrowseQuiz() {
         .get('http://localhost:9999/getAllQuizzes')
         .then((response) => {
             setQuizzes(response.data);
+            setLoading(false);
         })
         .catch((error) => {
             history.push("/*");
@@ -29,26 +31,37 @@ function BrowseQuiz() {
     }, [quizzes.length])
 
     
+    if (isLoading) {
+        return <div className="App">Loading...</div>;
+    }
+    
 
     return (
         <Container className = "d-flex justify-content-center pt-5">
             <Card className="w-75">
                 <Card.Header as="h5">
-                    Quizzes
-                    <Form className = "pt-2">
-                        <Row className="align-items-center">
-                            <InputGroup className="mb-3 w-50">
-                                <FormControl
-                                placeholder="Search Quiz"
-                                aria-label="Search Quiz"
-                                aria-describedby="basic-addon2"
-                                />
-                                <Button variant="outline-secondary" id="button-addon2">
-                                    Search
-                                </Button>
-                            </InputGroup>
-                        </Row>
-                    </Form>
+                    <Row>
+                        <Col sm={3} className = "pt-2">
+                            Quizzes
+                        </Col>
+                        
+                        <Col className = "d-flex justify-content-end">
+                            <Form className = "pt-1">
+                                <Row className="align-items-center">
+                                    <InputGroup className="">
+                                        <FormControl
+                                        placeholder="Search Quiz"
+                                        aria-label="Search Quiz"
+                                        aria-describedby="basic-addon2"
+                                        />
+                                        <Button variant="outline-secondary" id="button-addon2">
+                                            Search
+                                        </Button>
+                                    </InputGroup>
+                                </Row>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Card.Header>
                 <Card.Body>
                         <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + quizzes[0].quizId}>
