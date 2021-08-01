@@ -2,7 +2,6 @@ package com.fdm.qualifier.dataloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.time.LocalDate;
 
 import org.apache.commons.logging.Log;
@@ -29,12 +28,8 @@ import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Stream;
-import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.ClientService;
 import com.fdm.qualifier.service.PlacementService;
-import com.fdm.qualifier.service.QuizService;
-import com.fdm.qualifier.service.SkillLevelService;
-import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.StreamService;
 import com.fdm.qualifier.service.SuggestedSkillService;
 import com.fdm.qualifier.service.TraineeService;
