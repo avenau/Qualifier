@@ -5,6 +5,7 @@ import QuizStartPage from './components/quiz/QuizStartPage';
 import AttemptQuiz from './components/quiz/AttemptQuiz';
 import Home from './pages/Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavigationBar from './components/navbar/NavBar';
 
 
 import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
@@ -21,7 +22,7 @@ function App() {
   return (
 
     <Router>
-      
+      <NavigationBar/>
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/suggestskill' component={SuggestSkill}/>
