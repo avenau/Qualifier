@@ -43,9 +43,9 @@ public class QuizController {
 	}
 	
 	@GetMapping("/getQuizDetails")
-	public Quiz quizDetails(int id) {
-		System.out.println("ID adfd: " + id);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+	public Quiz quizDetails(int quizId) {
+		System.out.println("ID adfd: " + quizId);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
 		if (!selectedQuiz.isPresent()) {
 			System.out.println("ERROR");
 			return null;

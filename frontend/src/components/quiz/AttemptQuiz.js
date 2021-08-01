@@ -8,6 +8,7 @@ function AttemptQuizPage() {
 
     const history = useHistory();
     const quizId = useLocation().pathname.split("/")[2];
+    const [isLoading, setLoading] = useState(true);
     const axios = require("axios");
     const questionTemplate = 
                      [{           
@@ -22,9 +23,19 @@ function AttemptQuizPage() {
                             correct: "NOT LOADED"
                         }]
                     }]
+    const quizTemplate = {
+        quizId: 0,
+        name: "",
+        description: "",
+        duration: 0.0,
+        questionCount: 0,
+        passingMark: 101.0,
+        questions: questionTemplate
+    }
+    const [quiz, setQuiz] = useState(quizTemplate);
   
   
-    const [questions, setQuestion] = useState(questionTemplate);
+    // const [questions, setQuestion] = useState(questionTemplate);
     const [mark, setMark] = useState(0);
     //const [answers, setAnswers] = useState([]);
 
@@ -45,26 +56,34 @@ function AttemptQuizPage() {
 
     useEffect (() => {
         axios
-        .get('http://localhost:9999/getQuizQuestions', {   
+        .get('http://localhost:9999/getQuizDetails', {   
             params: {
-                id:quizId
+                quizId:quizId
             },
         })
         .then((response) =>{
-            setQuestion(response.data);
+            console.log(response.data);
+            setQuiz(response.data);
+            setLoading(false);
         })
         .catch((error) => {
+            console.log(error.message);
             history.push("/*");
         })
-        console.log(questions);
+        console.log(quiz.questions);
+        console.log("DURATION: " + quiz.duration);
 
-    }, [questions.length]);
+    }, [quiz.questions.length, quiz.duration]);
 
+    if (isLoading) {
+        return <div className="App">Loading...</div>;
+    }
 
     return (
         <Container className="d-flex justify-content-center pt-5 w-100">
-            <Timer quizId={quizId}/>
-            <Questions questions={questions}/>
+            <Timer duration={quiz.duration}/>
+            <br></br>
+            <Questions questions={quiz.questions}/>
 
         </Container>
     )

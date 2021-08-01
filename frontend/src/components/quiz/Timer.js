@@ -1,35 +1,35 @@
-import React from "react";
+import {useEffect, useState} from "react";
 
-export default function Timer(props) {
-  const [initialTime, setInitialTime] = React.useState(0);
-  const [startTimer, setStartTimer] = React.useState(false);
-  let quizId= props.quizId;
+ function Timer(props) {
+  const [startTimer, setStartTimer] = useState(false);
+  const [startTime, setStartTime] = useState(-10);
 
-  const handleOnClick = () => {
-    setInitialTime(5);
-    setStartTimer(true);
-  };
 
-  React.useEffect(() => {
-    if (initialTime > 0) {
+
+  useEffect(() => {
+
+    if (startTime > 0) {
       setTimeout(() => {
-        console.log("startTime, ", initialTime);
-        setInitialTime(initialTime - 1);
+        
+        setStartTime(startTime - 1);
       }, 1000);
     }
-
-    if (initialTime === 0 && startTimer) {
+    
+    if (startTime === 0 && startTimer) {
       console.log("done");
       setStartTimer(false);
+    } else if (startTime === -10 && props.duration !== 0){
+        setStartTime(props.duration);
     }
-  }, [initialTime, startTimer]);
+
+    setStartTimer(true);
+  }, [startTime, startTimer]);
 
   return (
     <div>
-      <button onClick={handleOnClick}>
-        Start
-      </button>
-      <div>CountDown: {initialTime}</div>;
+      <div>CountDown: {startTime} </div>
+      <br/>
     </div>
   );
 }
+export default Timer;

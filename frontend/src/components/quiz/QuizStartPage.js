@@ -22,7 +22,7 @@ function QuizStartPage() {
         axios
         .get('http://localhost:9999/getQuizDetails', {   
             params: {
-                id: quizId
+                quizId: quizId
             },
         }).then(response => {
             setQuiz(response.data)
