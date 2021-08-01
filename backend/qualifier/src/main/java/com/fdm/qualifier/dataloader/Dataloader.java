@@ -60,9 +60,10 @@ public class Dataloader implements ApplicationRunner {
 		this.streamService = streamService;
 		this.quizService = quizService;
 	}
+	
+	@Override
 	@Transactional
 	@Modifying
-	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		log.info("Starting Data Setup");
 
