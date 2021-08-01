@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {useLocation, useHistory} from "react-router-dom";
-import { Form, Check, Button, Container } from 'react-bootstrap';
+import { Form, Check, Button, Container, Row, Col } from 'react-bootstrap';
 import Questions from './Questions';
 import Timer from './Timer';
 
@@ -80,13 +80,17 @@ function AttemptQuizPage() {
     }
 
     return (
-        <Container className="d-flex justify-content-center">
-                <Timer duration={quiz.duration}/>
-
-
-                <Questions questions={quiz.questions}/>
-
-
+        <Container>
+            <Row>
+                <Col className="d-flex justify-content-end sticky-top">
+                    <Timer duration={quiz.duration}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Questions questions={quiz.questions}/>
+                </Col>
+            </Row>
         </Container>
     )
 }

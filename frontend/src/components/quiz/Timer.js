@@ -3,6 +3,19 @@ import {useEffect, useState} from "react";
  function Timer(props) {
   const [startTimer, setStartTimer] = useState(false);
   const [startTime, setStartTime] = useState(-10);
+  var axios = require('axios');
+
+  const submitQuiz= (() => {
+    console.log("SUBMITTING QUIZ");
+    axios
+    .post('http://localhost:9999/submitQuiz', { quizId: 6})
+    .then((response) => {
+
+    })
+    .catch(()=>{
+
+    })
+   })
 
 
 
@@ -16,8 +29,8 @@ import {useEffect, useState} from "react";
     }
     
     if (startTime === 0 && startTimer) {
-      console.log("done");
       setStartTimer(false);
+      submitQuiz();
     } else if (startTime === -10 && props.duration !== 0){
         setStartTime(props.duration);
     }
@@ -26,10 +39,8 @@ import {useEffect, useState} from "react";
   }, [startTime, startTimer]);
 
   return (
-    <div className="sticky-top">
       <div>CountDown: {startTime} </div>
-      <br/>
-    </div>
+
   );
 }
 export default Timer;

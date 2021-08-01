@@ -61,7 +61,7 @@ public class Dataloader implements ApplicationRunner {
 	
 	public void createQuiz() {
 
-		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 200, 5, 50.0,new ArrayList<Question>());
+		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 10, 5, 50.0,new ArrayList<Question>());
 		
 		Question q1 = new Question(quiz,"Test Quiz", QuestionType.MUTIPLE_CHOICE, 4, new ArrayList<Answer>());
 		Answer q1a = new Answer("Answer 1", q1, false);

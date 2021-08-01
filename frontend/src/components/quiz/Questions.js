@@ -15,7 +15,8 @@ function Questions(props) {
     /*
         Stuck
     */
-    const submitQuestion = (() => {
+    const submitQuiz = (() => {
+        console.log("SUBMITTING QUIZ");
         axios
         .post('http://localhost:9999/submitQuiz', { quizId: 6})
         .then((response) => {
@@ -66,7 +67,7 @@ function Questions(props) {
                     </div>
 
                 )) }
-                <Button variant="primary" type="submit" onClick={submitQuestion}>
+                <Button variant="primary" type="submit" onClick={submitQuiz}>
                     Submit
                 </Button>
             </Form>
