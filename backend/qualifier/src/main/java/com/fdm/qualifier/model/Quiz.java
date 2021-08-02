@@ -26,6 +26,14 @@ public class Quiz {
 	public Quiz() {
 		super();
 	}
+	
+	public Quiz(String name, String description, double duration, double passingMark) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.duration = duration;
+		this.passingMark = passingMark;
+	}
 
 	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
 			List<Question> questions) {

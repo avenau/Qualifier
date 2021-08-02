@@ -1,9 +1,7 @@
 package com.fdm.qualifier.dataloader;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -16,28 +14,28 @@ import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.repository.AnswerRepository;
-import com.fdm.qualifier.repository.QuestionRepository;
-import com.fdm.qualifier.repository.QuizRepository;
+import com.fdm.qualifier.service.AnswerService;
+import com.fdm.qualifier.service.QuestionService;
+import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.SuggestedSkillService;
 
 @Component
 public class Dataloader implements ApplicationRunner {
-//	Logger logger = LogManager.getLogManager();
+	Logger logger = LogManager.getLogger();
+	
 	private SuggestedSkillService suggestedSkillService;
-	
-	@Autowired
-	AnswerRepository answerRepo;
-	
-	@Autowired
-	QuizRepository quizRepo;
-	
-	@Autowired
-	QuestionRepository questionRepo;
+	private AnswerService answerService;
+	private QuizService quizService;
+	private QuestionService questionService;
 
 	@Autowired
-	public Dataloader(SuggestedSkillService suggestedSkillService) {
+	public Dataloader(SuggestedSkillService suggestedSkillService, AnswerService answerService, QuizService quizService,
+			QuestionService questionService) {
 		super();
 		this.suggestedSkillService = suggestedSkillService;
+		this.answerService = answerService;
+		this.quizService = quizService;
+		this.questionService = questionService;
 	}
 
 	@Override
@@ -48,26 +46,34 @@ public class Dataloader implements ApplicationRunner {
 		
 		suggestedSkillService.save(suggestedSkill);
 		
-		System.out.println("init");
+		logger.info("quiz init started");
+//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
 		
-		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
+//		Question question1 = new Question(null, "text", Question.QuestionType.MUTIPLE_CHOICE, 5, null, null);
+//		Answer answer1 = new Answer("answerText", question1, true);
+//		Quiz quiz1 = new Quiz("Java", "Java entry", 20,  10, 75, List.of(question1));
+//		
+//		question1.setQuiz(quiz1);
+//		question1.setAnswers(List.of(answer1));
+//		
+//		
+//		questionRepo.save(question1);
+//		answerRepo.save(answer1);
+//		quizRepo.save(quiz1);
 		
-		Question question1 = new Question(null, "text", Question.QuestionType.MUTIPLE_CHOICE, 5, imageBytes, null);
-		Answer answer1 = new Answer("answerText", question1, true);
-		Quiz quiz1 = new Quiz("Java", "Java entry", 20,  10, 75, List.of(question1));
 		
-		question1.setQuiz(quiz1);
-		question1.setAnswers(List.of(answer1));
-		
-		
-		questionRepo.save(question1);
-		answerRepo.save(answer1);
-		quizRepo.save(quiz1);
-		
-		System.out.println(question1);
-		System.out.println(answer1);
-		System.out.println(quiz1);
-		System.out.println("init finished");
+		Quiz javaBeginner = quizService.createNewQuiz("Java Beginner Level Quiz", "", 20, 75);
+		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MUTIPLE_CHOICE, 4, null);
+		Answer javaBq1aA = answerService.createNewAnswer("Answer Content", javaBq1, true);
+		Answer javaBq1aB = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Answer javaBq1aC = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Answer javaBq1aD = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Question javaBq2 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MULTI_SELECT, 4, null);
+		Answer javaBq2aA = answerService.createNewAnswer("Answer Content", javaBq2, false);
+		Answer javaBq2aB = answerService.createNewAnswer("Answer Content", javaBq2, true);
+		Answer javaBq2aC = answerService.createNewAnswer("Answer Content", javaBq2, true);
+		Answer javaBq2aD = answerService.createNewAnswer("Answer Content", javaBq2, false);
+		logger.info("quiz init finished");
 	}
 
 }

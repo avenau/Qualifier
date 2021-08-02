@@ -37,6 +37,15 @@ public class Question {
 	public Question() {
 		super();
 	}
+	
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz) {
+		super();
+		this.content = content;
+		this.type = type;
+		this.points = points;
+		this.image = image;
+		this.quiz = quiz;
+	}
 
 	public Question(Quiz quiz, String content, QuestionType type, int points, byte[] image,
 			List<Answer> answers) {
