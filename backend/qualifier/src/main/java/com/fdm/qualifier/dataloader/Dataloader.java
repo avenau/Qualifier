@@ -2,11 +2,11 @@ package com.fdm.qualifier.dataloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.time.LocalDate;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -38,7 +38,6 @@ import com.fdm.qualifier.service.TraineeService;
 public class Dataloader implements ApplicationRunner {
 	private Log log = LogFactory.getLog(Dataloader.class);
 	
-
 	private SuggestedSkillService suggestedSkillService;
 	private PlacementService placementService;
 	private SkillLevelService skillLevelService;
@@ -47,6 +46,7 @@ public class Dataloader implements ApplicationRunner {
 	private TraineeService traineeService;
 	private StreamService streamService;
 	private QuizService quizService;
+	
 
 	@Autowired
 	public Dataloader(SuggestedSkillService suggestedSkillService, PlacementService placementService,
@@ -62,7 +62,6 @@ public class Dataloader implements ApplicationRunner {
 		this.streamService = streamService;
 		this.quizService = quizService;
 	}
-
 	
 	@Override
 	@Transactional
@@ -73,10 +72,10 @@ public class Dataloader implements ApplicationRunner {
 		createQuiz();
 		createTrainee();
 		
-
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		
 		suggestedSkillService.save(suggestedSkill);
+
 		
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
 		
@@ -86,23 +85,27 @@ public class Dataloader implements ApplicationRunner {
 		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
 		streamService.save(stream1);
 		
+		log.debug("Creating skills");
 		Skill java = new Skill("Java");
 		Skill cs = new Skill("C#");
 		Skill python = new Skill("Python");
-		skillService.save(java);
-		skillService.save(cs);
-		skillService.save(python);
+		java = skillService.save(java);
+		cs = skillService.save(cs);
+		python = skillService.save(python);
 		
+		log.debug("Creating Quiz");
 		Quiz quiz1 = new Quiz();
 		quizService.save(quiz1);
 		
+		log.debug("Creating SkillLevels");
 		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, quiz1);
 		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, quiz1);
 		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, quiz1);
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
-		
+
+		log.debug("Creating clients and placements");
 		Client client1 = new Client("ANZ");		
 		Client client2 = new Client("Kmart");
 		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, trainee1, Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
@@ -116,23 +119,22 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement2);
 		placementService.save(placement3);
 		
-		
-		System.out.println("Find by Java");
+		log.debug("Find by Java");
 		for(Placement p : placementService.findBySkillName("Java")) {
-			System.out.println(p);
+			log.debug(p);
 		}
-		System.out.println("Find by name " + placementService.findByName("Placement1"));
-		System.out.println("Display all ");
+		log.debug("Find by name " + placementService.findByName("Placement1"));
+		log.debug("Display all ");
 		for(Placement p : placementService.findAll()) {
-			System.out.println(p);
+			log.debug(p);
 		}
-		System.out.println("Find by client name");
+		log.debug("Find by client name");
 		for(Placement p : placementService.findByClientName("ANZ")) {
-			System.out.println(p);
+			log.debug(p);
 		}
-		System.out.println("Find by Location Sydney");
+		log.debug("Find by Location Sydney");
 		for(Placement p : placementService.findByLocation("Sydney")) {
-			System.out.println(p);
+			log.debug(p);
 		}
 		log.info("Finished Data Setup");
 	}
@@ -241,10 +243,24 @@ public class Dataloader implements ApplicationRunner {
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
 		log.info("Saving Trainee");
-		trainee = traineeService.save(trainee);
+//		trainee = traineeService.save(trainee);
 		log.debug(trainee);
-		SkillLevel javaBeginnerFound = skillLevelService.save(javaBeginner);
-		trainee.setSkills(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner));
+		trainee.setSkills(new ArrayList<>(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner)));
 		
+		List<SkillLevel> skills = traineeService.getSkills(trainee);
+		log.debug(skills);
+		
+		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee);
+		log.debug(pinnedSkills);
+		
+		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee);
+		log.debug(allSkills);
+		
+		//Change pinned skills		
+		traineeService.pinSkill(trainee, javaBeginner);
+		log.debug(trainee);
+		
+		traineeService.unpinSkill(trainee, javaBeginner);
+		log.debug(trainee);
 	}
 }
