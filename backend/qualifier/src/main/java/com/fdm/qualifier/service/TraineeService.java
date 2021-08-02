@@ -197,6 +197,10 @@ public class TraineeService {
 		return String.format(pattern, skill.getSkill().getName(), skill.getLevel());
 	}
 
+	/**
+	 * Gets all trainees
+	 * @return
+	 */
 	public List<Trainee> getAllTrainees() {
 		log.trace("getAllTrainees() called");
 		return traineeRepo.findAll();
