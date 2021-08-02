@@ -71,7 +71,8 @@ public class SkillLevel {
 	@Override
 	public String toString() {
 		return "SkillLevel [" + (level != null ? "level=" + level + ", " : "")
-				+ (quiz != null ? "quiz=" + quiz + ", " : "") + (skill != null ? "skill=" + skill + ", " : "")
+				+ (quiz != null ? "quiz=" + quiz + ", " : "") 
+				+ (skill != null ? "skill=" + skill + ", " : "")
 				+ "skillLevelId=" + skillLevelId + "]";
 	}
 

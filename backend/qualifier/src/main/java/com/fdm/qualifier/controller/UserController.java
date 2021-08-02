@@ -3,6 +3,11 @@ package com.fdm.qualifier.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +21,14 @@ import com.fdm.qualifier.httpResponse.LoginResponse;
 import com.fdm.qualifier.model.AuthRequest;
 import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.security.AccountDetails;
-import com.fdm.qualifier.security.AccountDetailsService;
+import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.User;
+import com.fdm.qualifier.service.AccountDetailsService;
 import com.fdm.qualifier.service.UserService;
 import com.fdm.qualifier.util.JwtUtil;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 	private Log log = LogFactory.getLog(AccountDetailsService.class);
 	
@@ -37,6 +45,14 @@ public class UserController {
 		this.accountDetailsService = accountDetailsService;
 		this.userService = userService;
 		this.jwtUtil = jwtUtil;
+	}
+	
+	@GetMapping("/getUser")
+	public User getUser() {
+		//Retrieve the currently logged in User [WIP]
+		User user = new Trainee("username","password");
+		user.setEmail("mail@mail.com");
+		return user;
 	}
 
 	@CrossOrigin
@@ -59,4 +75,5 @@ public class UserController {
                 ((AccountDetails) accountDetails).getAccountType(),
                 jwt));
 	}
+
 }

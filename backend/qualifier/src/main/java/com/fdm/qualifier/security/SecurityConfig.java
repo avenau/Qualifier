@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fdm.qualifier.service.AccountDetailsService;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -40,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .csrf().disable()   // Cross-site request forgery
 
             .authorizeRequests()
-            .antMatchers("/saveSuggestedSkill", "/getAllSuggestedSkills", "/h2-console/**", "/auth/**").permitAll()
+
+            .antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/savePlacement", "/getStartQuizDetails"
+            		, "/h2-console/**", "/auth/**").permitAll()
             // put .antMatcher(route).permitAll() for public access
             //.antMatchers("/auth/**").permitAll()
             

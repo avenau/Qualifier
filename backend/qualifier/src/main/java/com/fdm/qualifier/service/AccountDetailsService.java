@@ -1,4 +1,4 @@
-package com.fdm.qualifier.security;
+package com.fdm.qualifier.service;
 
 import java.util.Optional;
 
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.repository.UserRepository;
+import com.fdm.qualifier.security.AccountDetails;
 
 /**
  * Same as AccountDetails, its for Spring Security's need!!!!
@@ -21,10 +22,17 @@ public class AccountDetailsService implements UserDetailsService
 {
     private Log log = LogFactory.getLog(AccountDetailsService.class);
 
+    private UserRepository userRepository;    
+  
     @Autowired
-    private UserRepository userRepository;
-    
-    @Override
+    public AccountDetailsService(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
+	}
+
+
+
+	@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
     {
         Optional<User> account =  userRepository.findByUsername(username);

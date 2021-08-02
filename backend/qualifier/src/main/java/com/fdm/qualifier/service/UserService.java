@@ -29,7 +29,7 @@ public class UserService {
 	public User getUserByUsername(String username)
     {
         Optional<User> user = userRepo.findByUsername(username);
-        if (!user.isEmpty())
+        if (user.isPresent())
             return user.get();
         return null;
     }
@@ -37,7 +37,7 @@ public class UserService {
 	 public boolean userExists(AuthRequest authRequest)
 	    {
 	        Optional<User> checker = userRepo.findByUsername(authRequest.getUsername());
-	        if (checker.isEmpty())
+	        if (checker.isPresent())
 	            return false;
 	        return true;
 	    }

@@ -12,6 +12,8 @@ import com.fdm.qualifier.repository.SuggestedSkillRepository;
 
 @Service
 public class SuggestedSkillService {
+	protected static final String SKILL_ALREADY_SUGGESTED_MESSAGE = "Skill already suggested";
+
 	private SuggestedSkillRepository suggestedSkillRepo;
 
 	private Log log = LogFactory.getLog(SuggestedSkillService.class);
@@ -22,10 +24,22 @@ public class SuggestedSkillService {
 		this.suggestedSkillRepo = suggestedSkillRepo;
 	}
 
-	public void save(SuggestedSkill suggestedSkill) {
+	public String save(SuggestedSkill suggestedSkill) {
 		log.trace("save() called");
-		log.info("Saving suggested skill: " + suggestedSkill);
-		suggestedSkillRepo.save(suggestedSkill);
+
+		String returnMessage = "";
+		
+		suggestedSkill.setName(suggestedSkill.getName().trim());
+		
+		if(suggestedSkillRepo.findByNameIgnoreCase(suggestedSkill.getName()).size() > 0 ) {
+			log.debug("setting return message to: " );
+			returnMessage = SKILL_ALREADY_SUGGESTED_MESSAGE;
+		} else {
+			log.debug("Saving suggested skill: " + suggestedSkill);
+			suggestedSkillRepo.save(suggestedSkill);
+		}
+		
+		return returnMessage;
 	}
 
 	public List<SuggestedSkill> getAll() {

@@ -7,5 +7,7 @@ import com.fdm.qualifier.model.Trainee;
 
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
-
+	
+	public Trainee getTraineeByuid(int id);
+	
 }
