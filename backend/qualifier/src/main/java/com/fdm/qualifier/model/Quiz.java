@@ -32,7 +32,14 @@ public class Quiz {
 
 	public Quiz() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+	
+	public Quiz(String name, String description, double duration, double passingMark) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.duration = duration;
+		this.passingMark = passingMark;
 	}
 
 	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
@@ -109,8 +116,9 @@ public class Quiz {
 	@Override
 	public String toString() {
 		return "Quiz [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration=" + duration
-				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark + ", questions=" + questions
-				+ "]";
+				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark + "]";
 	}
+
+	
 
 }

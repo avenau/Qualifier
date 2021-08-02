@@ -23,5 +23,11 @@ public class SkillService {
 		skillRepo.flush();
 	}
 	
+	public Skill findByName(String name) {
+		return skillRepo.findByName(name);
+	}
 	
+	public Skill save(Skill skill) {
+		return skillRepo.save(skill);
+	}
 }

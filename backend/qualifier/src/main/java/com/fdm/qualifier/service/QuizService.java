@@ -35,8 +35,7 @@ public class QuizService {
 	
 	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
 		boolean passed = mark >=finishedQuiz.getPassingMark();
-		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
-				
+		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
 		return result;
 	}
 	
@@ -56,6 +55,16 @@ public class QuizService {
 	
 	public List<Quiz> findAllQuiz(){
 		return quizRepo.findAll();
+	}
+
+	public void save(Quiz newQuiz) {
+		quizRepo.save(newQuiz);
+	}
+
+	public Quiz createNewQuiz(String name, String description, int duration, int passingMark) {
+		Quiz newQuiz = new Quiz(name, description, duration, passingMark);
+		quizRepo.save(newQuiz);
+		return newQuiz;
 	}
 
 }

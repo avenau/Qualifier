@@ -15,4 +15,6 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 
 	List<SkillLevel> getSkillsByUid(int id);
 
+	Trainee getTraineeByuid(int id);
+
 }

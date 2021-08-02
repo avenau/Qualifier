@@ -18,9 +18,13 @@ public class TraineeService {
 		super();
 		this.traineeRepo = traineeRepo;
 	}
-
+	
+	public Trainee getTraineeByID(int id) {
+		return traineeRepo.getTraineeByuid(id);
+	}
+	
 	public Trainee save(Trainee trainee) {
-		return traineeRepo.save(trainee);		
+		return traineeRepo.save(trainee);
 	}
 
 	public List<SkillLevel> getPinnedSkills(Trainee trainee) {

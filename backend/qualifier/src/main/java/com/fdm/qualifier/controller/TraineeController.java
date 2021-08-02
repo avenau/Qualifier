@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
+
+import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.TraineeService;
 
