@@ -30,7 +30,6 @@ public class TraineeService {
 		super();
 		this.traineeRepo = traineeRepo;
 	}
-
 	/**
 	 * Saves trainee to the repository
 	 * 
@@ -90,7 +89,7 @@ public class TraineeService {
 		String returnMessage = "";
 		trainee = traineeRepo.save(trainee);
 
-		log.debug(trainee);
+		log.debug("Trainee: " + trainee);
 
 		List<SkillLevel> skills = trainee.getSkills();
 		List<SkillLevel> pinnedSkills = trainee.getPinnedSkills();

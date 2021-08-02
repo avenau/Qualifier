@@ -2,7 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import SuggestSkill from './components/trainee/suggestSkill';
 import QuizStartPage from './components/quiz/QuizStartPage';
+import AttemptQuiz from './components/quiz/AttemptQuiz';
+import BrowseQuiz from './components/quiz/BrowseQuiz';
+import FinishQuiz from './components/quiz/FinishQuiz';
 import Home from './pages/Home'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavigationBar from './components/navbar/NavBar';
+
 
 import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
 import DoesNotExistPage from './pages/NotExistPage';
@@ -16,12 +22,16 @@ import DoesNotExistPage from './pages/NotExistPage';
 */
 function App() {
   return (
+
     <Router>
-      
+      <NavigationBar/>
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/suggestskill' component={SuggestSkill}/>
-        <Route exact path='/startquiz' component={QuizStartPage}/>
+        <Route exact path='/startquiz/:quiz_id' component={QuizStartPage}/>
+        <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
+        <Route exact path ='/browsequiz' component={BrowseQuiz}/>
+        <Route exact path ='/finishquiz' component={FinishQuiz}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 
