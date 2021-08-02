@@ -4,6 +4,7 @@ import { Form, Check, Button } from 'react-bootstrap';
 
 function Questions(props) {
     let questions = props.questions;
+    let history = useHistory();
     let axios = require('axios');
 
     const [answers, setAnswers] = useState([0, 1, 2])
@@ -24,6 +25,9 @@ function Questions(props) {
         })
         .catch(()=>{
 
+        })
+        .finally (() => {
+            history.push('/finishquiz');
         })
     })
 
