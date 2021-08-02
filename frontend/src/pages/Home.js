@@ -18,7 +18,10 @@ function HomePage() {
             <h1>HOME</h1>
             <Button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</Button>
             <Button variant="primary" onClick={() => {history.push('/browsequiz')} }>Browse Quiz</Button>
-
+            <button onClick={() => {history.push('/profile')} }>My Profile</button>
+            <button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</button>
+            <button onClick={() => {history.push('/startquiz')} }>Start Skill Quiz</button>
+            <button onClick={() => {history.push('/createPlacement')} }>Create Placement</button>
         </Container>
     )
 }
