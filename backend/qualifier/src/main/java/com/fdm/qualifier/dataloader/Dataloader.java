@@ -1,16 +1,19 @@
 package com.fdm.qualifier.dataloader;
 
+
 import java.time.LocalDate;
 import java.util.Arrays;
 
-import javax.transaction.Transactional;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Quiz;
@@ -21,10 +24,18 @@ import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.ClientService;
 import com.fdm.qualifier.service.PlacementService;
+import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.StreamService;
+import com.fdm.qualifier.model.Answer;
+import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Quiz;
+import com.fdm.qualifier.model.SuggestedSkill;
+import com.fdm.qualifier.repository.AnswerRepository;
+import com.fdm.qualifier.repository.QuestionRepository;
+import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.service.SuggestedSkillService;
 import com.fdm.qualifier.service.TraineeService;
 
@@ -39,11 +50,13 @@ public class Dataloader implements ApplicationRunner {
 	private TraineeService traineeService;
 	private StreamService streamService;
 	private QuizService quizService;
+	private QuestionService questionService;
 
 	@Autowired
 	public Dataloader(SuggestedSkillService suggestedSkillService, PlacementService placementService,
 			SkillLevelService skillLevelService, SkillService skillService, ClientService clientService,
-			TraineeService traineeService, StreamService streamService, QuizService quizService) {
+			TraineeService traineeService, StreamService streamService, QuizService quizService, 
+			QuestionService questionService) {
 		super();
 		this.suggestedSkillService = suggestedSkillService;
 		this.placementService = placementService;
@@ -53,12 +66,13 @@ public class Dataloader implements ApplicationRunner {
 		this.traineeService = traineeService;
 		this.streamService = streamService;
 		this.quizService = quizService;
+		this.questionService = questionService;
 	}
 
 	
 	@Override
-	@Modifying
 	@Transactional
+	@Modifying
 	public void run(ApplicationArguments args) throws Exception {
 
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
@@ -101,6 +115,26 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement1);
 		placementService.save(placement2);
 		placementService.save(placement3);
+
+		System.out.println("init");
+		
+		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
+		
+		Question question1 = new Question(null, "text", Question.QuestionType.MUTIPLE_CHOICE, 5, imageBytes, null);
+		Answer answer1 = new Answer("answerText", question1, true);
+		Quiz quiz2 = new Quiz("Java", "Java entry", 20,  10, 75, Arrays.asList(question1));
+		
+		question1.setQuiz(quiz2);
+		question1.setAnswers(Arrays.asList(answer1));
+		
+		questionService.save(question1);
+		//answerRepo.save(answer1);
+		quizService.save(quiz2);
+		
+		System.out.println(question1);
+		System.out.println(answer1);
+		System.out.println(quiz1);
+		System.out.println("init finished");
 
 	}
 

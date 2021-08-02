@@ -25,7 +25,6 @@ public class Quiz {
 
 	public Quiz() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
@@ -97,9 +96,8 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return "Quiz [quizId=" + quizId + ", " + (name != null ? "name=" + name + ", " : "")
-				+ (description != null ? "description=" + description + ", " : "") + "duration=" + duration
-				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark +  "]";
+		return "Quiz [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration=" + duration
+				+ ", questionCount=" + questionCount + ", passingMark=" + passingMark + "]";
 	}
 
 	

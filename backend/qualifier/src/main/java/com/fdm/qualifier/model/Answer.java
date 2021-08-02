@@ -18,7 +18,6 @@ public class Answer {
 	
 	public Answer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Answer(String content, Question question, boolean correct) {

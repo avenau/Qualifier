@@ -56,6 +56,4 @@ public class Client {
                 + (name != null ? "name=" + name + ", " : "") + (placements != null ? "placements=" + placements : "")
                 + "]";
     }
-
-
 }

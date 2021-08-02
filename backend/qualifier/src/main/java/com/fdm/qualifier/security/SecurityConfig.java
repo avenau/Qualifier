@@ -11,8 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.fdm.qualifier.service.AccountDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -40,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
             .authorizeRequests()
 
-            .antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/savePlacement", "/getStartQuizDetails").permitAll()
-
+            .antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/savePlacement", "/getStartQuizDetails"
+            		, "/h2-console/**", "/auth/**").permitAll()
             // put .antMatcher(route).permitAll() for public access
             //.antMatchers("/auth/**").permitAll()
             
@@ -52,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.headers().frameOptions().disable();
     }
 
     @Override
@@ -70,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder passwordEncoder()
     {
-        return new BCryptPasswordEncoder(10);
-
+//        return new BCryptPasswordEncoder(10);
+    	return NoOpPasswordEncoder.getInstance();
     }
 }
