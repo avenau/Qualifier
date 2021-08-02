@@ -36,6 +36,10 @@ public class TraineeService {
 		this.traineeRepo = traineeRepo;
 		this.skillLevelRepo = skillLevelRepo;
 	}
+	
+	public Trainee getTraineeByID(int id) {
+		return traineeRepo.getTraineeByuid(id);
+	}
 
 	/**
 	 * Saves trainee to the repository
@@ -100,10 +104,10 @@ public class TraineeService {
 		Optional<Trainee> possibleTrainee = traineeRepo.findById(traineeId);
 		Optional<SkillLevel> possibleSkill = skillLevelRepo.findById(skillToPinId);
 
-		if (possibleTrainee.isEmpty()) {
+		if (!possibleTrainee.isPresent()) {
 			log.debug("trainee doesn't exist");
 			returnMessage = TRAINEE_DOESN_T_EXIST_IN_DATABASE_MESSAGE;
-		} else if (possibleSkill.isEmpty()) {
+		} else if (!possibleSkill.isPresent()) {
 			log.debug("skill doesn't exist");
 			returnMessage = SKILL_DOESN_T_EXIST_IN_DATABASE_MESSAGE;
 		} else {
@@ -152,10 +156,10 @@ public class TraineeService {
 		Optional<Trainee> possibleTrainee = traineeRepo.findById(traineeId);
 		Optional<SkillLevel> possibleSkillLevel = skillLevelRepo.findById(skillToUnpinId);
 
-		if (possibleTrainee.isEmpty()) {
+		if (!possibleTrainee.isPresent()) {
 			log.debug("trainee doesn't exist");
 			returnMessage = TRAINEE_DOESN_T_EXIST_IN_DATABASE_MESSAGE;
-		} else if (possibleSkillLevel.isEmpty()) {
+		} else if (!possibleSkillLevel.isPresent()) {
 			log.debug("skill doesn't exist");
 			returnMessage = SKILL_DOESN_T_EXIST_IN_DATABASE_MESSAGE;
 		} else {

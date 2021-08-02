@@ -13,6 +13,8 @@ import com.fdm.qualifier.model.SkillLevel;
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 
+	Trainee getTraineeByuid(int id);
+
 	@Query("SELECT t.pinnedSkills FROM Trainee t WHERE uid = :id")
 	List<SkillLevel> getPinnedSkillsByUid(@Param("id") int id);
 

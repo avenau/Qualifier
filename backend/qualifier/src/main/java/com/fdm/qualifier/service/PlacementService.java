@@ -31,7 +31,7 @@ public class PlacementService {
 	
 	public Placement findById(int id) {
 		Optional<Placement> placement = placementRepo.findById(id);
-		if(placement.isEmpty()) {
+		if(placement == null) {
 			return null;
 		}
 		return placement.get();

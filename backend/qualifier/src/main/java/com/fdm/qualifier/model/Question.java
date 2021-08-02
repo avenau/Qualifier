@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -21,6 +22,7 @@ public class Question {
 	private String content;
 	private QuestionType type;
 	private int points;
+	@Lob
 	private byte[] image;
 
 	@ManyToOne
@@ -38,7 +40,6 @@ public class Question {
 
 	public Question() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Question(Quiz quiz, String content, QuestionType type, int points, byte[] image,
@@ -125,8 +126,9 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", content=" + content + ", type=" + type
-				+ ", points=" + points + "]";
+		return "Question [questionId=" + questionId + ", content=" + content + ", type=" + type + ", points=" + points
+				+ ", image=" + Arrays.toString(image) + "]";
+
 	}
 	
 	

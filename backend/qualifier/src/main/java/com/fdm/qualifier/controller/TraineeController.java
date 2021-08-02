@@ -5,13 +5,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.fdm.qualifier.model.Skill;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.TraineeService;
@@ -27,6 +26,12 @@ public class TraineeController {
 	public TraineeController(TraineeService traineeService) {
 		super();
 		this.traineeService = traineeService;
+	}
+	
+	@PostMapping("/addUnverifiedSkill")
+	public void addUnverifiedSkill(Skill skill) {
+		//Get Current Trainee
+		//Add skill to Trainee
 	}
 
 //	@PostMapping("/changePinnedSkill")
