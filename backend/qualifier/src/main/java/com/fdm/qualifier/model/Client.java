@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 public class Client {
     @Id
     @GeneratedValue
-    private String clientId;
+    private int clientId;
     private String name;
 
     @OneToMany(mappedBy = "client")
@@ -22,16 +22,15 @@ public class Client {
         super();
     }
 
-    public Client(String name, List<Placement> placements) {
+    public Client(String name) {
         this.name = name;
-        this.placements = placements;
     }
 
-    public String getClientId() {
+    public int getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
@@ -50,13 +49,11 @@ public class Client {
     public void setPlacements(List<Placement> placements) {
         this.placements = placements;
     }
-
+    
     @Override
     public String toString() {
-        return "Client [" + (clientId != null ? "clientId=" + clientId + ", " : "")
-                + (name != null ? "name=" + name + ", " : "") + (placements != null ? "placements=" + placements : "")
+        return "Client [" + "clientId=" + clientId + ""
+                + (name != null ? "name=" + name + ", " : "") 
                 + "]";
     }
-
-
 }
