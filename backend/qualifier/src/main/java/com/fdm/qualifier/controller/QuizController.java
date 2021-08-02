@@ -53,10 +53,13 @@ public class QuizController {
 		return selectedQuiz.get();
 	}
 	
+	/*
+	 * Needs to Be Altered For Randomised Questions
+	 */
 	@GetMapping("/getQuizQuestions")
-	public List<Question> getQuizQuestions(int id) {
-		System.out.println("ID adfd: " + id);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+	public List<Question> getQuizQuestions(int quizId) {
+		System.out.println("ID adfd: " + quizId);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
 		if (!selectedQuiz.isPresent()) {
 			System.out.println("ERROR");
 			return null;

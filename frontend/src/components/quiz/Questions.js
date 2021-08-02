@@ -3,7 +3,20 @@ import {useLocation, useHistory} from "react-router-dom";
 import { Form, Check, Button } from 'react-bootstrap';
 
 function Questions(props) {
-    let questions = props.questions;
+    const questionTemplate = 
+    [{           
+       questionId: 0,
+       content: "NOT LOADED",
+       type: "NOT LOADED",
+       points: 0,
+       image: "NOT LOADED",
+       answers:  [{
+           answerId: 0,
+           content: "NOT LOADED",
+           correct: "NOT LOADED"
+       }]
+   }]
+    const [questions, setQuestions] = useState(questionTemplate);
     let history = useHistory();
     let axios = require('axios');
 
@@ -12,6 +25,17 @@ function Questions(props) {
     const addAnswer = (() => {
         
     })
+
+    useEffect(() => {
+        axios.get("http://localhost:9999/getQuizQuestions", {   
+            params: {
+                quizId:props.quizId
+            }
+        })
+        .then((response) => {
+            setQuestions(response.data);
+        })
+    }, [questions.length])
 
     /*
         Stuck

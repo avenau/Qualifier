@@ -91,7 +91,7 @@ function AttemptQuizPage() {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center">
-                    <Questions questions={quiz.questions}/>
+                    <Questions quizId={quizId}/>
                 </Col>
             </Row>
         </Container>
