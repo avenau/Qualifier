@@ -1,5 +1,7 @@
 package com.fdm.qualifier.model;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -71,9 +73,27 @@ public class SkillLevel {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(level, skill);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SkillLevel other = (SkillLevel) obj;
+		return level == other.level && Objects.equals(skill, other.skill);
+	}
+
+	@Override
 	public String toString() {
 		return "SkillLevel [" + (level != null ? "level=" + level + ", " : "")
-				+ (quiz != null ? "quiz=" + quiz + ", " : "") + (skill != null ? "skill=" + skill + ", " : "")
+				+ (quiz != null ? "quiz=" + quiz + ", " : "") 
+				+ (skill != null ? "skill=" + skill + ", " : "")
 				+ "skillLevelId=" + skillLevelId + "]";
 	}
 
