@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
@@ -42,30 +44,37 @@ public class QuizController {
 //		}
 	}
 	
-	@GetMapping("/getQuizDetails")
-	public Quiz quizDetails(int quizId) {
-		System.out.println("ID adfd: " + quizId);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
-		if (!selectedQuiz.isPresent()) {
-			System.out.println("ERROR");
-			return null;
-		}
-		return selectedQuiz.get();
+	@GetMapping("/quiz/get/{id}")
+	public QuizDTO getQuizDetails(@PathVariable("id") String id) {
+		int quizId = Integer.parseInt(id);
+		QuizDTO quizDTO = quizService.findQuizById(quizId);
+		return quizDTO;
 	}
 	
-	/*
-	 * Needs to Be Altered For Randomised Questions
-	 */
-	@GetMapping("/getQuizQuestions")
-	public List<Question> getQuizQuestions(int quizId) {
-		System.out.println("ID adfd: " + quizId);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
-		if (!selectedQuiz.isPresent()) {
-			System.out.println("ERROR");
-			return null;
-		}
-		return selectedQuiz.get().getQuestions();
-	}
+//	@GetMapping("/getQuizDetails")
+//	public Quiz quizDetails(int quizId) {
+//		System.out.println("ID adfd: " + quizId);
+//		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
+//		if (!selectedQuiz.isPresent()) {
+//			System.out.println("ERROR");
+//			return null;
+//		}
+//		return selectedQuiz.get();
+//	}
+//	
+//	/*
+//	 * Needs to Be Altered For Randomised Questions
+//	 */
+//	@GetMapping("/getQuizQuestions")
+//	public List<Question> getQuizQuestions(int quizId) {
+//		System.out.println("ID adfd: " + quizId);
+//		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
+//		if (!selectedQuiz.isPresent()) {
+//			System.out.println("ERROR");
+//			return null;
+//		}
+//		return selectedQuiz.get().getQuestions();
+//	}
 	
 	@GetMapping("/getAllQuizzes")
 	public List<Quiz> getAllQuizzes() {

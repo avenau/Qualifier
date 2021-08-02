@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
@@ -33,30 +34,6 @@ public class QuizService {
 		this.answerRepo = answerRepository;
 	}
 	
-	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
-		boolean passed = mark >=finishedQuiz.getPassingMark();
-		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
-		return result;
-	}
-	
-	public Quiz saveQuiz(Quiz quiz) {
-		return quizRepo.save(quiz);
-	}
-	public Answer saveAnswer(Answer answer) {
-		return answerRepo.save(answer);
-	}
-	public Question saveQuestion(Question question) {
-		return questionRepo.save(question);
-	}
-	
-	public Optional<Quiz> findQuizById(int id) {
-		return quizRepo.findById(id);
-	}
-	
-	public List<Quiz> findAllQuiz(){
-		return quizRepo.findAll();
-	}
-
 	public void save(Quiz newQuiz) {
 		quizRepo.save(newQuiz);
 	}
@@ -65,6 +42,24 @@ public class QuizService {
 		Quiz newQuiz = new Quiz(name, description, duration, passingMark);
 		quizRepo.save(newQuiz);
 		return newQuiz;
+	}
+	
+	public QuizDTO findQuizById(int id) {
+		Optional<Quiz> quizOptional = quizRepo.findById(id);
+		Quiz quiz = quizOptional.get();
+		QuizDTO quizDTO = new QuizDTO(quiz);
+		return quizDTO;
+	}
+	
+	public List<Quiz> findAllQuiz(){
+		return quizRepo.findAll();
+	}
+	
+	
+	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
+		boolean passed = mark >=finishedQuiz.getPassingMark();
+		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
+		return result;
 	}
 
 }

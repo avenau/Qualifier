@@ -100,6 +100,7 @@ public class Dataloader implements ApplicationRunner {
 		Answer javaBq2aC = answerService.createNewAnswer("Answer Content", javaBq2, true);
 		Answer javaBq2aD = answerService.createNewAnswer("Answer Content", javaBq2, false);
 		logger.info("quiz init finished");
+		
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
 		
 		Trainee trainee1 = new Trainee("username", "password");

@@ -58,14 +58,14 @@ public class UserController {
 	@CrossOrigin
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-		} catch (Exception e) {
-			log.info("Bad login request received");
-            log.info(HttpStatus.UNAUTHORIZED);
-            return ResponseEntity.ok(new LoginResponse(HttpStatus.UNAUTHORIZED, "Invalid Credential"));
-		}
+//		try {
+//			authenticationManager.authenticate(
+//					new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+//		} catch (Exception e) {
+//			log.info("Bad login request received");
+//            log.info(HttpStatus.UNAUTHORIZED);
+//            return ResponseEntity.ok(new LoginResponse(HttpStatus.UNAUTHORIZED, "Invalid Credential"));
+//		}
 		log.info("new login request received");
 		User user = userService.getUserByUsername(authRequest.getUsername());
 		AccountDetails accountDetails = new AccountDetails(user);
