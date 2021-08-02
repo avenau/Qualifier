@@ -22,7 +22,8 @@ function Questions(props) {
        answerType: "",
        answerContent: "",
    }
-    const [results, setResults] = useState({50000: submittedAnswerTemplate});
+    const [results, setResults] = useState([]);
+    const selectUpdates = {};
     const [questions, setQuestions] = useState(questionTemplate);
     let history = useHistory();
     let axios = require('axios');
@@ -64,62 +65,114 @@ function Questions(props) {
 
     const shortAnswerChange = ((event) => {
         let {name, id, value} = event.target;
-        console.log("RESULT : " + this.results);
+        let newResults = [];
+        let checked = false;
 
-        setResults({...results, [id]: {
-                                        answerId: [name],
-                                        answerContent: value,
-                                    }
-                    });
+        if (results.length === 0){
+            newResults.push({
+                questionId: id,
+                answerId: [name],
+                questionType: "Short Answer",
+                answerContent: value,
+            })
+            checked = true;
+        } else {
+            results.map((result) => {
+                    if (result.questionId == id){
+                        checked = true;
+                        result.answerContent = value;                  
+                    }
+                    newResults = results;
+            })
+        }
+        if (checked === false){
+            newResults.push({
+                questionId: id,
+                answerId: [name],
+                questionType: "Short Answer",
+                answerContent: value,
+            })
+        }
+        setResults(newResults);
     })
 
     const multipleChoiceChange = ((event) => {
         console.log("MULTIPLE CHOICE CHANGE");
         let {name, id} = event.target;
+        let newResults = [];
+        let checked = false;
 
-        setResults({...results, [name]: {
-                                        answerId: [id],
-                                        answerContent: "Doesnt Matter",
-                                    }
-                    });
+        if (results.length === 0){
+            newResults.push({
+                questionId: name,
+                answerId: [id],
+                questionType: "Multiple Choice",
+                answerContent: "Doesnt Matter",
+            })
+            checked = true;
+            console.log('Length 0 RESULTS: ' + newResults.length);
+        } else {
+            results.map((result) => {
+                 if (result.questionId == name){
+                     checked = true;
+                     result.answerId = [id];                   
+                 }
+                 newResults = results;
+            })
+        }
+        if (checked === false){
+            newResults.push({
+                questionId: name,
+                answerId: [id],
+                questionType: "Multiple Choice",
+                answerContent: "Doesnt Matter",
+            })
+        }
+        setResults(newResults);
     })
 
     const multiSelectChange = ((event) => {
 
-
+        
         let {name, id} = event.target;
-
-        if (!(results.hasOwnProperty(name))){
-            setResults({...results, [name]: {
-                                            answerId: [].push(id),
-                                            answerContent: "Doesnt Matter",
-                                        }
-                        });
-
+        let checked = false;
+        let newResults = [];
+        
+        if (results.length === 0){
+            newResults.push({
+                questionId: name,
+                answerId: [id],
+                questionType: "Multi Select",
+                answerContent: "Multi Select so doesnt matter",
+            })
+            checked = true;
+            console.log('Length 0 RESULTS: ' + newResults.length);
         } else {
-            if (results[name].answerId.length === 0){
-                setResults({...results, [name]: {
-                    answerId: [].push(id),
-                    answerContent: "Doesnt Matter",
-                }
-                });
-
-            } else if (results[name]['answerId'].indexOf(id) >= 0){
-
-                    setResults({...results, [name]: {
-                        answerId: results[name].answerId.push(id),
-                        answerContent: "Doesnt Matter",
-                    }})
-
-            } else {
-                setResults({...results, [name]: {
-                    answerId: results[name].answerId.splice(results[name].answerId.indexOf(id), 1),
-                    answerContent: "Doesnt Matter",
-                }})
-
-               }
+            results.map((result) => {
+                 if (result.questionId == name){
+                     checked = true;
+                     if (result.answerId.includes(id)){
+                        result.answerId.splice(result.answerId.indexOf(id), 1);
+                     } else {
+                        result.answerId.push(id);
+                     }
+                     
+                 }
+                 newResults = results;
+            })
         }
+
+        if (checked === false){
+            newResults.push({
+                questionId: name,
+                answerId: [id],
+                answerContent: "Multi Select - So No Content",
+            })
+        }
+        setResults(newResults);
+        
     })
+
 
 
     return (

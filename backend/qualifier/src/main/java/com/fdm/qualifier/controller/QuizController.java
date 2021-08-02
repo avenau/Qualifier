@@ -36,7 +36,8 @@ public class QuizController {
 	@PostMapping("/submitQuiz")
 	public void submitQuiz(@RequestBody Map<String, Object> payload) {
 		//quizService.saveQuizResult(null, 0, null);
-		System.out.println("SUBMIT QUIZ ID: " + payload);
+		System.out.println("Short Multiple Choice: " + payload);
+
 
 	}
 	
