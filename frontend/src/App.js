@@ -12,6 +12,7 @@ import NavigationBar from './components/navbar/NavBar';
 
 import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
 import DoesNotExistPage from './pages/NotExistPage';
+import MySkills from './components/trainee/mySkills';
 
 //To add your page 
 /*
@@ -32,6 +33,7 @@ function App() {
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path ='/browsequiz' component={BrowseQuiz}/>
         <Route exact path ='/finishquiz' component={FinishQuiz}/>
+        <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 
