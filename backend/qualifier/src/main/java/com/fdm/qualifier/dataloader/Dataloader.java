@@ -117,9 +117,10 @@ public class Dataloader implements ApplicationRunner {
 		skillLevelService.save(skillLevel3);
 		
 		List<SkillLevel> skillSet = new ArrayList<>();
+		List<SkillLevel> pinnedSkillSet = new ArrayList<>();
 		skillSet.add(skillLevel1);
 		skillSet.add(skillLevel2);
-		skillSet.add(skillLevel3);
+		pinnedSkillSet.add(skillLevel3);
 		
 		Trainee trainee1 = new Trainee("username", "password");
 		trainee1.setEmail("trainee@mail.com");
@@ -127,6 +128,7 @@ public class Dataloader implements ApplicationRunner {
 		trainee1.setAddress("123 Fake Street");	
 		trainee1.setPhoneNumber(1234567890);
 		trainee1.setSkills(skillSet);
+		trainee1.setPinnedSkills(pinnedSkillSet);		
 		traineeService.save(trainee1);
 		
 		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
