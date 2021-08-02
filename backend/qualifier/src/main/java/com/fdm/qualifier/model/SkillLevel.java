@@ -1,10 +1,13 @@
 package com.fdm.qualifier.model;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SkillLevel {
@@ -19,6 +22,7 @@ public class SkillLevel {
 
 	@ManyToOne
 	@JoinColumn(name = "FK_QUIZ")
+	@OneToOne
 	private Quiz quiz;
 
 	public enum KnowledgeLevel {
@@ -66,6 +70,23 @@ public class SkillLevel {
 
 	public void setLevel(KnowledgeLevel level) {
 		this.level = level;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(level, skill);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SkillLevel other = (SkillLevel) obj;
+		return level == other.level && Objects.equals(skill, other.skill);
 	}
 
 	@Override

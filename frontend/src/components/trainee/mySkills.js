@@ -3,7 +3,7 @@ import SuggestSkill from 'suggestSkill';
 
 
 function MySkills() {
-    let history = useHistory();
+    
     const axios = require('axios');
 
     const addUnverifiedSkill = (evt) => {

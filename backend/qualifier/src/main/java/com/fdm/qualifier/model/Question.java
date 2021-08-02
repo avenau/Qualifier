@@ -3,6 +3,7 @@ package com.fdm.qualifier.model;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Question {
@@ -23,6 +26,7 @@ public class Question {
 	private byte[] image;
 
 	@ManyToOne
+	@JsonBackReference
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")
@@ -47,6 +51,17 @@ public class Question {
 		this.points = points;
 		this.image = image;
 		this.answers = answers;
+	}
+	
+	public Question(Quiz quiz, String content, QuestionType type, int points,
+			List<Answer> answers) {
+		super();
+		this.quiz = quiz;
+		this.content = content;
+		this.type = type;
+		this.points = points;
+		this.answers = answers;
+		this.image = "random".getBytes();;
 	}
 
 	public int getQuestionId() {
@@ -104,11 +119,16 @@ public class Question {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+	
+	public void addAnswers(Answer answer) {
+		this.answers.add(answer);
+	}
 
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", content=" + content + ", type=" + type + ", points=" + points
 				+ ", image=" + Arrays.toString(image) + "]";
+
 	}
 	
 	
