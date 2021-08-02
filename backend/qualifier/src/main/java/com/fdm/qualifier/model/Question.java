@@ -24,7 +24,7 @@ public class Question {
 	private byte[] image;
 
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference(value = "quiz")
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")

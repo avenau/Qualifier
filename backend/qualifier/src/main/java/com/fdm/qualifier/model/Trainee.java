@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @DiscriminatorValue(value = "trainee")
 public class Trainee extends User {
@@ -36,6 +38,7 @@ public class Trainee extends User {
 	private List<SkillLevel> skills;
 
 	@ManyToMany
+//	@JsonManagedReference
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
 	private List<SkillLevel> pinnedSkills;
 

@@ -243,24 +243,24 @@ public class Dataloader implements ApplicationRunner {
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
 		log.info("Saving Trainee");
-//		trainee = traineeService.save(trainee);
+		trainee = traineeService.save(trainee);
 		log.debug(trainee);
 		trainee.setSkills(new ArrayList<>(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner)));
 		
-		List<SkillLevel> skills = traineeService.getSkills(trainee);
+		List<SkillLevel> skills = traineeService.getSkills(trainee.getUserId());
 		log.debug(skills);
 		
-		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee);
+		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee.getUserId());
 		log.debug(pinnedSkills);
 		
-		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee);
+		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee.getUserId());
 		log.debug(allSkills);
 		
 		//Change pinned skills		
-		traineeService.pinSkill(trainee, javaBeginner);
-		log.debug(trainee);
+		traineeService.pinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
+		log.debug("After pinning: " + trainee);
 		
-		traineeService.unpinSkill(trainee, javaBeginner);
-		log.debug(trainee);
+		traineeService.unpinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
+		log.debug("After unpinning: " + trainee);
 	}
 }
