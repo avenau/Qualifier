@@ -46,26 +46,11 @@ public class UserController {
 		this.userService = userService;
 		this.jwtUtil = jwtUtil;
 	}
-	
-	@GetMapping("/getUser")
-	public User getUser() {
-		//Retrieve the currently logged in User [WIP]
-		User user = new Trainee("username","password");
-		user.setEmail("mail@mail.com");
-		return user;
-	}
 
 	@CrossOrigin
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-		} catch (Exception e) {
-			log.info("Bad login request received");
-            log.info(HttpStatus.UNAUTHORIZED);
-            return ResponseEntity.ok(new LoginResponse(HttpStatus.UNAUTHORIZED, "Invalid Credential"));
-		}
+
 		log.info("new login request received");
 		User user = userService.getUserByUsername(authRequest.getUsername());
 		AccountDetails accountDetails = new AccountDetails(user);
@@ -74,6 +59,11 @@ public class UserController {
                 accountDetails.getUsername(), 
                 ((AccountDetails) accountDetails).getAccountType(),
                 jwt));
+	}
+	
+	@GetMapping("/getUser")
+	public User getLoggedInUser(String username) {
+		return userService.getUserByUsername(username);
 	}
 
 }

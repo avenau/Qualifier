@@ -49,8 +49,9 @@ function Login(props)
                 return;
             }
             setAccountSession(response.jwtToken, response.username, response.accountType);
+            sessionStorage.setItem("username", username);
             dispatch(updateAuth());
-
+            
             Notification({  type: 'success',
                             msg: response.msg,
                             title: 'Login Success'

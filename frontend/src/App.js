@@ -27,7 +27,6 @@ import DoesNotExistPage from './pages/NotExistPage';
 */
 function App() {
   const auth = useSelector(state => state.auth);
-
   return (
       <Router>
 

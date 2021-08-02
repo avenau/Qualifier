@@ -2,6 +2,7 @@ package com.fdm.qualifier.dataloader;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.nio.file.Files;
@@ -74,21 +75,18 @@ public class Dataloader implements ApplicationRunner {
 	@Transactional
 	@Modifying
 	public void run(ApplicationArguments args) throws Exception {
-
+		
+		System.out.println("Data loader called");
+		
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
 		
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
 		
-		Trainee trainee1 = new Trainee("username", "password");
-		traineeService.save(trainee1);
-		
-		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
-		streamService.save(stream1);
-		
 		Skill java = new Skill("Java");
 		Skill cs = new Skill("C#");
 		Skill python = new Skill("Python");
+		
 		skillService.save(java);
 		skillService.save(cs);
 		skillService.save(python);
@@ -102,6 +100,22 @@ public class Dataloader implements ApplicationRunner {
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
+		
+		List<SkillLevel> skillSet = new ArrayList<>();
+		skillSet.add(skillLevel1);
+		skillSet.add(skillLevel2);
+		skillSet.add(skillLevel3);
+		
+		Trainee trainee1 = new Trainee("username", "password");
+		trainee1.setEmail("trainee@mail.com");
+		trainee1.setCity("Sydney");
+		trainee1.setAddress("123 Fake Street");	
+		trainee1.setPhoneNumber(1234567890);
+		trainee1.setSkills(skillSet);
+		traineeService.save(trainee1);
+		
+		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
+		streamService.save(stream1);
 		
 		Client client1 = new Client("ANZ");		
 		Client client2 = new Client("Kmart");
