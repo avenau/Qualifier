@@ -116,26 +116,6 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement2);
 		placementService.save(placement3);
 
-		System.out.println("init");
-		
-		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
-		
-		Question question1 = new Question(null, "text", Question.QuestionType.MUTIPLE_CHOICE, 5, imageBytes, null);
-		Answer answer1 = new Answer("answerText", question1, true);
-		Quiz quiz2 = new Quiz("Java", "Java entry", 20,  10, 75, Arrays.asList(question1));
-		
-		question1.setQuiz(quiz2);
-		question1.setAnswers(Arrays.asList(answer1));
-		
-		questionService.save(question1);
-		//answerRepo.save(answer1);
-		quizService.save(quiz2);
-		
-		System.out.println(question1);
-		System.out.println(answer1);
-		System.out.println(quiz1);
-		System.out.println("init finished");
-
 	}
 
 }

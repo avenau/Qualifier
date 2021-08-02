@@ -16,7 +16,6 @@ import Home from './pages/Home'
 import { useSelector } from 'react-redux';
 import PublicRoute from './utils/PublicRoute';
 
-import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
 import DoesNotExistPage from './pages/NotExistPage';
 
 //To add your page 

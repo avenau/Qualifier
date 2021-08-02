@@ -28,7 +28,7 @@ import com.fdm.qualifier.service.UserService;
 import com.fdm.qualifier.util.JwtUtil;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3005")
 public class UserController {
 	private Log log = LogFactory.getLog(AccountDetailsService.class);
 	

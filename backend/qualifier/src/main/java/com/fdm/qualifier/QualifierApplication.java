@@ -18,6 +18,7 @@ public class QualifierApplication {
 	@PostConstruct
 	public void initUsers() {
 		User user = new User("username", "password");
+		user.setEmail("useremail@mail.com");
 		userRepo.save(user);
 	}
 
