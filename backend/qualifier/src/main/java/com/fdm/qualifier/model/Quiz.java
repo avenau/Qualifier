@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -27,7 +28,7 @@ public class Quiz {
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
-	@JsonManagedReference(value = "quiz")
+	@JsonBackReference(value = "quiz")
 	private List<Question> questions;
 
 	public Quiz() {

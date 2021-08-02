@@ -3,6 +3,7 @@ package com.fdm.qualifier.controller;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,10 @@ public class QuizController {
 	}
 	
 	@PostMapping("/submitQuiz")
-	public void submitQuiz(int quizId, @RequestParam List<String> answers) {
+	public void submitQuiz(@RequestBody Map<String, Object> payload) {
 		//quizService.saveQuizResult(null, 0, null);
-		System.out.println("SUBMIT QUIZ ID: " + quizId);
-		//System.out.println(answers);
-//		for (int hi : answers) {
-//			System.out.println("ANSWER ARRAY: " + hi);
-//		}
+		System.out.println("SUBMIT QUIZ ID: " + payload);
+
 	}
 	
 	@GetMapping("/getQuizDetails")

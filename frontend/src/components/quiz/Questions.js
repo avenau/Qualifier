@@ -16,11 +16,18 @@ function Questions(props) {
            correct: "NOT LOADED"
        }]
    }]
+   const submittedAnswerTemplate = 
+   {
+       answerId: [],
+       answerType: "",
+       answerContent: "",
+   }
+    const [results, setResults] = useState({50000: submittedAnswerTemplate});
     const [questions, setQuestions] = useState(questionTemplate);
     let history = useHistory();
     let axios = require('axios');
 
-    const [answers, setAnswers] = useState([0, 1, 2])
+    
 
     const addAnswer = (() => {
         
@@ -43,17 +50,77 @@ function Questions(props) {
     const submitQuiz = (() => {
         console.log("SUBMITTING QUIZ");
         axios
-        .post('http://localhost:9999/submitQuiz', { quizId: 6})
+        .post('http://localhost:9999/submitQuiz', { payload: results})
         .then((response) => {
 
-        })
-        .catch(()=>{
-
-        })
-        .finally (() => {
             history.push('/finishquiz');
         })
+        .catch(()=>{
+            
+        })
     })
+
+        
+
+    const shortAnswerChange = ((event) => {
+        let {name, id, value} = event.target;
+        console.log("RESULT : " + this.results);
+
+        setResults({...results, [id]: {
+                                        answerId: [name],
+                                        answerContent: value,
+                                    }
+                    });
+    })
+
+    const multipleChoiceChange = ((event) => {
+        console.log("MULTIPLE CHOICE CHANGE");
+        let {name, id} = event.target;
+
+        setResults({...results, [name]: {
+                                        answerId: [id],
+                                        answerContent: "Doesnt Matter",
+                                    }
+                    });
+    })
+
+    const multiSelectChange = ((event) => {
+
+
+        let {name, id} = event.target;
+
+        if (!(results.hasOwnProperty(name))){
+            setResults({...results, [name]: {
+                                            answerId: [].push(id),
+                                            answerContent: "Doesnt Matter",
+                                        }
+                        });
+
+        } else {
+            if (results[name].answerId.length === 0){
+                setResults({...results, [name]: {
+                    answerId: [].push(id),
+                    answerContent: "Doesnt Matter",
+                }
+                });
+
+            } else if (results[name]['answerId'].indexOf(id) >= 0){
+
+                    setResults({...results, [name]: {
+                        answerId: results[name].answerId.push(id),
+                        answerContent: "Doesnt Matter",
+                    }})
+
+            } else {
+                setResults({...results, [name]: {
+                    answerId: results[name].answerId.splice(results[name].answerId.indexOf(id), 1),
+                    answerContent: "Doesnt Matter",
+                }})
+
+               }
+        }
+    })
+
 
     return (
         <Form className = "w-50">
@@ -71,7 +138,8 @@ function Questions(props) {
                                         label={answer.content}
                                         name={question.questionId}
                                         type="radio"
-                                        id={answer}
+                                        id={answer.answerId}
+                                        onChange={multipleChoiceChange}
                                         />
                                     )
                                 } else if (question.type === "MULTI_SELECT"){
@@ -80,13 +148,14 @@ function Questions(props) {
                                         label={answer.content}
                                         name={question.questionId}
                                         type="checkbox"
-                                        id={answer}
+                                        id={answer.answerId}
+                                        onChange={multiSelectChange}
                                         /> 
                                     )
                                 } else if (question.type === "SHORT_ANSWER"){
                                     return(
-                                    <Form.Group className="mb-3" controlId="shortAnswerInput" id={answer}>
-                                        <Form.Control as="textarea" placeholder= "Enter your answer here" rows={3} />
+                                    <Form.Group className="mb-3" id={answer.answerId}>
+                                        <Form.Control as="textarea" id={question.questionId} name={answer.answerId} onChange={shortAnswerChange} placeholder= "Enter your answer here" rows={3} />
                                       </Form.Group>
                                     )
                                 }                                
@@ -95,7 +164,7 @@ function Questions(props) {
                     </div>
 
                 )) }
-                <Button variant="primary" type="submit" onClick={submitQuiz}>
+                <Button variant="primary" onClick={submitQuiz}>
                     Submit
                 </Button>
             </Form>

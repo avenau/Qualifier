@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Question {
@@ -24,7 +25,7 @@ public class Question {
 	private byte[] image;
 
 	@ManyToOne
-	@JsonBackReference
+	@JsonManagedReference(value = "questions")
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")
