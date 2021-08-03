@@ -209,4 +209,19 @@ public class TraineeService {
 		log.trace("getAllTrainees() called");
 		return traineeRepo.findAll();
 	}
+	
+	/**
+	 * Gets trainees that match the string in
+	 * their first or last name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public List<Trainee> findTraineeByName(String name) {
+		return traineeRepo.findByFirstNameAndLastName(name);
+	}
+	
+	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
+		return traineeRepo.findTraineeBySkills(skill);
+	}
 }
