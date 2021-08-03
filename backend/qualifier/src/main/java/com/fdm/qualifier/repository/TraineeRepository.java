@@ -21,4 +21,8 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 	@Query("SELECT t.skills FROM Trainee t WHERE uid = :id")
 	List<SkillLevel> getSkillsByUid(@Param("id") int id);
 
+	@Query("SELECT t FROM Trainee t where firstName = :name OR lastName = :name")
+	List<Trainee> findByFirstNameAndLastName(@Param("name")String name);
+	
+	List<Trainee> findTraineeBySkills(SkillLevel skills);
 }

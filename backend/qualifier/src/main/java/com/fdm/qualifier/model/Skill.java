@@ -15,7 +15,6 @@ public class Skill {
 
 	public Skill() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Skill(String name) {
