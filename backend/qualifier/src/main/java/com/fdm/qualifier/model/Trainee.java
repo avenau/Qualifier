@@ -86,6 +86,10 @@ public class Trainee extends User {
 		this.skills = skills;
 		this.pinnedSkills = pinnedSkills;
 	}
+	
+	public void addSkill(SkillLevel skill) {
+		skills.add(skill);
+	}
 
 	public LocalDate getCompletionDate() {
 		return completionDate;

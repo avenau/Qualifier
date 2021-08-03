@@ -209,4 +209,9 @@ public class TraineeService {
 		log.trace("getAllTrainees() called");
 		return traineeRepo.findAll();
 	}
+	
+	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
+		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		foundTrainee.addSkill(skill);
+	}
 }
