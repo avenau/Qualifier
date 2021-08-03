@@ -1,6 +1,7 @@
 package com.fdm.qualifier.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,24 +14,39 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.service.SkillLevelService;
+import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.TraineeService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class TraineeController {
 	private TraineeService traineeService;
+	private SkillLevelService skillLevelService;
+	private SkillService skillService;
 
 	private Log log = LogFactory.getLog(TraineeController.class);
 	
 	@Autowired
-	public TraineeController(TraineeService traineeService) {
+	public TraineeController(TraineeService traineeService, SkillLevelService skillLevelService, SkillService skillService) {
 		super();
 		this.traineeService = traineeService;
+		this.skillLevelService = skillLevelService;
+		this.skillService = skillService;
 	}
 	
 	@PostMapping("/addUnverifiedSkill")
-	public void addUnverifiedSkill(@RequestBody Trainee trainee, SkillLevel skill) {
-		traineeService.addSkillToTrainee(skill, trainee.getUserId());
+	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
+		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
+		System.out.println("All versions of unverified skills are " + skill);
+		SkillLevel unverifiedSkill = null;
+		for (SkillLevel sl: skill) {
+			if (sl.getLevel()==SkillLevel.KnowledgeLevel.UNVERIFIED) {
+				unverifiedSkill = sl;
+			}
+		}
+		System.out.println("Unverified skill is " + unverifiedSkill);
+		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
 	}
 
 //	@PostMapping("/changePinnedSkill")
