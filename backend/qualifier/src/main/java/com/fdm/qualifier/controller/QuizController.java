@@ -3,6 +3,7 @@ package com.fdm.qualifier.controller;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,10 @@ public class QuizController {
 	}
 	
 	@PostMapping("/submitQuiz")
-	public void submitQuiz(int quizId, @RequestParam List<String> answers) {
-		//quizService.saveQuizResult(null, 0, null);
-		System.out.println("SUBMIT QUIZ ID: " + quizId);
-		//System.out.println(answers);
-//		for (int hi : answers) {
-//			System.out.println("ANSWER ARRAY: " + hi);
-//		}
+	public void submitQuiz(@RequestBody Map<String, Object> payload) {
+		System.out.println("Short Multiple Choice: " + payload);
+
+
 	}
 	
 	@GetMapping("/getQuizDetails")
@@ -53,10 +51,13 @@ public class QuizController {
 		return selectedQuiz.get();
 	}
 	
+	/*
+	 * Needs to Be Altered For Randomised Questions
+	 */
 	@GetMapping("/getQuizQuestions")
-	public List<Question> getQuizQuestions(int id) {
-		System.out.println("ID adfd: " + id);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+	public List<Question> getQuizQuestions(int quizId) {
+		System.out.println("ID adfd: " + quizId);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(quizId);
 		if (!selectedQuiz.isPresent()) {
 			System.out.println("ERROR");
 			return null;
