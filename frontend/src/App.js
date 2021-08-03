@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 import PublicRoute from './utils/PublicRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavigationBar from './components/navbar/NavBar';
-import AddSkillPage from './components/skills/AddSkillPage';
+import AddSkillPage from './components/skills/addSkillPage';
 
 
 import DoesNotExistPage from './pages/NotExistPage';
