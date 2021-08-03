@@ -1,7 +1,9 @@
-import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Container, NavLink } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 
 function NavigationBar() {
+    const history = useHistory();
 
 
     return (
@@ -12,6 +14,10 @@ function NavigationBar() {
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
                 <Nav.Link href="#features">Features</Nav.Link>
+                <NavLink  onClick={() => {history.push('/login')} } activeClassName='active'>
+                    Login
+                </NavLink>
+
                 <Nav.Link href="#pricing">Pricing</Nav.Link>
                 <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

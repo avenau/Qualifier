@@ -48,8 +48,8 @@ function Login(props)
                             });
                 return;
             }
-            setAccountSession(response.jwtToken, response.username, response.accountType);
-            sessionStorage.setItem("username", username);
+            setAccountSession(response.jwtToken, response.username, response.accountType, response.uId);
+
             dispatch(updateAuth());
             
             Notification({  type: 'success',
