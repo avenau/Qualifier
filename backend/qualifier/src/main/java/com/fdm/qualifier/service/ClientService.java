@@ -24,4 +24,5 @@ public class ClientService {
 	public Client findByName(String name){
 		return clientRepo.findByName(name);
 	}
+
 }

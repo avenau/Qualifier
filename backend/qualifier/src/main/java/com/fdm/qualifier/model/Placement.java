@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Placement {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int placementId;
@@ -38,6 +37,19 @@ public class Placement {
 	public Placement() {
 		super();
 	}
+
+	public Placement(String name, LocalDate startDate, LocalDate completionDate, String description,
+			String location, Client client, List<SkillLevel> skillsNeeded) {
+		super();
+		this.name = name;
+		this.startDate = startDate;
+		this.completionDate = completionDate;
+		this.description = description;
+		this.location = location;
+		this.client = client;
+		this.skillsNeeded = skillsNeeded;
+	}
+
 
 	public Placement(String name, LocalDate startDate, LocalDate completionDate, String description, String location, Client client,
 			Trainee trainee, List<Trainee> appliedTrainees, List<SkillLevel> skillsNeeded) {

@@ -1,5 +1,6 @@
 package com.fdm.qualifier.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,22 +12,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
+import com.fdm.qualifier.service.ClientService;
+
 import com.fdm.qualifier.service.PlacementService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class PlacementController {
 	
-	private PlacementService placementService;
-	
 	private Log log = LogFactory.getLog(PlacementController.class);
-
+	private PlacementService placementService;
+	private ClientService clientService;
+	
 	@Autowired
-	public PlacementController(PlacementService placementService) {
+	public PlacementController(PlacementService placementService, ClientService clientService) {
 		super();
 		this.placementService = placementService;
+		this.clientService = clientService;
 	}
+	
+	@PostMapping("/savePlacement")
+	public void save(@RequestBody Placement placement) {
+		Client client = new Client("ANZ");
+		clientService.save(client);
+		placement.setClient(client);
+		log.trace("save() called");
+		log.info("Saving placement: " + placement);
+		placementService.save(placement);
+	}
+	
 
 	@PostMapping("/searchPlacements")
 	public List<Placement> searchPlacements(@RequestBody String placement) {

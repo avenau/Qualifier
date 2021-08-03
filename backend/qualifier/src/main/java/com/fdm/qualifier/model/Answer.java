@@ -1,10 +1,14 @@
 package com.fdm.qualifier.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Answer {
@@ -13,12 +17,12 @@ public class Answer {
 	private int answerId;
 	private String content;
 	@ManyToOne
+	@JsonBackReference
 	private Question question;
 	private boolean correct;
 	
 	public Answer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Answer(String content, Question question, boolean correct) {

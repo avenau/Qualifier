@@ -17,12 +17,32 @@ public class SkillService {
 		super();
 		this.skillRepo = skillRepo;
 	}
+
+	public void save(List<Skill> skills) {
+		for(Skill skill : skills) {
+			Skill foundSkill = findByName(skill.getName());
+			if(foundSkill != null) 
+				skills.remove(skill);
+		}
+		skillRepo.saveAll(skills);
+		skillRepo.flush();
+	}
 	
 	public Skill findByName(String name) {
 		return skillRepo.findByName(name);
 	}
 	
 	public Skill save(Skill skill) {
+		Skill skillFound = findByName(skill.getName());
+		if(skillFound != null)
+			skill = skillFound;		
 		return skillRepo.save(skill);
+	}
+	
+	public boolean skillExist(String name) {
+		if (findByName(name) == null) {
+			return false;
+		}
+		return true;
 	}
 }

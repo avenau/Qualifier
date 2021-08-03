@@ -53,10 +53,11 @@ public class Client {
     public void setPlacements(List<Placement> placements) {
         this.placements = placements;
     }
-
-	@Override
-	public String toString() {
-		return "Client [clientId=" + clientId + ", " + (name != null ? "name=" + name + ", " : "");
-	}
     
+    @Override
+    public String toString() {
+        return "Client [" + "clientId=" + clientId + ""
+                + (name != null ? "name=" + name + ", " : "") 
+                + "]";
+    }
 }

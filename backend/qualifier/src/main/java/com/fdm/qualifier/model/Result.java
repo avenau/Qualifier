@@ -1,10 +1,15 @@
 package com.fdm.qualifier.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Result {
@@ -20,6 +25,9 @@ public class Result {
 	@ManyToOne//#TODO add mappedBy
 	private Quiz quiz;
 	
+	@OneToMany(cascade = CascadeType.PERSIST)
+	private List<SubmittedAnswer> submittedAnswers;
+	
 	public Result() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -31,6 +39,16 @@ public class Result {
 		this.trainee = trainee;
 		this.quiz = quiz;
 		this.passed = passed;
+		this.submittedAnswers = new ArrayList<SubmittedAnswer>();
+	}
+	
+	public Result(double mark, boolean passed, Trainee trainee, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
+		super();
+		this.mark = mark;
+		this.passed = passed;
+		this.trainee = trainee;
+		this.quiz = quiz;
+		this.submittedAnswers = submittedAnswers;
 	}
 
 	public int getResultId() {
@@ -71,6 +89,23 @@ public class Result {
 
 	public void setPassed(boolean passed) {
 		this.passed = passed;
+	}
+	
+
+	public List<SubmittedAnswer> getSubmittedAnswers() {
+		return submittedAnswers;
+	}
+
+	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+		this.submittedAnswers = submittedAnswers;
+	}
+	
+	public void addSubmittedAnswer(SubmittedAnswer answer) {
+		this.submittedAnswers.add(answer);
+	}
+	
+	public void removeSubmittedAnswer(SubmittedAnswer answer) {
+		this.submittedAnswers.remove(answer);
 	}
 
 	@Override
