@@ -1,5 +1,6 @@
 package com.fdm.qualifier.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.logging.Log;
@@ -14,11 +15,11 @@ import com.fdm.qualifier.repository.UserRepository;
 
 @Service
 public class UserService {
-	 private Log log = LogFactory.getLog(UserService.class);
+	private Log log = LogFactory.getLog(UserService.class);
 	
 	private UserRepository userRepo;
 	private PasswordEncoder passwordEncoder;
-
+	
 	@Autowired
 	public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
 		super();
@@ -27,18 +28,18 @@ public class UserService {
 	}
 	
 	public User getUserByUsername(String username)
-    {
-        Optional<User> user = userRepo.findByUsername(username);
-        if (user.isPresent())
-            return user.get();
-        return null;
-    }
+	{
+	    Optional<User> user = userRepo.findByUsername(username);
+	    if (user.isPresent())
+	        return user.get();
+	    return null;
+	}
 	
-	 public boolean userExists(AuthRequest authRequest)
-	    {
-	        Optional<User> checker = userRepo.findByUsername(authRequest.getUsername());
-	        if (checker.isPresent())
-	            return false;
-	        return true;
-	    }
+	public boolean userExists(AuthRequest authRequest)
+    {
+        Optional<User> checker = userRepo.findByUsername(authRequest.getUsername());
+        if (checker.isPresent())
+            return false;
+        return true;
+    }
 }

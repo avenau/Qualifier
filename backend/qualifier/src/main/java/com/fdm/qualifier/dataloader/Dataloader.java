@@ -128,15 +128,44 @@ public class Dataloader implements ApplicationRunner {
 		skillSet.add(skillLevel2);
 		pinnedSkillSet.add(skillLevel3);
 		
+		//save trainee
 		Trainee trainee1 = new Trainee("username", "password");
+		Trainee trainee2 = new Trainee("fink", "asdf");
+		Trainee trainee3 = new Trainee("Barney", "dinosaur");
+		
 		trainee1.setEmail("trainee@mail.com");
 		trainee1.setCity("Sydney");
 		trainee1.setAddress("123 Fake Street");	
 		trainee1.setPhoneNumber(1234567890);
 		trainee1.setSkills(skillSet);
+
 		trainee1.setPinnedSkills(pinnedSkillSet);		
-		traineeService.save(trainee1);
+
+		trainee1.setFirstName("Stacy");
+		trainee1.setLastName("Mancy");
 		
+		trainee2.setEmail("ink@mail.com");
+		trainee2.setCity("Sydney");
+		trainee2.setAddress("Soccerfield");	
+		trainee2.setPhoneNumber(5464646);
+		trainee2.setSkills(skillSet);
+		trainee2.setFirstName("Rick");
+		trainee2.setLastName("Pickle");
+		
+		trainee3.setEmail("roseEater@mail.com");
+		trainee3.setCity("Melbourne");
+		trainee3.setAddress("tissue box");	
+		trainee3.setPhoneNumber(656465486);
+		trainee3.setSkills(skillSet);
+		trainee3.setFirstName("Gray");
+		trainee3.setLastName("Mancy");
+		
+
+		traineeService.save(trainee1);
+		traineeService.save(trainee2);
+		traineeService.save(trainee3);
+		
+		//stream
 		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
 		streamService.save(stream1);
 
@@ -172,6 +201,16 @@ public class Dataloader implements ApplicationRunner {
 			log.debug(p);
 		}
 		log.info("Finished Data Setup");
+		
+		log.debug("find trainee by name");
+		for(Trainee t : traineeService.findTraineeByName("Mancy")) {
+			log.debug(t);
+		}
+		
+		log.debug("find trainee by skill");
+//		for(Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
+//			log.debug(t);
+//		}
 	}
 	
 	private void createResult() {
@@ -294,6 +333,8 @@ public class Dataloader implements ApplicationRunner {
 		
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
+		trainee.setFirstName("Zero");
+		trainee.setLastName("Tea");
 		log.info("Saving Trainee");
 		trainee = traineeService.save(trainee);
 		log.debug(trainee);
@@ -314,5 +355,6 @@ public class Dataloader implements ApplicationRunner {
 		
 		traineeService.unpinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
 		log.debug("After unpinning: " + trainee);
+		
 	}
 }

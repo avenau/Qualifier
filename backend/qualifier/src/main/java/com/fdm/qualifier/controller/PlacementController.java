@@ -46,6 +46,7 @@ public class PlacementController {
 
 	@PostMapping("/searchPlacements")
 	public List<Placement> searchPlacements(@RequestBody String placement) {
+		System.out.println(placement);
 		List<Placement> resultList = new ArrayList<>();
 		resultList.addAll(placementService.findByName(placement));
 		resultList.addAll(placementService.findByClientName(placement));

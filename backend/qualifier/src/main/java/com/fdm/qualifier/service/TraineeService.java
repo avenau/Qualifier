@@ -210,8 +210,23 @@ public class TraineeService {
 		return traineeRepo.findAll();
 	}
 	
+
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
 		Trainee foundTrainee = traineeRepo.getById(traineeId);
 		foundTrainee.addSkill(skill);
+	}
+	/**
+	 * Gets trainees that match the string in
+	 * their first or last name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public List<Trainee> findTraineeByName(String name) {
+		return traineeRepo.findByFirstNameAndLastName(name);
+	}
+	
+	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
+		return traineeRepo.findTraineeBySkills(skill);
 	}
 }
