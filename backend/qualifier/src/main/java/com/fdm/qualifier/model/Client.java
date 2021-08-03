@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 @Entity
 public class Client {
     @Id
@@ -16,6 +19,7 @@ public class Client {
     private String name;
 
     @OneToMany(mappedBy = "client")
+    @JsonBackReference
     private List<Placement> placements;
 
     public Client() {

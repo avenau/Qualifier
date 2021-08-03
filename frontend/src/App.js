@@ -6,6 +6,7 @@ import Home from './pages/Home'
 
 import { BrowserRouter as Router, Route, Switch, IndexRoute } from "react-router-dom";
 import DoesNotExistPage from './pages/NotExistPage';
+import SearchPlacements from './components/trainee/placements';
 
 //To add your page 
 /*
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/' component={Home} />
         <Route exact path='/suggestskill' component={SuggestSkill}/>
         <Route exact path='/startquiz' component={QuizStartPage}/>
+        <Route exact path='/placements' component={SearchPlacements}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 
