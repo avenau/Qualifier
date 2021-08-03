@@ -50,8 +50,12 @@ function AddSkillPage() {
     })
 
     const acceptSuggestedSkill = ((event) =>{
+        event.preventDefault();
         let name = event.target.id;
         console.log("ACCEPT SKILL NAME " + event.target.id);
+        console.log("ACCEPT SKILL Target " + event.target);
+        console.log("ACCEPT SKILL Event " + event);
+        console.log("ACCEPT SKILL Variant " + event.target.variant);
         axios
         .post('http://localhost:9999/addSkill', name)   
         .then((response) => {
