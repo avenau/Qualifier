@@ -66,7 +66,7 @@ function MySkills() {
     };
 
     function addSkillToTrainee(){
-        axios.post('http://localhost:9999/addUnverifiedSkill'), {SkillLevel:newSkill, userId:traineeId}
+        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId})
         .then(function (response) {
             console.log(response);
             setNewSkill(response.data);
