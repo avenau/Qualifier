@@ -21,8 +21,6 @@ import PublicRoute from './utils/PublicRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavigationBar from './components/navbar/NavBar';
 import AddSkillPage from './components/skills/addSkillPage';
-
-
 import DoesNotExistPage from './pages/NotExistPage';
 import SearchPlacements from './components/trainee/placements';
 import MySkills from './components/trainee/mySkills';
@@ -38,7 +36,6 @@ import MarkQuiz from './components/quiz/MarkQuiz';
 function App() {
   const auth = useSelector(state => state.auth);
   return (
-
       <Router>
 
         <div className='nav'>
@@ -68,6 +65,8 @@ function App() {
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path ='/browsequiz' component={BrowseQuiz}/>
         <Route exact path ='/finishquiz' component={FinishQuiz}/>
+        <Route exact path='/createPlacement' component={CreatePlacement}/>
+        <Route exact path='/startquiz' component={QuizStartPage}/>
         <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
         <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path ='/markquiz' component={MarkQuiz}/>

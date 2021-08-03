@@ -21,6 +21,10 @@ public class SkillLevelService {
 	public Optional<SkillLevel> findById(int id) {
 		return skillLevelRepo.findById(id);
 	}
+	
+	public SkillLevel getById(int id) {
+		return skillLevelRepo.findByskillLevelId(id);
+	}
 
 	public List<SkillLevel> findAll() {
 		return skillLevelRepo.findAll();

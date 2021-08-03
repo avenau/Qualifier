@@ -33,6 +33,7 @@ public class SuggestedSkillServiceTest {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock, skillRepoMock);
+
 	}
 	
 	@Test

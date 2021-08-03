@@ -25,4 +25,5 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 	List<Trainee> findByFirstNameAndLastName(@Param("name")String name);
 	
 	List<Trainee> findTraineeBySkills(SkillLevel skills);
+
 }

@@ -28,7 +28,7 @@ import com.fdm.qualifier.service.UserService;
 import com.fdm.qualifier.util.JwtUtil;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3005")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 	private Log log = LogFactory.getLog(AccountDetailsService.class);
 	
@@ -50,7 +50,6 @@ public class UserController {
 	@CrossOrigin
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-
 		log.info("new login request received");
 		User user = userService.getUserByUsername(authRequest.getUsername());
 		AccountDetails accountDetails = new AccountDetails(user);
