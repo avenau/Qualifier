@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
-
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SuggestedSkill;
 
 import com.fdm.qualifier.service.QuizService;
@@ -71,7 +71,10 @@ public class QuizController {
 		return quizService.findAllQuiz();
 	}
 	
-	
+	@PostMapping("/getResult")
+	public Result getResult(@RequestBody Result result) {
+		return quizService.findResultById(result.getResultId());
+	}
 /*	@GetMapping("/loadQuizPage")
 	public Quiz loadQuizPage(int id) {
 		System.out.println("ID adfd: " + id);

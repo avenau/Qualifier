@@ -32,29 +32,42 @@ public class QuizService {
 		this.questionRepo = questionRepository;
 		this.answerRepo = answerRepository;
 	}
-	
+
 	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
-		boolean passed = mark >=finishedQuiz.getPassingMark();
-		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
+		boolean passed = mark >= finishedQuiz.getPassingMark();
+		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
 		return result;
 	}
-	
+
+	// Used in dataloader to save result with submitted answers
+	public Result saveResult(Result result) {
+		return resultRepo.save(result);
+	}
+
+	public Result findResultById(int resultId) {
+		Optional<Result> optionalResult = resultRepo.findById(resultId);
+		if (optionalResult.isEmpty())
+			return null;
+		return optionalResult.get();
+	}
+
 	public Quiz saveQuiz(Quiz quiz) {
 		return quizRepo.save(quiz);
 	}
+
 	public Answer saveAnswer(Answer answer) {
 		return answerRepo.save(answer);
 	}
+
 	public Question saveQuestion(Question question) {
 		return questionRepo.save(question);
 	}
-	
+
 	public Optional<Quiz> findQuizById(int id) {
 		return quizRepo.findById(id);
 	}
-	
-	public List<Quiz> findAllQuiz(){
+
+	public List<Quiz> findAllQuiz() {
 		return quizRepo.findAll();
 	}
-
 }

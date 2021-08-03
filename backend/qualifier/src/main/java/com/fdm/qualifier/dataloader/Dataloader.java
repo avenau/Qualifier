@@ -25,6 +25,7 @@ import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
 import com.fdm.qualifier.model.Quiz;
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SuggestedSkill;
@@ -38,9 +39,11 @@ import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Stream;
+import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.service.ClientService;
 import com.fdm.qualifier.service.PlacementService;
 import com.fdm.qualifier.service.StreamService;
+import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
@@ -64,12 +67,13 @@ public class Dataloader implements ApplicationRunner {
 	private StreamService streamService;
 	private QuizService quizService;
 	private QuestionService questionService;
+	private SubmittedAnswerService submittedAnswerService;
 
 	@Autowired
 	public Dataloader(SuggestedSkillService suggestedSkillService, PlacementService placementService,
 			SkillLevelService skillLevelService, SkillService skillService, ClientService clientService,
 			TraineeService traineeService, StreamService streamService, QuizService quizService, 
-			QuestionService questionService) {
+			QuestionService questionService, SubmittedAnswerService submittedAnswerService) {
 		super();
 		this.suggestedSkillService = suggestedSkillService;
 		this.placementService = placementService;
@@ -80,6 +84,7 @@ public class Dataloader implements ApplicationRunner {
 		this.streamService = streamService;
 		this.quizService = quizService;
 		this.questionService = questionService;
+		this.submittedAnswerService = submittedAnswerService;
 	}
 	
 	@Override
@@ -90,6 +95,7 @@ public class Dataloader implements ApplicationRunner {
 
 		createQuiz();
 		createTrainee();
+		createResult();
 		
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
@@ -209,6 +215,24 @@ public class Dataloader implements ApplicationRunner {
 //		}
 	}
 	
+	private void createResult() {
+		log.debug("Creating Result");
+		Quiz quiz = quizService.findQuizById(15).get();
+		log.debug(quiz.getQuestions());
+		Trainee trainee = traineeService.getTraineeByID(31);
+		SubmittedAnswer sa1 = new SubmittedAnswer(quiz.getQuestions().get(0), null, quiz.getQuestions().get(0).getAnswers().get(0), null);
+		SubmittedAnswer sa2 = new SubmittedAnswer(quiz.getQuestions().get(1), null, quiz.getQuestions().get(1).getAnswers().get(0), null);
+		SubmittedAnswer sa3 = new SubmittedAnswer(quiz.getQuestions().get(2), null, quiz.getQuestions().get(2).getAnswers().get(0), "answer to short answer type question");
+		
+		sa1 = submittedAnswerService.save(sa1);
+		sa2 = submittedAnswerService.save(sa2);
+		sa3 = submittedAnswerService.save(sa3);
+		
+		Result result = new Result(0, false, trainee, quiz, new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
+		result = quizService.saveResult(result);		
+		log.debug("Created Result: " + result);
+	}
+
 	public void createQuiz() {
 
 		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 1000, 5, 50.0,new ArrayList<Question>());
