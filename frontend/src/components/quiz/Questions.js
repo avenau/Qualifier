@@ -71,6 +71,7 @@ function Questions(props) {
                 answerId: [name],
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
+                quizId: props.quizId,
             })
             checked = true;
         } else {
@@ -88,6 +89,7 @@ function Questions(props) {
                 answerId: [name],
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
@@ -105,6 +107,7 @@ function Questions(props) {
                 answerId: [id],
                 questionType: "MUTIPLE_CHOICE",
                 answerContent: "",
+                quizId: props.quizId,
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -123,6 +126,7 @@ function Questions(props) {
                 answerId: [id],
                 questionType: "MUTIPLE_CHOICE",
                 answerContent: "",
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
@@ -141,6 +145,7 @@ function Questions(props) {
                 answerId: [id],
                 questionType: "MUTIPLE_SELECT",
                 answerContent: "",
+                quizId: props.quizId,
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -164,6 +169,7 @@ function Questions(props) {
                 questionId: name,
                 answerId: [id],
                 answerContent: "",
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
