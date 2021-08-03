@@ -22,7 +22,6 @@ public class SubmittedAnswer {
 	
 	public SubmittedAnswer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SubmittedAnswer(Question question, Result result, Answer answer, String answerContent) {

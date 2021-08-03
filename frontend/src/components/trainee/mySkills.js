@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, ListGroup } from "react-bootstrap";
+import { Dropdown, Button, ListGroup } from "react-bootstrap";
 
 function MySkills() {
     const axios = require('axios');
 
     //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = 38;
+    const traineeId = 22;
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -51,7 +51,7 @@ function MySkills() {
     }
 
     function getAllSkillsOnLoad() {
-        axios.post('http://localhost:9999/getAllSkills')
+        axios.get('http://localhost:9999/getAllSkills')
             .then(function (response) {
                 console.log(response);
                 setAllSkills(response.data);
@@ -66,7 +66,7 @@ function MySkills() {
     };
 
     function addSkillToTrainee(){
-        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId})
+        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId} )
         .then(function (response) {
             console.log(response);
             setNewSkill(response.data);
@@ -105,6 +105,19 @@ function MySkills() {
             })
 
     };
+
+    const addUnverifiedSkill = (index) => {
+        axios.post('http://localhost:9999/addUnverifiedSkill', [traineeId, allSkills[index].skillId])
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    }
 
     const pinnedSkillsList = pinnedSkills.map(
         (skill, index) =>
@@ -149,11 +162,11 @@ function MySkills() {
     );
 
     const allSkillsList = allSkills.map(
-        (skill, index) =>
-            <ListGroup.Item key={"skill-" + index}>
-                {skill.skill.name}: {skill.level}
-            </ListGroup.Item>
-    )
+        (skill,index)=>
+            <Dropdown.Item key={"skill-" + index} onSelect={() => addUnverifiedSkill(index)}>
+                {skill.name}
+            </Dropdown.Item>                             
+      );
 
     return (
         <div>
@@ -166,11 +179,22 @@ function MySkills() {
             <ListGroup>
                 {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
             </ListGroup>
+
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Add Skill
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {allSkillsList}
+                </Dropdown.Menu>
+            </Dropdown>
+            
             <form onSubmit={addSkillToTrainee}> 
-                <select id="allSkills" value={newSkill} name="skills" onChange={e => setNewSkill(e.target.value)}>
+                <select id="allSkills" value={newSkill} name="skills">
                     {allSkills.map(skill=>{
                  return (
-                     <option value="skill">{skill.name}</option>
+                     <option value="{skill.name}" onChange={e => setNewSkill(e.target.value)}>{skill.name}</option>
                  )                               
             })}
                 </select>

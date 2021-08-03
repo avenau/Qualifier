@@ -12,4 +12,6 @@ import com.fdm.qualifier.model.SkillLevel;
 public interface SkillLevelRepository extends JpaRepository<SkillLevel, Integer> {
 
 	public List<SkillLevel> findBySkill(Skill skill);
+	
+	public SkillLevel findByskillLevelId(int id);
 }

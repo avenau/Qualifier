@@ -18,7 +18,7 @@ import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.service.SkillService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3005")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SkillController {
 	private SkillService skillService;
 

@@ -32,6 +32,10 @@ public class SkillService {
 		return skillRepo.findByName(name);
 	}
 	
+	public Skill findById(int id) {
+		return skillRepo.findBySkillId(id);
+	}
+	
 	public List<Skill> findAll(){
 		return skillRepo.findAll();
 	}
