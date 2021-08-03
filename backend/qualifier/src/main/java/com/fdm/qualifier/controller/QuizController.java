@@ -53,9 +53,15 @@ public class QuizController {
 		return quizDTO;
 	}
 	
-	@PostMapping("/quiz/submit/{}")
+	@PostMapping("/quiz/submit")
 	public void submitQuiz(@RequestBody Map<String, Object> payload) {
-		System.out.println("Short Multiple Choice: " + payload);
+		System.out.println("Full JSON " + payload);
+		System.out.println("Getting the Payload JSON " + payload.get("payload"));
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
+			System.out.println("Content " + content);
+		}
+		
+		
 	}
 	
 	@GetMapping("/quiz/create/{id}")

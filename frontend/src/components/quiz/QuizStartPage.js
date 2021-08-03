@@ -20,11 +20,8 @@ function QuizStartPage() {
 
     useEffect(() => {
         axios
-        .get('http://localhost:9999/getQuizDetails', {   
-            params: {
-                quizId: quizId
-            },
-        }).then(response => {
+        .get('http://localhost:9999/quiz/get/' + quizId)
+        .then(response => {
             setQuiz(response.data)
         })
         .catch((error) => {
