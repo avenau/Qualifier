@@ -6,15 +6,19 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
+import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.AnswerRepository;
 import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.repository.ResultRepository;
+import com.fdm.qualifier.request.UpdateQuizRequest;
 
 @Service
 public class QuizService {
@@ -38,6 +42,17 @@ public class QuizService {
 		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
 		return result;
 	}
+	
+	public void save(Quiz newQuiz) {
+		quizRepo.save(newQuiz);
+	}
+
+	public QuizDTO createNewQuizDTO(String name, String description, double duration, int questionCount, double passingMark) {
+		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark);
+		quizRepo.save(quiz);
+		QuizDTO newQuiz = new QuizDTO(quiz);
+		return newQuiz;
+	}
 
 	// Used in dataloader to save result with submitted answers
 	public Result saveResult(Result result) {
@@ -59,6 +74,7 @@ public class QuizService {
 		return answerRepo.save(answer);
 	}
 
+
 	public Question saveQuestion(Question question) {
 		return questionRepo.save(question);
 	}
@@ -67,7 +83,30 @@ public class QuizService {
 		return quizRepo.findById(id);
 	}
 
+	
+	public Quiz loadNewQuiz(String name, String description, double duration, int questionCount, double passingMark,
+			SkillLevel skillLevel) {
+		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark, skillLevel);
+		quizRepo.save(quiz);
+		return quiz;
+	}
+	
+	public QuizDTO findQuizDTOById(int id) {
+		Optional<Quiz> quizOptional = quizRepo.findById(id);
+		Quiz quiz = quizOptional.get();
+		QuizDTO quizDTO = new QuizDTO(quiz);
+		return quizDTO;
+
+	}
+
 	public List<Quiz> findAllQuiz() {
 		return quizRepo.findAll();
 	}
+
+
+	public QuizDTO updateDTO(UpdateQuizRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

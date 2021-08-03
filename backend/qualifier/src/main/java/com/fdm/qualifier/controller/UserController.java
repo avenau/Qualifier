@@ -50,7 +50,6 @@ public class UserController {
 	@CrossOrigin
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-
 		log.info("new login request received");
 		User user = userService.getUserByUsername(authRequest.getUsername());
 		AccountDetails accountDetails = new AccountDetails(user);
