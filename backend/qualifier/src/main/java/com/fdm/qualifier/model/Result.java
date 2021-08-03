@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Result {
 	@Id
@@ -21,12 +24,15 @@ public class Result {
 	private boolean passed;
 
 	@ManyToOne
+	@JsonBackReference(value = "trainee-result")
 	private Trainee trainee;
 	
 	@OneToOne(cascade=CascadeType.MERGE)
+//	@JsonManagedReference(value = "quiz-result")
 	private Quiz quiz;
 	
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "result")
+	@JsonManagedReference(value = "submittedAnswer-result")
 	private List<SubmittedAnswer> submittedAnswers;
 	
 	public Result() {

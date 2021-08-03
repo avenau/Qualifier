@@ -30,6 +30,7 @@ public class Trainee extends User {
 	private List<Placement> appliedPlacements;
 
 	@OneToMany
+	@JsonManagedReference(value = "trainee-result")
 	private List<Result> results;
 
 	@ManyToMany

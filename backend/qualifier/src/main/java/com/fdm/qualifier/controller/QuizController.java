@@ -30,6 +30,8 @@ import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.SkillLevelService;
 
+import jdk.internal.org.jline.utils.Log;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
@@ -82,6 +84,8 @@ public class QuizController {
 	
 	@PostMapping("/getResult")
 	public Result getResult(@RequestBody Result result) {
+		System.out.println(result);
+		System.out.println(quizService.findResultById(result.getResultId()));
 		return quizService.findResultById(result.getResultId());
 	}
 /*	@GetMapping("/loadQuizPage")

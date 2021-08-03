@@ -35,6 +35,7 @@ public class Question {
 	private List<Answer> answers;
 	
 	@OneToMany(mappedBy = "question")
+	@JsonBackReference(value = "question-submittedAnswer")
 	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
