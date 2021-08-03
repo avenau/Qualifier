@@ -20,8 +20,6 @@ public class SkillLevel {
 	@JoinColumn(name = "FK_SKILL")
 	private Skill skill;
 
-//	@ManyToOne
-//	@JoinColumn(name = "FK_QUIZ")
 	@OneToOne
 	private Quiz quiz;
 
