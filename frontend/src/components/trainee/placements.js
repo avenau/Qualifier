@@ -11,7 +11,8 @@ function SearchPlacements(){
         evt.preventDefault();
         if (placement.trim().length > 0) {
             setSearchError("");
-            axios.post('http://localhost:9999/searchPlacements', placement )
+            const config = { headers: {'Content-Type': 'application/json'} };
+            axios.post('http://localhost:9999/searchPlacements', placement, config)
                 .then(function (response) {
                     console.log(response);
                     setSearchError(response.data);
