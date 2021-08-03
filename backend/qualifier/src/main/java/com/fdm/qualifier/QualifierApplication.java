@@ -14,12 +14,6 @@ public class QualifierApplication {
 	
 	@Autowired
 	private UserRepository userRepo;
-	
-	@PostConstruct
-	public void initUsers() {
-		User user = new User("username", "password");
-		userRepo.save(user);
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(QualifierApplication.class, args);

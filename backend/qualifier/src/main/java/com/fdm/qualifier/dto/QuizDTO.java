@@ -10,23 +10,21 @@ import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 public class QuizDTO {
 	
 	private int quizId;
-	private String quizName;
-	private String quizDescription;
-	private double quizDuration;
+	private String name;
+	private String description;
+	private double duration;
 	private int questionCount;
 	private double passingMark;
-	private SkillLevel skillLevel;
 	private List<Question> questions;
 	
 	public QuizDTO(Quiz quiz) {
 		super();
 		this.quizId = quiz.getQuizId();
-		this.quizName = quiz.getName();
-		this.quizDescription = quiz.getDescription();
-		this.quizDuration = quiz.getDuration();
+		this.name = quiz.getName();
+		this.description = quiz.getDescription();
+		this.duration = quiz.getDuration();
 		this.questionCount = quiz.getQuestionCount();
 		this.passingMark = quiz.getPassingMark();
-		this.skillLevel = quiz.getSkillLevel();
 		this.questions = quiz.getQuestions();
 	}
 
@@ -38,28 +36,28 @@ public class QuizDTO {
 		this.quizId = quizId;
 	}
 
-	public String getQuizName() {
-		return quizName;
+	public String getName() {
+		return name;
 	}
 
-	public void setQuizName(String quizName) {
-		this.quizName = quizName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getQuizDescription() {
-		return quizDescription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setQuizDescription(String quizDescription) {
-		this.quizDescription = quizDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public double getQuizDuration() {
-		return quizDuration;
+	public double getDuration() {
+		return duration;
 	}
 
-	public void setQuizDuration(double quizDuration) {
-		this.quizDuration = quizDuration;
+	public void setDuration(double duration) {
+		this.duration = duration;
 	}
 
 	public int getQuestionCount() {
@@ -85,16 +83,4 @@ public class QuizDTO {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
-
-	public SkillLevel getSkillLevel() {
-		return skillLevel;
-	}
-
-	public void setSkillLevel(SkillLevel skillLevel) {
-		this.skillLevel = skillLevel;
-	}
-
-
-	
-
 }

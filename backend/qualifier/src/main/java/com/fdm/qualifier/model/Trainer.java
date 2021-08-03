@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 @DiscriminatorValue(value = "trainer")
 public class Trainer extends User {
 	@ManyToMany
-	@JoinTable(name = "trainer_skills")
+	@JoinTable(name="trainer_skills")
 	private List<Skill> skills;
 
 	public Trainer() {

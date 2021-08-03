@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +51,11 @@ public class QuizController {
 		return quizDTO;
 	}
 	
+	@PostMapping("/submitQuiz")
+	public void submitQuiz(@RequestBody Map<String, Object> payload) {
+		System.out.println("Short Multiple Choice: " + payload);
+	}
+	
 	@GetMapping("/quiz/create/{id}")
 	public QuizDTO createQuizDetails(@PathVariable("id") String id) {
 		int skillLevelId = Integer.parseInt(id);
@@ -58,7 +64,7 @@ public class QuizController {
 			logger.error("Skill level id could not be found");
 			return null;
 		}
-		QuizDTO quizDTO = quizService.createNewQuiz(null, null, 0, 0, 0, skillLevel.get());
+		QuizDTO quizDTO = quizService.createNewQuiz(null, null, 0, 0, 0);
 		return quizDTO;
 	}
 	

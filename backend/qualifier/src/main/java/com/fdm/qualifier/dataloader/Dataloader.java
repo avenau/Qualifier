@@ -8,6 +8,19 @@ import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -28,19 +41,41 @@ import com.fdm.qualifier.model.Stream;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.AnswerService;
+import com.fdm.qualifier.model.Client;
+import com.fdm.qualifier.model.Placement;
+import com.fdm.qualifier.model.Answer;
+import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Question.QuestionType;
+import com.fdm.qualifier.model.Quiz;
+import com.fdm.qualifier.model.Skill;
+import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SuggestedSkill;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.ClientService;
 import com.fdm.qualifier.service.PlacementService;
 import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SkillService;
+import com.fdm.qualifier.model.Client;
+import com.fdm.qualifier.model.Placement;
+import com.fdm.qualifier.model.Stream;
+import com.fdm.qualifier.service.ClientService;
+import com.fdm.qualifier.service.PlacementService;
 import com.fdm.qualifier.service.StreamService;
+import com.fdm.qualifier.model.Answer;
+import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Quiz;
+import com.fdm.qualifier.model.SuggestedSkill;
+import com.fdm.qualifier.repository.AnswerRepository;
+import com.fdm.qualifier.repository.QuestionRepository;
+import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.service.SuggestedSkillService;
 import com.fdm.qualifier.service.TraineeService;
 
 @Component
 public class Dataloader implements ApplicationRunner {
-	Logger logger = LogManager.getLogger();
+	private Log log = LogFactory.getLog(Dataloader.class);
 	
 	private SuggestedSkillService suggestedSkillService;
 	private AnswerService answerService;
@@ -70,45 +105,61 @@ public class Dataloader implements ApplicationRunner {
 		this.questionService = questionService;
 		this.answerService = answerService;
 	}
-
 	
 	@Override
 	@Transactional
 	@Modifying
 	public void run(ApplicationArguments args) throws Exception {
-		logger.info("Starting Data Setup");
+		log.info("Starting Data Setup");
 
 //		createQuiz();
 		createTrainee();
 		
-		logger.info("Finished Data Setup");
-
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
-		
-		
+
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
 		
-		Trainee trainee1 = new Trainee("username", "password");
-		traineeService.save(trainee1);
-		
-		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
-		streamService.save(stream1);
-		
+		log.debug("Creating skills");
 		Skill java = new Skill("Java");
 		Skill cs = new Skill("C#");
 		Skill python = new Skill("Python");
-		skillService.save(java);
-		skillService.save(cs);
-		skillService.save(python);
+		java = skillService.save(java);
+		cs = skillService.save(cs);
+		python = skillService.save(python);
 		
-		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
-		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
-		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
+		// SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
+		// SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
+		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
+		log.debug("Creating Quiz");
+		Quiz quiz1 = new Quiz();
+		quizService.saveQuiz(quiz1);
+		
+		log.debug("Creating SkillLevels");
+		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, quiz1);
+		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, quiz1);
+		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, quiz1);
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
 		
+		List<SkillLevel> skillSet = new ArrayList<>();
+		skillSet.add(skillLevel1);
+		skillSet.add(skillLevel2);
+		skillSet.add(skillLevel3);
+		
+		Trainee trainee1 = new Trainee("username", "password");
+		trainee1.setEmail("trainee@mail.com");
+		trainee1.setCity("Sydney");
+		trainee1.setAddress("123 Fake Street");	
+		trainee1.setPhoneNumber(1234567890);
+		trainee1.setSkills(skillSet);
+		traineeService.save(trainee1);
+		
+		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
+		streamService.save(stream1);
+
+		log.debug("Creating clients and placements");
 		Client client1 = new Client("ANZ");		
 		Client client2 = new Client("Kmart");
 		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, trainee1, Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
@@ -122,7 +173,7 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement2);
 		placementService.save(placement3);
 		
-		logger.info("quiz init started");
+		log.info("quiz init started");
 //		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
 		
 		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "", 20, 0, 75, skillLevel1);
@@ -136,7 +187,26 @@ public class Dataloader implements ApplicationRunner {
 		Answer javaBq2aB = answerService.createNewAnswer("Answer Content", javaBq2, true);
 		Answer javaBq2aC = answerService.createNewAnswer("Answer Content", javaBq2, true);
 		Answer javaBq2aD = answerService.createNewAnswer("Answer Content", javaBq2, false);
-		logger.info("quiz init finished");
+		log.info("quiz init finished");
+
+		log.debug("Find by Java");
+		for(Placement p : placementService.findBySkillName("Java")) {
+			log.debug(p);
+		}
+		log.debug("Find by name " + placementService.findByName("Placement1"));
+		log.debug("Display all ");
+		for(Placement p : placementService.findAll()) {
+			log.debug(p);
+		}
+		log.debug("Find by client name");
+		for(Placement p : placementService.findByClientName("ANZ")) {
+			log.debug(p);
+		}
+		log.debug("Find by Location Sydney");
+		for(Placement p : placementService.findByLocation("Sydney")) {
+			log.debug(p);
+		}
+		log.info("Finished Data Setup");
 	}
 	
 //	public void createQuiz() {
@@ -153,7 +223,7 @@ public class Dataloader implements ApplicationRunner {
 //		quizService.saveAnswer(q1a);
 //		quizService.saveAnswer(q1a1);
 //		quizService.saveAnswer(q1a2);
-//		quizService.saveQuestion(q1);
+//		questionService.saveQuestion(q1);
 //		
 //		Question q2 = new Question(quiz,"MultiSelect", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
 //		Answer q2a = new Answer("Answer 1", q2, true);
@@ -203,9 +273,8 @@ public class Dataloader implements ApplicationRunner {
 //		Quiz savedQuiz = quizService.saveQuiz(quiz);
 //		quizService.saveQuiz(linux);
 //		quizService.saveQuiz(cpp);
-//		logger.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
-//		logger.info("Questions: " + savedQuiz.getQuestions());
-//		
+//		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
+//		log.info("Questions: " + savedQuiz.getQuestions());
 //		
 //	}
 
@@ -219,7 +288,7 @@ public class Dataloader implements ApplicationRunner {
 		Skill cpp = new Skill("cpp");
 		Skill react = new Skill("react");
 		
-		logger.info("Saving Skills");
+		log.info("Saving Skills");
 		skillService.save(Arrays.asList(java, cpp, react));
 		
 		//Create Skill levels
@@ -235,18 +304,32 @@ public class Dataloader implements ApplicationRunner {
 		SkillLevel reactIntermediate = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, react, null);
 		SkillLevel reactExpert = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, react, null);
 		
-		logger.info("Saving Skill levels");
+		log.info("Saving Skill levels");
 		skillLevelService.save(Arrays.asList(javaBeginner, javaIntermediate, javaExpert));
 		skillLevelService.save(Arrays.asList(cppBeginner, cppIntermediate, cppExpert));
 		skillLevelService.save(Arrays.asList(reactBeginner, reactIntermediate, reactExpert));	
 		
 		//Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
-		logger.info("Saving Trainee");
+		log.info("Saving Trainee");
 		trainee = traineeService.save(trainee);
-		logger.debug(trainee);
-		SkillLevel javaBeginnerFound = skillLevelService.save(javaBeginner);
-		trainee.setSkills(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner));
+		log.debug(trainee);
+		trainee.setSkills(new ArrayList<>(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner)));
 		
+		List<SkillLevel> skills = traineeService.getSkills(trainee.getUserId());
+		log.debug(skills);
+		
+		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee.getUserId());
+		log.debug(pinnedSkills);
+		
+		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee.getUserId());
+		log.debug(allSkills);
+		
+		//Change pinned skills		
+		traineeService.pinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
+		log.debug("After pinning: " + trainee);
+		
+		traineeService.unpinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
+		log.debug("After unpinning: " + trainee);
 	}
 }

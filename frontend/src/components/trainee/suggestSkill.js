@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 
 function SuggestSkill() {
 
@@ -24,18 +25,19 @@ function SuggestSkill() {
                 })
         } else {
             setSkillNameError("Skill name cannot be empty");
-        }   
+        }
     }
 
+
     return (
-        <div>
-            <form onSubmit={submitSuggestedSkill}>
-                <label>Skill Name: </label>
-                <input type="text" value={skill} onChange={e => setSkill(e.target.value)} required />
-                <input type="submit" value="Suggest Skill" />
-            </form>
-            <div>{skillNameError}</div>
-        </div>
+        <Form onSubmit={submitSuggestedSkill}>
+            <Form.Group className="mb-3">
+                <Form.Label>Skill Name: </Form.Label>
+                <Form.Control type="text" value={skill} onChange={e => setSkill(e.target.value)} required />
+                <Form.Text>{skillNameError}</Form.Text>
+            </Form.Group>
+            <Button type="submit">Suggest Skill</Button>
+        </Form>
     );
 }
 

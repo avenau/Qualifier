@@ -23,8 +23,12 @@ public class AccountDetailsService implements UserDetailsService
     private Log log = LogFactory.getLog(AccountDetailsService.class);
 
     private UserRepository userRepository;    
-  
-    @Autowired
+    
+    public AccountDetailsService() {
+		super();
+	}
+
+	@Autowired
     public AccountDetailsService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;

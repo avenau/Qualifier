@@ -41,12 +41,18 @@ public class QuizService {
 		quizRepo.save(newQuiz);
 	}
 
-	public QuizDTO createNewQuiz(String name, String description, double duration, int questionCount, double passingMark,
-			SkillLevel skillLevel) {
-		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark, skillLevel);
+	public QuizDTO createNewQuiz(String name, String description, double duration, int questionCount, double passingMark) {
+		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark);
 		quizRepo.save(quiz);
 		QuizDTO newQuiz = new QuizDTO(quiz);
 		return newQuiz;
+	}
+	
+	public Quiz saveQuiz(Quiz quiz) {
+		return quizRepo.save(quiz);
+	}
+	public Answer saveAnswer(Answer answer) {
+		return answerRepo.save(answer);
 	}
 	
 	public Quiz loadNewQuiz(String name, String description, double duration, int questionCount, double passingMark,

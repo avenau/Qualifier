@@ -53,7 +53,7 @@ public class Client {
     @Override
     public String toString() {
         return "Client [" + "clientId=" + clientId + ""
-                + (name != null ? "name=" + name + ", " : "") + (placements != null ? "placements=" + placements : "")
+                + (name != null ? "name=" + name + ", " : "") 
                 + "]";
     }
 }

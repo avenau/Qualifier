@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 
@@ -28,18 +29,19 @@ public class Quiz {
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
-	@JsonManagedReference(value = "quiz")
+	@JsonBackReference(value = "quiz")
 	private List<Question> questions;
 
 	public Quiz() {
 		super();
 	}
 	
-	public Quiz(String name, String description, double duration, double passingMark) {
+	public Quiz(String name, String description, double duration, int questionCount,double passingMark) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.duration = duration;
+		this.questionCount = questionCount;
 		this.passingMark = passingMark;
 	}
 	

@@ -7,39 +7,40 @@ import {useLocation, useHistory} from "react-router-dom";
   var axios = require('axios');
 
   const submitQuiz= (() => {
-    console.log("SUBMITTING QUIZ");
+    console.log("SUBMITTING QUIZ TIMER");
     axios
     .post('http://localhost:9999/submitQuiz', { quizId: 6})
     .then((response) => {
-
+      history.push('/finishquiz');
     })
     .catch(()=>{
 
-    })
-    .finally(() => {
-        history.push('/finishquiz');
     })
    })
 
 
 
   useEffect(() => {
-
-    if (startTime > 0) {
-      setTimeout(() => {
-        
-        setStartTime(startTime - 1);
-      }, 1000);
-    }
-    
-    if (startTime === 0 && startTimer) {
-      setStartTimer(false);
-      submitQuiz();
-    } else if (startTime === -10 && props.duration !== 0){
-        setStartTime(props.duration);
+    let isSubscribed = true
+    if (isSubscribed) {
+   
+      if (startTime > 0) {
+        setTimeout(() => {
+          
+          setStartTime(startTime - 1);
+        }, 1000);
+      }
+      
+      if (startTime === 0 && startTimer) {
+        setStartTimer(false);
+        submitQuiz();
+      } else if (startTime === -10 && props.duration !== 0){
+          setStartTime(props.duration);
+      }
     }
 
     setStartTimer(true);
+    return () => isSubscribed = false
   }, [startTime, startTimer]);
 
   return (

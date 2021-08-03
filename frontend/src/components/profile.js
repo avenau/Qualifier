@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { getUser } from "../utils/Auth"
 import axios from "axios";
 
 function Profile() {
@@ -17,26 +18,26 @@ function Profile() {
                             dob:"",
                             skills: []
                         }
-    const [profile, setProfile] = useState(profileTemplate);
+    const [profile, setUser] = useState(profileTemplate);
 
     useEffect(() => {
         axios
         .get('http://localhost:9999/getUser', {   
             params: {
-                id:1
+                username:sessionStorage.getItem("username")
             },
         }).then(response => {
-            setProfile(response.data)
+            setUser(response.data)
         })
         .catch(() => {});  
-    });
+    }, [profile.skills.length]);
 
     
 
     return(
         <div>
             <h1>{profile.name}</h1>
-            <p>Stream: [{profile.stream}</p>
+            <p>Stream: {profile.stream}</p>
             <p>Email: {profile.email}</p>
             <p>Address: {profile.address}</p>
             <p>Phone Number: {profile.phoneNumber}</p>
@@ -44,6 +45,11 @@ function Profile() {
             <p>Date of Birth: {profile.dob}</p>
             <button onClick={() => {history.push('/profile')} }>Edit Profile</button>
             <h1>Skills</h1>
+            {profile.skills.map(skillLevel =>{
+                 return (
+                     <p>{skillLevel.skill.name}</p>
+                 )                               
+            })}
             <button onClick={() => {history.push('/mySkills')} }>My Skills</button>
         </div>
     );

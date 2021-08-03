@@ -4,7 +4,7 @@ import { Form, Check, Button, Container, Row, Col } from 'react-bootstrap';
 import Questions from './Questions';
 import Timer from './Timer';
 
-function AttemptQuizPage() {
+function AttemptQuiz() {
 
     const history = useHistory();
     const quizId = useLocation().pathname.split("/")[2];
@@ -43,20 +43,6 @@ function AttemptQuizPage() {
     //     setAnswers(answers.concat(value))
     // })
 
-    const submitQuestion = (() => {
-        axios
-        .post('http://localhost:9999/saveSuggestedSkill', { suggestedSkillId: 0, name: "" })
-        .then((response) => {
-
-        })
-        .catch(()=>{
-
-        })
-        .finally(() => {
-            history.push('/finishquiz');
-        })
-    })
-
     useEffect (() => {
         axios
         .get('http://localhost:9999/getQuizDetails', {   
@@ -76,7 +62,7 @@ function AttemptQuizPage() {
         console.log(quiz.questions);
         console.log("DURATION: " + quiz.duration);
 
-    }, [quiz.questions.length, quiz.duration]);
+    }, [quiz.duration]);
 
     if (isLoading) {
         return <div className="App">Loading...</div>;
@@ -97,4 +83,4 @@ function AttemptQuizPage() {
         </Container>
     )
 }
-export default AttemptQuizPage;
+export default AttemptQuiz;

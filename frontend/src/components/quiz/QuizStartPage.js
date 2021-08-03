@@ -30,7 +30,7 @@ function QuizStartPage() {
         .catch((error) => {
             history.push("/*");
         }) 
-    }, [quiz.questions.length]);
+    }, [quiz.quizId]);
 
     const startQuiz = () => {
         history.push("/quiz/" + quizId);
