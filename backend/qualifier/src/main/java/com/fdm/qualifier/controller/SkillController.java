@@ -1,5 +1,10 @@
 package com.fdm.qualifier.controller;
 
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +28,11 @@ public class SkillController {
 		this.skillService = skillService;
 	}
 	
+	@GetMapping("/getAllSkills")
+	public List<Skill> getAllSkills(){
+		return skillService.findAll();
+	}
+	
 	@PostMapping("/addSkill")
 	public Map<String, String> addSkill(@RequestBody String skillname) {
 		if (skillname.charAt(skillname.length() -1) == '=') {
@@ -40,6 +50,7 @@ public class SkillController {
 			skillService.save(new Skill(skillname));
 		}	
 		return status;		
+
 	}
 
 }

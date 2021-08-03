@@ -32,6 +32,14 @@ public class SkillService {
 		return skillRepo.findByName(name);
 	}
 	
+	public Skill findById(int id) {
+		return skillRepo.findBySkillId(id);
+	}
+	
+	public List<Skill> findAll(){
+		return skillRepo.findAll();
+	}
+	
 	public Skill save(Skill skill) {
 		Skill skillFound = findByName(skill.getName());
 		if(skillFound != null)

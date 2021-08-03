@@ -7,5 +7,7 @@ import com.fdm.qualifier.model.Answer;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Integer>{
+	
+	
 
 }

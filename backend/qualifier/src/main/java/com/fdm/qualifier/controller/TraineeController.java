@@ -1,10 +1,19 @@
 package com.fdm.qualifier.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,25 +22,46 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.service.SkillLevelService;
+import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.TraineeService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class TraineeController {
 	private TraineeService traineeService;
+	private SkillLevelService skillLevelService;
+	private SkillService skillService;
 
 	private Log log = LogFactory.getLog(TraineeController.class);
 	
 	@Autowired
-	public TraineeController(TraineeService traineeService) {
+	public TraineeController(TraineeService traineeService, SkillLevelService skillLevelService, SkillService skillService) {
 		super();
 		this.traineeService = traineeService;
+		this.skillLevelService = skillLevelService;
+		this.skillService = skillService;
+	}
+
+	@PostMapping("/changePinnedSkill")
+	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
+		log.trace("changePinnedSkills() called");
+//		traineeService.changePinnedSkills(trainee);
+		return trainee;
 	}
 	
 	@PostMapping("/addUnverifiedSkill")
-	public void addUnverifiedSkill(Skill skill) {
-		//Get Current Trainee
-		//Add skill to Trainee
+	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
+		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
+		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
+		SkillLevel unverifiedSkill = null;
+		for (SkillLevel sl: skill) {
+			if (sl.getLevel()==SkillLevel.KnowledgeLevel.UNVERIFIED) {
+				unverifiedSkill = sl;
+			}
+		}
+		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
+		traineeService.save(foundTrainee);	
 	}
 
 //	@PostMapping("/changePinnedSkill")

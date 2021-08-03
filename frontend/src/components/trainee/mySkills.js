@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { Button, ListGroup } from "react-bootstrap";
+import { Dropdown, Button, ListGroup } from "react-bootstrap";
 
 function MySkills() {
     const axios = require('axios');
 
     //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = 31;
+    const traineeId = 22;
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
+    const [allSkills, setAllSkills] = useState([]);
+    const [newSkill, setNewSkill] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         getSkillsOnLoad();
         getPinnedSkillsOnLoad();
+        getAllSkillsOnLoad();
     }, []);
 
     function getSkillsOnLoad() {
@@ -47,6 +50,36 @@ function MySkills() {
 
     }
 
+    function getAllSkillsOnLoad() {
+        axios.get('http://localhost:9999/getAllSkills')
+            .then(function (response) {
+                console.log(response);
+                setAllSkills(response.data);
+                console.log(allSkills);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
+    };
+
+    function addSkillToTrainee(){
+        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId} )
+        .then(function (response) {
+            console.log(response);
+            setNewSkill(response.data);
+            console.log(newSkill);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    };
+
     const unpinSkill = (index) => {
         axios.post('http://localhost:9999/unpinSkill', [traineeId, pinnedSkills[index].skillLevelId])
             .then(function (response) {
@@ -72,6 +105,19 @@ function MySkills() {
             })
 
     };
+
+    const addUnverifiedSkill = (index) => {
+        axios.post('http://localhost:9999/addUnverifiedSkill', [traineeId, allSkills[index].skillId])
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    }
 
     const pinnedSkillsList = pinnedSkills.map(
         (skill, index) =>
@@ -115,17 +161,45 @@ function MySkills() {
             </ListGroup.Item>
     );
 
+    const allSkillsList = allSkills.map(
+        (skill,index)=>
+            <Dropdown.Item key={"skill-" + index} onSelect={() => addUnverifiedSkill(index)}>
+                {skill.name}
+            </Dropdown.Item>                             
+      );
+
     return (
         <div>
-            <h1>Pinned Skills</h1>
+            <h1>My Skills</h1>
             <ListGroup>
                 {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
             </ListGroup>
             <span>{errorMessage}</span>
-            <h1>My Skills</h1>
+            <p></p>
             <ListGroup>
                 {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
             </ListGroup>
+
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Add Skill
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {allSkillsList}
+                </Dropdown.Menu>
+            </Dropdown>
+            
+            <form onSubmit={addSkillToTrainee}> 
+                <select id="allSkills" value={newSkill} name="skills">
+                    {allSkills.map(skill=>{
+                 return (
+                     <option value="{skill.name}" onChange={e => setNewSkill(e.target.value)}>{skill.name}</option>
+                 )                               
+            })}
+                </select>
+                <input type="submit" value="Add Skill"/>
+            </form>
         </div>
     );
 

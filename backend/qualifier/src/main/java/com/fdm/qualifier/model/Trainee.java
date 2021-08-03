@@ -86,6 +86,10 @@ public class Trainee extends User {
 		this.skills = skills;
 		this.pinnedSkills = pinnedSkills;
 	}
+	
+	public void addSkill(SkillLevel skill) {
+		skills.add(skill);
+	}
 
 	public LocalDate getCompletionDate() {
 		return completionDate;
@@ -137,10 +141,8 @@ public class Trainee extends User {
 
 	@Override
 	public String toString() {
-		return "Trainee [" + (completionDate != null ? "completionDate=" + completionDate + ", " : "")
-				+ (stream != null ? "stream=" + stream + ", " : "")
-				+ (skills != null ? "skills=" + skills + ", " : "")
-				+ (pinnedSkills != null ? "pinnedSkills=" + pinnedSkills : "") + "]";
+		return "Trainee [completionDate=" + completionDate + ", stream=" + stream + ", placements=" + placements
+				+ ", appliedPlacements=" + appliedPlacements + ", getUserId()=" + getUserId() + ", getFirstName()="
+				+ getFirstName() + ", getLastName()=" + getLastName() + "]";
 	}
-
 }

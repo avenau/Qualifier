@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Result {
@@ -22,10 +23,10 @@ public class Result {
 	@ManyToOne
 	private Trainee trainee;
 	
-	@ManyToOne//#TODO add mappedBy
+	@OneToOne(cascade=CascadeType.MERGE)
 	private Quiz quiz;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "result")
 	private List<SubmittedAnswer> submittedAnswers;
 	
 	public Result() {
