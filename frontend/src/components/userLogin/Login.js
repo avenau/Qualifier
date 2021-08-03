@@ -50,6 +50,7 @@ function Login(props)
             }
             setAccountSession(response.jwtToken, response.username, response.accountType);
             sessionStorage.setItem("username", username);
+            sessionStorage.setItem("userId", response.userId);
             dispatch(updateAuth());
             
             Notification({  type: 'success',
