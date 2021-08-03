@@ -24,6 +24,19 @@ public class SubmittedAnswer {
 		super();
 	}
 
+	public SubmittedAnswer(Question question, String answerContent) {
+		super();
+		this.question = question;
+		this.answerContent = answerContent;
+	}
+
+	public SubmittedAnswer(Question question, Answer answer, String answerContent) {
+		super();
+		this.question = question;
+		this.answer = answer;
+		this.answerContent = answerContent;
+	}
+
 	public SubmittedAnswer(Question question, Result result, Answer answer, String answerContent) {
 		super();
 		this.question = question;

@@ -48,7 +48,9 @@ function Login(props)
                             });
                 return;
             }
-            setAccountSession(response.jwtToken, response.username, response.accountType, response.uId);
+
+            setAccountSession(response.jwtToken, response.username, response.accountType, response.userId);
+
 
             dispatch(updateAuth());
             

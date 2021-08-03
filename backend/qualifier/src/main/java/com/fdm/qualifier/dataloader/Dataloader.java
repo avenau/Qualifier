@@ -143,14 +143,14 @@ public class Dataloader implements ApplicationRunner {
 		// SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
 		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
 		log.debug("Creating Quiz");
-		Quiz quiz1 = new Quiz();
-		quizService.saveQuiz(quiz1);
+//		Quiz quiz1 = new Quiz();
+//		quizService.saveQuiz(quiz1);
 		
 		log.debug("Creating SkillLevels");
-		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, quiz1);
-		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, quiz1);
-		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, quiz1);
-		SkillLevel skillLevel4 = new SkillLevel(SkillLevel.KnowledgeLevel.UNVERIFIED, python, quiz1);
+		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
+		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
+		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
+		SkillLevel skillLevel4 = new SkillLevel(SkillLevel.KnowledgeLevel.UNVERIFIED, python, null);
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);

@@ -12,13 +12,11 @@ import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
-import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.AnswerRepository;
 import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.repository.ResultRepository;
-import com.fdm.qualifier.request.UpdateQuizRequest;
 
 @Service
 public class QuizService {
@@ -101,12 +99,6 @@ public class QuizService {
 
 	public List<Quiz> findAllQuiz() {
 		return quizRepo.findAll();
-	}
-
-
-	public QuizDTO updateDTO(UpdateQuizRequest request) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
