@@ -157,7 +157,7 @@ public class Dataloader implements ApplicationRunner {
 		
 		//Notification Testing
 		Notification notification = notificationService.savePlacementNotification(placement1);
-		userNotificationService.createNotificationsForTraineesWithSkills(placement1, notification);
+//		userNotificationService.createNotificationsForTraineesWithSkills(placement1, notification);
 
 		log.debug("Find by Java");
 		for (Placement p : placementService.findBySkillName("Java")) {
