@@ -28,7 +28,7 @@ public class Quiz {
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
-	@JsonBackReference(value = "quiz")
+	@JsonManagedReference(value = "quiz")
 	private List<Question> questions;
 
 	public Quiz() {
