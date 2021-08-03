@@ -20,6 +20,7 @@ import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
@@ -85,21 +86,6 @@ public class Dataloader implements ApplicationRunner {
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
 		
-		logger.info("quiz init started");
-//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
-	
-		Quiz javaBeginner = quizService.createNewQuiz("Java Beginner Level Quiz", "", 20, 75);
-		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MUTIPLE_CHOICE, 4, null);
-		Answer javaBq1aA = answerService.createNewAnswer("Answer Content", javaBq1, true);
-		Answer javaBq1aB = answerService.createNewAnswer("Answer Content", javaBq1, false);
-		Answer javaBq1aC = answerService.createNewAnswer("Answer Content", javaBq1, false);
-		Answer javaBq1aD = answerService.createNewAnswer("Answer Content", javaBq1, false);
-		Question javaBq2 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MULTI_SELECT, 4, null);
-		Answer javaBq2aA = answerService.createNewAnswer("Answer Content", javaBq2, false);
-		Answer javaBq2aB = answerService.createNewAnswer("Answer Content", javaBq2, true);
-		Answer javaBq2aC = answerService.createNewAnswer("Answer Content", javaBq2, true);
-		Answer javaBq2aD = answerService.createNewAnswer("Answer Content", javaBq2, false);
-		logger.info("quiz init finished");
 		
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
 		
@@ -116,12 +102,9 @@ public class Dataloader implements ApplicationRunner {
 		skillService.save(cs);
 		skillService.save(python);
 		
-		Quiz quiz1 = new Quiz();
-		quizService.save(quiz1);
-		
-		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, quiz1);
-		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, quiz1);
-		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, quiz1);
+		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
+		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
+		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
@@ -139,6 +122,21 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement2);
 		placementService.save(placement3);
 		
+		logger.info("quiz init started");
+//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
+		
+		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "", 20, 0, 75, skillLevel1);
+		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MUTIPLE_CHOICE, 4, null);
+		Answer javaBq1aA = answerService.createNewAnswer("Answer Content", javaBq1, true);
+		Answer javaBq1aB = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Answer javaBq1aC = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Answer javaBq1aD = answerService.createNewAnswer("Answer Content", javaBq1, false);
+		Question javaBq2 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MULTI_SELECT, 4, null);
+		Answer javaBq2aA = answerService.createNewAnswer("Answer Content", javaBq2, false);
+		Answer javaBq2aB = answerService.createNewAnswer("Answer Content", javaBq2, true);
+		Answer javaBq2aC = answerService.createNewAnswer("Answer Content", javaBq2, true);
+		Answer javaBq2aD = answerService.createNewAnswer("Answer Content", javaBq2, false);
+		logger.info("quiz init finished");
 	}
 	
 //	public void createQuiz() {

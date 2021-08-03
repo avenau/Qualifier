@@ -11,11 +11,14 @@ import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
+import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.AnswerRepository;
 import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.repository.ResultRepository;
+import com.fdm.qualifier.request.UpdateQuizRequest;
 
 @Service
 public class QuizService {
@@ -38,10 +41,19 @@ public class QuizService {
 		quizRepo.save(newQuiz);
 	}
 
-	public Quiz createNewQuiz(String name, String description, int duration, int passingMark) {
-		Quiz newQuiz = new Quiz(name, description, duration, passingMark);
-		quizRepo.save(newQuiz);
+	public QuizDTO createNewQuiz(String name, String description, double duration, int questionCount, double passingMark,
+			SkillLevel skillLevel) {
+		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark, skillLevel);
+		quizRepo.save(quiz);
+		QuizDTO newQuiz = new QuizDTO(quiz);
 		return newQuiz;
+	}
+	
+	public Quiz loadNewQuiz(String name, String description, double duration, int questionCount, double passingMark,
+			SkillLevel skillLevel) {
+		Quiz quiz = new Quiz(name, description, duration, questionCount, passingMark, skillLevel);
+		quizRepo.save(quiz);
+		return quiz;
 	}
 	
 	public QuizDTO findQuizById(int id) {
@@ -60,6 +72,11 @@ public class QuizService {
 		boolean passed = mark >=finishedQuiz.getPassingMark();
 		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));	
 		return result;
+	}
+
+	public QuizDTO update(UpdateQuizRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
+import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 
 public class QuizDTO {
 	
@@ -13,6 +15,7 @@ public class QuizDTO {
 	private double quizDuration;
 	private int questionCount;
 	private double passingMark;
+	private SkillLevel skillLevel;
 	private List<Question> questions;
 	
 	public QuizDTO(Quiz quiz) {
@@ -23,6 +26,7 @@ public class QuizDTO {
 		this.quizDuration = quiz.getDuration();
 		this.questionCount = quiz.getQuestionCount();
 		this.passingMark = quiz.getPassingMark();
+		this.skillLevel = quiz.getSkillLevel();
 		this.questions = quiz.getQuestions();
 	}
 
@@ -81,5 +85,16 @@ public class QuizDTO {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
+
+	public SkillLevel getSkillLevel() {
+		return skillLevel;
+	}
+
+	public void setSkillLevel(SkillLevel skillLevel) {
+		this.skillLevel = skillLevel;
+	}
+
+
 	
+
 }
