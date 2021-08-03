@@ -11,4 +11,6 @@ import com.fdm.qualifier.model.Skill;
 public interface SkillRepository extends JpaRepository<Skill, Integer>{
 
 	public Skill findByName(String name);
+	
+	public Skill findBySkillId(int id);
 }
