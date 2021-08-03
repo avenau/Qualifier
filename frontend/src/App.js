@@ -20,10 +20,11 @@ import { useSelector } from 'react-redux';
 import PublicRoute from './utils/PublicRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavigationBar from './components/navbar/NavBar';
-import AddSkillPage from './components/skills/AddSkillPage';
+import AddSkillPage from './components/skills/addSkillPage';
 
 
 import DoesNotExistPage from './pages/NotExistPage';
+import SearchPlacements from './components/trainee/placements';
 import MySkills from './components/trainee/mySkills';
 
 //To add your page 
@@ -61,6 +62,7 @@ function App() {
         <Route exact path='/suggestskill' component={SuggestSkill}/>
         <Route exact path='/createPlacement' component={CreatePlacement}/>
         <Route exact path='/startquiz' component={QuizStartPage}/>
+        <Route exact path='/placements' component={SearchPlacements}/>
         <Route exact path='/startquiz/:quiz_id' component={QuizStartPage}/>
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path ='/browsequiz' component={BrowseQuiz}/>

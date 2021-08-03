@@ -29,9 +29,8 @@ public class TraineeController {
 	}
 	
 	@PostMapping("/addUnverifiedSkill")
-	public void addUnverifiedSkill(Skill skill) {
-		//Get Current Trainee
-		//Add skill to Trainee
+	public void addUnverifiedSkill(@RequestBody Trainee trainee, SkillLevel skill) {
+		traineeService.addSkillToTrainee(skill, trainee.getUserId());
 	}
 
 //	@PostMapping("/changePinnedSkill")

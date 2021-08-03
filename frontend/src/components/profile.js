@@ -16,7 +16,8 @@ function Profile() {
                             phoneNumber:"",
                             city:"",
                             dob:"",
-                            skills: []
+                            skills: [],
+                            pinnedSkills: []
                         }
     const [profile, setUser] = useState(profileTemplate);
 
@@ -45,6 +46,12 @@ function Profile() {
             <p>Date of Birth: {profile.dob}</p>
             <button onClick={() => {history.push('/profile')} }>Edit Profile</button>
             <h1>Skills</h1>
+            {profile.pinnedSkills.map(skillLevel =>{
+                 return (
+                     <p>{skillLevel.skill.name}</p>
+                 )                               
+            })}
+            <p> -------------- </p>
             {profile.skills.map(skillLevel =>{
                  return (
                      <p>{skillLevel.skill.name}</p>
