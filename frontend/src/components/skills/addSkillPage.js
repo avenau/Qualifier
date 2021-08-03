@@ -40,9 +40,12 @@ function AddSkillPage() {
                 setAlertMessage(<p><strong>{skill}</strong> successfully added!</p>);
                 setAlertColor("success");
             }
+            
         })
         .catch()
-        .finally()
+        .finally(() =>{
+            document.getElementById("addSkillSearch").value = "";
+        })
 
     })
 
@@ -53,7 +56,7 @@ function AddSkillPage() {
         .post('http://localhost:9999/addSkill', name)   
         .then((response) => {
             let status = response.data.status;
-            console.log(status);
+            console.log("Status " + status);
             if (status =="already exist"){
                 console.log("ALRWEADYT");
                 setShow(true);
@@ -99,6 +102,7 @@ function AddSkillPage() {
                         aria-label="Adding New Skill"
                         aria-describedby="basic-addon2"
                         onChange={textBoxOnChange}
+                        id="addSkillSearch"
                         />
                         <Button variant="outline-secondary" onClick={addingSkill}>
                             Add Skill
