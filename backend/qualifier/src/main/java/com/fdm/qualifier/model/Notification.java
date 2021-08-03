@@ -60,6 +60,12 @@ public class Notification {
 	public void setUserNotifications(List<UserNotification> userNotifications) {
 		this.userNotifications = userNotifications;
 	}
+
+	@Override
+	public String toString() {
+		return "Notification [notificarionId=" + notificarionId + ", notification=" + notification + ", date=" + date
+				+ "]";
+	}
 	
 	
 }

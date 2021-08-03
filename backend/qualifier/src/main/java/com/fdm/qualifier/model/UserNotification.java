@@ -12,19 +12,26 @@ public class UserNotification {
 	@Id
 	@GeneratedValue
 	private int userNotificationId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="FK_NOTIFICATION_ID")
+	@JoinColumn(name = "FK_NOTIFICATION_ID")
 	private Notification notification;
-	
+
 	@ManyToOne
-	@JoinColumn(name="FK_USER_ID")
+	@JoinColumn(name = "FK_USER_ID")
 	private User user;
-	
+
 	private boolean seen;
-	
+
 	public UserNotification() {
 		super();
+	}
+
+	public UserNotification(Notification notification, User user) {
+		super();
+		this.notification = notification;
+		this.user = user;
+		this.seen = false;
 	}
 
 	public UserNotification(Notification notification, User user, boolean seen) {
@@ -66,6 +73,5 @@ public class UserNotification {
 	public String toString() {
 		return "UserNotification [userNotificationId=" + userNotificationId + ", user=" + user + ", seen=" + seen + "]";
 	}
-	
-	
+
 }
