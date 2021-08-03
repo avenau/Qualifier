@@ -5,16 +5,19 @@ function MySkills() {
     const axios = require('axios');
 
     //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = 31;
+    const traineeId = 38;
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
+    const [allSkills, setAllSkills] = useState([]);
+    const [newSkill, setNewSkill] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         getSkillsOnLoad();
         getPinnedSkillsOnLoad();
+        getAllSkillsOnLoad();
     }, []);
 
     function getSkillsOnLoad() {
@@ -46,6 +49,36 @@ function MySkills() {
             })
 
     }
+
+    function getAllSkillsOnLoad() {
+        axios.post('http://localhost:9999/getAllSkills')
+            .then(function (response) {
+                console.log(response);
+                setAllSkills(response.data);
+                console.log(allSkills);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
+    };
+
+    function addSkillToTrainee(){
+        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId})
+        .then(function (response) {
+            console.log(response);
+            setNewSkill(response.data);
+            console.log(newSkill);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    };
 
     const unpinSkill = (index) => {
         axios.post('http://localhost:9999/unpinSkill', [traineeId, pinnedSkills[index].skillLevelId])
@@ -115,17 +148,34 @@ function MySkills() {
             </ListGroup.Item>
     );
 
+    const allSkillsList = allSkills.map(
+        (skill, index) =>
+            <ListGroup.Item key={"skill-" + index}>
+                {skill.skill.name}: {skill.level}
+            </ListGroup.Item>
+    )
+
     return (
         <div>
-            <h1>Pinned Skills</h1>
+            <h1>My Skills</h1>
             <ListGroup>
                 {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
             </ListGroup>
             <span>{errorMessage}</span>
-            <h1>My Skills</h1>
+            <p></p>
             <ListGroup>
                 {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
             </ListGroup>
+            <form onSubmit={addSkillToTrainee}> 
+                <select id="allSkills" value={newSkill} name="skills" onChange={e => setNewSkill(e.target.value)}>
+                    {allSkills.map(skill=>{
+                 return (
+                     <option value="skill">{skill.name}</option>
+                 )                               
+            })}
+                </select>
+                <input type="submit" value="Add Skill"/>
+            </form>
         </div>
     );
 
