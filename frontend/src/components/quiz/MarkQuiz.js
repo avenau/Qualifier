@@ -18,11 +18,9 @@ function MarkQuiz() {
         axios.post('http://localhost:9999/getResult', { resultId: resultId })
             .then(function (response) {
                 console.log(response);
-                setResult(response.data);
-                console.log(result);
-                if (result.quiz.questions != undefined) {
-                    setQuestions(result.quiz.questions);
-                    console.log(questions);
+                setResult(response.data)
+                if (response.data.quiz.questions != undefined) {
+                    setQuestions(response.data.quiz.questions);
                 } else
                     setQuestions([]);
             })
@@ -42,16 +40,39 @@ function MarkQuiz() {
     const questionsList =
         questions.map(
             (question, index) =>
-                <Form.Group key={"question-" + index}>
-                    <Form.Label>{index} Question</Form.Label>
-                </Form.Group>
+                <div key={"question-" + index}>
+                    <span>{index} Question</span>
+                    <br/>
+                    <span>{question.content}</span>
+                    <div>
+                        {question.answers.map(
+                            (answer, index) =>
+                                <div key={"id-" + answer.answerId + "-answer-" + index}>
+                                    {answer.content}
+                                </div>
+                        )}
+                    </div>
+                    <div>
+                        {question.type}
+                    </div>
+                    <div>
+                    <Form.Group>
+                    {   question.type === "SHORT_ANSWER" ? 
+                        <Form.Text type="text" /> :
+                        <span></span>
+                    }
+                    </Form.Group>
+                    </div>
+                </div>
         )
 
     return (
-        <Form onSubmit={submitMarkedQuiz}>
-            {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
-            <Button type="submit">Mark</Button>
-        </Form>
+        <Container>
+            <Form onSubmit={submitMarkedQuiz}>
+                {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
+                <Button type="submit">Mark</Button>
+            </Form>
+        </Container>
     )
 }
 
