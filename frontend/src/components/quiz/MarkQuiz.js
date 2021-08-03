@@ -12,7 +12,7 @@ function MarkQuiz() {
 
     useEffect(() => {
         getResult();
-    }, [/*questions.length*/]);
+    }, [questions.length]);
 
     function getResult() {
         axios.post('http://localhost:9999/getResult', {resultId: resultId})
@@ -38,16 +38,16 @@ function MarkQuiz() {
 
     }
 
-    // const questionsList = questions.map(
-    //     (question, index) => 
-    //         <Form.Group>
-    //             <Form.Label>{index} Question</Form.Label>
-    //         </Form.Group>
-    // )
+    const questionsList = questions.map(
+        (question, index) => 
+            <Form.Group>
+                <Form.Label>{index} Question</Form.Label>
+            </Form.Group>
+    )
 
     return(
         <Form onSubmit={submitMarkedQuiz}>
-            {/* {questionsList} */}
+            {questionsList}
             <Button type="submit">Mark</Button>
         </Form>
     )
