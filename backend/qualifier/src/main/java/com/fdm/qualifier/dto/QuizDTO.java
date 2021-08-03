@@ -1,5 +1,6 @@
 package com.fdm.qualifier.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fdm.qualifier.model.Question;
@@ -15,7 +16,7 @@ public class QuizDTO {
 	private double duration;
 	private int questionCount;
 	private double passingMark;
-	private List<Question> questions;
+	private List<QuestionDTO> questions;
 	
 	public QuizDTO(Quiz quiz) {
 		super();
@@ -25,7 +26,11 @@ public class QuizDTO {
 		this.duration = quiz.getDuration();
 		this.questionCount = quiz.getQuestionCount();
 		this.passingMark = quiz.getPassingMark();
-		this.questions = quiz.getQuestions();
+		
+		this.questions = new ArrayList<QuestionDTO>();
+		for (Question question : quiz.getQuestions()) {
+			questions.add(new QuestionDTO(question));
+		}
 	}
 
 	public int getQuizId() {
@@ -76,11 +81,13 @@ public class QuizDTO {
 		this.passingMark = passingMark;
 	}
 
-	public List<Question> getQuestions() {
+	public List<QuestionDTO> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
+	public void setQuestions(List<QuestionDTO> questions) {
 		this.questions = questions;
 	}
+
+
 }

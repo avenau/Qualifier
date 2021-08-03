@@ -51,7 +51,7 @@ public class QuizController {
 		return quizDTO;
 	}
 	
-	@PostMapping("/submitQuiz")
+	@PostMapping("/quiz/submit/{}")
 	public void submitQuiz(@RequestBody Map<String, Object> payload) {
 		System.out.println("Short Multiple Choice: " + payload);
 	}
