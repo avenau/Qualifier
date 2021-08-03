@@ -258,9 +258,9 @@ public class Dataloader implements ApplicationRunner {
 		}
 		
 		log.debug("find trainee by skill");
-//		for(Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
-//			log.debug(t);
-//		}
+		for(Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
+			log.debug(t);
+		}
 	}
 	
 	private void createResult() {
