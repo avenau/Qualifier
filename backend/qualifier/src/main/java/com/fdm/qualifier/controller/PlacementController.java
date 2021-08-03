@@ -1,5 +1,9 @@
 package com.fdm.qualifier.controller;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.service.ClientService;
+
 import com.fdm.qualifier.service.PlacementService;
 
 @RestController
@@ -39,4 +44,17 @@ public class PlacementController {
 	}
 	
 
+	@PostMapping("/searchPlacements")
+	public List<Placement> searchPlacements(@RequestBody String placement) {
+		List<Placement> resultList = new ArrayList<>();
+		resultList.addAll(placementService.findByName(placement));
+		resultList.addAll(placementService.findByClientName(placement));
+		resultList.addAll(placementService.findBySkillName(placement));
+		resultList.addAll(placementService.findByLocation(placement));
+		System.out.println(resultList);
+		return resultList;
+		
+	}
+	
+	
 }

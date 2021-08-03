@@ -42,4 +42,11 @@ public class SkillService {
 			skill = skillFound;		
 		return skillRepo.save(skill);
 	}
+	
+	public boolean skillExist(String name) {
+		if (findByName(name) == null) {
+			return false;
+		}
+		return true;
+	}
 }
