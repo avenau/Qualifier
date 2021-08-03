@@ -33,7 +33,7 @@ public class SuggestedSkillServiceTest {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 	//	suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock);
-
+	}
 	
 	@Test
 	public void test_save_returns_empty_string_when_good() {

@@ -12,6 +12,7 @@ function AddSkillPage() {
     const [suggestedSkills, setSuggestedSkills] = useState([]);
     //const [isLoaded, setLoaded] = false;
     useEffect(() => {
+        console.log("USING EFFECT!");
         axios
         .get('http://localhost:9999/getAllSuggestedSkills')
         .then((response) => {
@@ -21,7 +22,7 @@ function AddSkillPage() {
         .catch((error) => {
 
         })
-        console.log("Skill Length " + suggestedSkills);
+        console.log("Skill Length " + suggestedSkills.length);
     }, [suggestedSkills.length])
 
     const addingSkill = (() => {
@@ -50,35 +51,69 @@ function AddSkillPage() {
     })
 
     const acceptSuggestedSkill = ((event) =>{
-        event.preventDefault();
         let name = event.target.id;
-        console.log("ACCEPT SKILL NAME " + event.target.id);
-        console.log("ACCEPT SKILL Target " + event.target);
-        console.log("ACCEPT SKILL Event " + event);
-        console.log("ACCEPT SKILL Variant " + event.target.variant);
-        axios
+
+
+        setSuggestedSkills(suggestedSkills.splice(suggestedSkills.indexOf(name, 1)));
+
+        
+        const addSkill = axios
         .post('http://localhost:9999/addSkill', name)   
         .then((response) => {
             let status = response.data.status;
             console.log("Status " + status);
             if (status =="already exist"){
-                console.log("ALRWEADYT");
+
                 setShow(true);
-                setAlertMessage(<p><strong>{skill}</strong> already exist!</p>);
+                setAlertMessage(<p><strong>{name}</strong> already exist!</p>);
                 setAlertColor("danger");
             } else if (status == "success"){
                 setShow(true);
-                setAlertMessage(<p><strong>{skill}</strong> successfully added!</p>);
+                setAlertMessage(<p><strong>{name}</strong> successfully added!</p>);
                 setAlertColor("success");
             }
-            // axios
-            // .post()
+
         })
         .catch()
         .finally()
+
+        const removeSkill = axios
+        .post('http://localhost:9999/removeSuggestedSkill', name)   
+        .then((response) => {
+
+        })
+        .catch(() => {
+            
+        })
+        .finally(() => {
+            
+        })
+
+
+        Promise.all([addSkill, removeSkill])
+        .then((response) => {
+            console.log("ALL PROMISE " + response);
+
+        })
     })
     const declineSuggestedSkill = ((event) =>{
         let name = event.target.id;
+
+
+        setSuggestedSkills(suggestedSkills.splice(suggestedSkills.indexOf(name, 1)));
+
+        const removeSkill = axios
+        .post('http://localhost:9999/removeSuggestedSkill', name)   
+
+
+        Promise.all([removeSkill])
+        .then((response) => {
+            console.log("ALL PROMISE " + response);
+            setShow(true);
+            setAlertMessage(<p>Successfully declined <strong>{name}</strong>!</p>);
+            setAlertColor("success");
+
+        })
 
     })
 
@@ -121,7 +156,22 @@ function AddSkillPage() {
                         
                         <ListGroup>
                             {suggestedSkills.map((skill) => (
-                                <ListGroup.Item>{skill.name} <Button variant="success" id={skill.name} onClick={acceptSuggestedSkill}><FiCheck/></Button>{' '} <Button variant="danger" id={skill.name} onClick={declineSuggestedSkill}><FiX/></Button>{' '}</ListGroup.Item>
+                                <ListGroup.Item>
+                                <Row>
+                                    <Col>{skill.name} </Col>
+                                    <Col xs={1}>
+                                        <form id={skill.name} onSubmit={acceptSuggestedSkill}>
+                                            <Button variant="success" type="submit"><FiCheck/></Button>{' '} 
+                                        </form>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <form id={skill.name} onSubmit={declineSuggestedSkill}>
+                                            <Button variant="danger" type="submit"><FiX/></Button>{' '}
+                                        </form>
+                                    </Col>
+                                </Row>
+                                
+                                </ListGroup.Item>
                             ))}
                             
                         </ListGroup>

@@ -44,8 +44,12 @@ public class SuggestedSkillController {
 	}
 	
 	@PostMapping("/removeSuggestedSkill")
-	public Map<String, String> addSkill(@RequestBody String skillname) {
+	public Map<String, String> removeSuggestedSkill(@RequestBody String skillname) {
+		if (skillname.charAt(skillname.length() -1) == '=') {
+			skillname = skillname.substring(0, skillname.length() - 1);
+		}
 		
+		System.out.println("SkillName " + skillname);
 		Map<String, String> status = new HashMap<String, String>();
 		if (suggestedSkillService.findByName(skillname).isEmpty()) {
 			status.put("status", "failed");
