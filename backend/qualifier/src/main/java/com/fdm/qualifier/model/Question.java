@@ -28,8 +28,6 @@ public class Question {
 
 	@ManyToOne
 	@JsonManagedReference(value = "questions")
-
-
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")
