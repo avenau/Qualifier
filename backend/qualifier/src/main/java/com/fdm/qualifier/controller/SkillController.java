@@ -36,11 +36,8 @@ public class SkillController {
 		} else {
 			status.put("status", "success");
 			skillService.save(new Skill(skillname));
-		}
-		
-		
-		return status;
-		
+		}	
+		return status;		
 	}
 
 }

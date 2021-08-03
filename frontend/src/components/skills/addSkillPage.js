@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { InputGroup, FormControl, Button, Container, Card, Row, Alert } from 'react-bootstrap';
+import { InputGroup, FormControl, Button, Container, Card, Row, Alert, Col, ListGroup } from 'react-bootstrap';
 
 function AddSkillPage() {
 
@@ -9,7 +9,7 @@ function AddSkillPage() {
     const [alertColor, setAlertColor] = useState("danger");
     const [alertMessage, setAlertMessage] = useState("already exist!")
     useEffect(() => {
-
+        
     })
 
     const addingSkill = (() => {
@@ -34,40 +34,56 @@ function AddSkillPage() {
 
     })
 
+    const getAllSuggestedSkill = (() =>{
+        axios
+        .get('http://localhost:9999/getAllSuggestedSkills')
+        .then((resposne) => {
+
+        })
+        .catch((error) => {
+
+        })
+    })
+
     const textBoxOnChange = ((event) => {
         setSkill(event.target.value);
     })
 
 
     return(
-        <Container className="d-flex justify-content-center">
+        <Container>
             
             <Row className="d-flex justify-content-center">
                 <Alert show= {show} variant={alertColor} onClose={() => setShow(false)} dismissible>
                      {alertMessage}
                 </Alert>
-                <InputGroup className="mb-3 pt-5 w-50">
-                    <FormControl
-                    placeholder="Enter Skill"
-                    aria-label="Adding New Skill"
-                    aria-describedby="basic-addon2"
-                    onChange={textBoxOnChange}
-                    />
-                    <Button variant="outline-secondary" onClick={addingSkill}>
-                        Add Skill
-                    </Button>
-                </InputGroup>
-
-                <Card>
-                    <Card.Header as="h5">Suggested Skills</Card.Header>
-                    <Card.Body>
-                        <Card.Title>Special title treatment</Card.Title>
-                        <Card.Text>
-                        With supporting text below as a natural lead-in to additional content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
+                <Col>
+                    <InputGroup className="mb-3 pt-5 w-50">
+                        <FormControl
+                        placeholder="Enter Skill"
+                        aria-label="Adding New Skill"
+                        aria-describedby="basic-addon2"
+                        onChange={textBoxOnChange}
+                        />
+                        <Button variant="outline-secondary" onClick={addingSkill}>
+                            Add Skill
+                        </Button>
+                    </InputGroup>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Card>
+                        <Card.Header as="h5">Suggested Skills</Card.Header>
+                        <ListGroup>
+                            <ListGroup.Item>Cras justo odio</ListGroup.Item>
+                            <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                            <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+                            <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+                            <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                        </ListGroup>
+                    </Card>
+                </Col>
             </Row>
         </Container>
     )
