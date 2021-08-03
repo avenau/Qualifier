@@ -25,9 +25,11 @@ public class SkillController {
 	
 	@PostMapping("/addSkill")
 	public Map<String, String> addSkill(@RequestBody String skillname) {
+		if (skillname.charAt(skillname.length() -1) == '=') {
+			skillname = skillname.substring(0, skillname.length() - 1);
+		}
 		
-		skillname = skillname.substring(0, skillname.length() - 1);
-		System.out.println(skillname);
+		System.out.println("Skill Name: " + skillname);
 		
 		Map<String, String> status = new HashMap<String, String>();
 		status.put("status", "failed");

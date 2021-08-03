@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { InputGroup, FormControl, Button, Container, Card, Row, Alert, Col, ListGroup } from 'react-bootstrap';
+import { FiCheck, FiX } from "react-icons/fi";
 
 function AddSkillPage() {
 
@@ -8,9 +9,20 @@ function AddSkillPage() {
     const [show, setShow] = useState(false);
     const [alertColor, setAlertColor] = useState("danger");
     const [alertMessage, setAlertMessage] = useState("already exist!")
+    const [suggestedSkills, setSuggestedSkills] = useState([]);
+    //const [isLoaded, setLoaded] = false;
     useEffect(() => {
-        
-    })
+        axios
+        .get('http://localhost:9999/getAllSuggestedSkills')
+        .then((response) => {
+            setSuggestedSkills(response.data);
+            //setLoaded(true);
+        })
+        .catch((error) => {
+
+        })
+        console.log("Skill Length " + suggestedSkills);
+    }, [suggestedSkills.length])
 
     const addingSkill = (() => {
         axios
@@ -34,30 +46,53 @@ function AddSkillPage() {
 
     })
 
-    const getAllSuggestedSkill = (() =>{
+    const acceptSuggestedSkill = ((event) =>{
+        let name = event.target.id;
+        console.log("ACCEPT SKILL NAME " + event.target.id);
         axios
-        .get('http://localhost:9999/getAllSuggestedSkills')
-        .then((resposne) => {
-
+        .post('http://localhost:9999/addSkill', name)   
+        .then((response) => {
+            let status = response.data.status;
+            console.log(status);
+            if (status =="already exist"){
+                console.log("ALRWEADYT");
+                setShow(true);
+                setAlertMessage(<p><strong>{skill}</strong> already exist!</p>);
+                setAlertColor("danger");
+            } else if (status == "success"){
+                setShow(true);
+                setAlertMessage(<p><strong>{skill}</strong> successfully added!</p>);
+                setAlertColor("success");
+            }
+            // axios
+            // .post()
         })
-        .catch((error) => {
+        .catch()
+        .finally()
+    })
+    const declineSuggestedSkill = ((event) =>{
+        let name = event.target.id;
 
-        })
     })
 
     const textBoxOnChange = ((event) => {
         setSkill(event.target.value);
     })
+    // if (isLoaded === false){
+    //     return (
+    //         <h1>Loading</h1>
+    //     )
+    // }
 
 
     return(
         <Container>
             
-            <Row className="d-flex justify-content-center">
+            <Row >
                 <Alert show= {show} variant={alertColor} onClose={() => setShow(false)} dismissible>
                      {alertMessage}
                 </Alert>
-                <Col>
+                <Col className="d-flex justify-content-center">
                     <InputGroup className="mb-3 pt-5 w-50">
                         <FormControl
                         placeholder="Enter Skill"
@@ -71,16 +106,16 @@ function AddSkillPage() {
                     </InputGroup>
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    <Card>
+            <Row >
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-50">
                         <Card.Header as="h5">Suggested Skills</Card.Header>
+                        
                         <ListGroup>
-                            <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                            <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                            <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                            <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-                            <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                            {suggestedSkills.map((skill) => (
+                                <ListGroup.Item>{skill.name} <Button variant="success" id={skill.name} onClick={acceptSuggestedSkill}><FiCheck/></Button>{' '} <Button variant="danger" id={skill.name} onClick={declineSuggestedSkill}><FiX/></Button>{' '}</ListGroup.Item>
+                            ))}
+                            
                         </ListGroup>
                     </Card>
                 </Col>
