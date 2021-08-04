@@ -47,20 +47,17 @@ public class PlacementController {
 
 	@PostMapping("/searchPlacements")
 	public List<Placement> searchPlacements(@RequestBody String searchTerm) {
-		System.out.println(searchTerm);
 		List<Placement> resultList = new ArrayList<>();
 		resultList.addAll(placementService.findByName(searchTerm));
 		resultList.addAll(placementService.findByClientName(searchTerm));
 		resultList.addAll(placementService.findBySkillName(searchTerm));
 		resultList.addAll(placementService.findByLocation(searchTerm));
-		System.out.println(resultList);
 		return resultList;
 		
 	}
 	
 	@GetMapping("/getAllPlacements")
 	public List<Placement> getAllPlacements(){
-		System.out.println("Called getAllPlacements");
 		return placementService.findAll();
 	}
 	
