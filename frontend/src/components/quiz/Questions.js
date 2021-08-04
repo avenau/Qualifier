@@ -3,18 +3,15 @@ import {useLocation, useHistory} from "react-router-dom";
 import { Form, Check, Button } from 'react-bootstrap';
 
 function Questions(props) {
+    const userId = sessionStorage.getItem('uId');
     const questionTemplate = 
     [{           
-       questionId: 0,
-       content: "NOT LOADED",
-       type: "NOT LOADED",
-       points: 0,
-       image: "NOT LOADED",
-       answers:  [{
-           answerId: 0,
-           content: "NOT LOADED",
-           correct: "NOT LOADED"
-       }]
+        questionId: 0,
+        answerId: [],
+        questionType: "",
+        answerContent: "",
+        quizId: 0,
+        userId: 0
    }]
    const submittedAnswerTemplate = 
    {
@@ -72,6 +69,7 @@ function Questions(props) {
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
         } else {
@@ -90,6 +88,7 @@ function Questions(props) {
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
@@ -108,6 +107,7 @@ function Questions(props) {
                 questionType: "MUTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -127,6 +127,7 @@ function Questions(props) {
                 questionType: "MUTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
@@ -146,6 +147,7 @@ function Questions(props) {
                 questionType: "MUTIPLE_SELECT",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -170,6 +172,7 @@ function Questions(props) {
                 answerId: [id],
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
