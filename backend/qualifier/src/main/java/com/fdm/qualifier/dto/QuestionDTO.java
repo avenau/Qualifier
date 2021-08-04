@@ -24,7 +24,7 @@ public class QuestionDTO {
 		this.questionPoints = question.getPoints();
 		this.questionImage = question.getImage();
 		this.answers = question.getAnswers();
-		this.submittedAnswers = question.getSubmittedAnswers();
+//		this.submittedAnswers = question.getSubmittedAnswers();
 	}
 
 	public int getQuestionId() {
@@ -75,13 +75,13 @@ public class QuestionDTO {
 		this.answers = answers;
 	}
 
-	public List<SubmittedAnswer> getSubmittedAnswers() {
-		return submittedAnswers;
-	}
-
-	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-		this.submittedAnswers = submittedAnswers;
-	}
+//	public List<SubmittedAnswer> getSubmittedAnswers() {
+//		return submittedAnswers;
+//	}
+//
+//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+//		this.submittedAnswers = submittedAnswers;
+//	}
 	
 	
 }

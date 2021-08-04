@@ -28,6 +28,10 @@ public class SkillService {
 		skillRepo.flush();
 	}
 	
+	public void deleteById(int id) {
+		skillRepo.deleteById(id);
+	}
+	
 	public Skill findByName(String name) {
 		return skillRepo.findByName(name);
 	}

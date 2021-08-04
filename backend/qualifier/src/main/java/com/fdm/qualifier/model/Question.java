@@ -34,8 +34,8 @@ public class Question {
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
-	@OneToMany(mappedBy = "question")
-	private List<SubmittedAnswer> submittedAnswers;
+//	@OneToMany(mappedBy = "question")
+//	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
 		MUTIPLE_CHOICE,
@@ -56,8 +56,8 @@ public class Question {
 		this.quiz = quiz;
 	}
 
-	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers,
-			List<SubmittedAnswer> submittedAnswers) {
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers
+			/*List<SubmittedAnswer>submittedAnswers*/) {
 		super();
 		this.content = content;
 		this.type = type;
@@ -65,7 +65,7 @@ public class Question {
 		this.image = image;
 		this.quiz = quiz;
 		this.answers = answers;
-		this.submittedAnswers = submittedAnswers;
+//		this.submittedAnswers = submittedAnswers;
 	}
 
 	public Question(Quiz quiz, String content, QuestionType type, int points,
@@ -140,13 +140,13 @@ public class Question {
 	}
 	
 
-	public List<SubmittedAnswer> getSubmittedAnswers() {
-		return submittedAnswers;
-	}
-
-	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-		this.submittedAnswers = submittedAnswers;
-	}
+//	public List<SubmittedAnswer> getSubmittedAnswers() {
+//		return submittedAnswers;
+//	}
+//
+//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+//		this.submittedAnswers = submittedAnswers;
+//	}
 
 	@Override
 	public String toString() {
