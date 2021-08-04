@@ -1,10 +1,13 @@
 package com.fdm.qualifier.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Skill {
@@ -12,6 +15,9 @@ public class Skill {
 	@GeneratedValue
 	private int skillId;
 	private String name;
+	
+//	@OneToMany
+//	private List<SkillLevel> skillLevel;
 
 	public Skill() {
 		super();
@@ -20,6 +26,7 @@ public class Skill {
 	public Skill(String name) {
 		super();
 		this.name = name;
+		
 	}
 
 	public int getSkillId() {

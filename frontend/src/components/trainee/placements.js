@@ -8,6 +8,9 @@ function SearchPlacements(){
     const traineeId = sessionStorage.getItem("userId");
 
     const axios = require('axios');
+    const axiosConfig = {
+        headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+    };
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchError, setSearchError] = useState("");
@@ -23,7 +26,7 @@ function SearchPlacements(){
     }])
 
     useEffect(() => {
-        axios.get('http://localhost:9999/getAllPlacements')
+        axios.get('http://localhost:9999/getAllPlacements', axiosConfig)
         .then((response) => {
             console.log(response);
             setPlacementResult(response.data);
@@ -39,7 +42,7 @@ function SearchPlacements(){
         evt.preventDefault();
         if (searchTerm.trim().length > 0) {
             setSearchError("");
-            const config = { headers: {'Content-Type': 'application/json'} };
+            const config = { headers: {'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.jwtToken}`} };
             axios.post('http://localhost:9999/searchPlacements', searchTerm, config)
                 .then(function (response) {
                     console.log(response);

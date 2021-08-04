@@ -27,6 +27,7 @@ import MySkills from './components/trainee/mySkills';
 import MarkQuiz from './components/quiz/MarkQuiz';
 import CreateQuiz from './components/quiz/CreateQuiz';
 import TraineeResults from './components/trainer/traineeResults';
+import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
 
 //To add your page 
 /*
@@ -52,13 +53,14 @@ function App() {
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path ='/browsequiz' component={BrowseQuiz}/>
         <Route exact path ='/finishquiz' component={FinishQuiz}/>
-        <Route exact path='/createPlacement' component={CreatePlacement}/>
+        <Route exact path ='/createPlacement' component={CreatePlacement}/>
         <Route exact path='/startquiz' component={QuizStartPage}/>
         <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
         <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path ='/trainer/createquiz' component={CreateQuiz}/>
         <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
         <Route exact path = '/traineeResults' component={TraineeResults}/>
+        <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>
         <Route path='/login' component={Login} />
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
