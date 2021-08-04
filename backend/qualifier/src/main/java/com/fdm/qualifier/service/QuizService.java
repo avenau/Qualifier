@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.httpRequest.UpdateQuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
@@ -99,6 +100,10 @@ public class QuizService {
 
 	public List<Quiz> findAllQuiz() {
 		return quizRepo.findAll();
+	}
+
+	public QuizDTO updateDTO(UpdateQuizRequest request) {
+		return null;
 	}
 
 }

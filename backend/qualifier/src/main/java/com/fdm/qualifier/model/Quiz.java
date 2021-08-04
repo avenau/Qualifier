@@ -26,6 +26,7 @@ public class Quiz {
 	private int questionCount;
 	private double passingMark;
 	@OneToOne
+	@JsonManagedReference(value = "skillLevel")
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
