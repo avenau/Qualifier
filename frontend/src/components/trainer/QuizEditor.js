@@ -2,7 +2,7 @@
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {Modal, Container, Button} from 'react-bootstrap';
-function CreateQuiz() {
+function QuizEditor() {
     const skillLevelId = 5;
 
     useEffect (() => {
@@ -108,7 +108,7 @@ function CreateQuiz() {
         
     )
 }
-export default CreateQuiz;
+export default QuizEditor;
 
 /*
 {
