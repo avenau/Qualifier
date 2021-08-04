@@ -52,34 +52,12 @@ function SearchPlacements(){
             setSearchError("Search cannot be empty");
         }   
     }
-
-    const skillLevelList = placementResult.map((placementObject)=>{
-        if(placementObject.skillsNeeded !== undefined){
-            placementObject.skillsNeeded.map(
-            (skill, index) =>
-                <ListGroup.Item key={"skill-" + index}>
-                    {skill.skill.name}: {skill.level}
-                </ListGroup.Item>
-        )}else{
-            <div>No skills</div>
-        }
-    }
-        );
     
-
     if (isLoading) {
         return <div className="App">Loading...</div>;
     }
 
     return (
-        // <div>
-        //     <form onSubmit={submitPlacementSearch}>
-        //         <label>Skill Name: </label>
-        //         <input type="text" value={searchTerm} onChange={e => setPlacement(e.target.value)} required />
-        //         <input type="submit" value="Search Placement" />
-        //     </form>
-        //     <div>{searchError}</div>
-        // </div>
         <Container className = "d-flex justify-content-center pt-5">
         <Card className="w-75">
             <Card.Header as="h5">
@@ -109,7 +87,7 @@ function SearchPlacements(){
                 </Row>
             </Card.Header>
             <Card.Body>
-                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].quizId}>
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>
@@ -129,20 +107,19 @@ function SearchPlacements(){
                                                     <h3>{placement.name}</h3>
                                                     <p>{placement.description}</p>
                                                     <p>{placement.client.name}</p>
+                                                    <p>{placement.location}</p>
+                                                    <p>Start Date: {placement.startDate}</p>
+                                                    <p>Completion Date: {placement.completionDate}</p>
                                                     <ListGroup>
-                                                        {skillLevelList.length > 0 ? skillLevelList : <ListGroup.Item>No Skills</ListGroup.Item>}
+                                                        {placement.skillsNeeded.map(
+                                                            (skillLevel, index) =>
+                                                                <ListGroup.Item key={"skill-" + skillLevel.skillLevelId}>
+                                                                    {skillLevel.skill.name}: {skillLevel.level}
+                                                                </ListGroup.Item>
+                                                        )}
                                                     </ListGroup>
 
                                                 </Col>
-                                                {/* <Col>
-                                                    <Button variant="primary" onClick={(()=>{
-                                                        history.push('/startquiz/' + placement.quizId);
-                                                    })}>Take Quiz</Button>
-                                                    <p class="pt-2"><strong>Time Limit: </strong>{placement.duration} sec<br/>
-                                                    <strong>No. Questions: </strong>{placement.questionCount}<br/>
-                                                    <strong>Pass Mark: </strong>{placement.passingMark}%
-                                                    </p>
-                                                </Col> */}
                                             </Row>
                                         </Tab.Pane> 
                                     ))}
