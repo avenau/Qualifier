@@ -25,6 +25,7 @@ function HomePage() {
             <Button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</Button>
             <Button variant="primary" onClick={() => {history.push('/browsequiz')} }>Browse Quiz</Button>
             <Button onClick={() => {history.push('/myskills')} }>Trainee: My Skills Page</Button>
+            <Button onClick={() => {history.push('/traineeResults')}}>Trainee Results</Button>
         </Container>
     )
 }

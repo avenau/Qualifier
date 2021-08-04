@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Result {
 	@Id
@@ -19,34 +22,47 @@ public class Result {
 	private int resultId;
 	private double mark;
 	private boolean passed;
+	private boolean marked;
 
 	@ManyToOne
+	@JsonBackReference(value = "trainee-result")
 	private Trainee trainee;
-	
-	@OneToOne(cascade=CascadeType.MERGE)
+
+	@OneToOne(cascade = CascadeType.MERGE)
+//	@JsonManagedReference(value = "quiz-result")
 	private Quiz quiz;
-	
+
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "result")
+	@JsonManagedReference(value = "submittedAnswer-result")
 	private List<SubmittedAnswer> submittedAnswers;
-	
+
 	public Result() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Result(double mark, Trainee trainee, Quiz quiz, boolean passed) {
 		super();
 		this.mark = mark;
+		this.passed = passed;
 		this.trainee = trainee;
 		this.quiz = quiz;
-		this.passed = passed;
-		this.submittedAnswers = new ArrayList<SubmittedAnswer>();
 	}
-	
-	public Result(double mark, boolean passed, Trainee trainee, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
+
+	public Result(double mark, boolean passed, boolean marked, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
 		super();
 		this.mark = mark;
 		this.passed = passed;
+		this.marked = marked;
+		this.quiz = quiz;
+		this.submittedAnswers = submittedAnswers;
+	}
+
+	public Result(double mark, boolean passed, boolean marked, Trainee trainee, Quiz quiz,
+			List<SubmittedAnswer> submittedAnswers) {
+		super();
+		this.mark = mark;
+		this.passed = passed;
+		this.marked = marked;
 		this.trainee = trainee;
 		this.quiz = quiz;
 		this.submittedAnswers = submittedAnswers;
@@ -91,7 +107,6 @@ public class Result {
 	public void setPassed(boolean passed) {
 		this.passed = passed;
 	}
-	
 
 	public List<SubmittedAnswer> getSubmittedAnswers() {
 		return submittedAnswers;
@@ -100,20 +115,27 @@ public class Result {
 	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
 		this.submittedAnswers = submittedAnswers;
 	}
-	
+
 	public void addSubmittedAnswer(SubmittedAnswer answer) {
 		this.submittedAnswers.add(answer);
 	}
-	
+
 	public void removeSubmittedAnswer(SubmittedAnswer answer) {
 		this.submittedAnswers.remove(answer);
 	}
 
+	public boolean isMarked() {
+		return marked;
+	}
+
+	public void setMarked(boolean marked) {
+		this.marked = marked;
+	}
+
 	@Override
 	public String toString() {
-		return "Results [resultId=" + resultId + ", mark=" + mark + ", trainee=" + trainee + ", quiz=" + quiz
-				+ ", passed=" + passed + "]";
+		return "Result [resultId=" + resultId + ", mark=" + mark + ", passed=" + passed + ", marked=" + marked
+				+ ", trainee=" + trainee + ", quiz=" + quiz + "]";
 	}
-	
-	
+
 }

@@ -6,22 +6,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class SubmittedAnswer {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int submittedAnswer_id;
+
 	@ManyToOne
+//	@JsonBackReference(value = "question-submittedAnswer")
 	private Question question;
+
 	@ManyToOne
+	@JsonBackReference(value = "submittedAnswer-result")
 	private Result result;
+
 	@ManyToOne
 	private Answer answer;
-	private String answerContent;
 	
+	private String answerContent;
+
 	public SubmittedAnswer() {
 		super();
+	}
+
+	public SubmittedAnswer(Question question, String answerContent) {
+		super();
+		this.question = question;
+		this.answerContent = answerContent;
+	}
+
+	public SubmittedAnswer(Question question, Answer answer, String answerContent) {
+		super();
+		this.question = question;
+		this.answer = answer;
+		this.answerContent = answerContent;
 	}
 
 	public SubmittedAnswer(Question question, Result result, Answer answer, String answerContent) {
@@ -77,7 +99,5 @@ public class SubmittedAnswer {
 		return "SubmittedAnswer [submittedAnswer_id=" + submittedAnswer_id + ", question=" + question + ", result="
 				+ result + ", answer=" + answer + ", answerContent=" + answerContent + "]";
 	}
-	
-	
 
 }

@@ -45,11 +45,7 @@ function AttemptQuiz() {
 
     useEffect (() => {
         axios
-        .get('http://localhost:9999/getQuizDetails', {   
-            params: {
-                quizId:quizId
-            },
-        })
+        .get('http://localhost:9999/quiz/get/' + quizId)
         .then((response) =>{
             console.log(response.data);
             setQuiz(response.data);

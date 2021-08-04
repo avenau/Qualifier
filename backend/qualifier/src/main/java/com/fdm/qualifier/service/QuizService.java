@@ -5,20 +5,24 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.httpRequest.UpdateQuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
+
 import com.fdm.qualifier.model.SkillLevel;
-import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
+
+import com.fdm.qualifier.model.SubmittedAnswer;
+
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.AnswerRepository;
 import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.repository.ResultRepository;
-import com.fdm.qualifier.request.UpdateQuizRequest;
 
 @Service
 public class QuizService {
@@ -26,15 +30,28 @@ public class QuizService {
 	private QuizRepository quizRepo;
 	private QuestionRepository questionRepo;
 	private AnswerRepository answerRepo;
+	private QuestionService questionService;
+	private SubmittedAnswerService submittedAnswerService;
+	private AnswerService answerService;
+	private ResultService resultService;
+	
+	public QuizService() {
+		super();
+	}
 
 	@Autowired
-	public QuizService(ResultRepository resultRepo, QuizRepository quizRepo, QuestionRepository questionRepository,
-			AnswerRepository answerRepository) {
+	public QuizService(ResultRepository resultRepo, QuizRepository quizRepo, QuestionRepository questionRepo,
+			AnswerRepository answerRepo, QuestionService questionService, SubmittedAnswerService submittedAnswerService,
+			AnswerService answerService, ResultService resultService) {
 		super();
 		this.resultRepo = resultRepo;
 		this.quizRepo = quizRepo;
-		this.questionRepo = questionRepository;
-		this.answerRepo = answerRepository;
+		this.questionRepo = questionRepo;
+		this.answerRepo = answerRepo;
+		this.questionService = questionService;
+		this.submittedAnswerService = submittedAnswerService;
+		this.answerService = answerService;
+		this.resultService = resultService;
 	}
 
 	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
@@ -42,6 +59,7 @@ public class QuizService {
 		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));
 		return result;
 	}
+
 	
 	public void save(Quiz newQuiz) {
 		quizRepo.save(newQuiz);
@@ -65,6 +83,7 @@ public class QuizService {
 			return null;
 		return optionalResult.get();
 	}
+
 
 	public Quiz saveQuiz(Quiz quiz) {
 		return quizRepo.save(quiz);
@@ -102,11 +121,53 @@ public class QuizService {
 	public List<Quiz> findAllQuiz() {
 		return quizRepo.findAll();
 	}
-
-
-	public QuizDTO updateDTO(UpdateQuizRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	@Transactional
+	public void deleteQuiz(Quiz quiz) {
+		int quizID = quiz.getQuizId();
+		List<Question> questions = questionService.findAllQuestionsOfQuizID(quiz);
+		
+		for (Question question : questions) {
+			//remove every submitted answer
+			List<SubmittedAnswer> subAnswerList = submittedAnswerService.findByQuestion(question);
+			for (SubmittedAnswer subAnswer : subAnswerList) {
+				submittedAnswerService.delete(subAnswer);
+			}
+			
+			//remove every answer
+			List<Answer> answerList = answerService.findByQuestion(question);
+			for (Answer answer : answerList) {
+				answerService.delete(answer);
+			}
+			//remove every question
+			questionService.delete(question);
+		}
+		//remove every result of the quiz by trainees
+		List<Result> results = resultService.findByQuiz(quiz);
+		for (Result result : results) {
+			resultService.delete(result);
+		}
+		
+		quizRepo.delete(quiz);
 	}
+
+	public QuizDTO updateQuiz(UpdateQuizRequest request) {
+		Quiz quiz = quizRequestToQuiz(request);
+		Quiz quizResult = quizRepo.save(quiz);
+		return new QuizDTO(quizResult);
+	}
+	
+	public Quiz quizRequestToQuiz(UpdateQuizRequest request) {
+		Quiz quiz = new Quiz();
+		quiz.setQuizId(request.getQuizId());
+		quiz.setName(request.getName());
+		quiz.setDescription(request.getDescription());
+		quiz.setDuration(request.getDuration());
+		quiz.setQuestionCount(request.getQuestionCount());
+		quiz.setPassingMark(request.getPassingMark());
+		quiz.setQuestions(request.getQuestions());
+		return quiz;
+	}
+
 
 }
