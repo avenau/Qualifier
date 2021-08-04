@@ -130,7 +130,7 @@ public class QuizController {
 	
 	@PostMapping("/quiz/update")
 	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
-		return quizService.updateDTO(request);
+		return quizService.updateQuiz(request);
 	}
 	
 	@GetMapping("/getAllQuizzes")
@@ -142,17 +142,5 @@ public class QuizController {
 	public Result getResult(@RequestBody Result result) {
 		return quizService.findResultById(result.getResultId());
 	}
-	
-/*	@GetMapping("/loadQuizPage")
-	public Quiz loadQuizPage(int id) {
-		System.out.println("ID adfd: " + id);
-		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
-		if (!selectedQuiz.isPresent()) {
-			System.out.println("ERROR");
-			return null;
-		}
-		return selectedQuiz.get();
-	}*/
-
 
 }

@@ -28,8 +28,10 @@ public class QuizDTO {
 		this.passingMark = quiz.getPassingMark();
 		
 		this.questions = new ArrayList<QuestionDTO>();
-		for (Question question : quiz.getQuestions()) {
-			questions.add(new QuestionDTO(question));
+		if (quiz.getQuestions() != null) {
+			for (Question question : quiz.getQuestions()) {
+				questions.add(new QuestionDTO(question));
+			}
 		}
 	}
 
