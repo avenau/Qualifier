@@ -36,10 +36,6 @@ public class PlacementController {
 	
 	@PostMapping("/savePlacement")
 	public void save(@RequestBody Placement placement) {
-		Client client = new Client("ANZ");
-		clientService.save(client);
-		placement.setClient(client);
-		log.trace("save() called");
 		log.info("Saving placement: " + placement);
 		placementService.save(placement);
 	}
