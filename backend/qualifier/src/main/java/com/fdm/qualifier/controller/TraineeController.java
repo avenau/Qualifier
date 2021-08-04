@@ -52,7 +52,7 @@ public class TraineeController {
 	
 	@PostMapping("/addUnverifiedSkill")
 	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
-		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
+		Optional<Trainee> foundTrainee = traineeService.getTraineeByID(ids[0]);
 		System.out.println("The found trainee is:" + foundTrainee);
 		
 		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
@@ -63,16 +63,16 @@ public class TraineeController {
 			}
 		}
 		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
-		traineeService.save(foundTrainee);	
+		traineeService.save(foundTrainee.get());	
 	}
 	
 	@PostMapping("/removeTraineeSkill")
 	public void removeTraineeSkill(@RequestBody Integer[] ids) {
-		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
+		Optional<Trainee> foundTrainee = traineeService.getTraineeByID(ids[0]);
 		SkillLevel skillLevel = skillLevelService.getById(ids[1]);
 		Skill skill = skillLevel.getSkill();
 		traineeService.removeSkillFromTrainee(skill, ids[0]);
-		traineeService.save(foundTrainee);
+		traineeService.save(foundTrainee.get());
 	}
 
 //	@PostMapping("/changePinnedSkill")

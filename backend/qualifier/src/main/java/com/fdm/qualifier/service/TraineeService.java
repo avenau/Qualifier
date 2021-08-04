@@ -38,8 +38,8 @@ public class TraineeService {
 		this.skillLevelRepo = skillLevelRepo;
 	}
 	
-	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getById(id);
+	public Optional<Trainee> getTraineeByID(int id) {
+		return traineeRepo.findById(id);
 	}
 
 	/**
@@ -217,8 +217,8 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
-		foundTrainee.addSkill(skill);
+		Optional<Trainee> foundTrainee = traineeRepo.findById(traineeId);
+		foundTrainee.get().addSkill(skill);
 	}
 	
 	/** Removes the specified skill from the specified trainer 
@@ -227,8 +227,8 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
-		foundTrainee.removeSkill(skill);
+		Optional<Trainee> foundTrainee = traineeRepo.findById(traineeId);
+		foundTrainee.get().removeSkill(skill);
 	}
 	
 	/**

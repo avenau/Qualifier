@@ -206,7 +206,7 @@ public class Dataloader implements ApplicationRunner {
 		trainee3.setAddress("tissue box");	
 		trainee3.setPhoneNumber(656465486);
 		trainee3.setSkills(skillSet);
-		trainee3.setFirstName("Gray");
+		trainee3.setFirstName("Necro");
 		trainee3.setLastName("Mancy");
 		
 
