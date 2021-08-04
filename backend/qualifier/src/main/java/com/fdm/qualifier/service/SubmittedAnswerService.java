@@ -1,11 +1,13 @@
 package com.fdm.qualifier.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.repository.SubmittedAnswerRepository;
 
 @Service
@@ -30,6 +32,8 @@ public class SubmittedAnswerService {
 		return submittedRepo.findById(id);
 	}
 	
-	
+	public List<SubmittedAnswer> findByQuestion(Question question) {
+		return submittedRepo.findSubmittedAnswerByQuestion(question);
+	}
 
 }
