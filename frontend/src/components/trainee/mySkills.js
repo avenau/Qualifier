@@ -153,9 +153,23 @@ function MySkills() {
 
     };
 
+    const removeSkill = (index) => {
+        axios.post('http://localhost:9999/removeTraineeSkill', [traineeId, skills[index].skillLevelId])
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    };
+
     const skillsList = skills.map(
         (skill, index) =>
             <ListGroup.Item key={"skill-" + index}>
+                <Button onClick={() => removeSkill(index)}>REMOVE</Button>
                 <Button onClick={() => pinSkill(index)}>PIN</Button>
                 {skill.skill.name}: {skill.level}
             </ListGroup.Item>
@@ -190,16 +204,6 @@ function MySkills() {
                 </Dropdown.Menu>
             </Dropdown>
             
-            <form onSubmit={addSkillToTrainee}> 
-                <select id="allSkills" value={newSkill} name="skills">
-                    {allSkills.map(skill=>{
-                 return (
-                     <option value="{skill.name}" onChange={e => setNewSkill(e.target.value)}>{skill.name}</option>
-                 )                               
-            })}
-                </select>
-                <input type="submit" value="Add Skill"/>
-            </form>
         </div>
     );
 

@@ -1,6 +1,8 @@
 package com.fdm.qualifier.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,8 @@ public class ClientService {
 	public Client findByName(String name){
 		return clientRepo.findByName(name);
 	}
-
+	
+	public List<Client> getAllClients() {
+		return clientRepo.findAll();
+	}
 }
