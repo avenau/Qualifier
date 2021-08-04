@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -106,6 +106,14 @@ public class TraineeController {
 	@PostMapping("/unpinSkill")
 	public String unpinSkill(@RequestBody Integer[] ids) {
 		return traineeService.unpinSkill(ids[0], ids[1]);
+	}
+	
+	@PostMapping("/getTraineesResults")
+	public List<Result> getTraineeResults(@RequestBody Trainee trainee) {
+		log.debug(trainee);
+		List<Result> results = traineeService.getAllResults(trainee.getUserId());
+		log.debug(results);
+		return results;
 	}
 
 }

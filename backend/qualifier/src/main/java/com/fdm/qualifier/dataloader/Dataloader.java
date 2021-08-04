@@ -9,12 +9,11 @@ import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.NoSuchElementException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -83,7 +82,7 @@ import com.fdm.qualifier.service.UserService;
 @Component
 public class Dataloader implements ApplicationRunner {
 	private Log log = LogFactory.getLog(Dataloader.class);
-	
+
 	private SuggestedSkillService suggestedSkillService;
 	private AnswerService answerService;
 	private PlacementService placementService;
@@ -103,7 +102,6 @@ public class Dataloader implements ApplicationRunner {
 			SkillLevelService skillLevelService, SkillService skillService, ClientService clientService,
 			TraineeService traineeService, StreamService streamService, QuizService quizService, 
 			QuestionService questionService, AnswerService answerService , SubmittedAnswerService submittedAnswerService, UserService userService, TrainerService trainerService) {
-
 		super();
 		this.suggestedSkillService = suggestedSkillService;
 		this.placementService = placementService;
@@ -121,7 +119,7 @@ public class Dataloader implements ApplicationRunner {
 		this.answerService = answerService;
 
 	}
-	
+
 	@Override
 	@Transactional
 	@Modifying
@@ -131,12 +129,12 @@ public class Dataloader implements ApplicationRunner {
 //		createQuiz();
 		createTrainee();
 		createResult();
-		
+
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
 
 		LocalDate startDate = LocalDate.of(2020, 1, 8);
-		
+
 		log.debug("Creating skills");
 		Skill java = new Skill("Java");
 		Skill cs = new Skill("C#");
@@ -144,14 +142,17 @@ public class Dataloader implements ApplicationRunner {
 		java = skillService.save(java);
 		cs = skillService.save(cs);
 		python = skillService.save(python);
-		
-		// SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
-		// SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
-		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
+
+		// SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER,
+		// java, null);
+		// SkillLevel skillLevel2 = new
+		// SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
+		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT,
+		// python, null);
 		log.debug("Creating Quiz");
-//		Quiz quiz1 = new Quiz();
-//		quizService.saveQuiz(quiz1);
-		
+		Quiz quiz1 = new Quiz();
+		quizService.saveQuiz(quiz1);
+
 		log.debug("Creating SkillLevels");
 		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
 		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
@@ -161,14 +162,14 @@ public class Dataloader implements ApplicationRunner {
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
 		skillLevelService.save(skillLevel4);
-		
+
 		List<SkillLevel> skillSet = new ArrayList<>();
 		List<SkillLevel> pinnedSkillSet = new ArrayList<>();
 		skillSet.add(skillLevel1);
 		skillSet.add(skillLevel2);
 		pinnedSkillSet.add(skillLevel3);
-		
-		//save trainee
+
+		// save trainee
 		Trainee trainee1 = new Trainee("username", "password");
 		Trainee trainee2 = new Trainee("fink", "asdf");
 		Trainee trainee3 = new Trainee("Barney", "dinosaur");
@@ -181,49 +182,50 @@ public class Dataloader implements ApplicationRunner {
 		
 		
 		
-		
 		trainee1.setEmail("trainee@mail.com");
 		trainee1.setCity("Sydney");
-		trainee1.setAddress("123 Fake Street");	
+		trainee1.setAddress("123 Fake Street");
 		trainee1.setPhoneNumber(1234567890);
 		trainee1.setSkills(skillSet);
 
-		trainee1.setPinnedSkills(pinnedSkillSet);		
+		trainee1.setPinnedSkills(pinnedSkillSet);
 
 		trainee1.setFirstName("Stacy");
 		trainee1.setLastName("Mancy");
-		
+
 		trainee2.setEmail("ink@mail.com");
 		trainee2.setCity("Sydney");
-		trainee2.setAddress("Soccerfield");	
+		trainee2.setAddress("Soccerfield");
 		trainee2.setPhoneNumber(5464646);
 		trainee2.setSkills(skillSet);
 		trainee2.setFirstName("Rick");
 		trainee2.setLastName("Pickle");
-		
+
 		trainee3.setEmail("roseEater@mail.com");
 		trainee3.setCity("Melbourne");
-		trainee3.setAddress("tissue box");	
+		trainee3.setAddress("tissue box");
 		trainee3.setPhoneNumber(656465486);
 		trainee3.setSkills(skillSet);
 		trainee3.setFirstName("Gray");
 		trainee3.setLastName("Mancy");
-		
 
 		traineeService.save(trainee1);
 		traineeService.save(trainee2);
 		traineeService.save(trainee3);
-		
-		//stream
+
+		// stream
 		Stream stream1 = new Stream("Name", Arrays.asList(trainee1));
 		streamService.save(stream1);
 
 		log.debug("Creating clients and placements");
-		Client client1 = new Client("ANZ");		
+		Client client1 = new Client("ANZ");
 		Client client2 = new Client("Kmart");
-		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, trainee1, Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
-		Placement placement2 = new Placement("Placement2", startDate, startDate, "test", "Sydney", client2, trainee1, Arrays.asList(trainee1), Arrays.asList(skillLevel2, skillLevel3));
-		Placement placement3 = new Placement("Placement3", startDate, startDate, "test", "Sydney", client1, trainee1, Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
+		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, trainee1,
+				Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
+		Placement placement2 = new Placement("Placement2", startDate, startDate, "test", "Sydney", client2, trainee1,
+				Arrays.asList(trainee1), Arrays.asList(skillLevel2, skillLevel3));
+		Placement placement3 = new Placement("Placement3", startDate, startDate, "test", "Sydney", client1, trainee1,
+				Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
 		client1.setPlacements(Arrays.asList(placement3));
 		client2.setPlacements(Arrays.asList(placement2));
 		clientService.save(client1);
@@ -231,10 +233,9 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement1);
 		placementService.save(placement2);
 		placementService.save(placement3);
-		
+
 		log.info("quiz init started");
-//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
-		
+//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));		
 		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "Following quiz provides Multiple Choice and Multi Select Questions related to Core Java (Beginner Level). You will have to read all the given answers and click over the correct answer.", 600, 0, 75, skillLevel1);
 		skillLevel1.setQuiz(javaBeginner);
 		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Q 1 - Which of the following is false about String?", Question.QuestionType.MUTIPLE_CHOICE, 5, null);
@@ -340,51 +341,137 @@ public class Dataloader implements ApplicationRunner {
 		log.info("quiz init finished");
 
 		log.debug("Find by Java");
-		for(Placement p : placementService.findBySkillName("Java")) {
+		for (Placement p : placementService.findBySkillName("Java")) {
 			log.debug(p);
 		}
 		log.debug("Find by name " + placementService.findByName("Placement1"));
 		log.debug("Display all ");
-		for(Placement p : placementService.findAll()) {
+		for (Placement p : placementService.findAll()) {
 			log.debug(p);
 		}
 		log.debug("Find by client name");
-		for(Placement p : placementService.findByClientName("ANZ")) {
+		for (Placement p : placementService.findByClientName("ANZ")) {
 			log.debug(p);
 		}
 		log.debug("Find by Location Sydney");
-		for(Placement p : placementService.findByLocation("Sydney")) {
+		for (Placement p : placementService.findByLocation("Sydney")) {
 			log.debug(p);
 		}
-		log.info("Finished Data Setup");
-		
+
 		log.debug("find trainee by name");
-		for(Trainee t : traineeService.findTraineeByName("Mancy")) {
+		for (Trainee t : traineeService.findTraineeByName("Mancy")) {
 			log.debug(t);
 		}
-		
+
 		log.debug("find trainee by skill");
-		for(Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
+		for (Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
 			log.debug(t);
 		}
+		log.info("Finished Data Setup");
 	}
-	
+
 	private void createResult() {
-//		log.debug("Creating Result");
-//		Quiz quiz = quizService.findQuizById(15).get();
-//		log.debug(quiz.getQuestions());
-//		Trainee trainee = traineeService.getTraineeByID(31);
-//		SubmittedAnswer sa1 = new SubmittedAnswer(quiz.getQuestions().get(0), null, quiz.getQuestions().get(0).getAnswers().get(0), null);
-//		SubmittedAnswer sa2 = new SubmittedAnswer(quiz.getQuestions().get(1), null, quiz.getQuestions().get(1).getAnswers().get(0), null);
-//		SubmittedAnswer sa3 = new SubmittedAnswer(quiz.getQuestions().get(2), null, quiz.getQuestions().get(2).getAnswers().get(0), "answer to short answer type question");
-//		
-//		sa1 = submittedAnswerService.save(sa1);
-//		sa2 = submittedAnswerService.save(sa2);
-//		sa3 = submittedAnswerService.save(sa3);
-//		
-//		Result result = new Result(0, false, trainee, quiz, new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
-//		result = quizService.saveResult(result);		
-//		log.debug("Created Result: " + result);
+		log.debug("Creating Result");
+		try {
+			Quiz quiz = new Quiz("Test Quiz For Results", "For testing trainer marking", 1000, 5, 3.0);
+					
+			Question q1 = new Question(quiz, "Test Quiz", QuestionType.MUTIPLE_CHOICE, 4, new ArrayList<Answer>());
+			Answer q1a = new Answer("Answer 1", q1, false);
+			Answer q1a1 = new Answer("Answer 2", q1, true);
+			Answer q1a2 = new Answer("Answer 3", q1, false);
+			q1.addAnswers(q1a);
+			q1.addAnswers(q1a1);
+			q1.addAnswers(q1a2);
+			quizService.saveAnswer(q1a);
+			quizService.saveAnswer(q1a1);
+			quizService.saveAnswer(q1a2);
+			quizService.saveQuestion(q1);
+
+			Question q2 = new Question(quiz, "MultiSelect", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
+			Answer q2a = new Answer("Answer 1", q2, true);
+			Answer q2a1 = new Answer("Answer 2", q2, false);
+			Answer q2a2 = new Answer("Answer 3", q2, true);
+			q2.addAnswers(q2a);
+			q2.addAnswers(q2a1);
+			q2.addAnswers(q2a2);
+
+			Question q3 = new Question(quiz, "Short Answer", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
+			Answer q3a1 = new Answer("Short Answer", q3, true);
+			q3.addAnswers(q3a1);
+
+			quiz.addQuestion(q1);
+
+			quiz.addQuestion(q3);
+			quiz.addQuestion(q2);
+
+			Question q5 = new Question(quiz, "MultiSelectadifsjklfj;lasdkjf;laskdjf;alsdkjf", QuestionType.MULTI_SELECT,
+					4, new ArrayList<Answer>());
+			Answer q5a = new Answer("Answer 1", q5, true);
+			Answer q5a1 = new Answer("Answer 2", q5, false);
+			Answer q5a2 = new Answer("Answer 3", q5, true);
+			q5.addAnswers(q5a);
+			q5.addAnswers(q5a1);
+			q5.addAnswers(q5a2);
+
+			quizService.saveAnswer(q3a1);
+			quizService.saveQuestion(q3);
+
+			quizService.saveAnswer(q2a);
+			quizService.saveAnswer(q2a1);
+			quizService.saveAnswer(q2a2);
+			quizService.saveQuestion(q2);
+			quizService.saveAnswer(q5a2);
+			quizService.saveAnswer(q5a1);
+			quizService.saveAnswer(q5a);
+			quizService.saveQuestion(q5);
+
+			quiz = quizService.saveQuiz(quiz);
+
+			// Quiz quiz = quizService.findQuizById(31).get();
+			log.debug(quiz.getQuestions());
+			Trainee trainee = traineeService.getTraineeByID(14);
+			SubmittedAnswer sa1 = new SubmittedAnswer(quiz.getQuestions().get(0), null,
+					quiz.getQuestions().get(0).getAnswers().get(0), null);
+			SubmittedAnswer sa2 = new SubmittedAnswer(quiz.getQuestions().get(1), null,
+					quiz.getQuestions().get(1).getAnswers().get(0), null);
+			SubmittedAnswer sa3 = new SubmittedAnswer(quiz.getQuestions().get(2), null,
+					quiz.getQuestions().get(2).getAnswers().get(0), "answer to short answer type question");
+
+			sa1 = submittedAnswerService.save(sa1);
+			sa2 = submittedAnswerService.save(sa2);
+			sa3 = submittedAnswerService.save(sa3);
+			
+			Skill skill = skillService.save(new Skill("resultTest"));
+			log.debug(skill);
+			SkillLevel skillLevel = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, skill, quiz);
+			log.debug(skillLevel);
+			skillLevelService.save(skillLevel);
+			quiz.setSkillLevel(skillLevel);
+			quiz = quizService.saveQuiz(quiz);
+			
+			Result result = new Result(0, false, false, trainee, quiz,
+					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
+			
+			sa1.setResult(result);
+			sa2.setResult(result);
+			sa3.setResult(result);
+
+			result = quizService.saveResult(result);
+			
+
+//			sa1 = submittedAnswerService.save(sa1);
+//			sa2 = submittedAnswerService.save(sa2);
+//			sa3 = submittedAnswerService.save(sa3);
+			
+			List<Result> results = trainee.getResults();
+			results.add(result);
+			trainee.setResults(results);
+			traineeService.save(trainee);
+			
+			log.debug("Created Result: " + result);
+		} catch (NoSuchElementException e) {
+			log.warn("Couldn't create result");
+		}
 	}
 
 	public void createQuiz() {
@@ -453,42 +540,41 @@ public class Dataloader implements ApplicationRunner {
 //		quizService.saveQuiz(cpp);
 //		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
 //		log.info("Questions: " + savedQuiz.getQuestions());
-		
+
 	}
 
-
 	public void createTrainee() {
-		//Create Suggested Skills
+		// Create Suggested Skills
 		SuggestedSkill suggestedSkill = new SuggestedSkill("java");
 		suggestedSkillService.save(suggestedSkill);
-		
-		//Create Skills
+
+		// Create Skills
 		Skill java = new Skill("java");
 		Skill cpp = new Skill("cpp");
 		Skill react = new Skill("react");
-		
+
 		log.info("Saving Skills");
 		skillService.save(Arrays.asList(java, cpp, react));
-		
-		//Create Skill levels
+
+		// Create Skill levels
 		SkillLevel javaBeginner = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
 		SkillLevel javaIntermediate = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, java, null);
 		SkillLevel javaExpert = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, java, null);
-		
+
 		SkillLevel cppBeginner = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, cpp, null);
 		SkillLevel cppIntermediate = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cpp, null);
 		SkillLevel cppExpert = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, cpp, null);
-		
+
 		SkillLevel reactBeginner = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, react, null);
 		SkillLevel reactIntermediate = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, react, null);
 		SkillLevel reactExpert = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, react, null);
-		
+
 		log.info("Saving Skill levels");
 		skillLevelService.save(Arrays.asList(javaBeginner, javaIntermediate, javaExpert));
 		skillLevelService.save(Arrays.asList(cppBeginner, cppIntermediate, cppExpert));
-		skillLevelService.save(Arrays.asList(reactBeginner, reactIntermediate, reactExpert));	
-		
-		//Create Trainee with skills
+		skillLevelService.save(Arrays.asList(reactBeginner, reactIntermediate, reactExpert));
+
+		// Create Trainee with skills
 		Trainee trainee = new Trainee("trainee1", "123");
 		trainee.setFirstName("Zero");
 		trainee.setLastName("Tea");
@@ -496,22 +582,22 @@ public class Dataloader implements ApplicationRunner {
 		trainee = traineeService.save(trainee);
 		log.debug(trainee);
 		trainee.setSkills(new ArrayList<>(Arrays.asList(javaBeginner, cppIntermediate, reactBeginner)));
-		
+
 		List<SkillLevel> skills = traineeService.getSkills(trainee.getUserId());
 		log.debug(skills);
-		
+
 		List<SkillLevel> pinnedSkills = traineeService.getPinnedSkills(trainee.getUserId());
 		log.debug(pinnedSkills);
-		
+
 		List<SkillLevel> allSkills = traineeService.getAllSkills(trainee.getUserId());
 		log.debug(allSkills);
-		
-		//Change pinned skills		
+
+		// Change pinned skills
 		traineeService.pinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
 		log.debug("After pinning: " + trainee);
-		
+
 		traineeService.unpinSkill(trainee.getUserId(), javaBeginner.getSkillLevelId());
 		log.debug("After unpinning: " + trainee);
-		
+
 	}
 }
