@@ -1,13 +1,18 @@
 package com.fdm.qualifier.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Skill {
@@ -16,8 +21,9 @@ public class Skill {
 	private int skillId;
 	private String name;
 	
-//	@OneToMany
-//	private List<SkillLevel> skillLevel;
+	@OneToMany(cascade = CascadeType.PERSIST,mappedBy = "skill")
+	@JsonBackReference(value = "skillLevel")
+	private List<SkillLevel> skillLevels;
 
 	public Skill() {
 		super();

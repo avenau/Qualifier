@@ -45,6 +45,15 @@ function TrainerSkillsPage() {
 
     }, [skills.length])
 
+    function hasSkillLevel(skillLevels, level) {
+        skillLevels.map((skillLevel) => {
+            if (skillLevel.level == level){
+                return true;
+            }
+        })
+        return false;
+    }
+
     
     if (isLoading) {
         return <div className="App">Loading...</div>;
@@ -65,7 +74,7 @@ function TrainerSkillsPage() {
                                 <Row className="align-items-center">
                                     <InputGroup className="">
                                         <FormControl
-                                        placeholder="Search Quiz"
+                                        placeholder="Search Skill"
                                         aria-label="Search Quiz"
                                         aria-describedby="basic-addon2"
                                         />
@@ -117,20 +126,38 @@ function TrainerSkillsPage() {
                                                             </Button>
                                                         </InputGroup>
                                                         <h3 >Quizzes</h3>
+                                                        {/* <h4>Skill LEvel List {skill.skillLevels.length}</h4> */}
+                                                        {/* <h4> Include Test {hasSkillLevel(skill.skillLevels, "BEGINNER")}</h4> */}
+                                                        
                                                         <Table striped bordered>
                                                             <tbody>
 
                                                                 <tr>
                                                                 <td>Beginner</td>
-                                                                <td><Card.Link href="">Create</Card.Link></td>
+                                                                <td>
+                                                                    {/* {hasSkillLevel(skill.skillLevels, "BEGINNER")
+                                                                        ? <p>Edit</p> 
+                                                                        : <Card.Link href="">Create</Card.Link>
+                                                                    } */}
+                                                                </td>
                                                                 </tr>
                                                                 <tr>
                                                                 <td>Intermediate</td>
-                                                                <td><Card.Link href="">Create</Card.Link></td>
+                                                                <td>
+                                                                    {/* {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
+                                                                        ? <p>Edit</p> 
+                                                                        : <Card.Link href="">Create</Card.Link>
+                                                                    } */}
+                                                                </td>
                                                                 </tr>
                                                                 <tr>
                                                                 <td>Expert</td>
-                                                                <td><Card.Link href="">Create</Card.Link></td>
+                                                                <td>
+                                                                    {/* {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
+                                                                        ? <p>Edit</p> 
+                                                                        : <Card.Link href="">Create</Card.Link>
+                                                                    } */}
+                                                                </td>
                                                                 </tr>
                                                             </tbody>
                                                         </Table>
