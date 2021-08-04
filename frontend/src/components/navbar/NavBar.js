@@ -2,11 +2,43 @@ import { Navbar, Nav, NavDropdown, Container, NavLink } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { removeUserSession, setAccountSession } from '../../utils/Auth';
 import { MdNotifications } from "react-icons/md";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAccountType, updateLength } from "../../redux/toolbar";
 
 
 function NavigationBar() {
     const history = useHistory();
+    const accountType = useSelector((state) => state.toolbar.accountType);
+    const sessionLength = useSelector((state) => state.toolbar.sessionLength);
+
+    const dispatch = useDispatch();
+    let nav = <p>HELLO</p>;
+
+    useEffect (() => {
+        // console.log("Login type: asdf " + accountType);
+        // if (sessionStorage.length == 0){
+        //     return(
+        //         <LoggedOut/>
+        //     )
+        // } else if (sessionStorage.getItem("accountType") === "admin"){
+        //     setType(sessionStorage.getItem("accountType"));
+        //     console.log("Login type: admin " + accountType);
+        //     return (
+        //         <Admin/>
+        //     )
+        // } else if (sessionStorage.getItem("accountType") === "trainee"){
+        //     setType(sessionStorage.getItem("accountType"));
+        //     console.log("Login type: trainee " + accountType);
+        //     return (
+        //         <Trainee/>
+        //     )
+        // }
+        console.log("RUNNING USEEFFECT");
+    }, [accountType])
+
     function LogoutButton () {
+
         return (
             <NavLink  onClick={logoutFunction} activeClassName='active'>
                 Log Out
@@ -21,7 +53,12 @@ function NavigationBar() {
     }
 
     const logoutFunction = (() => {
+        console.log("Logout type: " + sessionStorage.getItem("accountType"));
         removeUserSession();
+        
+        dispatch(updateAccountType());
+        dispatch(updateLength());
+        
         history.push('/');
     })
 
@@ -50,7 +87,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/users')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -70,11 +107,11 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/users')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link >Placements</Nav.Link>  
+                            <Nav.Link onClick={() => {history.push('/placements')} } >Placements</Nav.Link>  
                             <Nav.Link >Trainees</Nav.Link>  
                             <Nav.Link onClick={() => {history.push('/browsequiz')} }>Quizzes</Nav.Link>
                             
@@ -105,25 +142,29 @@ function NavigationBar() {
         
     })
 
-    if (sessionStorage.length == 0){
-        return(
-            <LoggedOut/>
-        )
-    } else if (sessionStorage.accountType === "admin"){
-        return (
-            <Admin/>
-        )
-    } else if (sessionStorage.accountType === "trainee"){
-        return (
-            <Trainee/>
-        )
+    if (sessionLength == 0){
+            nav = <LoggedOut/>
+        
+    } else if (accountType === "admin"){
+        // setType(sessionStorage.getItem("accountType"));
+        // console.log("Login type: admin " + accountType);
+
+            nav = <Admin/>
+
+    } else if (accountType === "trainee"){
+        
+        // console.log("Login type: trainee " + accountType);
+            nav = <Trainee/>
+
     }
+
 
     
 
 
     return (
-        <p>SIGNED IN</p>
+        <div>{nav}</div>
+        
     )
 }
 export default NavigationBar;

@@ -40,6 +40,8 @@ import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Stream;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.Trainer;
+import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
@@ -75,6 +77,8 @@ import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.service.SuggestedSkillService;
 import com.fdm.qualifier.service.TraineeService;
+import com.fdm.qualifier.service.TrainerService;
+import com.fdm.qualifier.service.UserService;
 
 @Component
 public class Dataloader implements ApplicationRunner {
@@ -91,13 +95,14 @@ public class Dataloader implements ApplicationRunner {
 	private QuizService quizService;
 	private QuestionService questionService;
 	private SubmittedAnswerService submittedAnswerService;
+	private UserService userService;
+	private TrainerService trainerService;
 
 	@Autowired
 	public Dataloader(SuggestedSkillService suggestedSkillService, PlacementService placementService,
 			SkillLevelService skillLevelService, SkillService skillService, ClientService clientService,
 			TraineeService traineeService, StreamService streamService, QuizService quizService, 
-
-			QuestionService questionService, AnswerService answerService , SubmittedAnswerService submittedAnswerService) {
+			QuestionService questionService, AnswerService answerService , SubmittedAnswerService submittedAnswerService, UserService userService, TrainerService trainerService) {
 
 		super();
 		this.suggestedSkillService = suggestedSkillService;
@@ -109,8 +114,9 @@ public class Dataloader implements ApplicationRunner {
 		this.streamService = streamService;
 		this.quizService = quizService;
 		this.questionService = questionService;
-
+		this.userService = userService;
 		this.submittedAnswerService = submittedAnswerService;
+		this.trainerService = trainerService; 
 
 		this.answerService = answerService;
 
@@ -166,6 +172,15 @@ public class Dataloader implements ApplicationRunner {
 		Trainee trainee1 = new Trainee("username", "password");
 		Trainee trainee2 = new Trainee("fink", "asdf");
 		Trainee trainee3 = new Trainee("Barney", "dinosaur");
+		User admin = new User("admin", "password", "admin");
+		User sales = new User("sales", "salepass", "sales");
+		Trainer trainer = new Trainer("trainer", "password");
+		userService.saveUser(sales);
+		userService.saveUser(admin);
+		trainerService.saveTrainer(trainer);
+		
+		
+		
 		
 		trainee1.setEmail("trainee@mail.com");
 		trainee1.setCity("Sydney");

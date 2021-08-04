@@ -13,6 +13,8 @@ import { updateAuth } from '../../actions';
 // utils
 import Notification from '../../utils/Notification';
 
+import { updateAccountType, updateLength } from "../../redux/toolbar";
+
 
 
 function Login(props) 
@@ -58,7 +60,8 @@ function Login(props)
             console.log("response data" + response.data.userId);
             console.log("response " + response);
             setAccountSession(response.data.jwtToken, response.data.username, response.data.accountType, response.data.userId);
-
+            dispatch(updateAccountType());
+            dispatch(updateLength());
 
             dispatch(updateAuth());
             
