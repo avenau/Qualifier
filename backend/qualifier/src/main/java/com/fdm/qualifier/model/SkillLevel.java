@@ -21,6 +21,7 @@ public class SkillLevel {
 
 	@ManyToOne
 	@JoinColumn(name = "FK_SKILL")
+	@JsonBackReference(value = "skillLevel")
 	private Skill skill;
 
 	@OneToOne

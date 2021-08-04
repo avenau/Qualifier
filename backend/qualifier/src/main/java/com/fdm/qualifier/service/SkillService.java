@@ -1,10 +1,12 @@
 package com.fdm.qualifier.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.dto.SkillDTO;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.repository.SkillRepository;
 
@@ -56,5 +58,15 @@ public class SkillService {
 			return false;
 		}
 		return true;
+	}
+
+	public List<SkillDTO> findAllSkillDTOs() {
+		List<SkillDTO> skillDTOs = new ArrayList<SkillDTO>();
+		List<Skill> skills = skillRepo.findAll();
+		for (Skill skill : skills) {
+			SkillDTO skillDTO = new SkillDTO(skill);
+			skillDTOs.add(skillDTO);
+		}
+		return skillDTOs;
 	}
 }
