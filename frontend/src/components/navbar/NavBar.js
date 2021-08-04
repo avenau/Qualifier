@@ -5,6 +5,7 @@ import { MdNotifications } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateAccountType, updateLength } from "../../redux/toolbar";
+import './NavBar.css'
 
 
 function NavigationBar() {
@@ -135,10 +136,13 @@ function NavigationBar() {
                     <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
+                    <NavDropdown title= "Skills" id="nav-dropdown">
+                        <NavDropdown.Item onClick={() => {history.push('/trainer/addskills')} }>Add Skills</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">Search Skills</NavDropdown.Item>
+                    </NavDropdown>
                         <Nav className="me-auto">  
-                            <Nav.Link >Skills</Nav.Link>  
-                            <Nav.Link onClick={() => {history.push('/browsequiz')} }>Trainees</Nav.Link>
-                            
+                            <Nav.Link>Trainees</Nav.Link>
+                            <Nav.Link>Quizzes</Nav.Link>
                                             
                         </Nav>
                         
