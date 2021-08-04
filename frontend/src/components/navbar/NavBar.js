@@ -11,7 +11,6 @@ function NavigationBar() {
     const history = useHistory();
     const accountType = useSelector((state) => state.toolbar.accountType);
     const sessionLength = useSelector((state) => state.toolbar.sessionLength);
-
     const dispatch = useDispatch();
     let nav = <p>HELLO</p>;
 
@@ -129,34 +128,75 @@ function NavigationBar() {
         )
     }
 
+    function Trainer (){
+        return (
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Container>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="me-auto">  
+                            <Nav.Link >Skills</Nav.Link>  
+                            <Nav.Link onClick={() => {history.push('/browsequiz')} }>Trainees</Nav.Link>
+                            
+                                            
+                        </Nav>
+                        
+                        <Nav>
+                            <ProfileButton/>
+                            <Nav.Link><MdNotifications/></Nav.Link> 
+                            <LogoutButton/>                          
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        )
+    }
 
-    const trainee = (() => {
-        
-    })
+    function Sales (){
+        return (
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Container>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="me-auto">  
+                            <Nav.Link >Placements</Nav.Link>  
+                            <Nav.Link onClick={() => {history.push('/browsequiz')} }>Trainees</Nav.Link>
+                            
+                                            
+                        </Nav>
+                        
+                        <Nav>
+                            <ProfileButton/>
+                            <Nav.Link><MdNotifications/></Nav.Link> 
+                            <LogoutButton/>                          
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        )
+    }
 
-    const trainer = (() => {
-        
-    })
 
-    const sales = (() => {
-        
-    })
+    if (sessionLength != 0 && accountType !== "admin" && accountType !== "trainee" && accountType !== "trainer" && accountType !== "sales"){
+        dispatch(updateAccountType());
+        dispatch(updateLength());
+    }
 
     if (sessionLength == 0){
             nav = <LoggedOut/>
         
     } else if (accountType === "admin"){
-        // setType(sessionStorage.getItem("accountType"));
-        // console.log("Login type: admin " + accountType);
-
             nav = <Admin/>
 
     } else if (accountType === "trainee"){
-        
-        // console.log("Login type: trainee " + accountType);
             nav = <Trainee/>
-
-    }
+    } else if (accountType === "trainer"){
+            nav = <Trainer/>
+    } else if (accountType === "sales"){
+        nav = <Sales/>
+}
 
 
     

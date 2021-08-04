@@ -173,7 +173,7 @@ public class Dataloader implements ApplicationRunner {
 		Trainee trainee2 = new Trainee("fink", "asdf");
 		Trainee trainee3 = new Trainee("Barney", "dinosaur");
 		User admin = new User("admin", "password", "admin");
-		User sales = new User("sales", "salepass", "sales");
+		User sales = new User("sales", "password", "sales");
 		Trainer trainer = new Trainer("trainer", "password");
 		userService.saveUser(sales);
 		userService.saveUser(admin);
