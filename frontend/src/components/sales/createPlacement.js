@@ -13,8 +13,8 @@ function CreatePlacement(){
     const [placementLocation, setLocation] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [clientName, setClientName] = useState("");
-    const [placementSkills, setPlacementSkill] = useState("")
+    const [clientName, setClientName] = useState({});
+    const [placementSkills, setPlacementSkill] = useState({})
 
     useEffect(() => {
         getAllClientsOnLoad();
@@ -78,14 +78,14 @@ function CreatePlacement(){
 
   const allClientsList = allClients.map(
     (client,index)=>
-        <Dropdown.Item key={client} value={clientName} onSelect={e => setClientName(e.target.value)}>
+        <Dropdown.Item value={clientName} onSelect={e => setClientName(allClients[index])}>
             {client.name}
         </Dropdown.Item>                             
   );
 
   const allSkillsList = allSkills.map(
         (skill,index)=>
-            <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => setPlacementSkill(e.target.value)}>
+            <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => setPlacementSkill(allSkills[index])}>
                 {skill.name}
             </Dropdown.Item>                             
       );
