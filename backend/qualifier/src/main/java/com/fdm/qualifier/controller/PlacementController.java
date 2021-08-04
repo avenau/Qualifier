@@ -53,7 +53,6 @@ public class PlacementController {
 		resultList.addAll(placementService.findByLocation(placement));
 		System.out.println(resultList);
 		return resultList;
-		
 	}
 	
 	
