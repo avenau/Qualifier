@@ -23,12 +23,14 @@ import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
+import com.fdm.qualifier.service.TraineeService;
 
 import jdk.internal.org.jline.utils.Log;
 
@@ -43,15 +45,18 @@ public class QuizController {
 	private AnswerService answerService;
 	private SubmittedAnswerService submittedAnswerService;
 	private ResultService resultService;
-
+	
+	private TraineeService traineeService;
+	
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService, TraineeService traineeService) {
 		super();
 		this.quizService = quizService;
 		this.skillLevelService = skillLevelService;
 		this.questionService = questionService;
 		this.answerService = answerService;
 		this.resultService = resultService;
+		this.traineeService = traineeService;
 	}
 	
 	@GetMapping("/quiz/get/{id}")
@@ -149,7 +154,15 @@ public class QuizController {
 	
 	@PostMapping("/submitMarkedResult")
 	public void submitMarkedResult(@RequestBody Result result) {
-		System.out.println("Submitted marked result: " + result);
+		Result oldResult = quizService.findResultById(result.getResultId());
+		Trainee trainee = oldResult.getTrainee();
+		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
+		result = quizService.saveResult(result);
+		if(result.isPassed() && (skillLevel != null || trainee != null)) {
+			trainee.addSkill(skillLevel);
+			trainee = traineeService.save(trainee);
+			System.out.println(trainee);
+		}
 	}
 	
 /*	@GetMapping("/loadQuizPage")

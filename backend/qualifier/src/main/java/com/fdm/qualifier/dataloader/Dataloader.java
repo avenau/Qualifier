@@ -273,8 +273,8 @@ public class Dataloader implements ApplicationRunner {
 	private void createResult() {
 		log.debug("Creating Result");
 		try {
-			Quiz quiz = new Quiz("Test Quiz For Results", "For testing trainer marking", 1000, 5, 50.0);
-
+			Quiz quiz = new Quiz("Test Quiz For Results", "For testing trainer marking", 1000, 5, 3.0);
+					
 			Question q1 = new Question(quiz, "Test Quiz", QuestionType.MUTIPLE_CHOICE, 4, new ArrayList<Answer>());
 			Answer q1a = new Answer("Answer 1", q1, false);
 			Answer q1a1 = new Answer("Answer 2", q1, true);
@@ -340,6 +340,14 @@ public class Dataloader implements ApplicationRunner {
 			sa1 = submittedAnswerService.save(sa1);
 			sa2 = submittedAnswerService.save(sa2);
 			sa3 = submittedAnswerService.save(sa3);
+			
+			Skill skill = skillService.save(new Skill("resultTest"));
+			log.debug(skill);
+			SkillLevel skillLevel = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, skill, quiz);
+			log.debug(skillLevel);
+			skillLevelService.save(skillLevel);
+			quiz.setSkillLevel(skillLevel);
+			quiz = quizService.saveQuiz(quiz);
 
 			Result result = new Result(0, false, false, trainee, quiz,
 					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Form, ListGroup } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 
 function MarkQuiz() {
     let axios = require("axios");
+    const history = useHistory();
 
-    const resultId = 33;//useLocation().pathname.split("/")[2];
+    const resultId = 35;//useLocation().pathname.split("/")[2];
     const [result, setResult] = useState({});
     const [questions, setQuestions] = useState([]);
     const [marksToAdd, setMarksToAdd] = useState([]);
@@ -41,17 +42,17 @@ function MarkQuiz() {
     const submitMarkedQuiz = (evt) => {
         evt.preventDefault();
         console.log("Submitting quiz");
-        let markedResults = result.mark;
+        let finishedResult = result;
         marksToAdd.forEach( mark => {
-            markedResults += mark;
+            finishedResult.mark += mark;
         })
-        let finishedMarks = result;
-        finishedMarks.mark = markedResults;
-        finishedMarks.marked = true;
-        setResult(finishedMarks);
-        axios.post('http://localhost:9999/submitMarkedResult', finishedMarks)
+        finishedResult.marked = true;
+        finishedResult.passed = finishedResult.mark >= finishedResult.quiz.passingMark;
+        setResult(finishedResult);
+        axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
         .then(function (response) {
             console.log(response);
+            history.push("/");
         })
         .catch(function (error){
             console.log(error);
@@ -86,7 +87,7 @@ function MarkQuiz() {
                                         No answer submitted
                                     </div>
                                 }</div>
-                                <Form.Control type="number" min="0" max={question.points} value={marksToAdd[index]} onChange={(e) => setMarks(e, index)} required/>
+                                <Form.Control type="number" min="0" max={question.points} onChange={(e) => setMarks(e, index)} required/>
                                 <Form.Text>Total Marks {question.points}</Form.Text>
                             </div>
                             :

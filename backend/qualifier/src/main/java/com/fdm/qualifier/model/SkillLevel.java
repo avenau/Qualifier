@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class SkillLevel {
 	@Id
@@ -21,6 +24,7 @@ public class SkillLevel {
 	private Skill skill;
 
 	@OneToOne
+	@JsonBackReference(value = "skillLevel-quiz")
 	private Quiz quiz;
 
 	public enum KnowledgeLevel {
