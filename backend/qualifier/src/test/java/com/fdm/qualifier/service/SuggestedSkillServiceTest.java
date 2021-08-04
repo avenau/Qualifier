@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.fdm.qualifier.model.SuggestedSkill;
+import com.fdm.qualifier.repository.SkillRepository;
 import com.fdm.qualifier.repository.SuggestedSkillRepository;
 
 public class SuggestedSkillServiceTest {
@@ -21,6 +22,9 @@ public class SuggestedSkillServiceTest {
 	
 	@Mock
 	SuggestedSkillRepository suggestedSkillRepoMock;
+	
+	@Mock
+	SkillRepository skillRepoMock;
 
 	@Mock
 	SuggestedSkill suggestedSkillMock;
@@ -28,7 +32,8 @@ public class SuggestedSkillServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock);
+		suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock, skillRepoMock);
+
 	}
 	
 	@Test

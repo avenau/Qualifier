@@ -28,10 +28,14 @@ public class Question {
 
 	@ManyToOne
 	@JsonBackReference(value = "quiz")
+
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
+	
+	@OneToMany(mappedBy = "question")
+	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
 		MUTIPLE_CHOICE,
@@ -42,18 +46,28 @@ public class Question {
 	public Question() {
 		super();
 	}
-
-	public Question(Quiz quiz, String content, QuestionType type, int points, byte[] image,
-			List<Answer> answers) {
+	
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz) {
 		super();
-		this.quiz = quiz;
 		this.content = content;
 		this.type = type;
 		this.points = points;
 		this.image = image;
-		this.answers = answers;
+		this.quiz = quiz;
 	}
-	
+
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers,
+			List<SubmittedAnswer> submittedAnswers) {
+		super();
+		this.content = content;
+		this.type = type;
+		this.points = points;
+		this.image = image;
+		this.quiz = quiz;
+		this.answers = answers;
+		this.submittedAnswers = submittedAnswers;
+	}
+
 	public Question(Quiz quiz, String content, QuestionType type, int points,
 			List<Answer> answers) {
 		super();
@@ -123,6 +137,15 @@ public class Question {
 	
 	public void addAnswers(Answer answer) {
 		this.answers.add(answer);
+	}
+	
+
+	public List<SubmittedAnswer> getSubmittedAnswers() {
+		return submittedAnswers;
+	}
+
+	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+		this.submittedAnswers = submittedAnswers;
 	}
 
 	@Override

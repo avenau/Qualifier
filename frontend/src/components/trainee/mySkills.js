@@ -5,7 +5,7 @@ function MySkills() {
     const axios = require('axios');
 
     //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = 39;
+    const traineeId = 22;
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);

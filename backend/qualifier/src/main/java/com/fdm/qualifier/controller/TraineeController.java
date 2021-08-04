@@ -6,6 +6,14 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +41,13 @@ public class TraineeController {
 		this.traineeService = traineeService;
 		this.skillLevelService = skillLevelService;
 		this.skillService = skillService;
+	}
+
+	@PostMapping("/changePinnedSkill")
+	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
+		log.trace("changePinnedSkills() called");
+//		traineeService.changePinnedSkills(trainee);
+		return trainee;
 	}
 	
 	@PostMapping("/addUnverifiedSkill")

@@ -211,13 +211,38 @@ public class TraineeService {
 		return traineeRepo.findAll();
 	}
 	
+	/**Adds the specified Skill Level to the specified trainer
+	 * 
+	 * @param skill
+	 * @param traineeId
+	 */
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
 		Trainee foundTrainee = traineeRepo.getById(traineeId);
 		foundTrainee.addSkill(skill);
 	}
 	
+	/** Removes the specified skill from the specified trainer 
+	 * 
+	 * @param skill
+	 * @param traineeId
+	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
 		Trainee foundTrainee = traineeRepo.getById(traineeId);
 		foundTrainee.removeSkill(skill);
+	}
+	
+	/**
+	 * Gets trainees that match the string in
+	 * their first or last name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public List<Trainee> findTraineeByName(String name) {
+		return traineeRepo.findByFirstNameAndLastName(name);
+	}
+	
+	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
+		return traineeRepo.findTraineeBySkills(skill);
 	}
 }

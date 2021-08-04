@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 
 @Entity
 public class Quiz {
@@ -34,16 +35,25 @@ public class Quiz {
 	public Quiz() {
 		super();
 	}
-
-	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
-			List<Question> questions) {
+	
+	public Quiz(String name, String description, double duration, int questionCount,double passingMark) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.duration = duration;
 		this.questionCount = questionCount;
 		this.passingMark = passingMark;
-		this.questions = questions;
+	}
+	
+	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
+			SkillLevel skillLevel) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.duration = duration;
+		this.questionCount = questionCount;
+		this.passingMark = passingMark;
+		this.skillLevel = skillLevel;
 	}
 
 	public int getQuizId() {
@@ -104,6 +114,16 @@ public class Quiz {
 	
 	public void addQuestion(Question question) {
 		this.questions.add(question);
+	}
+	
+	
+
+	public SkillLevel getSkillLevel() {
+		return skillLevel;
+	}
+
+	public void setSkillLevel(SkillLevel skillLevel) {
+		this.skillLevel = skillLevel;
 	}
 
 	@Override
