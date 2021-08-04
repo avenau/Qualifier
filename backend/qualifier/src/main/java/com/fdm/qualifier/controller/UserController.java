@@ -54,11 +54,13 @@ public class UserController {
 		User user = userService.getUserByUsername(authRequest.getUsername());
 		AccountDetails accountDetails = new AccountDetails(user);
 		String jwt = jwtUtil.generateToken(accountDetails);
-		return ResponseEntity.ok(new LoginResponse( HttpStatus.ACCEPTED,
+		ResponseEntity<LoginResponse> response = ResponseEntity.ok(new LoginResponse( HttpStatus.ACCEPTED,
                 accountDetails.getUsername(), 
                 user.getUserId(),
                 ((AccountDetails) accountDetails).getAccountType(),
                 jwt));
+		System.out.println("RESPONSE: " + response);
+		return response;
 	}
 	
 	@GetMapping("/getUser")

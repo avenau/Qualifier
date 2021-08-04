@@ -23,6 +23,7 @@ export const removeUserSession = () =>
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('accountType');
     sessionStorage.removeItem('uId');
+    sessionStorage.clear();
 }
 
 export const setAccountSession = (token, username, accountType, uId) => 
@@ -31,7 +32,12 @@ export const setAccountSession = (token, username, accountType, uId) =>
     sessionStorage.setItem('username', username);
     sessionStorage.setItem('accountType', accountType);
     sessionStorage.setItem('uId', uId);
+    
 }
+
+export const authorise = {
+    headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+};
 
 
 // No logged in people

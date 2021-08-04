@@ -28,6 +28,13 @@ function Login(props)
     // React redux stuff
     const dispatch = useDispatch();
 
+    /*
+       const axiosConfig = {
+            headers: { Authorization: `Bearer ${sessionStorage.token}`}
+        };
+        .post(/getPqages, { page:id }, axiosConfig)
+        .catch()
+    */
 
     // handle button click of login form
     const handleLogin = (event) => 
@@ -48,8 +55,9 @@ function Login(props)
                             });
                 return;
             }
-
-            setAccountSession(response.jwtToken, response.username, response.accountType, response.userId);
+            console.log("response data" + response.data.userId);
+            console.log("response " + response);
+            setAccountSession(response.data.jwtToken, response.data.username, response.data.accountType, response.data.userId);
 
 
             dispatch(updateAuth());

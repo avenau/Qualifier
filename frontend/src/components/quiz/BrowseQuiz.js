@@ -25,10 +25,15 @@ function BrowseQuiz() {
         questions: []   
     }])
 
+    
+       const axiosConfig = {
+            headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+        };
+    
 
     useEffect(() => {
         axios
-        .get('http://localhost:9999/getAllQuizzes')
+        .get('http://localhost:9999/getAllQuizzes', axiosConfig)
         .then((response) => {
             setQuizzes(response.data);
             setLoading(false);
