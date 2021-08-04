@@ -6,6 +6,7 @@ public class LoginResponse {
 	private HttpStatus statusCode;
     private String msg;
     private String username;
+    private int userId;
     private String accountType;
     private String jwtToken;
 
@@ -26,9 +27,19 @@ public class LoginResponse {
         this.jwtToken = jwtToken;
     }
     
-    public LoginResponse(HttpStatus statusCode, String msg, String username, String accountType, String jwtToken) {
+    public LoginResponse(HttpStatus statusCode, String username, int userId, String accountType, String jwtToken) {
+		super();
+		this.statusCode = statusCode;
+		this.username = username;
+		this.userId = userId;
+		this.accountType = accountType;
+		this.jwtToken = jwtToken;
+	}
+
+	public LoginResponse(HttpStatus statusCode, String msg, int userId, String username, String accountType, String jwtToken) {
         this.statusCode = statusCode;
         this.msg = msg;
+        this.userId = userId;
         this.username = username;
         this.accountType = accountType;
         this.jwtToken = jwtToken;
@@ -67,7 +78,13 @@ public class LoginResponse {
     public void setJwtToken(String jwtToken) {
         this.jwtToken = jwtToken;
     }
-    @Override
+    public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	@Override
     public String toString() {
         return "LoginResponse [accountType=" + accountType + ", jwtToken=" + jwtToken + ", username=" + username + "]";
     }

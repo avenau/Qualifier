@@ -24,7 +24,7 @@ public class SkillLevel {
 	private Skill skill;
 
 	@OneToOne
-	@JsonManagedReference(value = "skillLevel-quiz")
+	@JsonBackReference(value = "skillLevel-quiz")
 	private Quiz quiz;
 
 	public enum KnowledgeLevel {

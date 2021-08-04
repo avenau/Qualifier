@@ -1,5 +1,6 @@
 package com.fdm.qualifier.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -45,6 +46,7 @@ public class Quiz {
 		this.duration = duration;
 		this.questionCount = questionCount;
 		this.passingMark = passingMark;
+		this.questions = new ArrayList<>();
 	}
 	
 	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
