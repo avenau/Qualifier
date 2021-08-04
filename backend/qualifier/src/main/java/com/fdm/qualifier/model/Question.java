@@ -56,8 +56,9 @@ public class Question {
 		this.quiz = quiz;
 	}
 
-	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers
-			/*List<SubmittedAnswer> submittedAnswers*/) {
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers/*List<SubmittedAnswer> submittedAnswers*/) {
+
+
 		super();
 		this.content = content;
 		this.type = type;

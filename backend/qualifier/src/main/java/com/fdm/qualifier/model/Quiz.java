@@ -120,7 +120,6 @@ public class Quiz {
 		this.questions.add(question);
 	}
 	
-	
 
 	public SkillLevel getSkillLevel() {
 		return skillLevel;
@@ -128,6 +127,14 @@ public class Quiz {
 
 	public void setSkillLevel(SkillLevel skillLevel) {
 		this.skillLevel = skillLevel;
+	}
+	
+	public double getFullMark() {
+		double mark = 0.0;
+		for (Question question : questions) {
+			mark += question.getPoints();
+		}
+		return mark;
 	}
 
 	@Override

@@ -35,6 +35,8 @@ import com.fdm.qualifier.service.TraineeService;
 
 import jdk.internal.org.jline.utils.Log;
 
+import jdk.internal.org.jline.utils.Log;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
@@ -71,7 +73,18 @@ public class QuizController {
 	
 	@PostMapping("/quiz/submit")
 	public void submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
-		double totalMark = 0;
+		double totalMark = 0.0;
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
+			int id = Integer.parseInt((String) content.get("quizId"));
+			if (quizService.findQuizById(id).isPresent()) {
+				totalMark = quizService.findQuizById(id).get().getFullMark();
+			} else { 
+				return;
+			}
+			
+			break;
+		}
+		
 		double passingMark = 75;
 		int quizId = -1;
 		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
@@ -81,13 +94,12 @@ public class QuizController {
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			quizId = Integer.parseInt((String) content.get("quizId"));
 			
-			double unitMark = 0;
-			
 			int questionId = Integer.parseInt((String) content.get("questionId"));
 			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
 			String answerContent = (String) content.get("answerContent");
 			
+			double unitMark = question.getPoints();
 			if	(questionType.equals(QuestionType.SHORT_ANSWER)) {
 				marked = false;
 				SubmittedAnswer submittedAnswer = submittedAnswerService.createNewShortAnswer(question, answerContent);
@@ -99,6 +111,8 @@ public class QuizController {
 					Answer answer = answerService.finById(answerId).get();
 					
 					if (!answer.isCorrect()) {
+						totalMark -= unitMark;
+						logger.info("Wrong answer : " + answer.getContent() + "lost points: " + unitMark);
 						break;
 					}
 					
@@ -106,9 +120,6 @@ public class QuizController {
 					submittedAnswers.add(submittedAnswer);
 				}
 			}
-			
-			unitMark = question.getPoints();
-			totalMark += unitMark;
 		}
 		
 		if (quizId == -1) {
