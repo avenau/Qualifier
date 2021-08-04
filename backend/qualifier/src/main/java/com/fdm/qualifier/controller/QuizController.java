@@ -77,7 +77,7 @@ public class QuizController {
 			double unitMark = 0;
 			
 			int questionId = Integer.parseInt((String) content.get("questionId"));
-			Question question = questionService.findById(questionId).get();
+			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
 			String answerContent = (String) content.get("answerContent");
 			
