@@ -235,7 +235,8 @@ public class Dataloader implements ApplicationRunner {
 		log.info("quiz init started");
 //		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));
 		
-		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "", 20, 0, 75, skillLevel1);
+		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "", 600, 0, 75, skillLevel1);
+		skillLevel1.setQuiz(javaBeginner);
 		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Question Content", Question.QuestionType.MUTIPLE_CHOICE, 4, null);
 		Answer javaBq1aA = answerService.createNewAnswer("Answer Content", javaBq1, true);
 		Answer javaBq1aB = answerService.createNewAnswer("Answer Content", javaBq1, false);
