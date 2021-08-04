@@ -39,7 +39,7 @@ public class TraineeService {
 	}
 	
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getTraineeByuid(id);
+		return traineeRepo.getById(id);
 	}
 
 	/**

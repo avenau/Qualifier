@@ -39,7 +39,7 @@ public class Trainer extends User {
 	}
 
 	public Trainer(String username, String password) {
-		super(username, password);
+		super(username, password, "trainer");
 		// TODO Auto-generated constructor stub
 	}
 

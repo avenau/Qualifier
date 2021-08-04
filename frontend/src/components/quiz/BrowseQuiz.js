@@ -6,6 +6,15 @@ function BrowseQuiz() {
     const axios = require('axios');
     let history = useHistory();
     const [isLoading, setLoading] = useState(true);
+    // const [quizzes, setQuizzes] = useState([{
+    //     quizId: 0,
+    //     name: "",
+    //     description: "",
+    //     duration: 0.0,
+    //     questionCount: 0,
+    //     passingMark: 101.0,
+    //     questions: []   
+    // }])
     const [quizzes, setQuizzes] = useState([{
         quizId: 0,
         name: "",
@@ -16,10 +25,15 @@ function BrowseQuiz() {
         questions: []   
     }])
 
+    
+       const axiosConfig = {
+            headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+        };
+    
 
     useEffect(() => {
         axios
-        .get('http://localhost:9999/getAllQuizzes')
+        .get('http://localhost:9999/getAllQuizzes', axiosConfig)
         .then((response) => {
             setQuizzes(response.data);
             setLoading(false);

@@ -35,13 +35,10 @@ function Questions(props) {
     })
 
     useEffect(() => {
-        axios.get("http://localhost:9999/getQuizQuestions", {   
-            params: {
-                quizId:props.quizId
-            }
-        })
+        axios.get('http://localhost:9999/quiz/get/' + props.quizId)
         .then((response) => {
-            setQuestions(response.data);
+            console.log(response.data.questions);
+            setQuestions(response.data.questions);
         })
     }, [questions.length])
 
@@ -51,7 +48,7 @@ function Questions(props) {
     const submitQuiz = (() => {
         console.log("SUBMITTING QUIZ");
         axios
-        .post('http://localhost:9999/submitQuiz', { payload: results})
+        .post('http://localhost:9999/quiz/submit',{ payload: results})
         .then((response) => {
 
             history.push('/finishquiz');
@@ -72,8 +69,9 @@ function Questions(props) {
             newResults.push({
                 questionId: id,
                 answerId: [name],
-                questionType: "Short Answer",
+                questionType: "SHORT_ANSWER",
                 answerContent: value,
+                quizId: props.quizId,
             })
             checked = true;
         } else {
@@ -89,8 +87,9 @@ function Questions(props) {
             newResults.push({
                 questionId: id,
                 answerId: [name],
-                questionType: "Short Answer",
+                questionType: "SHORT_ANSWER",
                 answerContent: value,
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
@@ -106,8 +105,9 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "Multiple Choice",
-                answerContent: "Doesnt Matter",
+                questionType: "MUTIPLE_CHOICE",
+                answerContent: "",
+                quizId: props.quizId,
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -124,8 +124,9 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "Multiple Choice",
-                answerContent: "Doesnt Matter",
+                questionType: "MUTIPLE_CHOICE",
+                answerContent: "",
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
@@ -142,8 +143,9 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "Multi Select",
-                answerContent: "Multi Select so doesnt matter",
+                questionType: "MUTIPLE_SELECT",
+                answerContent: "",
+                quizId: props.quizId,
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -166,10 +168,12 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                answerContent: "Multi Select - So No Content",
+                answerContent: "",
+                quizId: props.quizId,
             })
         }
         setResults(newResults);
+        console.log('Multiselect RESULTS: ' + newResults.length);
         
     })
 
@@ -179,12 +183,12 @@ function Questions(props) {
         <Form className = "w-50">
                 {questions.map(question => (
                     <div>
-                        <div className = "pb-2"><strong>Q{questions.indexOf(question) + 1}. </strong>{question.content} <br/></div>
+                        <div className = "pb-2"><strong>Q{questions.indexOf(question) + 1}. </strong>{question.questionContent} <br/></div>
                         <div key={`${question.questionId}`} className="mb-3">
 
                             {question.answers.map(answer =>{
                  
-                                if (question.type === "MUTIPLE_CHOICE") {
+                                if (question.questionType === "MUTIPLE_CHOICE") {
                                     
                                     return( 
                                         <Form.Check
@@ -195,7 +199,7 @@ function Questions(props) {
                                         onChange={multipleChoiceChange}
                                         />
                                     )
-                                } else if (question.type === "MULTI_SELECT"){
+                                } else if (question.questionType === "MULTI_SELECT"){
                                     return(
                                         <Form.Check
                                         label={answer.content}
@@ -205,7 +209,7 @@ function Questions(props) {
                                         onChange={multiSelectChange}
                                         /> 
                                     )
-                                } else if (question.type === "SHORT_ANSWER"){
+                                } else if (question.questionType === "SHORT_ANSWER"){
                                     return(
                                     <Form.Group className="mb-3" id={answer.answerId}>
                                         <Form.Control as="textarea" id={question.questionId} name={answer.answerId} onChange={shortAnswerChange} placeholder= "Enter your answer here" rows={3} />

@@ -47,6 +47,14 @@ public class SkillService {
 		return skillRepo.save(skill);
 	}
 	
+	public Skill saveByName(String name) {
+		Skill skillFound = findByName(name);
+		if(skillFound != null)
+			return skillFound;	
+		return skillRepo.save(new Skill(name));
+	}
+	
+	
 	public boolean skillExist(String name) {
 		if (findByName(name) == null) {
 			return false;

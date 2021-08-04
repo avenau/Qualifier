@@ -47,13 +47,13 @@ public class Trainee extends User {
 	}
 
 	public Trainee(String username, String password) {
-		super(username, password);
+		super(username, password, "trainee");
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, LocalDate date, Stream stream) {
-		super(username, password);
+		super(username, password, "trainee");
 		this.completionDate = date;
 		this.stream = stream;
 		this.skills = new ArrayList<>();
