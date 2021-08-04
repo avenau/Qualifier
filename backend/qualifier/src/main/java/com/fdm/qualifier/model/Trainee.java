@@ -90,6 +90,16 @@ public class Trainee extends User {
 	public void addSkill(SkillLevel skill) {
 		skills.add(skill);
 	}
+	
+	public void removeSkill(Skill skill) {
+		SkillLevel skillToRemove = null;
+		for (SkillLevel sl:skills) {
+			if(sl.getSkill().getName().equals(skill.getName())) {
+				skillToRemove = sl;
+			}
+		}
+		skills.remove(skillToRemove);
+	}
 
 	public LocalDate getCompletionDate() {
 		return completionDate;

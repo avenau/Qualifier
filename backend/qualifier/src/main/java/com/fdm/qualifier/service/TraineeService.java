@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -213,5 +214,10 @@ public class TraineeService {
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
 		Trainee foundTrainee = traineeRepo.getById(traineeId);
 		foundTrainee.addSkill(skill);
+	}
+	
+	public void removeSkillFromTrainee(Skill skill, int traineeId) {
+		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		foundTrainee.removeSkill(skill);
 	}
 }
