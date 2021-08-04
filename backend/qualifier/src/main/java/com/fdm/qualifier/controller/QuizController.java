@@ -1,34 +1,34 @@
 package com.fdm.qualifier.controller;
 
 import java.util.ArrayList;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Question.QuestionType;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
-import com.fdm.qualifier.model.SuggestedSkill;
-import com.fdm.qualifier.request.UpdateQuizRequest;
-import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
+import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.service.AnswerService;
+import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
+import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
+import com.fdm.qualifier.service.SubmittedAnswerService;
 
 import jdk.internal.org.jline.utils.Log;
 
@@ -39,12 +39,19 @@ public class QuizController {
 	
 	private QuizService quizService;
 	private SkillLevelService skillLevelService;
+	private QuestionService questionService;
+	private AnswerService answerService;
+	private SubmittedAnswerService submittedAnswerService;
+	private ResultService resultService;
 
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService) {
 		super();
 		this.quizService = quizService;
 		this.skillLevelService = skillLevelService;
+		this.questionService = questionService;
+		this.answerService = answerService;
+		this.resultService = resultService;
 	}
 	
 	@GetMapping("/quiz/get/{id}")
@@ -55,9 +62,60 @@ public class QuizController {
 		return quizDTO;
 	}
 	
-	@PostMapping("/quiz/submit/{}")
-	public void submitQuiz(@RequestBody Map<String, Object> payload) {
-		System.out.println("Short Multiple Choice: " + payload);
+	@PostMapping("/quiz/submit")
+	public void submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
+		double totalMark = 0;
+		double passingMark = 75;
+		int quizId = -1;
+		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
+		boolean marked = true;
+		boolean passed = false;
+		
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
+			quizId = Integer.parseInt((String) content.get("quizId"));
+			
+			double unitMark = 0;
+			
+			int questionId = Integer.parseInt((String) content.get("questionId"));
+			Question question = questionService.findById(questionId).get();
+			Question.QuestionType questionType = question.getType();
+			String answerContent = (String) content.get("answerContent");
+			
+			if	(questionType.equals(QuestionType.SHORT_ANSWER)) {
+				marked = false;
+				SubmittedAnswer submittedAnswer = submittedAnswerService.createNewShortAnswer(question, answerContent);
+				submittedAnswers.add(submittedAnswer);
+			} else {
+			
+				for (Object id : (ArrayList<Object>)content.get("answerId")) {
+					int answerId = Integer.parseInt((String) id);
+					Answer answer = answerService.finById(answerId).get();
+					
+					if (!answer.isCorrect()) {
+						break;
+					}
+					
+					SubmittedAnswer submittedAnswer = submittedAnswerService.createNewSelectedAnswer(question, answer, answerContent);
+					submittedAnswers.add(submittedAnswer);
+				}
+			}
+			
+			unitMark = question.getPoints();
+			totalMark += unitMark;
+		}
+		
+		if (quizId == -1) {
+			throw new Exception("Quiz id not found");
+		}
+		Quiz quiz = quizService.findQuizById(quizId).get();
+		passingMark = quiz.getPassingMark();
+		
+		if (marked && totalMark >= passingMark) {
+			passed = true;
+		}
+		
+		Result result = resultService.createNewResult(totalMark, passed, marked, quiz, submittedAnswers);
+		System.out.println(result);
 	}
 	
 	@GetMapping("/quiz/create/{id}")
@@ -72,10 +130,10 @@ public class QuizController {
 		return quizDTO;
 	}
 	
-	@PostMapping("/quiz/update")
-	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
-		return quizService.updateDTO(request);
-	}
+//	@PostMapping("/quiz/update")
+//	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
+//		return quizService.updateDTO(request);
+//	}
 	
 	@GetMapping("/getAllQuizzes")
 	public List<Quiz> getAllQuizzes() {

@@ -150,10 +150,10 @@ public class Dataloader implements ApplicationRunner {
 		quizService.saveQuiz(quiz1);
 
 		log.debug("Creating SkillLevels");
-		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, quiz1);
-		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, quiz1);
-		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, quiz1);
-		SkillLevel skillLevel4 = new SkillLevel(SkillLevel.KnowledgeLevel.UNVERIFIED, python, quiz1);
+		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
+		SkillLevel skillLevel2 = new SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
+		SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT, python, null);
+		SkillLevel skillLevel4 = new SkillLevel(SkillLevel.KnowledgeLevel.UNVERIFIED, python, null);
 		skillLevelService.save(skillLevel1);
 		skillLevelService.save(skillLevel2);
 		skillLevelService.save(skillLevel3);
@@ -341,7 +341,7 @@ public class Dataloader implements ApplicationRunner {
 			sa2 = submittedAnswerService.save(sa2);
 			sa3 = submittedAnswerService.save(sa3);
 
-			Result result = new Result(0, false, trainee, quiz,
+			Result result = new Result(0, false, false, trainee, quiz,
 					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
 			
 			result = quizService.saveResult(result);
