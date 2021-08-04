@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.httpRequest.UpdateQuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
@@ -49,12 +50,13 @@ public class QuizController {
 	private TraineeService traineeService;
 	
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService, TraineeService traineeService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService, SubmittedAnswerService submittedAnswerService, TraineeService traineeService) {
 		super();
 		this.quizService = quizService;
 		this.skillLevelService = skillLevelService;
 		this.questionService = questionService;
 		this.answerService = answerService;
+		this.submittedAnswerService = submittedAnswerService;
 		this.resultService = resultService;
 		this.traineeService = traineeService;
 	}
@@ -126,19 +128,17 @@ public class QuizController {
 	@GetMapping("/quiz/create/{id}")
 	public QuizDTO createQuizDetails(@PathVariable("id") String id) {
 		int skillLevelId = Integer.parseInt(id);
-		Optional<SkillLevel> skillLevel = skillLevelService.findById(skillLevelId);
-		if (!skillLevel.isPresent()) {
-			logger.error("Skill level id could not be found");
-			return null;
-		}
+		SkillLevel skillLevel = skillLevelService.findById(skillLevelId).get();
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
+		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
+		skillLevel.setQuiz(quiz);
 		return quizDTO;
 	}
 	
-//	@PostMapping("/quiz/update")
-//	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
-//		return quizService.updateDTO(request);
-//	}
+	@PostMapping("/quiz/update")
+	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
+		return quizService.updateQuiz(request);
+	}
 	
 	@GetMapping("/getAllQuizzes")
 	public List<Quiz> getAllQuizzes() {

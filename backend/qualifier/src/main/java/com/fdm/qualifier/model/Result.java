@@ -134,8 +134,8 @@ public class Result {
 
 	@Override
 	public String toString() {
-		return "Results [resultId=" + resultId + ", mark=" + mark + ", trainee=" + trainee + ", quiz=" + quiz
-				+ ", passed=" + passed + "]";
+		return "Result [resultId=" + resultId + ", mark=" + mark + ", passed=" + passed + ", marked=" + marked
+				+ ", trainee=" + trainee + ", quiz=" + quiz + ", submittedAnswers=" + submittedAnswers + "]";
 	}
 
 }

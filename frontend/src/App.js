@@ -38,21 +38,6 @@ function App() {
   const auth = useSelector(state => state.auth);
   return (
       <Router>
-
-        <div className='nav'>
-          <NavLink to='/login' activeClassName='active'>
-            Login
-          </NavLink>
-        </div>
-
-        <div className='content'>
-          <switch>
-            <PublicRoute path='/login' component={Login} />
-          </switch>
-        </div>
-      
-
-    
       <NavigationBar/>
 
       <Switch>
@@ -72,6 +57,7 @@ function App() {
         <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
         <Route exact path = '/traineeResults' component={TraineeResults}/>
+        <Route path='/login' component={Login} />
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 
