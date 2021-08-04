@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,15 +46,18 @@ public class PlacementController {
 	
 
 	@PostMapping("/searchPlacements")
-	public List<Placement> searchPlacements(@RequestBody String placement) {
-		System.out.println(placement);
+	public List<Placement> searchPlacements(@RequestBody String searchTerm) {
 		List<Placement> resultList = new ArrayList<>();
-		resultList.addAll(placementService.findByName(placement));
-		resultList.addAll(placementService.findByClientName(placement));
-		resultList.addAll(placementService.findBySkillName(placement));
-		resultList.addAll(placementService.findByLocation(placement));
-		System.out.println(resultList);
+		resultList.addAll(placementService.findByName(searchTerm));
+		resultList.addAll(placementService.findByClientName(searchTerm));
+		resultList.addAll(placementService.findBySkillName(searchTerm));
+		resultList.addAll(placementService.findByLocation(searchTerm));
 		return resultList;
+	}
+	
+	@GetMapping("/getAllPlacements")
+	public List<Placement> getAllPlacements(){
+		return placementService.findAll();
 	}
 	
 	
