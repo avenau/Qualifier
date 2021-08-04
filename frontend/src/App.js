@@ -70,7 +70,7 @@ function App() {
         <Route exact path='/startquiz' component={QuizStartPage}/>
         <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
         <Route exact path ='/myskills' component={MySkills}/>
-        <Route exact path ='/markquiz' component={MarkQuiz}/>
+        <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
         <Route exact path = '/traineeResults' component={TraineeResults}/>
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>

@@ -7,7 +7,7 @@ function MarkQuiz() {
     let axios = require("axios");
     const history = useHistory();
 
-    const resultId = 35;//useLocation().pathname.split("/")[2];
+    const resultId = useLocation().pathname.split("/")[2];
     const [result, setResult] = useState({});
     const [questions, setQuestions] = useState([]);
     const [marksToAdd, setMarksToAdd] = useState([]);
@@ -52,7 +52,7 @@ function MarkQuiz() {
         axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
         .then(function (response) {
             console.log(response);
-            history.push("/");
+            history.push("/traineeResults");
         })
         .catch(function (error){
             console.log(error);

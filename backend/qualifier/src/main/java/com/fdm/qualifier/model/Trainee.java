@@ -52,6 +52,7 @@ public class Trainee extends User {
 		super(username, password);
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, LocalDate date, Stream stream) {
@@ -60,6 +61,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, LocalDate date, Stream stream) {
@@ -68,6 +70,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, String userType, LocalDate date, Stream stream) {
@@ -76,6 +79,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(LocalDate completionDate, Stream stream, List<Placement> placements, List<Result> results,

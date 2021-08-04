@@ -353,6 +353,10 @@ public class Dataloader implements ApplicationRunner {
 					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
 			
 			result = quizService.saveResult(result);
+			List<Result> results = trainee.getResults();
+			results.add(result);
+			trainee.setResults(results);
+			traineeService.save(trainee);
 			
 			log.debug("Created Result: " + result);
 		} catch (NoSuchElementException e) {

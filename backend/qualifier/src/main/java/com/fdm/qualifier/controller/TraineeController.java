@@ -101,7 +101,10 @@ public class TraineeController {
 	
 	@PostMapping("/getTraineesResults")
 	public List<Result> getTraineeResults(@RequestBody Trainee trainee) {
-		return traineeService.getAllResults(trainee.getUserId());
+		log.debug(trainee);
+		List<Result> results = traineeService.getAllResults(trainee.getUserId());
+		log.debug(results);
+		return results;
 	}
 
 }
