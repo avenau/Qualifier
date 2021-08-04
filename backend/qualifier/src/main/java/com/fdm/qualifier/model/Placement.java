@@ -64,6 +64,10 @@ public class Placement {
 		this.appliedTrainees = appliedTrainees;
 		this.skillsNeeded = skillsNeeded;
 	}
+	
+	public void addAppliedTrainee(Trainee trainee) {
+		appliedTrainees.add(trainee);
+	}
 
 	public int getPlacementId() {
 		return placementId;

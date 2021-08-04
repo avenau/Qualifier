@@ -4,6 +4,9 @@ import { Redirect, useHistory, useLocation } from "react-router-dom";
 
 function SearchPlacements(){
 
+    //CHANGE THIS TO SESSION TRAINEES ID
+    const traineeId = 22;
+
     const axios = require('axios');
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +54,19 @@ function SearchPlacements(){
         } else {
             setSearchError("Search cannot be empty");
         }   
+    }
+
+    const applyForPlacement = (index) => {
+        axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
     }
     
     if (isLoading) {
@@ -100,11 +116,13 @@ function SearchPlacements(){
                             </Col>
                             <Col sm={8}>
                                 <Tab.Content>
-                                    {placementResult.map(placement => (
+                                    {placementResult.map(
+                                        (placement,index) => (
                                         <Tab.Pane eventKey={'#' + placement.placementId}>
                                             <Row>
                                                 <Col sm={8}>
                                                     <h3>{placement.name}</h3>
+                                                    <button value="Apply" onClick={() => applyForPlacement(index)}>Apply</button>
                                                     <p>{placement.description}</p>
                                                     <p>{placement.client.name}</p>
                                                     <p>{placement.location}</p>
