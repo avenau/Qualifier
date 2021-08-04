@@ -17,7 +17,7 @@ public class SubmittedAnswer {
 	private int submittedAnswer_id;
 
 	@ManyToOne
-	@JsonBackReference(value = "question-submittedAnswer")
+//	@JsonBackReference(value = "question-submittedAnswer")
 	private Question question;
 
 	@ManyToOne
@@ -26,6 +26,7 @@ public class SubmittedAnswer {
 
 	@ManyToOne
 	private Answer answer;
+	
 	private String answerContent;
 
 	public SubmittedAnswer() {

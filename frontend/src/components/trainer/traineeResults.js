@@ -29,11 +29,11 @@ function TraineeResults(props) {
     const resultsList = results.map(
         (result) =>
             <ListGroup.Item key={"#" + result.resultId}>
-                <Row>
+                <Row className="align-items-center">
                     <Col sm>
                         {result.quiz.name}
                     </Col>
-                    <Col sm>
+                    <Col sm="auto">
                         {
                             result.quiz.marked ?
                                 <span>marked</span> :
