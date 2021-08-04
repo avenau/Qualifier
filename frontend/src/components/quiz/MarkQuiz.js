@@ -9,7 +9,7 @@ function MarkQuiz() {
 
     const resultId = useLocation().pathname.split("/")[2];
     const [result, setResult] = useState({});
-    const [questions, setQuestions] = useState([]);
+    const [submittedAnswers, setSubmittedAnswers] = useState([]);
     const [marksToAdd, setMarksToAdd] = useState([]);
 
     useEffect(() => {
@@ -21,15 +21,15 @@ function MarkQuiz() {
             .then(function (response) {
                 console.log(response);
                 setResult(response.data)
-                if (response.data.quiz.questions != undefined) {
-                    setQuestions(response.data.quiz.questions);
+                if (response.data.submittedAnswers != undefined) {
+                    setSubmittedAnswers(response.data.submittedAnswers);
                     let initMarks = [];
                     response.data.quiz.questions.forEach(element => {
                         initMarks.push(0);
                     });
                     setMarksToAdd(initMarks);
                 } else
-                    setQuestions([]);
+                    setSubmittedAnswers([]);
             })
             .catch(function (error) {
                 console.log(error);
@@ -70,18 +70,18 @@ function MarkQuiz() {
     }
 
     const questionsList =
-        questions.map(
-            (question, index) =>
-                <ListGroup.Item key={"question-" + index}>
+        submittedAnswers.map(
+            (submittedAnswer, index) =>
+                <ListGroup.Item key={"sa-" + index}>
                     <span>{index} Question</span>
                     <br />
-                    <span>{question.content}</span>
-                    <Form.Group>
+                    <span>{submittedAnswer.question.content}</span>
+                    {/* <Form.Group>
                         {question.type === "SHORT_ANSWER" ?
                             <div>
-                                <div>{question.submittedAnswers[0].answerContent != null ?
+                                <div>{questions.submittedAnswers[0].answerContent != null ?
                                     <div>
-                                        {question.submittedAnswers[0].answerContent}
+                                        {questions.submittedAnswers[0].answerContent}
                                     </div> :
                                     <div>
                                         No answer submitted
@@ -93,7 +93,7 @@ function MarkQuiz() {
                             :
                             <span></span>
                         }
-                    </Form.Group>
+                    </Form.Group> */}
                 </ListGroup.Item>
         )
 

@@ -148,7 +148,7 @@ public class QuizController {
 	@PostMapping("/getResult")
 	public Result getResult(@RequestBody Result result) {
 		System.out.println(result);
-		System.out.println(quizService.findResultById(result.getResultId()));
+		System.out.println(quizService.findResultById(result.getResultId()).getSubmittedAnswers());
 		return quizService.findResultById(result.getResultId());
 	}
 	

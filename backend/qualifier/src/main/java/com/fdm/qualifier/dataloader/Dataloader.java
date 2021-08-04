@@ -448,11 +448,21 @@ public class Dataloader implements ApplicationRunner {
 			skillLevelService.save(skillLevel);
 			quiz.setSkillLevel(skillLevel);
 			quiz = quizService.saveQuiz(quiz);
-
+			
 			Result result = new Result(0, false, false, trainee, quiz,
 					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
 			
+			sa1.setResult(result);
+			sa2.setResult(result);
+			sa3.setResult(result);
+
 			result = quizService.saveResult(result);
+			
+
+//			sa1 = submittedAnswerService.save(sa1);
+//			sa2 = submittedAnswerService.save(sa2);
+//			sa3 = submittedAnswerService.save(sa3);
+			
 			List<Result> results = trainee.getResults();
 			results.add(result);
 			trainee.setResults(results);
