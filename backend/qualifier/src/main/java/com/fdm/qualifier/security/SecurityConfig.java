@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             .authorizeRequests()
             .antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails", "/searchPlacements", "/getAllPlacements", 
             		"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
-            		"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees", "/pinSkill", "/unpinSkill", "/getAllClients","/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*", "quiz/create/*", "/quiz/submit", "/removeSuggestedSkill").permitAll() //!!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
-
+            		"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees", "/pinSkill", "/unpinSkill", "/getAllClients"
+            		,"/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*", "quiz/create/*", "/quiz/submit", "/applyForPlacement", "/removeSuggestedSkill").permitAll() //!!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
 
             // put .antMatcher(route).permitAll() for public access
             //.antMatchers("/auth/**").permitAll()

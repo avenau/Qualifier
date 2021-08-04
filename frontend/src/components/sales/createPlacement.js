@@ -14,7 +14,7 @@ function CreatePlacement(){
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [clientName, setClientName] = useState({});
-    const [placementSkills, setPlacementSkill] = useState({})
+    const [placementSkills, setPlacementSkill] = useState([])
 
     useEffect(() => {
         getAllClientsOnLoad();
@@ -29,7 +29,7 @@ function CreatePlacement(){
         console.log(placementSkills);
         axios.post('http://localhost:9999/savePlacement', {placementId:1, name:placementName, startDate:startDate, completionDate:endDate, 
                                                                     description:placementDescription, location:placementLocation,
-                                                                    client:clientName, skills:placementSkills})
+                                                                    client:clientName, skillsNeeded:placementSkills})
             .then(function (response) {
                 console.log(response);
             })
@@ -38,6 +38,7 @@ function CreatePlacement(){
             })
             .then(function () {
                 console.log('finally');
+                setPlacementSkill([]);
             })
     }
 
@@ -57,7 +58,7 @@ function CreatePlacement(){
     };
 
     function getAllSkillsOnLoad() {
-        axios.get('http://localhost:9999/getAllSkills')
+        axios.get('http://localhost:9999/getAllSkillLevels')
             .then(function (response) {
                 console.log(response);
                 setAllSkills(response.data);
@@ -76,6 +77,15 @@ function CreatePlacement(){
     this.setEndDate(event.target.value);
   };
 
+  const handleAddSkill = (index) => {
+    let requiredSkills = placementSkills.slice()
+    requiredSkills.push(allSkills[index])
+    setPlacementSkill(requiredSkills)
+  };
+
+
+
+
   const allClientsList = allClients.map(
     (client,index)=>
         <Dropdown.Item value={clientName} onSelect={e => setClientName(allClients[index])}>
@@ -85,10 +95,15 @@ function CreatePlacement(){
 
   const allSkillsList = allSkills.map(
         (skill,index)=>
-            <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => setPlacementSkill(allSkills[index])}>
-                {skill.name}
+            <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => handleAddSkill(index)}>
+                {skill.skill.name}:{skill.level}
             </Dropdown.Item>                             
-      );
+    );
+
+    const allSkillsRequiredList = placementSkills.map(
+          (skill)=>
+            <p>{skill.skill.name}:{skill.level}</p>
+    );
 
     return(
         <div>
@@ -122,6 +137,8 @@ function CreatePlacement(){
                 </Dropdown>
                 <input type="submit" value="Add Placement"/>
             </form>
+            <h2>Chosen Skills Required</h2>
+            {allSkillsRequiredList.length > 0 ? allSkillsRequiredList : <p> No Required Skills Added </p>}
         </div>
     )
 }

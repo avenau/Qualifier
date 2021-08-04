@@ -5,7 +5,7 @@ function MySkills() {
     const axios = require('axios');
 
     //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = 22;
+    const traineeId = sessionStorage.getItem('uId');
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -14,6 +14,11 @@ function MySkills() {
 
     const [errorMessage, setErrorMessage] = useState("");
 
+    const axiosConfig = {
+        headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+    };
+
+
     useEffect(() => {
         getSkillsOnLoad();
         getPinnedSkillsOnLoad();
@@ -21,9 +26,9 @@ function MySkills() {
     }, []);
 
     function getSkillsOnLoad() {
-        axios.post('http://localhost:9999/getSkills', { userId: traineeId })
+        axios.post('http://localhost:9999/getSkills', { userId: traineeId }, axiosConfig)
             .then(function (response) {
-                console.log(response);
+                console.log("ID " + traineeId)
                 setSkills(response.data);
                 console.log(skills);
             })
@@ -36,7 +41,7 @@ function MySkills() {
     };
 
     function getPinnedSkillsOnLoad() {
-        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId })
+        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId },axiosConfig)
             .then(function (response) {
                 console.log(response);
                 setPinnedSkills(response.data);
