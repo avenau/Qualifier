@@ -47,7 +47,10 @@ function TrainerSkillsPage() {
 
     function hasSkillLevel(skillLevels, level) {
         skillLevels.map((skillLevel) => {
-            if (skillLevel.level == level){
+            if (skillLevel.knowledgelevel == level){
+                if (skillLevel.quizId == null){
+                    return false;
+                }
                 return true;
             }
         })

@@ -1,9 +1,18 @@
 
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {Modal, Container, Button} from 'react-bootstrap';
-function QuizEditor() {
+import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl} from 'react-bootstrap';
+function CreateQuiz() {
     const skillLevelId = 5;
+    const startInfo = {
+                            "quizId": 132,
+                            "name": "",
+                            "description": "",
+                            "duration": 0.0,
+                            "questionCount": 0,
+                            "passingMark": 0.0,
+                            "questions": []
+                        }
 
     useEffect (() => {
         
@@ -18,7 +27,7 @@ function QuizEditor() {
         return (
           <>
             <Button variant="primary" onClick={handleShow}>
-              Add Multi Select Quiz
+              Add Multi Select
             </Button>
       
             <Modal show={show} onHide={handleClose}>
@@ -48,7 +57,7 @@ function QuizEditor() {
         return (
           <>
             <Button variant="primary" onClick={handleShow}>
-              Add Multiple Choice Quiz
+              Add Multiple Choice
             </Button>
       
             <Modal show={show} onHide={handleClose}>
@@ -78,7 +87,7 @@ function QuizEditor() {
         return (
           <>
             <Button variant="primary" onClick={handleShow}>
-              Add Short Answer Quiz
+              Add Short Answer
             </Button>
       
             <Modal show={show} onHide={handleClose}>
@@ -99,16 +108,56 @@ function QuizEditor() {
         );
       }
 
+      function DetailForm () {
+          return (
+            <Form>
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                    </Form.Group>
+
+
+                </Row>
+
+                <Form.Group className="mb-3" controlId="formGridAddress1">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control as="textarea" rows={3} placeholder="1234 Main St" />
+                </Form.Group>
+
+
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
+            
+          )
+      }
+
     return (
         <Container>
+            <h3 className="pt-3">Quiz Editor</h3>
             <AddMultipleChoice/>
             <AddMultipleSelect/>
             <AddShortAnswer/>
+            <DetailForm/>
+
+            
         </Container>
         
     )
 }
-export default QuizEditor;
+export default CreateQuiz;
 
 /*
 {
