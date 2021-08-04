@@ -22,7 +22,11 @@ public class SkillLevel {
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "FK_SKILL")
+
 	@JsonManagedReference(value = "skillLevel")
+
+	//@JsonBackReference(value = "skillLevel")
+
 	private Skill skill;
 
 	@OneToOne

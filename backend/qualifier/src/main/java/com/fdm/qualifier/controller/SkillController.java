@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.SkillDTO;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.service.SkillService;
 
@@ -33,6 +34,11 @@ public class SkillController {
 	@GetMapping("/getAllSkills")
 	public List<Skill> getAllSkills(){
 		return skillService.findAll();
+	}
+	
+	@GetMapping("/getAllSkillDTOs")
+	public List<SkillDTO> getAllSkillsDTO(){
+		return skillService.findAllSkillDTOs();
 	}
 	
 	@GetMapping("/updateSkillName")
