@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Placement;
+import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -27,14 +29,19 @@ public class TraineeService {
 
 	private TraineeRepository traineeRepo;
 	private SkillLevelRepository skillLevelRepo;
+	private SkillLevelService skillLevelService;
+	private SkillService skillService;
 
 	private Log log = LogFactory.getLog(TraineeService.class);
 
 	@Autowired
-	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo) {
+	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo,
+			SkillLevelService skillLevelService, SkillService skillService) {
 		super();
 		this.traineeRepo = traineeRepo;
 		this.skillLevelRepo = skillLevelRepo;
+		this.skillLevelService = skillLevelService;
+		this.skillService = skillService;
 	}
 	
 	public Trainee getTraineeByID(int id) {
@@ -226,7 +233,18 @@ public class TraineeService {
 		return traineeRepo.findByFirstNameAndLastName(name);
 	}
 	
-	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
-		return traineeRepo.findTraineeBySkills(skill);
+	/**
+	 * Finds Trainees by the name of a skill
+	 * @param skillName
+	 * @return
+	 */
+	public List<Trainee> findBySkillName(String skillName){
+		Skill skill = skillService.findByName(skillName);
+		List<SkillLevel> skillLevel = skillLevelService.findBySkill(skill);
+		return findTraineeBySkills(skillLevel);	
+	}
+	
+	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
+		return traineeRepo.findTraineeBySkillsIn(skill);
 	}
 }

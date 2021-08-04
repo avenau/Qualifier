@@ -31,6 +31,12 @@ public class TraineeServiceTest {
 	SkillLevelRepository skillLevelRepoMock;
 	
 	@Mock
+	SkillLevelService skillLevelServiceMock;
+	
+	@Mock
+	SkillService skillServiceMock;
+	
+	@Mock
 	Trainee traineeMock;
 
 	@Mock
@@ -43,7 +49,7 @@ public class TraineeServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		traineeService = new TraineeService(traineeRepoMock, skillLevelRepoMock);
+		traineeService = new TraineeService(traineeRepoMock, skillLevelRepoMock, skillLevelServiceMock, skillServiceMock);
 	}
 	
 	@Test

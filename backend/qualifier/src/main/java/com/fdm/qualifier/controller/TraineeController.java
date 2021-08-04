@@ -1,5 +1,6 @@
 package com.fdm.qualifier.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,6 +98,14 @@ public class TraineeController {
 	@PostMapping("/unpinSkill")
 	public String unpinSkill(@RequestBody Integer[] ids) {
 		return traineeService.unpinSkill(ids[0], ids[1]);
+	}
+	
+	@PostMapping("/searchTrainees")
+	public List<Trainee> searchTrainees(@RequestBody String searchTerm){
+		List<Trainee> result = new ArrayList<>();
+		result.addAll(traineeService.findTraineeByName(searchTerm));
+		result.addAll(traineeService.findBySkillName(searchTerm));
+		return result;
 	}
 
 }
