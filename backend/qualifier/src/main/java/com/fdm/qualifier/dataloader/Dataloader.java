@@ -329,7 +329,7 @@ public class Dataloader implements ApplicationRunner {
 
 			// Quiz quiz = quizService.findQuizById(31).get();
 			log.debug(quiz.getQuestions());
-			Trainee trainee = traineeService.getTraineeByID(31);
+			Trainee trainee = traineeService.getTraineeByID(14);
 			SubmittedAnswer sa1 = new SubmittedAnswer(quiz.getQuestions().get(0), null,
 					quiz.getQuestions().get(0).getAnswers().get(0), null);
 			SubmittedAnswer sa2 = new SubmittedAnswer(quiz.getQuestions().get(1), null,

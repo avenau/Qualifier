@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, ListGroup } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 
 
@@ -9,10 +9,11 @@ function MarkQuiz() {
     const resultId = 33;//useLocation().pathname.split("/")[2];
     const [result, setResult] = useState({});
     const [questions, setQuestions] = useState([]);
+    const [marksToAdd, setMarksToAdd] = useState([]);
 
     useEffect(() => {
         getResult();
-    }, [/*questions.length*/]);
+    }, []);
 
     function getResult() {
         axios.post('http://localhost:9999/getResult', { resultId: resultId })
@@ -21,6 +22,11 @@ function MarkQuiz() {
                 setResult(response.data)
                 if (response.data.quiz.questions != undefined) {
                     setQuestions(response.data.quiz.questions);
+                    let initMarks = [];
+                    response.data.quiz.questions.forEach(element => {
+                        initMarks.push(0);
+                    });
+                    setMarksToAdd(initMarks);
                 } else
                     setQuestions([]);
             })
@@ -35,41 +41,67 @@ function MarkQuiz() {
     const submitMarkedQuiz = (evt) => {
         evt.preventDefault();
         console.log("Submitting quiz");
+        let markedResults = result.mark;
+        marksToAdd.forEach( mark => {
+            markedResults += mark;
+        })
+        let finishedMarks = result;
+        finishedMarks.mark = markedResults;
+        finishedMarks.marked = true;
+        setResult(finishedMarks);
+        axios.post('http://localhost:9999/submitMarkedResult', finishedMarks)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+        .then(function () {
+
+        })
+    }
+
+    const setMarks = (event, index) => {
+        // console.log(event.target.value)
+        let markArray = marksToAdd.slice();
+        markArray[index] = parseInt(event.target.value);
+        setMarksToAdd(markArray);
     }
 
     const questionsList =
         questions.map(
             (question, index) =>
-                <div key={"question-" + index}>
+                <ListGroup.Item key={"question-" + index}>
                     <span>{index} Question</span>
-                    <br/>
+                    <br />
                     <span>{question.content}</span>
-                    <div>
-                        {question.answers.map(
-                            (answer, index) =>
-                                <div key={"id-" + answer.answerId + "-answer-" + index}>
-                                    {answer.content}
-                                </div>
-                        )}
-                    </div>
-                    <div>
-                        {question.type}
-                    </div>
-                    <div>
                     <Form.Group>
-                    {   question.type === "SHORT_ANSWER" ? 
-                        <Form.Text type="text" /> :
-                        <span></span>
-                    }
+                        {question.type === "SHORT_ANSWER" ?
+                            <div>
+                                <div>{question.submittedAnswers[0].answerContent != null ?
+                                    <div>
+                                        {question.submittedAnswers[0].answerContent}
+                                    </div> :
+                                    <div>
+                                        No answer submitted
+                                    </div>
+                                }</div>
+                                <Form.Control type="number" min="0" max={question.points} value={marksToAdd[index]} onChange={(e) => setMarks(e, index)} required/>
+                                <Form.Text>Total Marks {question.points}</Form.Text>
+                            </div>
+                            :
+                            <span></span>
+                        }
                     </Form.Group>
-                    </div>
-                </div>
+                </ListGroup.Item>
         )
 
     return (
         <Container>
             <Form onSubmit={submitMarkedQuiz}>
-                {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
+                <ListGroup>
+                    {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
+                </ListGroup>
                 <Button type="submit">Mark</Button>
             </Form>
         </Container>

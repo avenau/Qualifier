@@ -27,15 +27,19 @@ public class Result {
 	@ManyToOne
 	@JsonBackReference(value = "trainee-result")
 	private Trainee trainee;
-	
-	@OneToOne(cascade=CascadeType.MERGE)
+
+	@OneToOne(cascade = CascadeType.MERGE)
 //	@JsonManagedReference(value = "quiz-result")
 	private Quiz quiz;
-	
+
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "result")
 	@JsonManagedReference(value = "submittedAnswer-result")
 	private List<SubmittedAnswer> submittedAnswers;
-	
+
+	public Result() {
+		super();
+	}
+
 	public Result(double mark, Trainee trainee, Quiz quiz, boolean passed) {
 		super();
 		this.mark = mark;
@@ -52,7 +56,7 @@ public class Result {
 		this.quiz = quiz;
 		this.submittedAnswers = submittedAnswers;
 	}
-	
+
 	public Result(double mark, boolean passed, boolean marked, Trainee trainee, Quiz quiz,
 			List<SubmittedAnswer> submittedAnswers) {
 		super();
@@ -103,7 +107,6 @@ public class Result {
 	public void setPassed(boolean passed) {
 		this.passed = passed;
 	}
-	
 
 	public List<SubmittedAnswer> getSubmittedAnswers() {
 		return submittedAnswers;
@@ -112,15 +115,15 @@ public class Result {
 	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
 		this.submittedAnswers = submittedAnswers;
 	}
-	
+
 	public void addSubmittedAnswer(SubmittedAnswer answer) {
 		this.submittedAnswers.add(answer);
 	}
-	
+
 	public void removeSubmittedAnswer(SubmittedAnswer answer) {
 		this.submittedAnswers.remove(answer);
 	}
-	
+
 	public boolean isMarked() {
 		return marked;
 	}
@@ -134,6 +137,5 @@ public class Result {
 		return "Results [resultId=" + resultId + ", mark=" + mark + ", trainee=" + trainee + ", quiz=" + quiz
 				+ ", passed=" + passed + "]";
 	}
-	
-	
+
 }

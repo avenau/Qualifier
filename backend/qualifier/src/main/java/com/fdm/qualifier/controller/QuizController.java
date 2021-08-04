@@ -146,6 +146,12 @@ public class QuizController {
 		System.out.println(quizService.findResultById(result.getResultId()));
 		return quizService.findResultById(result.getResultId());
 	}
+	
+	@PostMapping("/submitMarkedResult")
+	public void submitMarkedResult(@RequestBody Result result) {
+		System.out.println("Submitted marked result: " + result);
+	}
+	
 /*	@GetMapping("/loadQuizPage")
 	public Quiz loadQuizPage(int id) {
 		System.out.println("ID adfd: " + id);
