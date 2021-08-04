@@ -6,14 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { createStore } from 'redux';
 import allReducers from './reducers';
 import { Provider } from 'react-redux';
+import store from './redux/store';
 
-const globalStore = createStore(
-  allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+
+// const globalStore = createStore(
+//   allReducers,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   );
 
 ReactDOM.render(
-  <Provider store={globalStore}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')

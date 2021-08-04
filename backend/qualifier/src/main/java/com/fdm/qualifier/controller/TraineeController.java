@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,6 +64,15 @@ public class TraineeController {
 		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
 		traineeService.save(foundTrainee);	
 	}
+	
+	@PostMapping("/removeTraineeSkill")
+	public void removeTraineeSkill(@RequestBody Integer[] ids) {
+		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
+		SkillLevel skillLevel = skillLevelService.getById(ids[1]);
+		Skill skill = skillLevel.getSkill();
+		traineeService.removeSkillFromTrainee(skill, ids[0]);
+		traineeService.save(foundTrainee);
+	}
 
 //	@PostMapping("/changePinnedSkill")
 //	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
@@ -100,12 +109,22 @@ public class TraineeController {
 		return traineeService.unpinSkill(ids[0], ids[1]);
 	}
 	
+
 	@PostMapping("/searchTrainees")
 	public List<Trainee> searchTrainees(@RequestBody String searchTerm){
 		List<Trainee> result = new ArrayList<>();
 		result.addAll(traineeService.findTraineeByName(searchTerm));
 		result.addAll(traineeService.findBySkillName(searchTerm));
 		return result;
+	}
+
+	@PostMapping("/getTraineesResults")
+	public List<Result> getTraineeResults(@RequestBody Trainee trainee) {
+		log.debug(trainee);
+		List<Result> results = traineeService.getAllResults(trainee.getUserId());
+		log.debug(results);
+		return results;
+
 	}
 
 }

@@ -24,7 +24,7 @@ public class QuestionDTO {
 		this.questionPoints = question.getPoints();
 		this.questionImage = question.getImage();
 		this.answers = question.getAnswers();
-		this.submittedAnswers = question.getSubmittedAnswers();
+//		this.submittedAnswers = question.getSubmittedAnswers();
 	}
 
 	public int getQuestionId() {

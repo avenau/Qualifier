@@ -1,25 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Dropdown, Button, ListGroup } from "react-bootstrap";
 
 function CreatePlacement(){
 
     const axios = require('axios');
+
+    const [allClients, setAllClients] = useState([]);
+    const [allSkills, setAllSkills] = useState([]);
 
     const [placementName, setName] = useState("");
     const [placementDescription, setDescription] = useState("");
     const [placementLocation, setLocation] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [clientName, setClientName] = useState({});
+    const [placementSkills, setPlacementSkill] = useState([])
+
+    useEffect(() => {
+        getAllClientsOnLoad();
+        getAllSkillsOnLoad();
+    }, []);
+
 
     const submitPlacement = (evt) => {
         evt.preventDefault();
-        var skills = new FormData();
-        skills.append('skillsNeeded', '');
-        var client = new FormData();
-        client.append('client',' ');
-        console.log(startDate);
+        
+        console.log(clientName);
+        console.log(placementSkills);
         axios.post('http://localhost:9999/savePlacement', {placementId:1, name:placementName, startDate:startDate, completionDate:endDate, 
                                                                     description:placementDescription, location:placementLocation,
-                                                                    client, skills})
+                                                                    client:clientName, skillsNeeded:placementSkills})
             .then(function (response) {
                 console.log(response);
             })
@@ -28,13 +38,72 @@ function CreatePlacement(){
             })
             .then(function () {
                 console.log('finally');
+                setPlacementSkill([]);
             })
     }
+
+    function getAllClientsOnLoad() {
+        axios.get('http://localhost:9999/getAllClients')
+            .then(function (response) {
+                console.log(response);
+                setAllClients(response.data);
+                console.log(allClients);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
+    };
+
+    function getAllSkillsOnLoad() {
+        axios.get('http://localhost:9999/getAllSkillLevels')
+            .then(function (response) {
+                console.log(response);
+                setAllSkills(response.data);
+                console.log(allSkills);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
+    };
 
     const handleStartDateNameChange = (event) => {
     this.setStartDate(event.target.value);
     this.setEndDate(event.target.value);
   };
+
+  const handleAddSkill = (index) => {
+    let requiredSkills = placementSkills.slice()
+    requiredSkills.push(allSkills[index])
+    setPlacementSkill(requiredSkills)
+  };
+
+
+
+
+  const allClientsList = allClients.map(
+    (client,index)=>
+        <Dropdown.Item value={clientName} onSelect={e => setClientName(allClients[index])}>
+            {client.name}
+        </Dropdown.Item>                             
+  );
+
+  const allSkillsList = allSkills.map(
+        (skill,index)=>
+            <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => handleAddSkill(index)}>
+                {skill.skill.name}:{skill.level}
+            </Dropdown.Item>                             
+    );
+
+    const allSkillsRequiredList = placementSkills.map(
+          (skill)=>
+            <p>{skill.skill.name}:{skill.level}</p>
+    );
 
     return(
         <div>
@@ -50,18 +119,26 @@ function CreatePlacement(){
                 <label>End Date</label>
                 <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
                 <label for="client">Client</label>
-                <select id="client" name="Client">
-                    <option value="client">Fetch Clients</option>
-                </select>
-                {/* List of skills WIP
-                <label>Skills</label>   
-                <input type="checkbox" id="skill1" name="skill1" value="Skill1"/>
-                <label for="skill1"> Skill #1</label>
-                <br/>
-                <input type="checkbox" id="skill2" name="skill2" value="Skill2"/>
-                <label for="skill2"> Skill #2</label> */}
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Select Client
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {allClientsList}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Select Skills
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {allSkillsList}
+                    </Dropdown.Menu>
+                </Dropdown>
                 <input type="submit" value="Add Placement"/>
             </form>
+            <h2>Chosen Skills Required</h2>
+            {allSkillsRequiredList.length > 0 ? allSkillsRequiredList : <p> No Required Skills Added </p>}
         </div>
     )
 }

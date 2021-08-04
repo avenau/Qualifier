@@ -26,6 +26,8 @@ import SearchPlacements from './components/trainee/placements';
 import MySkills from './components/trainee/mySkills';
 import MarkQuiz from './components/quiz/MarkQuiz';
 import SearchTrainee from './components/trainee/TraineeSearch';
+import CreateQuiz from './components/quiz/CreateQuiz';
+import TraineeResults from './components/trainer/traineeResults';
 
 //To add your page 
 /*
@@ -38,21 +40,6 @@ function App() {
   const auth = useSelector(state => state.auth);
   return (
       <Router>
-
-        <div className='nav'>
-          <NavLink to='/login' activeClassName='active'>
-            Login
-          </NavLink>
-        </div>
-
-        <div className='content'>
-          <switch>
-            <PublicRoute path='/login' component={Login} />
-          </switch>
-        </div>
-      
-
-    
       <NavigationBar/>
 
       <Switch>
@@ -72,6 +59,10 @@ function App() {
         <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path ='/markquiz' component={MarkQuiz}/>
         <Route exact path ='/searchtrainee' component={SearchTrainee}/>
+        <Route exact path ='/trainer/createquiz' component={CreateQuiz}/>
+        <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
+        <Route exact path = '/traineeResults' component={TraineeResults}/>
+        <Route path='/login' component={Login} />
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 

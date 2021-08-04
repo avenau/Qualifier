@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -30,6 +31,7 @@ public class Trainee extends User {
 	private List<Placement> appliedPlacements;
 
 	@OneToMany
+	@JsonManagedReference(value = "trainee-result")
 	private List<Result> results;
 
 	@ManyToMany
@@ -47,17 +49,19 @@ public class Trainee extends User {
 	}
 
 	public Trainee(String username, String password) {
-		super(username, password);
+		super(username, password, "trainee");
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, LocalDate date, Stream stream) {
-		super(username, password);
+		super(username, password, "trainee");
 		this.completionDate = date;
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, LocalDate date, Stream stream) {
@@ -66,6 +70,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, String userType, LocalDate date, Stream stream) {
@@ -74,6 +79,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(LocalDate completionDate, Stream stream, List<Placement> placements, List<Result> results,
@@ -89,6 +95,16 @@ public class Trainee extends User {
 	
 	public void addSkill(SkillLevel skill) {
 		skills.add(skill);
+	}
+	
+	public void removeSkill(Skill skill) {
+		SkillLevel skillToRemove = null;
+		for (SkillLevel sl:skills) {
+			if(sl.getSkill().getName().equals(skill.getName())) {
+				skillToRemove = sl;
+			}
+		}
+		skills.remove(skillToRemove);
 	}
 
 	public LocalDate getCompletionDate() {

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 
 @Repository
@@ -25,5 +26,8 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer>{
 	List<Trainee> findByFirstNameAndLastName(@Param("name")String name);
 	
 	List<Trainee> findTraineeBySkillsIn(List<SkillLevel> skills);
+
+	@Query("SELECT t.results FROM Trainee t WHERE uid = :id")
+	List<Result> getResultsByUid(@Param("id") int uid);
 
 }

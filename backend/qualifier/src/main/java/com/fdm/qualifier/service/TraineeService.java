@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
+
+import com.fdm.qualifier.model.Result;
+
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -217,11 +219,26 @@ public class TraineeService {
 		return traineeRepo.findAll();
 	}
 	
-
+	/**Adds the specified Skill Level to the specified trainer
+	 * 
+	 * @param skill
+	 * @param traineeId
+	 */
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
 		Trainee foundTrainee = traineeRepo.getById(traineeId);
 		foundTrainee.addSkill(skill);
 	}
+	
+	/** Removes the specified skill from the specified trainer 
+	 * 
+	 * @param skill
+	 * @param traineeId
+	 */
+	public void removeSkillFromTrainee(Skill skill, int traineeId) {
+		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		foundTrainee.removeSkill(skill);
+	}
+	
 	/**
 	 * Gets trainees that match the string in
 	 * their first or last name
@@ -246,5 +263,9 @@ public class TraineeService {
 	
 	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
 		return traineeRepo.findTraineeBySkillsIn(skill);
+	}
+
+	public List<Result> getAllResults(int userId) {
+		return traineeRepo.getResultsByUid(userId);
 	}
 }

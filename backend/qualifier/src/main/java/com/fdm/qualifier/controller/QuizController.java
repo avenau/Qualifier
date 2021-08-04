@@ -24,12 +24,16 @@ import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
+import com.fdm.qualifier.service.TraineeService;
+
+import jdk.internal.org.jline.utils.Log;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -42,9 +46,11 @@ public class QuizController {
 	private AnswerService answerService;
 	private SubmittedAnswerService submittedAnswerService;
 	private ResultService resultService;
-
+	
+	private TraineeService traineeService;
+	
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, ResultService resultService, SubmittedAnswerService submittedAnswerService, TraineeService traineeService) {
 		super();
 		this.quizService = quizService;
 		this.skillLevelService = skillLevelService;
@@ -52,6 +58,7 @@ public class QuizController {
 		this.answerService = answerService;
 		this.submittedAnswerService = submittedAnswerService;
 		this.resultService = resultService;
+		this.traineeService = traineeService;
 	}
 	
 	@GetMapping("/quiz/get/{id}")
@@ -77,7 +84,7 @@ public class QuizController {
 			double unitMark = 0;
 			
 			int questionId = Integer.parseInt((String) content.get("questionId"));
-			Question question = questionService.findById(questionId).get();
+			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
 			String answerContent = (String) content.get("answerContent");
 			
@@ -130,7 +137,7 @@ public class QuizController {
 	
 	@PostMapping("/quiz/update")
 	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
-		return quizService.updateDTO(request);
+		return quizService.updateQuiz(request);
 	}
 	
 	@GetMapping("/getAllQuizzes")
@@ -140,7 +147,22 @@ public class QuizController {
 	
 	@PostMapping("/getResult")
 	public Result getResult(@RequestBody Result result) {
+		System.out.println(result);
+		System.out.println(quizService.findResultById(result.getResultId()).getSubmittedAnswers());
 		return quizService.findResultById(result.getResultId());
+	}
+	
+	@PostMapping("/submitMarkedResult")
+	public void submitMarkedResult(@RequestBody Result result) {
+		Result oldResult = quizService.findResultById(result.getResultId());
+		Trainee trainee = oldResult.getTrainee();
+		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
+		result = quizService.saveResult(result);
+		if(result.isPassed() && (skillLevel != null || trainee != null)) {
+			trainee.addSkill(skillLevel);
+			trainee = traineeService.save(trainee);
+			System.out.println(trainee);
+		}
 	}
 	
 /*	@GetMapping("/loadQuizPage")

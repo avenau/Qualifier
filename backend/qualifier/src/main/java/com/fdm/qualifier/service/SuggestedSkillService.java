@@ -1,6 +1,7 @@
 package com.fdm.qualifier.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,6 +49,10 @@ public class SuggestedSkillService {
 
 	public List<SuggestedSkill> getAll() {
 		return suggestedSkillRepo.findAll();
+	}
+	
+	public List<SuggestedSkill> findByName(String name) {
+		return suggestedSkillRepo.findByNameIgnoreCase(name);
 	}
 	
 	public void declineSuggestedSkill(SuggestedSkill skill) {
