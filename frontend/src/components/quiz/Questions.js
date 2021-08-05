@@ -3,18 +3,15 @@ import {useLocation, useHistory} from "react-router-dom";
 import { Form, Check, Button } from 'react-bootstrap';
 
 function Questions(props) {
+    const userId = sessionStorage.getItem('uId');
     const questionTemplate = 
     [{           
-       questionId: 0,
-       content: "NOT LOADED",
-       type: "NOT LOADED",
-       points: 0,
-       image: "NOT LOADED",
-       answers:  [{
-           answerId: 0,
-           content: "NOT LOADED",
-           correct: "NOT LOADED"
-       }]
+        questionId: 0,
+        answerId: [],
+        questionType: "",
+        answerContent: "",
+        quizId: 0,
+        userId: 0
    }]
    const submittedAnswerTemplate = 
    {
@@ -24,23 +21,25 @@ function Questions(props) {
    }
     const [results, setResults] = useState([]);
     const selectUpdates = {};
-    const [questions, setQuestions] = useState(questionTemplate);
+    // const [questions, setQuestions] = useState(questionTemplate);
+    const questions = props.quiz.questions;
     let history = useHistory();
     let axios = require('axios');
 
-    
-
-    const addAnswer = (() => {
-        
-    })
 
     useEffect(() => {
-        axios.get('http://localhost:9999/quiz/get/' + props.quizId)
-        .then((response) => {
-            console.log(response.data.questions);
-            setQuestions(response.data.questions);
-        })
-    }, [questions.length])
+        // console.log("PROPS QUIZ ID " + props.quizId);
+        // axios.get('http://localhost:9999/quiz/get/' + props.quizId)
+        // .then((response) => {
+        //     console.log("HELLO id " + props.quizId);
+        //     console.log("HELLO " + response.data.questions.length);
+        //     setQuestions(response.data.questions);
+        // })
+        // questions = props.quiz.questions;
+        // console.log("PROPS " + props);
+        // console.log("PROP QUIZ ID " + props.quizId);
+        // console.log("PROPS QUIZ "  + props.quiz);
+    }, [])
 
     /*
         Stuck
@@ -72,6 +71,7 @@ function Questions(props) {
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
         } else {
@@ -90,6 +90,7 @@ function Questions(props) {
                 questionType: "SHORT_ANSWER",
                 answerContent: value,
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
@@ -105,9 +106,10 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -124,9 +126,10 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
@@ -146,6 +149,7 @@ function Questions(props) {
                 questionType: "MUTIPLE_SELECT",
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
             checked = true;
             console.log('Length 0 RESULTS: ' + newResults.length);
@@ -170,6 +174,7 @@ function Questions(props) {
                 answerId: [id],
                 answerContent: "",
                 quizId: props.quizId,
+                userId: userId
             })
         }
         setResults(newResults);
@@ -188,7 +193,7 @@ function Questions(props) {
 
                             {question.answers.map(answer =>{
                  
-                                if (question.questionType === "MUTIPLE_CHOICE") {
+                                if (question.questionType === "MULTIPLE_CHOICE") {
                                     
                                     return( 
                                         <Form.Check

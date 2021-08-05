@@ -8,6 +8,9 @@ function SearchPlacements(){
     const accountType = sessionStorage.getItem('accountType');
 
     const axios = require('axios');
+    const axiosConfig = {
+        headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+    };
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchError, setSearchError] = useState("");
@@ -27,7 +30,7 @@ function SearchPlacements(){
     }])
 
     useEffect(() => {
-        axios.get('http://localhost:9999/getAllPlacements')
+        axios.get('http://localhost:9999/getAllPlacements', axiosConfig)
         .then((response) => {
             console.log(response);
             setPlacementResult(response.data);
@@ -43,7 +46,7 @@ function SearchPlacements(){
         evt.preventDefault();
         if (searchTerm.trim().length > 0) {
             setSearchError("");
-            const config = { headers: {'Content-Type': 'application/json'} };
+            const config = { headers: {'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.jwtToken}`} };
             axios.post('http://localhost:9999/searchPlacements', searchTerm, config)
                 .then(function (response) {
                     console.log(response);
@@ -78,8 +81,8 @@ function SearchPlacements(){
         })
     }
 
-    const approveRequest = (index) => {
-        axios.post('http://localhost:9999/approveRequest', [traineeId, placementResult[index].placementId])
+    const approveRequest = (selectedTrainerID, index) => {
+        axios.post('http://localhost:9999/approveRequest', [selectedTrainerID, placementResult[index].placementId])
         .then(function (response) {
             console.log(response);
             setConfirmationMessage(response.date);
@@ -147,10 +150,13 @@ function SearchPlacements(){
                                             <Row>
                                                 <Col sm={8}>
                                                     <h3>{placement.name}</h3>
-                                                    {accountType == "trainee" ?
+                                                    {accountType == "trainee" && placement.trainee == null ?
                                                     <button value="Apply" onClick={() => applyForPlacement(index)}>Apply</button>
                                                     : <p></p>}
                                                     <p>{applicationResult}</p>
+                                                    {placement.trainee != null ? 
+                                                        <p>This position has been filled by {placement.trainee.firstName} {placement.trainee.lastName}</p>
+                                                    :<p></p>}
                                                     <p>{placement.description}</p>
                                                     <p>{placement.client.name}</p>
                                                     <p>{placement.location}</p>
@@ -165,15 +171,16 @@ function SearchPlacements(){
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
-                                                    {accountType == "trainee" ?
+                                                    {accountType == "sales" ?
                                                     
                                                     <ListGroup>
                                                         <h3>Applied Trainees</h3>
                                                         {placement.appliedTrainees.map(
-                                                            (trainee, index) =>
-                                                                <ListGroup.Item key={"sales-" + trainee.uid}>
+                                                            (trainee) =>
+                                                                <ListGroup.Item key={"trainee-" + trainee.userId}>
                                                                     {trainee.firstName} {trainee.lastName}
-                                                                    <button onClick={() => approveRequest(index)}>Approve Request</button>
+                                                                    <button onClick={() => approveRequest(trainee.userId,index)}>Approve Request</button>
+
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>

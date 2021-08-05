@@ -10,17 +10,21 @@ import com.fdm.qualifier.model.SubmittedAnswer;
 public class QuestionDTO {
 	private int questionId;
 	private String questionContent;
-	private QuestionType questionType;
+	private String questionType;
 	private int questionPoints;
 	private byte[] questionImage;
 	private List<Answer> answers;
 	private List<SubmittedAnswer> submittedAnswers;
-	
+	public QuestionDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public QuestionDTO(Question question) {
 		super();
 		this.questionId = question.getQuestionId();
 		this.questionContent = question.getContent();
-		this.questionType = question.getType();
+		this.questionType = question.getType().toString();
 		this.questionPoints = question.getPoints();
 		this.questionImage = question.getImage();
 		this.answers = question.getAnswers();
@@ -43,11 +47,11 @@ public class QuestionDTO {
 		this.questionContent = questionContent;
 	}
 
-	public QuestionType getQuestionType() {
+	public String getQuestionType() {
 		return questionType;
 	}
 
-	public void setQuestionType(QuestionType questionType) {
+	public void setQuestionType(String questionType) {
 		this.questionType = questionType;
 	}
 
@@ -75,13 +79,13 @@ public class QuestionDTO {
 		this.answers = answers;
 	}
 
-	public List<SubmittedAnswer> getSubmittedAnswers() {
-		return submittedAnswers;
-	}
-
-	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-		this.submittedAnswers = submittedAnswers;
-	}
+//	public List<SubmittedAnswer> getSubmittedAnswers() {
+//		return submittedAnswers;
+//	}
+//
+//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+//		this.submittedAnswers = submittedAnswers;
+//	}
 	
 	
 }

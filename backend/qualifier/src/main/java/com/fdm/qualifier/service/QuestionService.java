@@ -26,7 +26,7 @@ public class QuestionService {
 //		this.questionRepository = questionRepository;
 	}
 
-	public Question createNewQuestion(Quiz quizId, String content, QuestionType type, int marks, Object image) {
+	public Question createNewQuestion(Quiz quizId, String content, QuestionType type, int marks) {
 		Question question = new Question(content, type, marks, null, quizId);
 		questionRepository.save(question);
 		quizId.setQuestionCount(quizId.getQuestionCount() + 1);
