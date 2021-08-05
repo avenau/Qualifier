@@ -25,13 +25,14 @@ public class Trainee extends User {
 	private Stream stream;
 
 	@ManyToMany
+	//@JsonManagedReference(value = "trainee-placement")
 	private List<Placement> placements;
 
 	@ManyToMany
 	private List<Placement> appliedPlacements;
 
 	@OneToMany
-	@JsonManagedReference(value = "trainee-result")
+	//@JsonManagedReference(value = "trainee-result")
 	private List<Result> results;
 
 	@ManyToMany

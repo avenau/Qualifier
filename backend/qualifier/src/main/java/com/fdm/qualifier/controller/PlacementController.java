@@ -83,10 +83,13 @@ public class PlacementController {
 	}
 	
 	@PostMapping("/approveRequest")
-	public void approveREquest(@RequestBody Integer[] ids) {
+	public String approveREquest(@RequestBody Integer[] ids) {
+		System.out.println("Passed in trainee ID is:" + ids[0]);
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		Placement foundPlacement = placementService.findById(ids[1]);
-		
+		System.out.println("Adding trainee " + foundTrainee.getFirstName() + " to placement: " + foundPlacement.getName());
+		placementService.placeApprovedTrainee(foundPlacement, foundTrainee);
+		return foundTrainee.getFirstName() + " " + foundTrainee.getLastName() + " was successfully placed";
 	}
 	
 	
