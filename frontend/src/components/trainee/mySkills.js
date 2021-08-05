@@ -4,7 +4,6 @@ import { Dropdown, Button, ListGroup } from "react-bootstrap";
 function MySkills() {
     const axios = require('axios');
 
-    //CHANGE THIS TO SESSION TRAINEES ID
     const traineeId = sessionStorage.getItem('uId');
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
@@ -114,7 +113,12 @@ function MySkills() {
     const addUnverifiedSkill = (index) => {
         axios.post('http://localhost:9999/addUnverifiedSkill', [traineeId, allSkills[index].skillId])
         .then(function (response) {
+            console.log("addUnverifiedSkill");
             console.log(response);
+            let addedSkills = skills.slice();
+            // addedSkills.push({allSkills[index]});
+            // setSkills(addedSkills);
+
         })
         .catch(function (error) {
             console.log(error);
@@ -193,8 +197,8 @@ function MySkills() {
             <ListGroup>
                 {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
             </ListGroup>
-            <span>{errorMessage}</span>
             <p></p>
+            <span>{errorMessage}</span>
             <ListGroup>
                 {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
             </ListGroup>

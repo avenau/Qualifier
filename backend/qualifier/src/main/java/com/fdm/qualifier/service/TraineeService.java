@@ -43,7 +43,7 @@ public class TraineeService {
 	}
 	
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getTraineeByuid(id);
+		return traineeRepo.getById(id);
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		Trainee foundTrainee = getTraineeByID(traineeId);
 		foundTrainee.addSkill(skill);
 	}
 	
@@ -231,7 +231,7 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		Trainee foundTrainee = getTraineeByID(traineeId);
 		foundTrainee.removeSkill(skill);
 	}
 	
