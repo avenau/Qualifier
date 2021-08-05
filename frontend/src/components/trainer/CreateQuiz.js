@@ -118,7 +118,7 @@ function CreateQuiz() {
         <>
           <Button variant="primary" onClick={handleShow}>
             Add Multiple Select
-          </Button>
+          </Button>{' '}
     
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -128,24 +128,24 @@ function CreateQuiz() {
               <Form hasValidation onSubmit={addQuestion}>
                 <Form.Group className="mb-3" controlId="formGridAddress1" >
                   
-                  <Form.Control onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                  <Form.Control onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
-                  <InputGroup className="mb-3">
+                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                  <InputGroup className="mb-2">
                     <InputGroup.Checkbox onChange = {((event) => {if (ans1.correct === true) { ans1.correct = false} else {ans1.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans2.correct === true) { ans2.correct = false} else {ans2.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans2.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans3.correct === true) { ans3.correct = false} else {ans3.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans3.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans4.correct === true) { ans4.correct = false} else {ans4.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans4.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
@@ -218,7 +218,7 @@ function CreateQuiz() {
           <>
             <Button variant="primary" onClick={handleShow}>
               Add Multiple Choice
-            </Button>
+            </Button>{' '}
       
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -226,26 +226,26 @@ function CreateQuiz() {
               </Modal.Header>
               <Modal.Body>
                 <Form hasValidation onSubmit={addQuestion}>
-                  <Form.Group className="mb-3" controlId="formGridAddress1" >
+                  <Form.Group className="mb-2" controlId="formGridAddress1" >
                     
-                    <Form.Control onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                    <Form.Control onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
-                    <InputGroup className="mb-3">
+                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                    <InputGroup className="mb-2">
                       <InputGroup.Radio onChange = {((event) => {ans1.correct = true; ans2.correct = false; ans3.correct = false; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = true; ans3.correct = false; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans2.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = false; ans3.correct = true; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans3.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = false; ans3.correct = false; ans4.correct = true})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans4.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
@@ -295,7 +295,7 @@ function CreateQuiz() {
           <>
             <Button variant="primary" onClick={handleShow}>
               Add Short Answer
-            </Button>
+            </Button>{' '}
       
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -304,7 +304,7 @@ function CreateQuiz() {
               <Modal.Body>
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                 
-                      <Form.Control onChange={((event) => {questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                      <Form.Control className="mb-2" onChange={((event) => {questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
                       <Form.Control onChange={((event) => {questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />
                 </Form.Group>
               </Modal.Body>
@@ -324,7 +324,7 @@ function CreateQuiz() {
 
       function DetailForm () {
           return (
-            <Form>
+            <Form className= "pt-2">
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
 
@@ -407,10 +407,17 @@ function CreateQuiz() {
 
     return (
         <Container>
-            <h3 className="pt-3">Quiz Editor</h3>
-            <AddMultipleChoice/>
-            <AddMultipleSelect/>
-            <AddShortAnswer/>
+              <h3 className="pt-3">Quiz Editor</h3>
+              {/* <Row>
+                <Col><AddMultipleChoice/></Col>
+                <Col><AddMultipleSelect /></Col>
+                <Col><AddShortAnswer /></Col>
+
+              </Row> */}
+              <AddMultipleChoice/>
+              <AddMultipleSelect />
+              <AddShortAnswer />
+
             <DetailForm/>
 
 
