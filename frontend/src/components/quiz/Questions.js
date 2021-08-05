@@ -49,6 +49,7 @@ function Questions(props) {
         axios
         .post('http://localhost:9999/quiz/submit',{ payload: results})
         .then((response) => {
+            console.log("Submit Quiz " + JSON.stringify(response.data));
 
             history.push('/finishquiz');
         })

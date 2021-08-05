@@ -208,9 +208,6 @@ function TrainerSkillsPage() {
                                                             <Col>
                                                                 <h6 class="mb-2 text-muted">Skill Name: {skill.name}</h6>
                                                             </Col>
-                                                            <Col>
-                                                                <Button onClick={deleteSkill} variant="danger"><ImBin/></Button>
-                                                            </Col>
                                                         </Row>
                                                         <InputGroup className="mb-3 w-100">
                                                             <FormControl
