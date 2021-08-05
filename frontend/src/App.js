@@ -57,7 +57,7 @@ function App() {
         <Route exact path='/startquiz' component={QuizStartPage}/>
         <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
         <Route exact path ='/myskills' component={MySkills}/>
-        <Route exact path ='/trainer/createquiz' component={CreateQuiz}/>
+        <Route exact path ='/trainer/createquiz/:skill_level_id' component={CreateQuiz}/>
         <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
         <Route exact path = '/traineeResults' component={TraineeResults}/>
         <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>

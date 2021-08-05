@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Tab , Button, Card, ListGroup, Form, InputGroup, FormControl, Table} from 'react-bootstrap';
 import { Redirect, useHistory, useLocation } from "react-router-dom";
+import CreateQuiz from './CreateQuiz';
 import { ImBin } from "react-icons/im"
 
 function TrainerSkillsPage() {
@@ -34,7 +35,7 @@ function TrainerSkillsPage() {
 
     useEffect(() => {
         axios
-        .get('http://localhost:9999/getAllSkills', axiosConfig)
+        .get('http://localhost:9999/getAllSkillDTOs', axiosConfig)
         .then((response) => {
             setSkills(response.data);
             setLoading(false);
@@ -46,16 +47,60 @@ function TrainerSkillsPage() {
     }, [skills.length])
 
     function hasSkillLevel(skillLevels, level) {
+        let flag = false;
         skillLevels.map((skillLevel) => {
             if (skillLevel.knowledgelevel == level){
+
                 if (skillLevel.quizId == null){
-                    return false;
+
+                    flag = false
+                } else {
+
+                    flag = true;
                 }
-                return true;
+                
             }
         })
-        return false;
+
+        return flag;
     }
+
+    function getSkillLevelIdCreate(skillLevels, level) {
+        let flag = null;
+        skillLevels.map((skillLevel) => {
+            if (skillLevel.knowledgelevel == level){
+
+                if (skillLevel.quizId == null){
+
+                    flag = skillLevel.skillLevelId;
+                } else {
+
+                    flag = null;
+                }
+                
+            }
+        })
+
+        return flag;
+    }
+
+    const handleCreate = ((str) => {
+        console.log("EVENT TARGET ID " + str.target.id)
+        history.push("/trainer/createquiz/" + str.target.id);
+        // axios
+        // .get('http://localhost:9999/quiz/create/'+event.target.id, axiosConfig)
+        // .then((response) => {
+        //     history.push("/trainer/createquiz");
+        //     // <CreateQuiz startInfo={response.data}/>
+            
+            
+        // })
+        // .catch((error) => {
+        //     console.log("THERE IS ERROR")
+        //     // history.push("/*");
+        // })
+    })
+
 
     
     if (isLoading) {
@@ -105,6 +150,7 @@ function TrainerSkillsPage() {
                                 <Col sm={8}>
                                     <Tab.Content>
                                         {skills.map(skill => (
+                                            
                                             <Tab.Pane eventKey={'#' + skill.skillId}>
                                                 <Row>
                                                     <Col sm={8}>
@@ -138,28 +184,28 @@ function TrainerSkillsPage() {
                                                                 <tr>
                                                                 <td>Beginner</td>
                                                                 <td>
-                                                                    {/* {hasSkillLevel(skill.skillLevels, "BEGINNER")
-                                                                        ? <p>Edit</p> 
-                                                                        : <Card.Link href="">Create</Card.Link>
-                                                                    } */}
+                                                                    {hasSkillLevel(skill.skillLevels, "BEGINNER")
+                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        : <form id = {getSkillLevelIdCreate(skill.skillLevels, "BEGINNER")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
+                                                                    }
                                                                 </td>
                                                                 </tr>
                                                                 <tr>
                                                                 <td>Intermediate</td>
                                                                 <td>
-                                                                    {/* {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
-                                                                        ? <p>Edit</p> 
-                                                                        : <Card.Link href="">Create</Card.Link>
-                                                                    } */}
+                                                                    {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
+                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link  href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        : <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
+                                                                    }
                                                                 </td>
                                                                 </tr>
                                                                 <tr>
                                                                 <td>Expert</td>
                                                                 <td>
-                                                                    {/* {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
-                                                                        ? <p>Edit</p> 
-                                                                        : <Card.Link href="">Create</Card.Link>
-                                                                    } */}
+                                                                    {hasSkillLevel(skill.skillLevels, "EXPERT")
+                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link  href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        : <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
+                                                                    }
                                                                 </td>
                                                                 </tr>
                                                             </tbody>

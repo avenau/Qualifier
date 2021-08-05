@@ -77,7 +77,7 @@ public class Question {
 		this.type = type;
 		this.points = points;
 		this.answers = answers;
-		this.image = "random".getBytes();;
+		this.image = "random".getBytes();
 	}
 
 	public int getQuestionId() {
