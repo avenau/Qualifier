@@ -11,7 +11,7 @@ function SearchTrainee(){
     const [isLoading, setLoading] = useState(true);
     let history = useHistory();
     const [traineeResult, setTraineeResult] = useState([{
-        uid: 0,
+        userId: 0,
         firstName: "",
         lastName: "",
         email: "",
@@ -24,6 +24,7 @@ function SearchTrainee(){
             console.log(response);
             setTraineeResult(response.data);
             setLoading(false);
+            
         })
         .catch((error) => {
             history.push("/*");
@@ -39,7 +40,13 @@ function SearchTrainee(){
             axios.post('http://localhost:9999/searchTrainees', searchTerm, config)
                 .then(function (response) {
                     console.log(response);
-                    setTraineeResult(response.data);
+                    if(response.data.length === 0){
+                        window.alert("No search results");
+                    }else{
+                        setTraineeResult(response.data);
+                    }
+                    
+                    
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -86,12 +93,12 @@ function SearchTrainee(){
                 </Row>
             </Card.Header>
             <Card.Body>
-                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + traineeResult[0].uid}>
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + traineeResult[0].userId}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>
                                     {traineeResult.map(trainee => (
-                                        <ListGroup.Item key={'#' + trainee.uid} action href= {'#' + trainee.uid}>
+                                        <ListGroup.Item key={'#' + trainee.userId} action href= {'#' + trainee.userId}>
                                             {trainee.firstName}
                                         </ListGroup.Item>  
                                     ))}
@@ -100,7 +107,7 @@ function SearchTrainee(){
                             <Col sm={8}>
                                 <Tab.Content>
                                     {traineeResult.map(trainee => (
-                                        <Tab.Pane eventKey={'#' + trainee.uid}>
+                                        <Tab.Pane eventKey={'#' + trainee.userId}>
                                             <Row>
                                                 <Col sm={8}>
                                                     <h3>{trainee.firstName} {trainee.lastName}</h3>
@@ -109,7 +116,7 @@ function SearchTrainee(){
                                                     <ListGroup>
                                                         {trainee.pinnedSkills.map(
                                                             (skill, index) =>
-                                                                <ListGroup.Item key={"skill-" + skill.skillId}>
+                                                                <ListGroup.Item key={"skill-" + skill.skillLevelId}>
                                                                     {skill.skill.name}: {skill.level}
                                                                 </ListGroup.Item>
                                                         )}
@@ -117,7 +124,7 @@ function SearchTrainee(){
                                                     <ListGroup>
                                                         {trainee.skills.map(
                                                             (skill, index) =>
-                                                                <ListGroup.Item key={"skill-" + skill.skillId}>
+                                                                <ListGroup.Item key={"skill-" + skill.skillLevelId}>
                                                                     {skill.skill.name}: {skill.level}
                                                                 </ListGroup.Item>
                                                         )}

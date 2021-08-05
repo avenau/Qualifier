@@ -247,7 +247,7 @@ public class TraineeService {
 	 * @return
 	 */
 	public List<Trainee> findTraineeByName(String name) {
-		return traineeRepo.findByFirstNameAndLastName(name);
+		return traineeRepo.findByFirstNameOrLastName(name);
 	}
 	
 	/**
@@ -262,10 +262,16 @@ public class TraineeService {
 	}
 	
 	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
-		return traineeRepo.findTraineeBySkillsIn(skill);
+		List<Trainee> results = traineeRepo.findTraineeBySkillsIn(skill);
+		results.addAll(traineeRepo.findTraineeByPinnedSkillsIn(skill));
+		return results;
 	}
 
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
+	}
+	
+	public List<Trainee> findByFirstAndLastName(String firstName, String lastName){
+		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 }

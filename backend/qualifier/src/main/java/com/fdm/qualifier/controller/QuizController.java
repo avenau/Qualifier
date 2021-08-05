@@ -33,7 +33,6 @@ import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
 
-import jdk.internal.org.jline.utils.Log;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")

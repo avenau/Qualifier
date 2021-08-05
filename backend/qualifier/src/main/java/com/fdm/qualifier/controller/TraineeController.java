@@ -115,6 +115,10 @@ public class TraineeController {
 		List<Trainee> result = new ArrayList<>();
 		result.addAll(traineeService.findTraineeByName(searchTerm));
 		result.addAll(traineeService.findBySkillName(searchTerm));
+		if(searchTerm.split(" ").length ==2) {
+			String[] splitName = searchTerm.split(" ");
+			result.addAll(traineeService.findByFirstAndLastName(splitName[0], splitName[1]));
+		}
 		return result;
 	}
 

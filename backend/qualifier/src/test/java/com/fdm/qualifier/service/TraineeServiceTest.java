@@ -484,7 +484,7 @@ public class TraineeServiceTest {
 	public void findTraineeByName_returnListOfTrainees() {
 		//Arrange
 		List<Trainee> testList = new ArrayList<Trainee>();
-		when(traineeRepoMock.findByFirstNameAndLastName("test")).thenReturn(testList);
+		when(traineeRepoMock.findByFirstNameOrLastName("test")).thenReturn(testList);
 		
 		//Act
 		List<Trainee> result = traineeService.findTraineeByName("test");
@@ -497,8 +497,8 @@ public class TraineeServiceTest {
 	public void findTraineeBySkills_returnListOfTrainees() {
 		//Arrange
 		List<Trainee> testList = new ArrayList<Trainee>();
-		SkillLevel test = new SkillLevel();
-		when(traineeRepoMock.findTraineeBySkills(test)).thenReturn(testList);
+		List<SkillLevel> test = new ArrayList<>();
+		when(traineeRepoMock.findTraineeBySkillsIn(test)).thenReturn(testList);
 		
 		//Act
 		List<Trainee> result = traineeService.findTraineeBySkills(test);
