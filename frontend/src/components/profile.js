@@ -39,6 +39,18 @@ function Profile() {
         getUserOnLoad();
     }, []);
 
+    // useEffect(() => {
+    //     axios
+    //     .get('http://localhost:9999/getUser', {   
+    //         params: {
+    //             username:sessionStorage.getItem("username")
+    //         },
+    //     }).then(response => {
+    //         setUser(response.data)
+    //     })
+    //     .catch(() => {});  
+    // }, [profile.skills.length]);
+
     function getUserOnLoad() {
         axios
             .get('http://localhost:9999/getUser', {
@@ -96,7 +108,8 @@ function Profile() {
     );
 
     return(
-        <div>
+        <Container>
+        
             <h1>{profile.firstName} {profile.lastName}</h1>
             <p>Stream: {profile.stream}</p>
             <p>Email: {profile.email}</p>
@@ -119,6 +132,7 @@ function Profile() {
             {accountType == "trainee" ?
                 <TraineeResults traineeId={traineeId}></TraineeResults>
                 : <span></span>}
+
         </Container>
     );
 

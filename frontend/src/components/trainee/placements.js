@@ -18,7 +18,6 @@ function SearchPlacements(){
     const [isLoading, setLoading] = useState(true);
     const [applicationResult, setApplicationResult] = useState("");
     const [confirmationMessgage, setConfirmationMessage] = useState("");
-    const [appliedTrainees, setAppliedTrainees] = useState([]);
     let history = useHistory();
     const [placementResult, setPlacementResult] = useState([{
         placementId: 0,
@@ -28,6 +27,7 @@ function SearchPlacements(){
         description: "",
         location: "", 
     }])
+    const [appliedTrainees, setAppliedTrainees] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:9999/getAllPlacements', axiosConfig)
@@ -54,6 +54,7 @@ function SearchPlacements(){
                         window.alert("No search results");
                     }else{
                         setPlacementResult(response.data);
+                        setAppliedTrainees(placementResult.appliedTrainees);
                     }
                 })
                 .catch(function (error) {
@@ -68,6 +69,7 @@ function SearchPlacements(){
     }
 
     const applyForPlacement = (index) => {
+        setApplicationResult("");
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
         .then(function (response) {
             console.log(response);
@@ -171,17 +173,16 @@ function SearchPlacements(){
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
-                                                    {accountType == "sales" ?
+                                                    {accountType == "trainee" && placement.trainee == null ? 
                                                     
                                                     <ListGroup>
                                                         <h3>Applied Trainees</h3>
                                                         {placement.appliedTrainees.map(
-                                                            (trainee) =>
-                                                                <ListGroup.Item key={"trainee-" + trainee.userId}>
-                                                                    {trainee.firstName} {trainee.lastName}
-                                                                    <button onClick={() => approveRequest(trainee.userId,index)}>Approve Request</button>
-
-                                                                </ListGroup.Item>
+                                                                (trainee, index) =>
+                                                         <ListGroup.Item key={"trainee-" + trainee.userId}>
+                                                        {trainee.firstName} {trainee.lastName}
+                                                          <button onClick={() => approveRequest(trainee.userId, index)}>Approve Request</button>
+                                                        </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
                                                     : <p></p>}
