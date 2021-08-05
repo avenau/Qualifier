@@ -79,15 +79,18 @@ public class QuizController {
 	}
 
 	@PostMapping("/quiz/submit")
-	public void submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
+	public Result submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
 		double totalMark = 0.0;
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			int id = Integer.parseInt((String) content.get("quizId"));
 			if (quizService.findQuizById(id).isPresent()) {
 				totalMark = quizService.findQuizById(id).get().getFullMark();
 			} else { 
-				return;
+				Result badResult = new Result();
+				badResult.setResultId(-5);
+				return badResult;
 			}
+			
 			
 			break;
 		}
@@ -161,7 +164,8 @@ public class QuizController {
 		
 		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
 
-		System.out.println(result);
+		System.out.println("Submit Result Return " + result);
+		return result;
 		
 	}
 

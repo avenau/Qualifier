@@ -165,6 +165,10 @@ public class Trainee extends User {
 	public void setPinnedSkills(List<SkillLevel> pinnedSkills) {
 		this.pinnedSkills = pinnedSkills;
 	}
+	
+	public void addResults(Result results) {
+		this.results.add(results);
+	}
 
 	@Override
 	public String toString() {
