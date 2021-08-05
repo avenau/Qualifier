@@ -18,7 +18,6 @@ function SearchPlacements() {
     const [isLoading, setLoading] = useState(true);
     const [applicationResult, setApplicationResult] = useState("");
     const [confirmationMessgage, setConfirmationMessage] = useState("");
-    const [appliedTrainees, setAppliedTrainees] = useState([]);
     let history = useHistory();
     const [placementResult, setPlacementResult] = useState([{
         placementId: 0,
@@ -28,6 +27,7 @@ function SearchPlacements() {
         description: "",
         location: "",
     }])
+    const [appliedTrainees, setAppliedTrainees] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:9999/getAllPlacements', axiosConfig)
@@ -54,6 +54,7 @@ function SearchPlacements() {
                         window.alert("No search results");
                     } else {
                         setPlacementResult(response.data);
+                        setAppliedTrainees(placementResult.appliedTrainees);
                     }
                 })
                 .catch(function (error) {
@@ -68,17 +69,19 @@ function SearchPlacements() {
     }
 
     const applyForPlacement = (index) => {
+        setApplicationResult("");
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
-            .then(function (response) {
-                console.log(response);
-                setApplicationResult(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                console.log('finally');
-            })
+        .then(function (response) {
+            console.log(response);
+            setApplicationResult(response.data);
+            console.log(applicationResult);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
     }
 
     const approveRequest = (selectedTrainerID, index) => {
@@ -95,6 +98,11 @@ function SearchPlacements() {
             })
     }
 
+    function resetMessage(){
+        console.log("Reset called");
+        setApplicationResult("");
+    };
+
 
 
     if (isLoading) {
@@ -102,36 +110,36 @@ function SearchPlacements() {
     }
 
     return (
-        <Container className="d-flex justify-content-center pt-5">
-            <Card className="w-75">
-                <Card.Header as="h5">
-                    <Row>
-                        <Col sm={3} className="pt-2">
-                            Placements
-                        </Col>
-
-                        <Col className="d-flex justify-content-end">
-                            <Form className="pt-1" onSubmit={submitPlacementSearch}>
-                                <Row className="align-items-center">
-                                    <InputGroup className="">
-                                        <FormControl
-                                            placeholder="Search Placements"
-                                            aria-label="Placements"
-                                            aria-describedby="basic-addon2"
-                                            value={searchTerm}
-                                            onChange={e => setSearchTerm(e.target.value)}
-                                        />
-                                        <Button variant="outline-secondary" id="button-addon2" type="submit">
-                                            Search
-                                        </Button>
-                                    </InputGroup>
-                                </Row>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Card.Header>
-                <Card.Body>
-                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId}>
+        <Container className = "d-flex justify-content-center pt-5">
+        <Card className="w-75">
+            <Card.Header as="h5">
+                <Row>
+                    <Col sm={3} className = "pt-2">
+                        Placements
+                    </Col>
+                    
+                    <Col className = "d-flex justify-content-end">
+                        <Form className = "pt-1" onSubmit={submitPlacementSearch}>
+                            <Row className="align-items-center">
+                                <InputGroup className="">
+                                    <FormControl
+                                    placeholder="Search Placements"
+                                    aria-label="Placements"
+                                    aria-describedby="basic-addon2"
+                                    value={searchTerm} 
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                    />
+                                    <Button variant="outline-secondary" id="button-addon2" type="submit">
+                                        Search
+                                    </Button>
+                                </InputGroup>
+                            </Row>
+                        </Form>
+                    </Col>
+                </Row>
+            </Card.Header>
+            <Card.Body>
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId} onSelect={resetMessage}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>
@@ -145,57 +153,50 @@ function SearchPlacements() {
                             <Col sm={8}>
                                 <Tab.Content>
                                     {placementResult.map(
-                                        (placement, index) => (
-                                            <Tab.Pane eventKey={'#' + placement.placementId}>
-                                                <Row>
-                                                    <Col sm={8}>
-                                                        <h3>{placement.name}</h3>
-                                                        {accountType == "trainee" && placement.trainee == null ?
-                                                            <Button value="Apply" onClick={() => applyForPlacement(index)}>Apply</Button>
-                                                            : <p></p>}
-                                                        <p>{applicationResult}</p>
-                                                        {placement.trainee != null ?
-                                                            <p>This position has been filled by {placement.trainee.firstName} {placement.trainee.lastName}</p>
-                                                            : <p></p>}
-                                                        <p>{placement.description}</p>
-                                                        <p>{placement.client.name}</p>
-                                                        <p>{placement.location}</p>
-                                                        <p>Start Date: {placement.startDate}</p>
-                                                        <p>Completion Date: {placement.completionDate}</p>
-                                                        <h3>Skills Required</h3>
-                                                        <ListGroup>
-                                                            {placement.skillsNeeded.map(
-                                                                (skillLevel, index) =>
-                                                                    <ListGroup.Item key={"skill-" + skillLevel.skillLevelId}>
-                                                                        {skillLevel.skill.name}: {skillLevel.level}
-                                                                    </ListGroup.Item>
-                                                            )}
-                                                        </ListGroup>
-                                                        {accountType == "sales" ?
-
-                                                            <ListGroup>
-                                                                <h3>Applied Trainees</h3>
-                                                                {placement.appliedTrainees.map(
-                                                                    (trainee) =>
-                                                                        <ListGroup.Item key={"trainee-" + trainee.userId}>
-                                                                            <Row className="align-items-center">
-                                                                                <Col sm>
-                                                                                    {trainee.firstName} {trainee.lastName}
-                                                                                </Col>
-                                                                                <Col sm="auto">
-                                                                                    <Button onClick={() => approveRequest(trainee.userId, index)}>Approve Request</Button>
-                                                                                </Col>
-                                                                            </Row>
-
-                                                                        </ListGroup.Item>
-                                                                )}
-                                                            </ListGroup>
-                                                            : <p></p>}
-                                                    </Col>
-                                                </Row>
-                                            </Tab.Pane>
-                                        ))}
-
+                                        (placement,index) => (
+                                        <Tab.Pane eventKey={'#' + placement.placementId}>
+                                            <Row>
+                                                <Col sm={8}>
+                                                    <h3>{placement.name}</h3>
+                                                    {accountType == "trainee" && placement.trainee == null ?
+                                                    <button value="Apply" onClick={() => applyForPlacement(index)}>Apply</button>
+                                                    : <p></p>}
+                                                    <p>{applicationResult}</p>
+                                                    {placement.trainee != null ? 
+                                                        <p>This position has been filled by {placement.trainee.firstName} {placement.trainee.lastName}</p>
+                                                    :<p></p>}
+                                                    <p>{placement.description}</p>
+                                                    <p>{placement.client.name}</p>
+                                                    <p>{placement.location}</p>
+                                                    <p>Start Date: {placement.startDate}</p>
+                                                    <p>Completion Date: {placement.completionDate}</p>
+                                                    <h3>Skills Required</h3>
+                                                    <ListGroup>
+                                                        {placement.skillsNeeded.map(
+                                                            (skillLevel, index) =>
+                                                                <ListGroup.Item key={"skill-" + skillLevel.skillLevelId}>
+                                                                    {skillLevel.skill.name}: {skillLevel.level}
+                                                                </ListGroup.Item>
+                                                        )}
+                                                    </ListGroup>
+                                                    {accountType == "sales" && placement.trainee == null ? 
+                                                    
+                                                    <ListGroup>
+                                                        <h3>Applied Trainees</h3>
+                                                        {placement.appliedTrainees.map(
+                                                                (trainee, index) =>
+                                                         <ListGroup.Item key={"trainee-" + trainee.userId}>
+                                                        {trainee.firstName} {trainee.lastName}
+                                                          <button onClick={() => approveRequest(trainee.userId, index)}>Approve Request</button>
+                                                        </ListGroup.Item>
+                                                        )}
+                                                    </ListGroup>
+                                                    : <p></p>}
+                                                </Col>
+                                            </Row>
+                                        </Tab.Pane> 
+                                    ))}
+                                    
 
                                 </Tab.Content>
                             </Col>
