@@ -49,11 +49,14 @@ function Questions(props) {
         axios
         .post('http://localhost:9999/quiz/submit',{ payload: results})
         .then((response) => {
-
-            history.push('/finishquiz');
+            console.log("Submit Quiz " + JSON.stringify(response.data));
+            history.push({
+                pathname: '/finishquiz',
+                state: { detail: response.data }
+            });
         })
-        .catch(()=>{
-            
+        .catch((error)=>{
+            console.log(error.message);
         })
     })
 

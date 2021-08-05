@@ -18,7 +18,6 @@ function SearchPlacements() {
     const [isLoading, setLoading] = useState(true);
     const [applicationResult, setApplicationResult] = useState("");
     const [confirmationMessgage, setConfirmationMessage] = useState("");
-    const [appliedTrainees, setAppliedTrainees] = useState([]);
     let history = useHistory();
     const [placementResult, setPlacementResult] = useState([{
         placementId: 0,
@@ -28,6 +27,7 @@ function SearchPlacements() {
         description: "",
         location: "",
     }])
+    const [appliedTrainees, setAppliedTrainees] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:9999/getAllPlacements', axiosConfig)
@@ -54,6 +54,7 @@ function SearchPlacements() {
                         window.alert("No search results");
                     } else {
                         setPlacementResult(response.data);
+                        setAppliedTrainees(placementResult.appliedTrainees);
                     }
                 })
                 .catch(function (error) {
@@ -68,17 +69,19 @@ function SearchPlacements() {
     }
 
     const applyForPlacement = (index) => {
+        setApplicationResult("");
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
-            .then(function (response) {
-                console.log(response);
-                setApplicationResult(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                console.log('finally');
-            })
+        .then(function (response) {
+            console.log(response);
+            setApplicationResult(response.data);
+            console.log(applicationResult);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
     }
 
     const approveRequest = (trainee, index) => {
@@ -98,6 +101,11 @@ function SearchPlacements() {
             })
     }
 
+    function resetMessage(){
+        console.log("Reset called");
+        setApplicationResult("");
+    };
+
 
 
     if (isLoading) {
@@ -105,36 +113,36 @@ function SearchPlacements() {
     }
 
     return (
-        <Container className="d-flex justify-content-center pt-5">
-            <Card className="w-75">
-                <Card.Header as="h5">
-                    <Row>
-                        <Col sm={3} className="pt-2">
-                            Placements
-                        </Col>
-
-                        <Col className="d-flex justify-content-end">
-                            <Form className="pt-1" onSubmit={submitPlacementSearch}>
-                                <Row className="align-items-center">
-                                    <InputGroup className="">
-                                        <FormControl
-                                            placeholder="Search Placements"
-                                            aria-label="Placements"
-                                            aria-describedby="basic-addon2"
-                                            value={searchTerm}
-                                            onChange={e => setSearchTerm(e.target.value)}
-                                        />
-                                        <Button variant="outline-secondary" id="button-addon2" type="submit">
-                                            Search
-                                        </Button>
-                                    </InputGroup>
-                                </Row>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Card.Header>
-                <Card.Body>
-                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId}>
+        <Container className = "d-flex justify-content-center pt-5">
+        <Card className="w-75">
+            <Card.Header as="h5">
+                <Row>
+                    <Col sm={3} className = "pt-2">
+                        Placements
+                    </Col>
+                    
+                    <Col className = "d-flex justify-content-end">
+                        <Form className = "pt-1" onSubmit={submitPlacementSearch}>
+                            <Row className="align-items-center">
+                                <InputGroup className="">
+                                    <FormControl
+                                    placeholder="Search Placements"
+                                    aria-label="Placements"
+                                    aria-describedby="basic-addon2"
+                                    value={searchTerm} 
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                    />
+                                    <Button variant="outline-secondary" id="button-addon2" type="submit">
+                                        Search
+                                    </Button>
+                                </InputGroup>
+                            </Row>
+                        </Form>
+                    </Col>
+                </Row>
+            </Card.Header>
+            <Card.Body>
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId} onSelect={resetMessage}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>

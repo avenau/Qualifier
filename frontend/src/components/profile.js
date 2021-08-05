@@ -110,7 +110,7 @@ function Profile() {
     return (
         <div>
             <Container>
-                <h1>{profile.name}</h1>
+                <h1>{profile.firstName} {profile.lastName}</h1>
                 <ListGroup>
                     <ListGroup.Item>
                         <p>Stream: {profile.stream}</p>
