@@ -1,9 +1,9 @@
 package com.fdm.qualifier.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.dto.QuizDTO;
-import com.fdm.qualifier.httpRequest.UpdateQuizRequest;
+import com.fdm.qualifier.httpRequest.QuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
@@ -25,7 +26,6 @@ import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.model.Trainee;
-import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
@@ -34,10 +34,6 @@ import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
 import com.fdm.qualifier.service.UserService;
-
-import jdk.internal.org.jline.utils.Log;
-
-import jdk.internal.org.jline.utils.Log;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -156,8 +152,31 @@ public class QuizController {
 		return quizDTO;
 	}
 	
+	@PostMapping("/createNewQuiz")
+	public Map<String, String> createNewQuizByTrainer(@RequestBody QuizRequest request) {
+		Map<String, String> status = new HashMap<String, String>();
+		
+		int quizId = request.getQuizId();
+		Quiz quiz = quizService.findQuizById(quizId).get();
+		
+		quiz.setName(request.getName());
+		quiz.setDescription(request.getDescription());
+		quiz.setDuration(request.getDuration());
+		quiz.setPassingMark(request.getPassingMark());
+		
+		List<QuestionDTO> questionDTOs = request.getQuestions();
+		for (QuestionDTO questionDTO : questionDTOs) {
+			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), questionDTO.getQuestionType(), questionDTO.getQuestionPoints());
+			for (Answer answer : questionDTO.getAnswers()) {
+				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
+			}
+		}
+		status.put("status", "success");
+		return status;
+	}
+	
 	@PostMapping("/quiz/update")
-	public QuizDTO updateQuizDetails(@RequestBody UpdateQuizRequest request) {
+	public QuizDTO updateQuizDetails(@RequestBody QuizRequest request) {
 		return quizService.updateQuiz(request);
 	}
 	
