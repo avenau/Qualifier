@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,9 +52,7 @@ public class TraineeController {
 	
 	@PostMapping("/addUnverifiedSkill")
 	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
-		Optional<Trainee> foundTrainee = traineeService.getTraineeByID(ids[0]);
-		System.out.println("The found trainee is:" + foundTrainee);
-		
+		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
 		SkillLevel unverifiedSkill = null;
 		for (SkillLevel sl: skill) {
@@ -63,16 +61,16 @@ public class TraineeController {
 			}
 		}
 		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
-		traineeService.save(foundTrainee.get());	
+		traineeService.save(foundTrainee);	
 	}
 	
 	@PostMapping("/removeTraineeSkill")
 	public void removeTraineeSkill(@RequestBody Integer[] ids) {
-		Optional<Trainee> foundTrainee = traineeService.getTraineeByID(ids[0]);
+		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		SkillLevel skillLevel = skillLevelService.getById(ids[1]);
 		Skill skill = skillLevel.getSkill();
 		traineeService.removeSkillFromTrainee(skill, ids[0]);
-		traineeService.save(foundTrainee.get());
+		traineeService.save(foundTrainee);
 	}
 
 //	@PostMapping("/changePinnedSkill")
@@ -108,6 +106,14 @@ public class TraineeController {
 	@PostMapping("/unpinSkill")
 	public String unpinSkill(@RequestBody Integer[] ids) {
 		return traineeService.unpinSkill(ids[0], ids[1]);
+	}
+	
+	@PostMapping("/getTraineesResults")
+	public List<Result> getTraineeResults(@RequestBody Trainee trainee) {
+		log.debug(trainee);
+		List<Result> results = traineeService.getAllResults(trainee.getUserId());
+		log.debug(results);
+		return results;
 	}
 
 }

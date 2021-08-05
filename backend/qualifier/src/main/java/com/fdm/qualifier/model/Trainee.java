@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -30,6 +31,7 @@ public class Trainee extends User {
 	private List<Placement> appliedPlacements;
 
 	@OneToMany
+	@JsonManagedReference(value = "trainee-result")
 	private List<Result> results;
 
 	@ManyToMany
@@ -50,6 +52,7 @@ public class Trainee extends User {
 		super(username, password, "trainee");
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, LocalDate date, Stream stream) {
@@ -58,6 +61,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, LocalDate date, Stream stream) {
@@ -66,6 +70,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(String username, String password, boolean isActive, String userType, LocalDate date, Stream stream) {
@@ -74,6 +79,7 @@ public class Trainee extends User {
 		this.stream = stream;
 		this.skills = new ArrayList<>();
 		this.pinnedSkills = new ArrayList<>();
+		this.results = new ArrayList<>();
 	}
 
 	public Trainee(LocalDate completionDate, Stream stream, List<Placement> placements, List<Result> results,

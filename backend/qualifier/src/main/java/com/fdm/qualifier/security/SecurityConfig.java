@@ -20,63 +20,47 @@ import com.fdm.qualifier.service.AccountDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter
-{
-    private AccountDetailsService accountDetailsService;
-    private JwtRequestFilter jwtRequestFilter;
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	private AccountDetailsService accountDetailsService;
+	private JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    public SecurityConfig(AccountDetailsService ads, JwtRequestFilter jrf)
-    {
-        this.accountDetailsService = ads;
-        this.jwtRequestFilter = jrf;
-    }
+	@Autowired
+	public SecurityConfig(AccountDetailsService ads, JwtRequestFilter jrf) {
+		this.accountDetailsService = ads;
+		this.jwtRequestFilter = jrf;
+	}
 
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors() // Cross Origin Request
+				.and().csrf().disable() // Cross-site request forgery
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        http
-            .cors()             // Cross Origin Request
-            .and()              
-            .csrf().disable()   // Cross-site request forgery
+				.authorizeRequests()
+				.antMatchers("/**")
+				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
+				// put .antMatcher(route).permitAll() for public access
+				// .antMatchers("/auth/**").permitAll()
+				.anyRequest().authenticated().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-            .authorizeRequests()
-            .antMatchers("/", "/getUser", "/saveSuggestedSkill", "/removeSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails", "/searchPlacements", "/getAllPlacements", 
-            		"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
-            		"/getSkills", "/addUnverifiedSkill", "/removeTraineeSkill", "/addSkill", "/getAllSkills", "/getAllSkillLevels", "/getAllTrainees", "/pinSkill", 
-            		"/getAllClients", "/applyForPlacement","/unpinSkill", "/getResult", "/quiz/get/*", "quiz/create/*", "/quiz/submit", "/h2-console/**", "/auth/**").permitAll() //!!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
+		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		http.headers().frameOptions().disable();
+	}
 
-            // put .antMatcher(route).permitAll() for public access
-            //.antMatchers("/auth/**").permitAll()
-            
-            .anyRequest()
-            .authenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(accountDetailsService);
+	}
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.headers().frameOptions().disable();
-    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.userDetailsService(accountDetailsService);
-    }
-
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception
-    {
-        return super.authenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+	@Bean
+	public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder(10);
-    	return NoOpPasswordEncoder.getInstance();
-    }
+		return NoOpPasswordEncoder.getInstance();
+	}
 }

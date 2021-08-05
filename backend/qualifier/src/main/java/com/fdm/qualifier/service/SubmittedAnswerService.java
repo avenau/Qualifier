@@ -1,5 +1,6 @@
 package com.fdm.qualifier.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.repository.SubmittedAnswerRepository;
 
 @Service
@@ -45,6 +47,9 @@ public class SubmittedAnswerService {
 		return submittedAnswer;
 	}
 	
+	public List<SubmittedAnswer> findByQuestion(Question question) {
+		return submittedRepo.findSubmittedAnswerByQuestion(question);
+	}
 	
 
 }

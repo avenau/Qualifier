@@ -66,7 +66,7 @@ public class PlacementController {
 	}
 	
 	@PostMapping("/applyForPlacement")
-	public void applyForPlacement(@RequestBody Integer[] ids) {
+	public String applyForPlacement(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		Placement foundPlacement = placementService.findById(ids[1]);
 		List<SkillLevel> requiredSkillList = foundPlacement.getSkillsNeeded();
@@ -75,8 +75,10 @@ public class PlacementController {
 			foundPlacement.addAppliedTrainee(foundTrainee);
 			placementService.save(foundPlacement);
 			log.info("trainee " + foundTrainee.getFirstName() + "has successfully applied for this placement");
+			return "You have successfully applied for this permission";
 		} else {
 			log.info("trainee " + foundTrainee.getFirstName() + "is not eligible for this placement");
+			return "You are not eligible for this position. Please check you possess the required skills";
 		}
 	}
 	

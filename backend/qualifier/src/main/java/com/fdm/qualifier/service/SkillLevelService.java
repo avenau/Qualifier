@@ -36,9 +36,9 @@ public class SkillLevelService {
 	public boolean isSufficientLevel(SkillLevel traineeSL, SkillLevel requiredSL) {
 		if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.UNVERIFIED) {
 			return false;
-		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.BEGINNER && requiredSL.getLevel() 
+		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.BEGINNER && (requiredSL.getLevel() 
 				== SkillLevel.KnowledgeLevel.INTERMEDIATE || requiredSL.getLevel() 
-						== SkillLevel.KnowledgeLevel.EXPERT) {
+						== SkillLevel.KnowledgeLevel.EXPERT)) {
 			return false;
 		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.INTERMEDIATE && requiredSL.getLevel()
 				== SkillLevel.KnowledgeLevel.EXPERT) {

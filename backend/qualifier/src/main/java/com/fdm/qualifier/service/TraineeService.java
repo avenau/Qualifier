@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+
 import com.fdm.qualifier.model.Skill;
+
+import com.fdm.qualifier.model.Result;
+
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -38,8 +42,8 @@ public class TraineeService {
 		this.skillLevelRepo = skillLevelRepo;
 	}
 	
-	public Optional<Trainee> getTraineeByID(int id) {
-		return traineeRepo.findById(id);
+	public Trainee getTraineeByID(int id) {
+		return traineeRepo.getById(id);
 	}
 
 	/**
@@ -217,8 +221,8 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
-		Optional<Trainee> foundTrainee = traineeRepo.findById(traineeId);
-		foundTrainee.get().addSkill(skill);
+		Trainee foundTrainee = getTraineeByID(traineeId);
+		foundTrainee.addSkill(skill);
 	}
 	
 	/** Removes the specified skill from the specified trainer 
@@ -227,8 +231,8 @@ public class TraineeService {
 	 * @param traineeId
 	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
-		Optional<Trainee> foundTrainee = traineeRepo.findById(traineeId);
-		foundTrainee.get().removeSkill(skill);
+		Trainee foundTrainee = getTraineeByID(traineeId);
+		foundTrainee.removeSkill(skill);
 	}
 	
 	/**
@@ -244,5 +248,9 @@ public class TraineeService {
 	
 	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
 		return traineeRepo.findTraineeBySkills(skill);
+	}
+
+	public List<Result> getAllResults(int userId) {
+		return traineeRepo.getResultsByUid(userId);
 	}
 }
