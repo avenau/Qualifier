@@ -34,7 +34,7 @@ public class Skill {
 //=======
 //	@JsonManagedReference(value = "skillLevel2")
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="skill")
-	@JsonBackReference(value = "skillToSkillLevel")
+	@JsonManagedReference(value = "skillToSkillLevel")
 	private List<SkillLevel> skilllevels;
 
 

@@ -81,6 +81,7 @@ public class QuizController {
 
 	@PostMapping("/quiz/submit")
 	public Result submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
+		System.out.println("DSFLSDJF");
 		double totalMark = 0.0;
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			int id = Integer.parseInt((String) content.get("quizId"));
