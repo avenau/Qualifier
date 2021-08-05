@@ -86,7 +86,12 @@ function TrainerSkillsPage() {
 
     const handleCreate = ((str) => {
         console.log("EVENT TARGET ID " + str.target.id)
-        history.push("/trainer/createquiz/" + str.target.id);
+        if (str.target.id == ""){
+            window.alert("The SkillLevel doesnt exist");
+        } else {
+            history.push("/trainer/createquiz/" + str.target.id);
+        }
+        
         // axios
         // .get('http://localhost:9999/quiz/create/'+event.target.id, axiosConfig)
         // .then((response) => {
@@ -185,7 +190,7 @@ function TrainerSkillsPage() {
                                                                 <td>Beginner</td>
                                                                 <td>
                                                                     {hasSkillLevel(skill.skillLevels, "BEGINNER")
-                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "BEGINNER")} ><Button type = "submit"  >Delete</Button></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "BEGINNER")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
@@ -194,7 +199,7 @@ function TrainerSkillsPage() {
                                                                 <td>Intermediate</td>
                                                                 <td>
                                                                     {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
-                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link  href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} ><Button type = "submit"  >Delete</Button></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
@@ -203,7 +208,7 @@ function TrainerSkillsPage() {
                                                                 <td>Expert</td>
                                                                 <td>
                                                                     {hasSkillLevel(skill.skillLevels, "EXPERT")
-                                                                        ? <Row><Col xs={4} className="pl-3"><Card.Link  href="">Edit</Card.Link></Col><Col xs={5}><Card.Link href="">Delete</Card.Link></Col></Row>
+                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} ><Button type = "submit"  >Delete</Button></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
