@@ -67,7 +67,9 @@ public class SkillController {
 	
 	@GetMapping("/skill/remove/{id}")
 	public void deleteSkill(@PathVariable("id") String id) {
+		System.out.println("REMOVE CHECKING");
 		int skillId = Integer.parseInt(id);
+		System.out.println("SKILL ID: " + skillId);
 		skillService.deleteById(skillId);
 	}
 	

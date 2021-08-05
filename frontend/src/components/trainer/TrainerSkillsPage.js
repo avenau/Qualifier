@@ -9,7 +9,7 @@ function TrainerSkillsPage() {
     let history = useHistory();
     const [isLoading, setLoading] = useState(true);
     let updateTextbox = "";
-    let skillId = -5;
+    const [skillId, setSkillId] = useState(-5);
     // const [quizzes, setQuizzes] = useState([{
     //     quizId: 0,
     //     name: "",
@@ -110,8 +110,16 @@ function TrainerSkillsPage() {
 
     const handleChangeUpdate = ((event) => {
         updateTextbox = event.target.value;
-        skillId = event.target.id
+        setSkillId(event.target.id);
         console.log("UPDATE TEXTBOX " + updateTextbox);
+        console.log("UPDATE SKILLID " + skillId);
+    })
+
+    const handleChangeId = ((event) => {
+        updateTextbox = event.target.value;
+        setSkillId(event.target.id)
+        console.log("UPDATE TEXTBOX " + updateTextbox);
+        console.log("UPDATE SKILLID " + skillId);
     })
 
     const submitUpdateName = (() => {
@@ -123,6 +131,21 @@ function TrainerSkillsPage() {
         .catch((error) => {
             console.log("ERROR MESSAGE submite update name: " + error.message)
             console.log("SkillId: " + JSON.stringify(skillId) + " SkillName: " + updateTextbox)
+        })
+    })
+
+    const deleteSkill = (() => {
+        // /skill/remove/{id}
+        console.log("SKILL ID BEFORE DELETE " + {id: skillId})
+        axios
+        .get('http://localhost:9999/skill/remove/' + skillId)
+        .then((response) => {
+            setSkills(response.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            window.alert("WRONG SKILL ID");
+            console.log(error.message);
         })
     })
 
@@ -166,7 +189,7 @@ function TrainerSkillsPage() {
                                 <Col sm={4}>
                                     <ListGroup>
                                         {skills.map(skill => (
-                                            <ListGroup.Item action href= {'#' + skill.skillId}>
+                                            <ListGroup.Item onClick={(() => {setSkillId(skill.skillId); console.log("CHANGING THE SKILL ID: " + skill.skillId + " " + skillId)})} action href= {'#' + skill.skillId}>
                                                 {skill.name}
                                             </ListGroup.Item>  
                                         ))}
@@ -186,7 +209,7 @@ function TrainerSkillsPage() {
                                                                 <h6 class="mb-2 text-muted">Skill Name: {skill.name}</h6>
                                                             </Col>
                                                             <Col>
-                                                                <Button variant="danger"><ImBin/></Button>
+                                                                <Button onClick={deleteSkill} variant="danger"><ImBin/></Button>
                                                             </Col>
                                                         </Row>
                                                         <InputGroup className="mb-3 w-100">
