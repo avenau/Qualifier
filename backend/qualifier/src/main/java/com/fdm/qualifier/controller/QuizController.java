@@ -24,12 +24,16 @@ import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;
 import com.fdm.qualifier.service.QuizService;
 import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
+import com.fdm.qualifier.service.TraineeService;
+import com.fdm.qualifier.service.UserService;
 
 import jdk.internal.org.jline.utils.Log;
 
@@ -44,9 +48,11 @@ public class QuizController {
 	private AnswerService answerService;
 	private SubmittedAnswerService submittedAnswerService;
 	private ResultService resultService;
+	private TraineeService traineeService;
+	private UserService userService;
 
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService, TraineeService traineeService, UserService UserService) {
 		super();
 		this.quizService = quizService;
 		this.skillLevelService = skillLevelService;
@@ -54,6 +60,8 @@ public class QuizController {
 		this.answerService = answerService;
 		this.submittedAnswerService = submittedAnswerService;
 		this.resultService = resultService;
+		this.traineeService = traineeService;
+		this.userService = userService;
 	}
 	
 	@GetMapping("/quiz/get/{id}")
@@ -69,11 +77,13 @@ public class QuizController {
 		double totalMark = 100;
 		double passingMark = 75;
 		int quizId = -1;
+		Integer userId = null;
 		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
 		boolean marked = true;
 		boolean passed = false;
 		
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
+			userId = Integer.parseInt((String) content.get("userId"));
 			quizId = Integer.parseInt((String) content.get("quizId"));
 			
 			int questionId = Integer.parseInt((String) content.get("questionId"));
@@ -103,19 +113,26 @@ public class QuizController {
 				}
 			}
 		}
+
+		User user = userService.findById(userId);
+		Trainee trainee = traineeService.findByUserId(user);
 		
 		if (quizId == -1) {
 			throw new Exception("Quiz id not found");
 		}
 		Quiz quiz = quizService.findQuizById(quizId).get();
 		passingMark = quiz.getPassingMark();
+		SkillLevel skillLevel = skillLevelService.findByQuizId(quiz);
 		
 		if (marked && totalMark >= passingMark) {
 			passed = true;
+			List<SkillLevel> skillList = trainee.getSkills();
+			skillList.add(skillLevel);
 		}
 		
-		Result result = resultService.createNewResult(totalMark, passed, marked, quiz, submittedAnswers);
+		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
 		System.out.println(result);
+		
 	}
 	
 	@GetMapping("/quiz/create/{id}")

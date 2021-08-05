@@ -42,4 +42,12 @@ public class UserService {
             return false;
         return true;
     }
+
+	public User findById(Integer userId) {
+		Optional<User> user = userRepo.findById(userId);
+		if (!user.isPresent()) {
+			return null;
+		}
+		return user.get();
+	}
 }

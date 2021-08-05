@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
@@ -228,5 +229,9 @@ public class TraineeService {
 	
 	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
 		return traineeRepo.findTraineeBySkills(skill);
+	}
+
+	public Trainee findByUserId(User user) {
+		return traineeRepo.findByUserId(user);
 	}
 }
