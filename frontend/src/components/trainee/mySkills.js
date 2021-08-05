@@ -23,7 +23,7 @@ function MySkills() {
         getSkillsOnLoad();
         getPinnedSkillsOnLoad();
         getAllSkillsOnLoad();
-        
+
         setCannotAddSkillErrorMessage("");
         setErrorMessage("");
     }, []);
@@ -180,6 +180,9 @@ function MySkills() {
         axios.post('http://localhost:9999/removeTraineeSkill', [traineeId, skills[index].skillLevelId])
             .then(function (response) {
                 console.log(response);
+                let updateSkills = skills.slice();
+                updateSkills.splice(index, 1);
+                setSkills(updateSkills);
             })
             .catch(function (error) {
                 console.log(error);

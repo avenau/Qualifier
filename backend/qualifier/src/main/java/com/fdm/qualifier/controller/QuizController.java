@@ -165,6 +165,8 @@ public class QuizController {
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
 		result = quizService.saveResult(result);
 		if (result.isPassed() && skillLevel != null && trainee != null) {
+			trainee.removeSkill(skillLevel.getSkill());
+			trainee.removePinnedSkill(skillLevel.getSkill());
 			trainee.addSkill(skillLevel);
 			trainee = traineeService.save(trainee);
 			log.debug(trainee);
