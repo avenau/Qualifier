@@ -10,6 +10,7 @@ import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.PlacementRepository;
 
 @Service
@@ -19,14 +20,17 @@ public class PlacementService {
 	private SkillLevelService skillLevelService;
 	private SkillService skillService;
 	private ClientService clientService;
+	private TraineeService traineeService;
 
 	@Autowired
-	public PlacementService(PlacementRepository placementRepo, SkillLevelService skillLevelService, SkillService skillService, ClientService clientService) {
+	public PlacementService(PlacementRepository placementRepo, SkillLevelService skillLevelService, 
+			SkillService skillService, ClientService clientService, TraineeService traineeService) {
 		super();
 		this.placementRepo = placementRepo;
 		this.skillLevelService = skillLevelService;
 		this.skillService = skillService;
 		this.clientService = clientService;
+		this.traineeService = traineeService;
 	}
 	
 	public Placement findById(int id) {
@@ -76,6 +80,21 @@ public class PlacementService {
 		return placementRepo.save(placement);
 	}
 	
-	
-
+	/**
+     * Update placement to contain the approved Trainee
+     * 
+     * @param placement
+     * @param trainee
+     * @return
+     */
+    public Placement placeApprovedTrainee(Placement placement, Trainee trainee) {
+        //update placement
+        placement.setTrainee(trainee); 
+        //update trainee
+//        List<Placement> traineePlacements= trainee.getPlacements();
+//        traineePlacements.add(placement);
+//        trainee.setPlacements(traineePlacements);
+//        traineeService.save(trainee);
+        return placementRepo.save(placement);
+    }
 }
