@@ -30,6 +30,7 @@ import CreateQuiz from './components/trainer/CreateQuiz';
 import TraineeResults from './components/trainer/traineeResults';
 import ViewQuiz from './components/quiz/ViewQuiz';
 import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
+import FinishCreateQuiz from './components/trainer/FinishCreateQuiz'; 
 
 import './customTheme.css'
 
@@ -57,17 +58,18 @@ function App() {
         <Route exact path='/quiz/:quiz_id' component={AttemptQuiz} />
         <Route exact path='/browsequiz' component={BrowseQuiz} />
         <Route exact path='/finishquiz' component={FinishQuiz} />
+        <Route exact path ='/trainer/finishquiz' component={FinishCreateQuiz}/>
         <Route exact path='/createPlacement' component={CreatePlacement} />
         <Route exact path='/startquiz' component={QuizStartPage} />
         <Route exact path='/trainer/addskills' component={AddSkillPage} />
         <Route exact path='/myskills' component={MySkills} />
         <Route exact path='/markquiz' component={MarkQuiz} />
         <Route exact path='/searchtrainee' component={SearchTrainee} />
-         <Route exact path='/trainer/createquiz/:quiz_id' component={CreateQuiz} /> 
+        <Route exact path='/trainer/createquiz/:quiz_id' component={CreateQuiz} /> 
         <Route exact path='/markquiz/:result_id' component={MarkQuiz} />
         <Route exact path='/viewquiz/:result_id' component={ViewQuiz} />
         <Route exact path='/traineeResults' component={TraineeResults} />
-        <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>
+        <Route exact path ='/trainer/searchskills' component={TrainerSkillsPage}/>
 
 
         <Route path='/login' component={Login} />
