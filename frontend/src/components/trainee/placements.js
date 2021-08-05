@@ -73,7 +73,8 @@ function SearchPlacements(){
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
         .then(function (response) {
             console.log(response);
-            setApplicationResult(response.date);
+            setApplicationResult(response.data);
+            console.log(applicationResult);
         })
         .catch(function (error) {
             console.log(error);
@@ -96,6 +97,11 @@ function SearchPlacements(){
             console.log('finally');
         })
     }
+
+    function resetMessage(){
+        console.log("Reset called");
+        setApplicationResult("");
+    };
 
 
     
@@ -133,7 +139,7 @@ function SearchPlacements(){
                 </Row>
             </Card.Header>
             <Card.Body>
-                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId}>
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + placementResult[0].placementId} onSelect={resetMessage}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>
@@ -173,7 +179,7 @@ function SearchPlacements(){
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
-                                                    {accountType == "trainee" && placement.trainee == null ? 
+                                                    {accountType == "sales" && placement.trainee == null ? 
                                                     
                                                     <ListGroup>
                                                         <h3>Applied Trainees</h3>
