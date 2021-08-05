@@ -53,7 +53,8 @@ function MarkQuiz() {
         finishedResult.passed = finishedResult.mark >= finishedResult.quiz.passingMark;
         setResult(finishedResult);
         console.log(finishedResult);
-        axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
+        let returnArray = [ finishedResult.resultId, finishedResult.mark ]
+        axios.post('http://localhost:9999/submitMarkedResult', returnArray)
             .then(function (response) {
                 console.log(response);
                 history.goBack();

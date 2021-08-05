@@ -220,19 +220,23 @@ public class QuizController {
 	}
 
 	@PostMapping("/submitMarkedResult")
-	public void submitMarkedResult(@RequestBody ResultDTO result) {
+	public void submitMarkedResult(@RequestBody double[] result) {
 		log.debug("Result: " + result);
-		Result oldResult = quizService.findResultById(result.getResultId());
+		Result oldResult = quizService.findResultById((int)result[0]);
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
+		oldResult.setMark(result[1]);
+		oldResult.setMarked(true);
+		oldResult.setPassed(oldResult.getMark() >= oldResult.getQuiz().getPassingMark());
 //		result = quizService.saveResult(result);
-		if (result.isPassed() && skillLevel != null && trainee != null) {
+		if (oldResult.isPassed() && skillLevel != null && trainee != null) {
 			trainee.removeSkill(skillLevel.getSkill());
 			trainee.removePinnedSkill(skillLevel.getSkill());
 			trainee.addSkill(skillLevel);
 			trainee = traineeService.save(trainee);
 			log.debug(trainee);
 		}
+		quizService.saveResult(oldResult);
 	}
 
 	/*
