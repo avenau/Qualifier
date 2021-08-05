@@ -1,7 +1,7 @@
 
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl} from 'react-bootstrap';
+import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl, Card, Table} from 'react-bootstrap';
 function CreateQuiz() {
     const axios = require('axios');
     const skillLevelId = useLocation().pathname.split("/")[3];
@@ -57,6 +57,12 @@ function CreateQuiz() {
       console.log("REFRESHING the LENGTH " + startHook.questions.length);
     }, [startHook.questions])
 
+    const submitQuiz = (() => {
+        let finalQuiz = startHook;
+        finalQuiz.questions = hookQuestions;
+        console.log(JSON.stringify(finalQuiz));
+    })
+
     
     if (isLoading) {
       return <div className="App">Loading...</div>;
@@ -71,7 +77,7 @@ function CreateQuiz() {
       let shortQuestion = {
         questionContent: "",
         questionType: "MULTIPLE_SELECT",
-        questionPoints: "",
+        questionMark: "",
         answers: []
       }
       let ans1 = {
@@ -171,7 +177,7 @@ function CreateQuiz() {
         let shortQuestion = {
           questionContent: "",
           questionType: "MULTIPLE_CHOICE",
-          questionPoints: "",
+          questionMark: "",
           answers: []
         }
         let ans1 = {
@@ -275,7 +281,7 @@ function CreateQuiz() {
           let shortQuestion = {
                                 questionContent: questionContent,
                                 questionType: "SHORT_ANSWER",
-                                questionPoints: questionMark,
+                                questionMark: questionMark,
                                 answers: []
                               }
           
@@ -322,17 +328,17 @@ function CreateQuiz() {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.name = event.target.value})} type="email" placeholder="Name" />
+                    <Form.Control onChange={((event) => {startHook.name = event.target.value})} type="name" placeholder="Name" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.duration = event.target.value})}  type="email" placeholder="Duration" />
+                    <Form.Control onChange={((event) => {startHook.duration = event.target.value})}  type="number" placeholder="Duration" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.passingMark = event.target.value})} type="email" placeholder="Passing Mark" />
+                    <Form.Control onChange={((event) => {startHook.passingMark = event.target.value})} type="number" placeholder="Passing Mark" />
                     </Form.Group>
 
 
@@ -342,22 +348,59 @@ function CreateQuiz() {
                     <Form.Control onChange={((event) => {startHook.description = event.target.value})}  as="textarea" rows={3} placeholder="Description" />
                 </Form.Group>
                 {console.log("SECOND JSON " + JSON.stringify(hookQuestions))}
-                {hookQuestions.map ((question) => (
 
-                  <div>
-                    {JSON.stringify(question)}
-                  </div>
+                <AddedQuestions/>
 
-                  ))}
-
-
-                <Button variant="primary" type="submit">
+                <Button variant="primary" onClick={submitQuiz}>
                     Submit
                 </Button>
             </Form>
             
           )
       }
+
+      const AddedQuestions = (() => {
+        return(
+          <div>
+          {hookQuestions.map ((question) => (
+                            //  questionContent: questionContent,
+                            //  questionType: "SHORT_ANSWER",
+                            //  questionMark: questionMark,
+                            //  answers: []
+            <Card>
+              <Card.Header as="h5">{question.questionContent}</Card.Header>
+              <Card.Body>
+                <Card.Subtitle className="mb-2 text-muted">Type: {question.questionType} </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Mark: {question.questionMark}</Card.Subtitle>
+                <Card.Text>
+                <Card.Subtitle className="mb-2 text-muted">Answers:</Card.Subtitle>
+                <Table striped bordered>
+                  <thead>
+                    <tr>
+                      <th>Answer</th>
+                      <th>Correct</th>
+                    </tr>
+                  </thead>
+                  
+                  {question.answers.map((answer) => (
+                    
+                    <tbody>
+                      <tr>
+                        <td>{answer.content}</td>
+                        <td>{JSON.stringify(answer.correct)}</td>
+                      </tr>
+                    </tbody>
+
+                  ))}
+                </Table>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+
+
+            ))}</div>
+        )
+      })
 
 
 
@@ -386,6 +429,21 @@ export default CreateQuiz;
     "duration": 0.0,
     "questionCount": 0,
     "passingMark": 0.0,
-    "questions": []
+    "questions": [
+                    {
+                      "questionContent":"1/10a McEvoy Rd Padstow",
+                      "questionType":"MULTIPLE_CHOICE",
+                      "questionMark":"",
+                      "answers":[
+                        {"content":"1/10a McEvoy Rd Padstow","correct":false},
+                        {"content":"Unit 1, 10A McEvoy Rd","correct":true},
+                        {"content":"Unit 1, 10A McEvoy Rd","correct":false},
+                        {"content":"10 Ralph St Alexandria","correct":false}]
+                    },
+                  ]
 }
+*/
+
+/*
+
 */
