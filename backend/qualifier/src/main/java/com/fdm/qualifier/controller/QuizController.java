@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.dto.ResultDTO;
 import com.fdm.qualifier.httpRequest.QuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
@@ -221,21 +222,21 @@ public class QuizController {
 	}
 
 	@PostMapping("/getResult")
-	public Result getResult(@RequestBody Result result) {
-		log.debug(result);
-		result = quizService.findResultById(result.getResultId());
+	public ResultDTO getResult(@RequestBody int[] resultId) {
+		log.debug(resultId);
+		Result result = quizService.findResultById(resultId[0]);
 		if (result != null)
 			log.debug(result.getSubmittedAnswers());
-		return result;
+		return new ResultDTO(result);
 	}
 
 	@PostMapping("/submitMarkedResult")
-	public void submitMarkedResult(@RequestBody Result result) {
+	public void submitMarkedResult(@RequestBody ResultDTO result) {
 		log.debug(result);
 		Result oldResult = quizService.findResultById(result.getResultId());
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
-		result = quizService.saveResult(result);
+//		result = quizService.saveResult(result);
 		if (result.isPassed() && skillLevel != null && trainee != null) {
 			trainee.removeSkill(skillLevel.getSkill());
 			trainee.removePinnedSkill(skillLevel.getSkill());

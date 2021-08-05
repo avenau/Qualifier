@@ -1,7 +1,8 @@
+import { FormGroup } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { Dropdown, Button, ListGroup } from "react-bootstrap";
+import { Dropdown, Button, ListGroup, Container, Form, FormControl } from "react-bootstrap";
 
-function CreatePlacement(){
+function CreatePlacement() {
 
     const axios = require('axios');
 
@@ -24,12 +25,14 @@ function CreatePlacement(){
 
     const submitPlacement = (evt) => {
         evt.preventDefault();
-        
+
         console.log(clientName);
         console.log(placementSkills);
-        axios.post('http://localhost:9999/savePlacement', {placementId:1, name:placementName, startDate:startDate, completionDate:endDate, 
-                                                                    description:placementDescription, location:placementLocation,
-                                                                    client:clientName, skillsNeeded:placementSkills})
+        axios.post('http://localhost:9999/savePlacement', {
+            placementId: 1, name: placementName, startDate: startDate, completionDate: endDate,
+            description: placementDescription, location: placementLocation,
+            client: clientName, skillsNeeded: placementSkills
+        })
             .then(function (response) {
                 console.log(response);
             })
@@ -73,72 +76,94 @@ function CreatePlacement(){
     };
 
     const handleStartDateNameChange = (event) => {
-    this.setStartDate(event.target.value);
-    this.setEndDate(event.target.value);
-  };
+        this.setStartDate(event.target.value);
+        this.setEndDate(event.target.value);
+    };
 
-  const handleAddSkill = (index) => {
-    let requiredSkills = placementSkills.slice()
-    requiredSkills.push(allSkills[index])
-    setPlacementSkill(requiredSkills)
-  };
-
-
+    const handleAddSkill = (index) => {
+        let requiredSkills = placementSkills.slice()
+        requiredSkills.push(allSkills[index])
+        setPlacementSkill(requiredSkills)
+    };
 
 
-  const allClientsList = allClients.map(
-    (client,index)=>
-        <Dropdown.Item value={clientName} onSelect={e => setClientName(allClients[index])}>
-            {client.name}
-        </Dropdown.Item>                             
-  );
 
-  const allSkillsList = allSkills.map(
-        (skill,index)=>
+
+    const allClientsList = allClients.map(
+        (client, index) =>
+            <Dropdown.Item value={clientName} onSelect={e => setClientName(allClients[index])}>
+                {client.name}
+            </Dropdown.Item>
+    );
+
+    const allSkillsList = allSkills.map(
+        (skill, index) =>
             <Dropdown.Item key={"skill-" + index} value={placementSkills} onSelect={e => handleAddSkill(index)}>
                 {skill.skill.name}:{skill.level}
-            </Dropdown.Item>                             
+            </Dropdown.Item>
     );
 
     const allSkillsRequiredList = placementSkills.map(
-          (skill)=>
+        (skill) =>
             <p>{skill.skill.name}:{skill.level}</p>
     );
 
-    return(
+    return (
         <div>
-            <form onSubmit={submitPlacement}>
-                <label>Placement Title</label>
-                <input type="text" value={placementName} onChange={e => setName(e.target.value)} />
-                <label>Description</label>
-                <input type="text" value={placementDescription} onChange={e => setDescription(e.target.value)}/>
-                <label> Location </label>
-                <input type="text" value={placementLocation} onChange={e => setLocation(e.target.value)}/>
-                <label>Start Date</label>
-                <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}/>
-                <label>End Date</label>
-                <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
-                <label for="client">Client</label>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Select Client
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {allClientsList}
-                    </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Select Skills
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {allSkillsList}
-                    </Dropdown.Menu>
-                </Dropdown>
-                <input type="submit" value="Add Placement"/>
-            </form>
-            <h2>Chosen Skills Required</h2>
-            {allSkillsRequiredList.length > 0 ? allSkillsRequiredList : <p> No Required Skills Added </p>}
+            <Form className="mt-4" onSubmit={submitPlacement}>
+                <Container>
+                    <Form.Group>
+                        <Form.Label>Placement Title</Form.Label>
+                        <Form.Control type="text" value={placementName} onChange={e => setName(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control type="text" value={placementDescription} onChange={e => setDescription(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label> Location </Form.Label>
+                        <Form.Control type="text" value={placementLocation} onChange={e => setLocation(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Control type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>End Date</Form.Label>
+                        <Form.Control type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label for="client">Client</Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                Select Client
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {allClientsList}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Form.Group>
+                </Container>
+                <Container className="mt-4">
+                    <Form.Group>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                Select Skills
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {allSkillsList}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Form.Group>
+                </Container>
+                <Container className="mt-4">
+                    <Button type="submit">Add Placement</Button>
+                </Container>
+            </Form>
+            <Container className="mt-4">
+                <h2>Chosen Skills Required</h2>
+                {allSkillsRequiredList.length > 0 ? allSkillsRequiredList : <p> No Required Skills Added </p>}
+            </Container>
         </div>
     )
 }

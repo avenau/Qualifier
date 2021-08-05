@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import './customTheme.css'
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -31,6 +30,8 @@ import CreateQuiz from './components/trainer/CreateQuiz';
 import TraineeResults from './components/trainer/traineeResults';
 import ViewQuiz from './components/quiz/ViewQuiz';
 import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
+
+import './customTheme.css'
 
 //To add your page 
 /*
