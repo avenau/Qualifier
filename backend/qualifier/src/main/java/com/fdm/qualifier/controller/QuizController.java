@@ -162,6 +162,7 @@ public class QuizController {
 			passed = true;
 			List<SkillLevel> skillList = trainee.getSkills();
 			skillList.add(skillLevel);
+			traineeService.save(trainee);
 		}
 
 
@@ -169,6 +170,8 @@ public class QuizController {
 
 		
 		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
+		log.debug("ABOUT TO SAVE TRAINEE");
+		traineeService.save(trainee);
 
 		System.out.println("Submit Result Return " + result);
 		return result;
