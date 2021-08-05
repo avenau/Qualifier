@@ -168,21 +168,22 @@ function MarkQuiz() {
                     <Container>
                         {question.answers.map(
                             (answer) => {
-                                return (<Row>
-                                    {answer.correct ?
-                                        <Col sm={2}>
-                                            <Badge bg="success">Correct</Badge>
+                                return (
+                                    <Row>
+                                        {answer.correct ?
+                                            <Col sm={2}>
+                                                <Badge bg="success">Correct</Badge>
+                                            </Col>
+                                            : <Col sm={2}>
+                                            </Col>
+                                        }
+                                        <Col sm>
+                                            {answer.content}
                                         </Col>
-                                        : <Col sm={2}>
+                                        <Col sm>
+                                            {displayIfAnswerIsSelected(question, answer)}
                                         </Col>
-                                    }
-                                    <Col sm>
-                                        {answer.content}
-                                    </Col>
-                                    <Col sm>
-                                        {displayIfAnswerIsSelected(question, answer)}
-                                    </Col>
-                                </Row>);
+                                    </Row>);
                             }
                         )
                         }
@@ -216,7 +217,7 @@ function MarkQuiz() {
                                 </h6>
                             </Col>
                             <Col sm="auto">
-                                    <span>Points {question.points}</span>
+                                <span>Points {question.points}</span>
                             </Col>
                         </Row>
                         <Row>
@@ -247,7 +248,7 @@ function MarkQuiz() {
                 <ListGroup>
                     {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
                 </ListGroup>
-                <Row className="mt-4"> 
+                <Row className="mt-4">
                     <Col sm="auto">
                         <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
                     </Col>

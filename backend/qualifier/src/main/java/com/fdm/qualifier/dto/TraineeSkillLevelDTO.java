@@ -1,5 +1,7 @@
 package com.fdm.qualifier.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
@@ -14,11 +16,15 @@ public class TraineeSkillLevelDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TraineeSkillLevelDTO(int skillLevelId, Skill skill, KnowledgeLevel knowledgeLevel) {
+	@JsonCreator
+	public TraineeSkillLevelDTO(
+			@JsonProperty("skillLevelId") int skillLevelId, 
+			@JsonProperty("skill") Skill skill, 
+			@JsonProperty("level") KnowledgeLevel level) {
 		super();
 		this.skillLevelId = skillLevelId;
 		this.skill = new TraineeSkillDTO(skill);
-		this.level = knowledgeLevel;
+		this.level = level;
 	}
 	
 	public TraineeSkillLevelDTO(SkillLevel skillLevel) {
