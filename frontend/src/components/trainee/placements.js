@@ -71,7 +71,7 @@ function SearchPlacements() {
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
             .then(function (response) {
                 console.log(response);
-                setApplicationResult(response.date);
+                setApplicationResult(response.data);
             })
             .catch(function (error) {
                 console.log(error);
