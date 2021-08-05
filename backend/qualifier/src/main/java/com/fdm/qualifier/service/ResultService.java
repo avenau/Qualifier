@@ -31,6 +31,7 @@ public class ResultService {
 		Result result = new Result(mark, passed, marked, trainee, quiz, submittedAnswers);
 		result = resultRepository.save(result);
 		trainee.addResults(result);
+		
 		return result;
 	}
 	

@@ -46,7 +46,7 @@ public class SkillController {
 		return skillService.findAllSkillDTOs();
 	}
 	
-	@GetMapping("/updateSkillName")
+	@PostMapping("/updateSkillName")
 	public Map<String, String> updateSkillName(@RequestBody Map<String, Object> newSkillName) {
 		int skillId = Integer.parseInt((String)newSkillName.get("skillId"));
 		String skillName = (String) newSkillName.get("skillName");

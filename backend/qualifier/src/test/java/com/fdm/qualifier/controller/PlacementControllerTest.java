@@ -49,14 +49,14 @@ class PlacementControllerTest {
 		placementController = new PlacementController(mockPlacementService, 
 				mockClientService, mockTraineeService, mockSkillLevelService);
 	}
-	
-	@Test
-	void save_verify() {
-		
-		placementController.save(mockPlacement);
-		
-		verify(mockPlacementService, times(1)).save(mockPlacement);
-	}
+//	
+//	@Test
+//	void save_verify() {
+//		
+//		placementController.save(mockPlacement);
+//		
+//		verify(mockPlacementService, times(1)).save(mockPlacement);
+//	}
 
 	@Test
 	void searchPlacements_returnList_onCall() {
