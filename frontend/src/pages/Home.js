@@ -1,8 +1,8 @@
-import { useState} from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import BrowseQuiz from "../components/quiz/BrowseQuiz"
-import QuizStartPage from"../components/quiz/BrowseQuiz"
-import { Button, Container } from 'react-bootstrap';
+import QuizStartPage from "../components/quiz/BrowseQuiz"
+import { Button, Container, Row } from 'react-bootstrap';
 
 function HomePage() {
     let history = useHistory();
@@ -16,16 +16,30 @@ function HomePage() {
     return (
         <Container>
             <h1>HOME</h1>
-            <button onClick={() => {history.push('/profile')} }>My Profile</button>
-            <button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</button>
-            <button onClick={() => {history.push('/startquiz')} }>Start Skill Quiz</button>
-            <button onClick={() => {history.push('/placements')} }>Search For Placements</button>
-            <button onClick={() => {history.push('/createPlacement')} }>Create Placement</button>
-            <Button onClick={() => {history.push('/markquiz')} }>TESTING: Mark Quiz</Button>
-            <Button onClick={() => {history.push('/suggestskill')} }>Suggest Skill</Button>
-            <Button variant="primary" onClick={() => {history.push('/browsequiz')} }>Browse Quiz</Button>
-            <Button onClick={() => {history.push('/myskills')} }>Trainee: My Skills Page</Button>
-            <Button onClick={() => {history.push('/traineeResults')}}>Trainee Results</Button>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/profile') }}>My Profile</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/startquiz') }}>Start Skill Quiz</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/placements') }}>Search For Placements</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/createPlacement') }}>Create Placement</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/suggestskill') }}>Suggest Skill</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/browsequiz') }}>Browse Quiz</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/myskills') }}>Trainee: My Skills Page</Button>
+            </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/traineeResults') }}>Trainee Results</Button>
+            </Row>
         </Container>
     )
 }
