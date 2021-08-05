@@ -12,6 +12,7 @@ import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Trainee;
 
 import com.fdm.qualifier.repository.ResultRepository;
 
@@ -26,8 +27,8 @@ public class ResultService {
 		this.resultRepository = resultRepository;
 	}
 
-	public Result createNewResult(double mark, boolean passed, boolean marked, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
-		Result result = new Result(mark, passed, marked, quiz, submittedAnswers);
+	public Result createNewResult(double mark, boolean passed, boolean marked, Trainee trainee, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
+		Result result = new Result(mark, passed, marked, trainee, quiz, submittedAnswers);
 		resultRepository.save(result);
 		return result;
 	}

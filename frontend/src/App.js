@@ -1,11 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import './customTheme.css'
 import React from 'react';
-import { 
-	BrowserRouter as Router, 
-	NavLink, 
-	Route, 
-	Switch 
+import {
+  BrowserRouter as Router,
+  NavLink,
+  Route,
+  Switch
 } from 'react-router-dom';
 import Login from './components/userLogin/Login';
 import SuggestSkill from './components/trainee/suggestSkill';
@@ -25,8 +26,13 @@ import DoesNotExistPage from './pages/NotExistPage';
 import SearchPlacements from './components/trainee/placements';
 import MySkills from './components/trainee/mySkills';
 import MarkQuiz from './components/quiz/MarkQuiz';
-import CreateQuiz from './components/quiz/CreateQuiz';
+import SearchTrainee from './components/trainee/TraineeSearch';
+import CreateQuiz from './components/trainer/CreateQuiz';
 import TraineeResults from './components/trainer/traineeResults';
+import ViewQuiz from './components/quiz/ViewQuiz';
+
+
+import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
 
 //To add your page 
 /*
@@ -38,33 +44,39 @@ import TraineeResults from './components/trainer/traineeResults';
 function App() {
   const auth = useSelector(state => state.auth);
   return (
-      <Router>
-      <NavigationBar/>
+    <Router>
+      <NavigationBar />
 
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/profile' component={Profile} />
-        <Route exact path='/suggestskill' component={SuggestSkill}/>
-        <Route exact path='/createPlacement' component={CreatePlacement}/>
-        <Route exact path='/startquiz' component={QuizStartPage}/>
-        <Route exact path='/placements' component={SearchPlacements}/>
-        <Route exact path='/startquiz/:quiz_id' component={QuizStartPage}/>
-        <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
-        <Route exact path ='/browsequiz' component={BrowseQuiz}/>
-        <Route exact path ='/finishquiz' component={FinishQuiz}/>
-        <Route exact path='/createPlacement' component={CreatePlacement}/>
-        <Route exact path='/startquiz' component={QuizStartPage}/>
-        <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
-        <Route exact path ='/myskills' component={MySkills}/>
-        <Route exact path ='/trainer/createquiz' component={CreateQuiz}/>
-        <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
-        <Route exact path = '/traineeResults' component={TraineeResults}/>
+        <Route exact path='/suggestskill' component={SuggestSkill} />
+        <Route exact path='/createPlacement' component={CreatePlacement} />
+        <Route exact path='/startquiz' component={QuizStartPage} />
+        <Route exact path='/placements' component={SearchPlacements} />
+        <Route exact path='/startquiz/:quiz_id' component={QuizStartPage} />
+        <Route exact path='/quiz/:quiz_id' component={AttemptQuiz} />
+        <Route exact path='/browsequiz' component={BrowseQuiz} />
+        <Route exact path='/finishquiz' component={FinishQuiz} />
+        <Route exact path='/createPlacement' component={CreatePlacement} />
+        <Route exact path='/startquiz' component={QuizStartPage} />
+        <Route exact path='/trainer/addskills' component={AddSkillPage} />
+        <Route exact path='/myskills' component={MySkills} />
+        <Route exact path='/markquiz' component={MarkQuiz} />
+        <Route exact path='/searchtrainee' component={SearchTrainee} />
+         <Route exact path='/trainer/createquiz' component={CreateQuiz} /> 
+        <Route exact path='/markquiz/:result_id' component={MarkQuiz} />
+        <Route exact path='/viewquiz/:result_id' component={ViewQuiz} />
+        <Route exact path='/traineeResults' component={TraineeResults} />
+        <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>
+
+
         <Route path='/login' component={Login} />
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 
     </Router>
-  
+
   );
 }
 

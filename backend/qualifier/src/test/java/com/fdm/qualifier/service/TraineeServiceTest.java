@@ -32,6 +32,12 @@ public class TraineeServiceTest {
 	SkillLevelRepository skillLevelRepoMock;
 	
 	@Mock
+	SkillLevelService skillLevelServiceMock;
+	
+	@Mock
+	SkillService skillServiceMock;
+	
+	@Mock
 	Trainee traineeMock;
 
 	@Mock
@@ -44,7 +50,7 @@ public class TraineeServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		traineeService = new TraineeService(traineeRepoMock, skillLevelRepoMock);
+		traineeService = new TraineeService(traineeRepoMock, skillLevelRepoMock, skillLevelServiceMock, skillServiceMock);
 	}
 	
 	@Test
@@ -478,7 +484,7 @@ public class TraineeServiceTest {
 	public void findTraineeByName_returnListOfTrainees() {
 		//Arrange
 		List<Trainee> testList = new ArrayList<Trainee>();
-		when(traineeRepoMock.findByFirstNameAndLastName("test")).thenReturn(testList);
+		when(traineeRepoMock.findByFirstNameOrLastName("test")).thenReturn(testList);
 		
 		//Act
 		List<Trainee> result = traineeService.findTraineeByName("test");
@@ -491,8 +497,8 @@ public class TraineeServiceTest {
 	public void findTraineeBySkills_returnListOfTrainees() {
 		//Arrange
 		List<Trainee> testList = new ArrayList<Trainee>();
-		SkillLevel test = new SkillLevel();
-		when(traineeRepoMock.findTraineeBySkills(test)).thenReturn(testList);
+		List<SkillLevel> test = new ArrayList<>();
+		when(traineeRepoMock.findTraineeBySkillsIn(test)).thenReturn(testList);
 		
 		//Act
 		List<Trainee> result = traineeService.findTraineeBySkills(test);
@@ -504,7 +510,7 @@ public class TraineeServiceTest {
 	@Test
 	public void getTraineeByID_getTrainee() {
 		//Arrange
-		when(traineeRepoMock.getTraineeByuid(1)).thenReturn(traineeMock);
+		when(traineeRepoMock.getTraineeByUid(1)).thenReturn(traineeMock);
 		
 		//Act
 		Trainee result = traineeService.getTraineeByID(1);

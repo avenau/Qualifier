@@ -138,11 +138,10 @@ function NavigationBar() {
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <NavDropdown title= "Skills" id="nav-dropdown">
                         <NavDropdown.Item onClick={() => {history.push('/trainer/addskills')} }>Add Skills</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Search Skills</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => {history.push('/trainer/searchskills')} }>Search Skills</NavDropdown.Item>
                     </NavDropdown>
                         <Nav className="me-auto">  
                             <Nav.Link>Trainees</Nav.Link>
-                            <Nav.Link>Quizzes</Nav.Link>
                                             
                         </Nav>
                         

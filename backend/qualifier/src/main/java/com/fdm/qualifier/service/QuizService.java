@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fdm.qualifier.dto.QuizDTO;
-import com.fdm.qualifier.httpRequest.UpdateQuizRequest;
+import com.fdm.qualifier.httpRequest.QuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
@@ -72,7 +72,6 @@ public class QuizService {
 		return newQuiz;
 	}
 
-	// Used in dataloader to save result with submitted answers
 	public Result saveResult(Result result) {
 		return resultRepo.save(result);
 	}
@@ -151,13 +150,13 @@ public class QuizService {
 		quizRepo.delete(quiz);
 	}
 
-	public QuizDTO updateQuiz(UpdateQuizRequest request) {
+	public QuizDTO updateQuiz(QuizRequest request) {
 		Quiz quiz = quizRequestToQuiz(request);
 		Quiz quizResult = quizRepo.save(quiz);
 		return new QuizDTO(quizResult);
 	}
 	
-	public Quiz quizRequestToQuiz(UpdateQuizRequest request) {
+	public Quiz quizRequestToQuiz(QuizRequest request) {
 		Quiz quiz = new Quiz();
 		quiz.setQuizId(request.getQuizId());
 		quiz.setName(request.getName());
@@ -165,7 +164,7 @@ public class QuizService {
 		quiz.setDuration(request.getDuration());
 		quiz.setQuestionCount(request.getQuestionCount());
 		quiz.setPassingMark(request.getPassingMark());
-		quiz.setQuestions(request.getQuestions());
+		quiz.setQuestionsByDTO(request.getQuestions());
 		return quiz;
 	}
 

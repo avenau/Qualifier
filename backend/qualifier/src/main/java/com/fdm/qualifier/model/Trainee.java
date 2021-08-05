@@ -108,6 +108,16 @@ public class Trainee extends User {
 		skills.remove(skillToRemove);
 	}
 
+	public void removePinnedSkill(Skill skill) {
+		SkillLevel skillToRemove = null;
+		for (SkillLevel sl : pinnedSkills) {
+			if(sl.getSkill().getName().equals(skill.getName())) {
+				skillToRemove = sl;
+			}
+		}
+		skills.remove(skillToRemove);
+	}
+	
 	public LocalDate getCompletionDate() {
 		return completionDate;
 	}
