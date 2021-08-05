@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dropdown, Button, ListGroup } from "react-bootstrap";
+import { Dropdown, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
 
 function MySkills() {
     const axios = require('axios');
@@ -12,9 +12,10 @@ function MySkills() {
     const [newSkill, setNewSkill] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState("");
+    const [cannotAddSkillErrorMessage, setCannotAddSkillErrorMessage] = useState("");
 
     const axiosConfig = {
-        headers: { Authorization: `Bearer ${sessionStorage.jwtToken}`}
+        headers: { Authorization: `Bearer ${sessionStorage.jwtToken}` }
     };
 
 
@@ -40,7 +41,7 @@ function MySkills() {
     };
 
     function getPinnedSkillsOnLoad() {
-        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId },axiosConfig)
+        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId }, axiosConfig)
             .then(function (response) {
                 console.log(response);
                 setPinnedSkills(response.data);
@@ -69,19 +70,19 @@ function MySkills() {
             })
     };
 
-    function addSkillToTrainee(){
-        axios.post('http://localhost:9999/addUnverifiedSkill', {SkillLevel:newSkill, userId:traineeId} )
-        .then(function (response) {
-            console.log(response);
-            setNewSkill(response.data);
-            console.log(newSkill);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            console.log('finally');
-        })
+    function addSkillToTrainee() {
+        axios.post('http://localhost:9999/addUnverifiedSkill', { SkillLevel: newSkill, userId: traineeId })
+            .then(function (response) {
+                console.log(response);
+                setNewSkill(response.data);
+                console.log(newSkill);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
     };
 
     const unpinSkill = (index) => {
@@ -112,27 +113,37 @@ function MySkills() {
 
     const addUnverifiedSkill = (index) => {
         axios.post('http://localhost:9999/addUnverifiedSkill', [traineeId, allSkills[index].skillId])
-        .then(function (response) {
-            console.log("addUnverifiedSkill");
-            console.log(response);
-            let addedSkills = skills.slice();
-            // addedSkills.push({allSkills[index]});
-            // setSkills(addedSkills);
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            console.log('finally');
-        })
+            .then(function (response) {
+                console.log("addUnverifiedSkill");
+                console.log(response);
+                if (response.data.skill != undefined) {
+                    setCannotAddSkillErrorMessage("");
+                    let addedSkills = skills.slice();
+                    addedSkills.push(response.data);
+                    setSkills(addedSkills);
+                } else {
+                    setCannotAddSkillErrorMessage("Cannot add skill");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
     }
 
     const pinnedSkillsList = pinnedSkills.map(
         (skill, index) =>
             <ListGroup.Item key={"pinnedSkill-" + index}>
-                <Button onClick={() => unpinSkill(index)}>UNPIN</Button>
-                {skill.skill.name}: {skill.level}
+                <Row className="align-items-center">
+                    <Col sm="auto">
+                        <Button onClick={() => unpinSkill(index)}>UNPIN</Button>
+                    </Col>
+                    <Col sm>
+                        {skill.skill.name}: {skill.level}
+                    </Col>
+                </Row>
             </ListGroup.Item>
     );
 
@@ -164,56 +175,71 @@ function MySkills() {
 
     const removeSkill = (index) => {
         axios.post('http://localhost:9999/removeTraineeSkill', [traineeId, skills[index].skillLevelId])
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            console.log('finally');
-        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                console.log('finally');
+            })
     };
 
     const skillsList = skills.map(
         (skill, index) =>
             <ListGroup.Item key={"skill-" + index}>
-                <Button onClick={() => removeSkill(index)}>REMOVE</Button>
-                <Button onClick={() => pinSkill(index)}>PIN</Button>
-                {skill.skill.name}: {skill.level}
+                <Row className="align-items-center">
+                    <Col sm="auto">
+                        <Button onClick={() => removeSkill(index)}>REMOVE</Button>
+                    </Col>
+                    <Col sm="auto">
+                        <Button onClick={() => pinSkill(index)}>PIN</Button>
+                    </Col>
+                    <Col sm>
+                        {skill.skill.name}: {skill.level}
+                    </Col>
+                </Row>
             </ListGroup.Item>
     );
 
     const allSkillsList = allSkills.map(
-        (skill,index)=>
+        (skill, index) =>
             <Dropdown.Item key={"skill-" + index} onSelect={() => addUnverifiedSkill(index)}>
                 {skill.name}
-            </Dropdown.Item>                             
-      );
+            </Dropdown.Item>
+    );
 
     return (
-        <div>
-            <h1>My Skills</h1>
-            <ListGroup>
-                {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
-            </ListGroup>
-            <p></p>
-            <span>{errorMessage}</span>
-            <ListGroup>
-                {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
-            </ListGroup>
+        <Container>
+            <Row>
+                <h1>My Skills</h1>
+                <ListGroup>
+                    {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
+                </ListGroup>
+                <p></p>
+                <span>{errorMessage}</span>
+                <ListGroup>
+                    {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
+                </ListGroup>
+            </Row>
 
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Add Skill
-                </Dropdown.Toggle>
+            <Row>
+                <Dropdown className="mt-4">
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Add Skill
+                    </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    {allSkillsList}
-                </Dropdown.Menu>
-            </Dropdown>
-            
-        </div>
+                    <Dropdown.Menu>
+                        {allSkillsList}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Row>
+
+            <Row>
+                <div>{cannotAddSkillErrorMessage}</div>
+            </Row>
+        </Container>
     );
 
 }
