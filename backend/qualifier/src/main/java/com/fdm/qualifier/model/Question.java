@@ -39,7 +39,7 @@ public class Question {
 //	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
-		MUTIPLE_CHOICE,
+		MULTIPLE_CHOICE,
 		MULTI_SELECT,
 		SHORT_ANSWER
 	}
@@ -84,7 +84,7 @@ public class Question {
 	public Question(QuestionDTO questionDTO) {
 		this.questionId = questionDTO.getQuestionId();
 		this.content = questionDTO.getQuestionContent();
-		this.type = questionDTO.getQuestionType();
+		this.type = QuestionType.valueOf(questionDTO.getQuestionType());
 		this.points = questionDTO.getQuestionPoints();
 		this.image = questionDTO.getQuestionImage();
 		this.answers = questionDTO.getAnswers();

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.dto.ResultDTO;
 import com.fdm.qualifier.httpRequest.QuizRequest;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
@@ -35,7 +36,6 @@ import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
-
 import com.fdm.qualifier.service.UserService;
 
 
@@ -53,10 +53,12 @@ public class QuizController {
 	private ResultService resultService;
 
 	private TraineeService traineeService;
+
 //	private UserService userService;
 
 	@Autowired
 	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService, TraineeService traineeService) {
+
 
 		super();
 		this.quizService = quizService;
@@ -97,8 +99,7 @@ public class QuizController {
 		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
 		boolean marked = true;
 		boolean passed = false;
-
-		
+	
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			userId = Integer.parseInt((String) content.get("userId"));
 			quizId = Integer.parseInt((String) content.get("quizId"));
@@ -137,9 +138,7 @@ public class QuizController {
 			totalMark += unitMark;
 		}
 
-
 		Trainee trainee = traineeService.getTraineeByID(userId);
-		
 
 		if (quizId == -1) {
 			throw new Exception("Quiz id not found");
@@ -150,6 +149,7 @@ public class QuizController {
 		SkillLevel skillLevel = skillLevelService.findByQuizId(quiz);
 		
 
+
 		if (marked && totalMark >= passingMark) {
 			passed = true;
 			List<SkillLevel> skillList = trainee.getSkills();
@@ -158,8 +158,10 @@ public class QuizController {
 
 
 
+
 		
 		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
+
 		System.out.println(result);
 		
 	}
@@ -180,16 +182,16 @@ public class QuizController {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
+//		System.out.println("QUIZ IDDDDD:     " + request);
 		Quiz quiz = quizService.findQuizById(quizId).get();
 		
 		quiz.setName(request.getName());
 		quiz.setDescription(request.getDescription());
 		quiz.setDuration(request.getDuration());
 		quiz.setPassingMark(request.getPassingMark());
-		
 		List<QuestionDTO> questionDTOs = request.getQuestions();
 		for (QuestionDTO questionDTO : questionDTOs) {
-			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), questionDTO.getQuestionType(), questionDTO.getQuestionPoints());
+			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
 			for (Answer answer : questionDTO.getAnswers()) {
 				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
 			}
@@ -209,21 +211,21 @@ public class QuizController {
 	}
 
 	@PostMapping("/getResult")
-	public Result getResult(@RequestBody Result result) {
-		log.debug(result);
-		result = quizService.findResultById(result.getResultId());
+	public ResultDTO getResult(@RequestBody int[] resultId) {
+		log.debug(resultId);
+		Result result = quizService.findResultById(resultId[0]);
 		if (result != null)
 			log.debug(result.getSubmittedAnswers());
-		return result;
+		return new ResultDTO(result);
 	}
 
 	@PostMapping("/submitMarkedResult")
-	public void submitMarkedResult(@RequestBody Result result) {
+	public void submitMarkedResult(@RequestBody ResultDTO result) {
 		log.debug(result);
 		Result oldResult = quizService.findResultById(result.getResultId());
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
-		result = quizService.saveResult(result);
+//		result = quizService.saveResult(result);
 		if (result.isPassed() && skillLevel != null && trainee != null) {
 			trainee.removeSkill(skillLevel.getSkill());
 			trainee.removePinnedSkill(skillLevel.getSkill());

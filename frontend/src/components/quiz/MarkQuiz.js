@@ -18,7 +18,7 @@ function MarkQuiz() {
     }, []);
 
     function getResult() {
-        axios.post('http://localhost:9999/getResult', { resultId: resultId })
+        axios.post('http://localhost:9999/getResult', [resultId])
             .then(function (response) {
                 console.log(response);
                 setResult(response.data)
@@ -76,7 +76,7 @@ function MarkQuiz() {
 
     function getTypeAsPrettyString(questionType) {
         switch (questionType) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return "Multiple Choice";
             case "SHORT_ANSWER":
                 return "Short Answer";
@@ -120,7 +120,7 @@ function MarkQuiz() {
 
     function getViewableAnswers(question, index) {
         switch (question.type) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return (
                     <Container>
                         {question.answers.map(

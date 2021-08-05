@@ -106,7 +106,7 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
                 userId: userId
@@ -126,7 +126,7 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
                 userId: userId
@@ -193,7 +193,7 @@ function Questions(props) {
 
                             {question.answers.map(answer =>{
                  
-                                if (question.questionType === "MUTIPLE_CHOICE") {
+                                if (question.questionType === "MULTIPLE_CHOICE") {
                                     
                                     return( 
                                         <Form.Check

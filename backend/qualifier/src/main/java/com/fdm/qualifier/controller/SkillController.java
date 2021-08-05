@@ -18,17 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.SkillDTO;
 import com.fdm.qualifier.model.Skill;
+import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
+import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SkillService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class SkillController {
 	private SkillService skillService;
+	private SkillLevelService skillLevelService;
 
 	@Autowired
-	public SkillController(SkillService skillService) {
+	public SkillController(SkillService skillService, SkillLevelService skillLevelService) {
 		super();
 		this.skillService = skillService;
+		this.skillLevelService = skillLevelService;
 	}
 	
 	@GetMapping("/getAllSkills")
@@ -62,7 +67,9 @@ public class SkillController {
 	
 	@GetMapping("/skill/remove/{id}")
 	public void deleteSkill(@PathVariable("id") String id) {
+		System.out.println("REMOVE CHECKING");
 		int skillId = Integer.parseInt(id);
+		System.out.println("SKILL ID: " + skillId);
 		skillService.deleteById(skillId);
 	}
 	
@@ -80,7 +87,15 @@ public class SkillController {
 			status.put("status", "already exist");
 		} else {
 			status.put("status", "success");
-			skillService.save(new Skill(skillname));
+			Skill skill = new Skill(skillname);
+			SkillLevel beginner = new SkillLevel(KnowledgeLevel.BEGINNER, skill, null);
+			SkillLevel intermediate = new SkillLevel(KnowledgeLevel.INTERMEDIATE, skill, null);
+			SkillLevel expert = new SkillLevel(KnowledgeLevel.EXPERT, skill, null);
+			skill.addSkillLevel(beginner);
+			skill.addSkillLevel(intermediate);
+			skill.addSkillLevel(expert);
+			skillService.save(skill);
+			
 		}	
 		return status;		
 

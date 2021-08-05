@@ -66,4 +66,11 @@ public class QuizRequest {
 	public void setQuestions(List<QuestionDTO> questionDTOs) {
 		this.questions = questionDTOs;
 	}
+	@Override
+	public String toString() {
+		return "QuizRequest [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration="
+				+ duration + ", questionCount=" + questionCount + ", passingMark=" + passingMark + "]";
+	}
+	
+	
 }

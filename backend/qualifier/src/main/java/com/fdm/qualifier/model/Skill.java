@@ -33,7 +33,8 @@ public class Skill {
 //	private List<SkillLevel> skillLevels;
 //=======
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="skill")
-	@JsonBackReference(value = "skillLevel")
+//	@JsonManagedReference(value = "skillLevel2")
+	@JsonBackReference(value = "skillLevel2")
 	private List<SkillLevel> skilllevels;
 
 
@@ -44,6 +45,7 @@ public class Skill {
 	public Skill(String name) {
 		super();
 		this.name = name;
+		this.skilllevels = new ArrayList<SkillLevel>();
 		
 	}
 	
@@ -75,6 +77,9 @@ public class Skill {
 
 	public void setSkilllevels(List<SkillLevel> skilllevels) {
 		this.skilllevels = skilllevels;
+	}
+	public void addSkillLevel(SkillLevel skilllevel) {
+		this.skilllevels.add(skilllevel);
 	}
 
 	@Override

@@ -112,7 +112,7 @@ function NavigationBar() {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => {history.push('/placements')} } >Placements</Nav.Link>  
-                            <Nav.Link >Trainees</Nav.Link>  
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>  
                             <Nav.Link onClick={() => {history.push('/browsequiz')} }>Quizzes</Nav.Link>
                             
                                             
@@ -141,7 +141,7 @@ function NavigationBar() {
                         <NavDropdown.Item onClick={() => {history.push('/trainer/searchskills')} }>Search Skills</NavDropdown.Item>
                     </NavDropdown>
                         <Nav className="me-auto">  
-                            <Nav.Link>Trainees</Nav.Link>
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>
                                             
                         </Nav>
                         
@@ -164,8 +164,12 @@ function NavigationBar() {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">  
-                            <Nav.Link >Placements</Nav.Link>  
-                            <Nav.Link onClick={() => {history.push('/browsequiz')} }>Trainees</Nav.Link>
+                        <NavDropdown title= "Placements" id="nav-dropdown">
+                            <NavDropdown.Item onClick={() => { history.push('/placements') }}>Browse Placements</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {history.push('/createPlacement')} }>Create Placements</NavDropdown.Item>
+                        </NavDropdown>
+                              
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>
                             
                                             
                         </Nav>
