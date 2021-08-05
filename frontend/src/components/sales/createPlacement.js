@@ -16,6 +16,7 @@ function CreatePlacement() {
     const [endDate, setEndDate] = useState("");
     const [clientName, setClientName] = useState({});
     const [placementSkills, setPlacementSkill] = useState([])
+    const [placementSkillIds, setPlacementSkillIds] = useState([])
 
     useEffect(() => {
         getAllClientsOnLoad();
@@ -31,7 +32,7 @@ function CreatePlacement() {
         axios.post('http://localhost:9999/savePlacement', {
             placementId: 1, name: placementName, startDate: startDate, completionDate: endDate,
             description: placementDescription, location: placementLocation,
-            client: clientName, skillsNeeded: placementSkills
+            client: clientName, skillsNeeded: placementSkillIds
         })
             .then(function (response) {
                 console.log(response);
@@ -42,6 +43,7 @@ function CreatePlacement() {
             .then(function () {
                 console.log('finally');
                 setPlacementSkill([]);
+                setPlacementSkillIds([]);
             })
     }
 
@@ -84,6 +86,9 @@ function CreatePlacement() {
         let requiredSkills = placementSkills.slice()
         requiredSkills.push(allSkills[index])
         setPlacementSkill(requiredSkills)
+        let requiredSkillIds = placementSkillIds.slice();
+        requiredSkillIds.push(allSkills[index].skillLevelId); 
+        setPlacementSkillIds(requiredSkillIds);
     };
 
 
