@@ -85,7 +85,7 @@ function SearchPlacements() {
         axios.post('http://localhost:9999/approveRequest', [selectedTrainerID, placementResult[index].placementId])
             .then(function (response) {
                 console.log(response);
-                setConfirmationMessage(response.date);
+                setConfirmationMessage(response.data);
             })
             .catch(function (error) {
                 console.log(error);
