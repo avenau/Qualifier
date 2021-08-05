@@ -50,11 +50,13 @@ function Questions(props) {
         .post('http://localhost:9999/quiz/submit',{ payload: results})
         .then((response) => {
             console.log("Submit Quiz " + JSON.stringify(response.data));
-
-            history.push('/finishquiz');
+            history.push({
+                pathname: '/finishquiz',
+                state: { detail: response.data }
+            });
         })
-        .catch(()=>{
-            
+        .catch((error)=>{
+            console.log(error.message);
         })
     })
 
