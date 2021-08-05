@@ -94,7 +94,7 @@ function Profile() {
 
     return(
         <div>
-            <h1>{profile.name}</h1>
+            <h1>{profile.firstName} {profile.lastName}</h1>
             <p>Stream: {profile.stream}</p>
             <p>Email: {profile.email}</p>
             <p>Address: {profile.address}</p>
