@@ -220,7 +220,7 @@ public class Dataloader implements ApplicationRunner {
 		log.debug("Creating clients and placements");
 		Client client1 = new Client("ANZ");
 		Client client2 = new Client("Kmart");
-		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, trainee1,
+		Placement placement1 = new Placement("Placement1", startDate, startDate, "test", "Melbourne", client1, null,
 				Arrays.asList(trainee1), Arrays.asList(skillLevel1, skillLevel2, skillLevel3));
 		Placement placement2 = new Placement("Placement2", startDate, startDate, "test", "Sydney", client2, trainee1,
 				Arrays.asList(trainee1), Arrays.asList(skillLevel2, skillLevel3));
