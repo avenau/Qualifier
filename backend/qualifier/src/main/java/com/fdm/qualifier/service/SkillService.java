@@ -47,9 +47,9 @@ public class SkillService {
 	}
 	
 	public Skill save(Skill skill) {
-		Skill skillFound = findByName(skill.getName());
-		if(skillFound != null)
-			skill = skillFound;		
+//		Skill skillFound = findByName(skill.getName());
+//		if(skillFound != null)
+//			skill = skillFound;		
 		return skillRepo.save(skill);
 	}
 	

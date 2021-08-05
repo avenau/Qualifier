@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-
 import com.fdm.qualifier.model.Skill;
 
 import com.fdm.qualifier.model.Result;
@@ -41,9 +40,9 @@ public class TraineeService {
 		this.traineeRepo = traineeRepo;
 		this.skillLevelRepo = skillLevelRepo;
 	}
-	
+
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getTraineeByuid(id);
+		return traineeRepo.getById(id);
 	}
 
 	/**
@@ -208,36 +207,68 @@ public class TraineeService {
 
 	/**
 	 * Gets all trainees
+	 * 
 	 * @return
 	 */
 	public List<Trainee> getAllTrainees() {
 		log.trace("getAllTrainees() called");
 		return traineeRepo.findAll();
 	}
-	
-	/**Adds the specified Skill Level to the specified trainer
+
+	/**
+	 * Adds the specified Skill Level to the specified trainee. Returns true if
+	 * skill was added
 	 * 
-	 * @param skill
+	 * @param skillLevel
 	 * @param traineeId
+	 * @return skillAdded
 	 */
-	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
-		foundTrainee.addSkill(skill);
+	public boolean addSkillToTrainee(SkillLevel skillLevel, int traineeId) {
+		boolean addedSkill = true;
+		Trainee foundTrainee = getTraineeByID(traineeId);
+
+		if (foundTrainee != null && !foundTrainee.getSkills().contains(skillLevel)
+				&& !foundTrainee.getPinnedSkills().contains(skillLevel)) {
+
+			Skill skill = skillLevel.getSkill();
+			boolean hasSkillAtDifferentLevel = false;
+
+			for (SkillLevel sl : foundTrainee.getSkills()) {
+				if (sl.getSkill().equals(skill))
+					hasSkillAtDifferentLevel = true;
+			}
+
+			for (SkillLevel sl : foundTrainee.getPinnedSkills()) {
+				if (sl.getSkill().equals(skill))
+					hasSkillAtDifferentLevel = true;
+			}
+
+			if (hasSkillAtDifferentLevel) {
+				addedSkill = false;
+			} else {
+				foundTrainee.addSkill(skillLevel);
+				addedSkill = true;
+			}
+		} else {
+			addedSkill = false;
+		}
+		
+		return addedSkill;
 	}
-	
-	/** Removes the specified skill from the specified trainer 
+
+	/**
+	 * Removes the specified skill from the specified trainer
 	 * 
 	 * @param skill
 	 * @param traineeId
 	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		Trainee foundTrainee = getTraineeByID(traineeId);
 		foundTrainee.removeSkill(skill);
 	}
-	
+
 	/**
-	 * Gets trainees that match the string in
-	 * their first or last name
+	 * Gets trainees that match the string in their first or last name
 	 * 
 	 * @param name
 	 * @return
@@ -245,7 +276,7 @@ public class TraineeService {
 	public List<Trainee> findTraineeByName(String name) {
 		return traineeRepo.findByFirstNameAndLastName(name);
 	}
-	
+
 	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
 		return traineeRepo.findTraineeBySkills(skill);
 	}

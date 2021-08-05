@@ -51,17 +51,24 @@ public class TraineeController {
 	}
 	
 	@PostMapping("/addUnverifiedSkill")
-	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
+	public SkillLevel addUnverifiedSkill(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
 		SkillLevel unverifiedSkill = null;
+		boolean addedSkill = false;
+		
 		for (SkillLevel sl: skill) {
 			if (sl.getLevel()==SkillLevel.KnowledgeLevel.UNVERIFIED) {
 				unverifiedSkill = sl;
 			}
 		}
-		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
-		traineeService.save(foundTrainee);	
+		
+		addedSkill = traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
+		traineeService.save(foundTrainee);
+		log.debug(foundTrainee.getSkills());
+		log.debug(unverifiedSkill);
+
+		return addedSkill ? unverifiedSkill : null;
 	}
 	
 	@PostMapping("/removeTraineeSkill")

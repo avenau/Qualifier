@@ -4,8 +4,8 @@ import { Redirect, useHistory, useLocation } from "react-router-dom";
 
 function SearchPlacements(){
 
-    //CHANGE THIS TO SESSION TRAINEES ID
-    const traineeId = sessionStorage.getItem("userId");
+    const traineeId = sessionStorage.getItem("uId");
+    const accountType = sessionStorage.getItem('accountType');
 
     const axios = require('axios');
     const axiosConfig = {
@@ -14,7 +14,11 @@ function SearchPlacements(){
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchError, setSearchError] = useState("");
+
     const [isLoading, setLoading] = useState(true);
+    const [applicationResult, setApplicationResult] = useState("");
+    const [confirmationMessgage, setConfirmationMessage] = useState("");
+    const [appliedTrainees, setAppliedTrainees] = useState([]);
     let history = useHistory();
     const [placementResult, setPlacementResult] = useState([{
         placementId: 0,
@@ -36,7 +40,7 @@ function SearchPlacements(){
             history.push("/*");
         })
 
-    }, [])
+    }, []) 
 
     const submitPlacementSearch = (evt) => {
         evt.preventDefault();
@@ -63,6 +67,7 @@ function SearchPlacements(){
         axios.post('http://localhost:9999/applyForPlacement', [traineeId, placementResult[index].placementId])
         .then(function (response) {
             console.log(response);
+            setApplicationResult(response.date);
         })
         .catch(function (error) {
             console.log(error);
@@ -71,6 +76,22 @@ function SearchPlacements(){
             console.log('finally');
         })
     }
+
+    const approveRequest = (index) => {
+        axios.post('http://localhost:9999/approveRequest', [traineeId, placementResult[index].placementId])
+        .then(function (response) {
+            console.log(response);
+            setConfirmationMessage(response.date);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            console.log('finally');
+        })
+    }
+
+
     
     if (isLoading) {
         return <div className="App">Loading...</div>;
@@ -125,12 +146,16 @@ function SearchPlacements(){
                                             <Row>
                                                 <Col sm={8}>
                                                     <h3>{placement.name}</h3>
+                                                    {accountType == "trainee" ?
                                                     <button value="Apply" onClick={() => applyForPlacement(index)}>Apply</button>
+                                                    : <p></p>}
+                                                    <p>{applicationResult}</p>
                                                     <p>{placement.description}</p>
                                                     <p>{placement.client.name}</p>
                                                     <p>{placement.location}</p>
                                                     <p>Start Date: {placement.startDate}</p>
                                                     <p>Completion Date: {placement.completionDate}</p>
+                                                    <h3>Skills Required</h3>
                                                     <ListGroup>
                                                         {placement.skillsNeeded.map(
                                                             (skillLevel, index) =>
@@ -139,7 +164,19 @@ function SearchPlacements(){
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
-
+                                                    {accountType == "trainee" ?
+                                                    
+                                                    <ListGroup>
+                                                        <h3>Applied Trainees</h3>
+                                                        {placement.appliedTrainees.map(
+                                                            (trainee, index) =>
+                                                                <ListGroup.Item key={"sales-" + trainee.uid}>
+                                                                    {trainee.firstName} {trainee.lastName}
+                                                                    <button onClick={() => approveRequest(index)}>Approve Request</button>
+                                                                </ListGroup.Item>
+                                                        )}
+                                                    </ListGroup>
+                                                    : <p></p>}
                                                 </Col>
                                             </Row>
                                         </Tab.Pane> 

@@ -206,7 +206,7 @@ public class Dataloader implements ApplicationRunner {
 		trainee3.setAddress("tissue box");
 		trainee3.setPhoneNumber(656465486);
 		trainee3.setSkills(skillSet);
-		trainee3.setFirstName("Gray");
+		trainee3.setFirstName("Necro");
 		trainee3.setLastName("Mancy");
 
 		traineeService.save(trainee1);
@@ -340,33 +340,33 @@ public class Dataloader implements ApplicationRunner {
 		Answer javaBq20aD = answerService.createNewAnswer("D - @Retention is one of the meta annotation in java.", javaBq20, true);
 		log.info("quiz init finished");
 
-		log.debug("Find by Java");
-		for (Placement p : placementService.findBySkillName("Java")) {
-			log.debug(p);
-		}
-		log.debug("Find by name " + placementService.findByName("Placement1"));
-		log.debug("Display all ");
-		for (Placement p : placementService.findAll()) {
-			log.debug(p);
-		}
-		log.debug("Find by client name");
-		for (Placement p : placementService.findByClientName("ANZ")) {
-			log.debug(p);
-		}
-		log.debug("Find by Location Sydney");
-		for (Placement p : placementService.findByLocation("Sydney")) {
-			log.debug(p);
-		}
-
-		log.debug("find trainee by name");
-		for (Trainee t : traineeService.findTraineeByName("Mancy")) {
-			log.debug(t);
-		}
-
-		log.debug("find trainee by skill");
-		for (Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
-			log.debug(t);
-		}
+//		log.debug("Find by Java");
+//		for (Placement p : placementService.findBySkillName("Java")) {
+//			log.debug(p);
+//		}
+//		log.debug("Find by name " + placementService.findByName("Placement1"));
+//		log.debug("Display all ");
+//		for (Placement p : placementService.findAll()) {
+//			log.debug(p);
+//		}
+//		log.debug("Find by client name");
+//		for (Placement p : placementService.findByClientName("ANZ")) {
+//			log.debug(p);
+//		}
+//		log.debug("Find by Location Sydney");
+//		for (Placement p : placementService.findByLocation("Sydney")) {
+//			log.debug(p);
+//		}
+//
+//		log.debug("find trainee by name");
+//		for (Trainee t : traineeService.findTraineeByName("Mancy")) {
+//			log.debug(t);
+//		}
+//
+//		log.debug("find trainee by skill");
+//		for (Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
+//			log.debug(t);
+//		}
 		log.info("Finished Data Setup");
 	}
 
