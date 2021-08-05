@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails",
 						"/searchPlacements", 
+						
 						"/getTraineesResults", "/submitMarkedResult", 						
+						
 						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
 						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
 						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
