@@ -56,7 +56,7 @@ function MarkQuiz() {
         axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
             .then(function (response) {
                 console.log(response);
-                history.push("/traineeResults");
+                history.goBack();
             })
             .catch(function (error) {
                 console.log(error);

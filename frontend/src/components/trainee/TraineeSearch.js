@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Tab , Button, Card, ListGroup, Form, InputGroup, FormControl} from 'react-bootstrap';
+import { Container, Row, Col, Tab, Button, Card, ListGroup, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { Redirect, useHistory, useLocation } from "react-router-dom";
+import TraineeResults from "../trainer/traineeResults";
 
-function SearchTrainee(){
+function SearchTrainee() {
 
     const axios = require('axios');
+
+    const accountType = sessionStorage.getItem('accountType');
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchError, setSearchError] = useState("");
@@ -20,15 +23,15 @@ function SearchTrainee(){
 
     useEffect(() => {
         axios.get('http://localhost:9999/getAllTrainees')
-        .then((response) => {
-            console.log(response);
-            setTraineeResult(response.data);
-            setLoading(false);
-            
-        })
-        .catch((error) => {
-            history.push("/*");
-        })
+            .then((response) => {
+                console.log(response);
+                setTraineeResult(response.data);
+                setLoading(false);
+
+            })
+            .catch((error) => {
+                history.push("/*");
+            })
 
     }, [])
 
@@ -36,17 +39,17 @@ function SearchTrainee(){
         evt.preventDefault();
         if (searchTerm.trim().length > 0) {
             setSearchError("");
-            const config = { headers: {'Content-Type': 'application/json'} };
+            const config = { headers: { 'Content-Type': 'application/json' } };
             axios.post('http://localhost:9999/searchTrainees', searchTerm, config)
                 .then(function (response) {
                     console.log(response);
-                    if(response.data.length === 0){
+                    if (response.data.length === 0) {
                         window.alert("No search results");
-                    }else{
+                    } else {
                         setTraineeResult(response.data);
                     }
-                    
-                    
+
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -56,51 +59,51 @@ function SearchTrainee(){
                 })
         } else {
             setSearchError("Search cannot be empty");
-        }   
+        }
     }
-    
+
     if (isLoading) {
         return <div className="App">Loading...</div>;
     }
 
     return (
-        <Container className = "d-flex justify-content-center pt-5">
-        <Card className="w-75">
-            <Card.Header as="h5">
-                <Row>
-                    <Col sm={3} className = "pt-2">
-                        Trainees
-                    </Col>
-                    
-                    <Col className = "d-flex justify-content-end">
-                        <Form className = "pt-1" onSubmit={submitTraineeSearch}>
-                            <Row className="align-items-center">
-                                <InputGroup className="">
-                                    <FormControl
-                                    placeholder="Search Trainees"
-                                    aria-label="Trainees"
-                                    aria-describedby="basic-addon2"
-                                    value={searchTerm} 
-                                    onChange={e => setSearchTerm(e.target.value)}
-                                    />
-                                    <Button variant="outline-secondary" id="button-addon2" type="submit">
-                                        Search
-                                    </Button>
-                                </InputGroup>
-                            </Row>
-                        </Form>
-                    </Col>
-                </Row>
-            </Card.Header>
-            <Card.Body>
+        <Container className="d-flex justify-content-center pt-5">
+            <Card className="w-75">
+                <Card.Header as="h5">
+                    <Row>
+                        <Col sm={3} className="pt-2">
+                            Trainees
+                        </Col>
+
+                        <Col className="d-flex justify-content-end">
+                            <Form className="pt-1" onSubmit={submitTraineeSearch}>
+                                <Row className="align-items-center">
+                                    <InputGroup className="">
+                                        <FormControl
+                                            placeholder="Search Trainees"
+                                            aria-label="Trainees"
+                                            aria-describedby="basic-addon2"
+                                            value={searchTerm}
+                                            onChange={e => setSearchTerm(e.target.value)}
+                                        />
+                                        <Button variant="outline-secondary" id="button-addon2" type="submit">
+                                            Search
+                                        </Button>
+                                    </InputGroup>
+                                </Row>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Card.Header>
+                <Card.Body>
                     <Tab.Container id="list-group-tabs-example" defaultActiveKey={"#" + traineeResult[0].userId}>
                         <Row>
                             <Col sm={4}>
                                 <ListGroup>
                                     {traineeResult.map(trainee => (
-                                        <ListGroup.Item key={'#' + trainee.userId} action href= {'#' + trainee.userId}>
+                                        <ListGroup.Item key={'#' + trainee.userId} action href={'#' + trainee.userId}>
                                             {trainee.firstName}
-                                        </ListGroup.Item>  
+                                        </ListGroup.Item>
                                     ))}
                                 </ListGroup>
                             </Col>
@@ -129,21 +132,23 @@ function SearchTrainee(){
                                                                 </ListGroup.Item>
                                                         )}
                                                     </ListGroup>
-
+                                                    {accountType == "trainer" ?
+                                                        <TraineeResults traineeId={trainee.userId}></TraineeResults>
+                                                        : <span></span>}
                                                 </Col>
                                             </Row>
-                                        </Tab.Pane> 
+                                        </Tab.Pane>
                                     ))}
-                                    
+
 
                                 </Tab.Content>
                             </Col>
                         </Row>
                     </Tab.Container>
-            </Card.Body>
-        </Card>
+                </Card.Body>
+            </Card>
 
-    </Container>
+        </Container>
     );
 }
 

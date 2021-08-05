@@ -8,7 +8,9 @@ function TraineeResults(props) {
     const axios = require('axios');
     const history = useHistory();
 
-    const traineeId = props.traineeId//14;//CHANGE TO SELECTED TRAINEE ID
+    const traineeId = props.traineeId;
+    const accountType = sessionStorage.getItem('accountType');
+
     const [results, setResults] = useState([]);
 
     useEffect(() => {
@@ -26,6 +28,20 @@ function TraineeResults(props) {
             })
     }, [])
 
+    function createButton(result) {
+        let button = <span></span>;
+
+        if (accountType == "trainer")
+            if (result.marked)
+                button = <Button onClick={() => history.push("/viewQuiz/" + result.resultId)}>View</Button>
+            else
+                button = <Button onClick={() => history.push("/markQuiz/" + result.resultId)}>Mark</Button>
+        else if (accountType == "trainee")
+            button = <Button onClick={() => history.push("/viewQuiz/" + result.resultId)}>View</Button>
+
+        return button;
+    }
+
     const resultsList = results.map(
         (result) =>
             <ListGroup.Item key={"#" + result.resultId}>
@@ -41,11 +57,7 @@ function TraineeResults(props) {
                         }
                     </Col>
                     <Col sm="auto">
-                        {
-                            result.marked ?
-                                <Button onClick={() => history.push("/viewQuiz/" + result.resultId)}>View</Button> :
-                                <Button onClick={() => history.push("/markQuiz/" + result.resultId)}>Mark</Button>
-                        }
+                        {createButton(result)}
                     </Col>
                 </Row>
             </ListGroup.Item>
@@ -53,12 +65,12 @@ function TraineeResults(props) {
     );
 
     return (
-        <Container>
+        // <Container>
+        <ListGroup className="mt-4">
             <h3>Quiz Attempts</h3>
-            <ListGroup>
-                {resultsList.length > 0 ? resultsList : <ListGroup.Item>No Results</ListGroup.Item>}
-            </ListGroup>
-        </Container>
+            {resultsList.length > 0 ? resultsList : <ListGroup.Item>No Results</ListGroup.Item>}
+        </ListGroup>
+        // </Container>
     )
 }
 

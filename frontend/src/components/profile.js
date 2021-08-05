@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Dropdown, Button, ListGroup } from "react-bootstrap";
+import { Dropdown, Button, ListGroup, Container } from "react-bootstrap";
 import axios from "axios";
+import TraineeResults from "./trainer/traineeResults";
 
 function Profile() {
     const axios = require('axios');
@@ -11,6 +12,7 @@ function Profile() {
     };
 
     const traineeId = sessionStorage.getItem('uId');
+    const accountType = sessionStorage.getItem('accountType');
 
     let history = useHistory();
 
@@ -106,7 +108,7 @@ function Profile() {
     );
 
     return (
-        <div>
+        <Container>
             <h1>{profile.name}</h1>
             <p>Stream: {profile.stream}</p>
             <p>Email: {profile.email}</p>
@@ -126,7 +128,10 @@ function Profile() {
             </ListGroup>
             <br></br>
             <button onClick={() => { history.push('/mySkills') }}>My Skills</button>
-        </div>
+            {accountType == "trainee" ?
+                <TraineeResults traineeId={traineeId}></TraineeResults>
+                : <span></span>}
+        </Container>
     );
 
 }
