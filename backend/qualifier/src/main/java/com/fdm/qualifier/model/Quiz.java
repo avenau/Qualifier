@@ -29,7 +29,7 @@ public class Quiz {
 	private double passingMark;
 	
 	@OneToOne
-	@JsonBackReference(value = "skillLevel")
+	@JsonManagedReference(value = "skillLevel")
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")

@@ -40,7 +40,7 @@ function ViewQuiz() {
 
     function getTypeAsPrettyString(questionType) {
         switch (questionType) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return "Multiple Choice";
             case "SHORT_ANSWER":
                 return "Short Answer";
@@ -84,7 +84,7 @@ function ViewQuiz() {
 
     function getViewableAnswers(question, index) {
         switch (question.type) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return (
                     <Container>
                         {question.answers.map(

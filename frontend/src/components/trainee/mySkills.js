@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Dropdown, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import SuggestSkill from './suggestSkill';
 
 function MySkills() {
     const axios = require('axios');
@@ -253,6 +254,8 @@ function MySkills() {
             <Row>
                 <div>{cannotAddSkillErrorMessage}</div>
             </Row>
+
+            <SuggestSkill/>
         </Container>
     );
 

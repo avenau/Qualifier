@@ -1,7 +1,7 @@
 
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl} from 'react-bootstrap';
+import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl, Card, Table} from 'react-bootstrap';
 function CreateQuiz() {
     const axios = require('axios');
     const skillLevelId = useLocation().pathname.split("/")[3];
@@ -57,6 +57,23 @@ function CreateQuiz() {
       console.log("REFRESHING the LENGTH " + startHook.questions.length);
     }, [startHook.questions])
 
+    const submitQuiz = (() => {
+        let finalQuiz = startHook;
+        finalQuiz.questions = hookQuestions;
+        console.log(JSON.stringify(finalQuiz));
+        // /createNewQuiz
+        axios
+        .post('http://localhost:9999/createNewQuiz', finalQuiz)   
+        .then((response) => {
+            let status = response.data.status;
+            console.log(status);
+        })
+        .catch( (error) => {
+
+        })
+
+    })
+
     
     if (isLoading) {
       return <div className="App">Loading...</div>;
@@ -70,7 +87,7 @@ function CreateQuiz() {
       const handleShow = () => setShow(true);
       let shortQuestion = {
         questionContent: "",
-        questionType: "MULTIPLE_SELECT",
+        questionType: "MULTI_SELECT",
         questionPoints: "",
         answers: []
       }
@@ -112,7 +129,7 @@ function CreateQuiz() {
         <>
           <Button variant="primary" onClick={handleShow}>
             Add Multiple Select
-          </Button>
+          </Button>{' '}
     
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -122,24 +139,24 @@ function CreateQuiz() {
               <Form hasValidation onSubmit={addQuestion}>
                 <Form.Group className="mb-3" controlId="formGridAddress1" >
                   
-                  <Form.Control onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                  <Form.Control onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
-                  <InputGroup className="mb-3">
+                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                  <InputGroup className="mb-2">
                     <InputGroup.Checkbox onChange = {((event) => {if (ans1.correct === true) { ans1.correct = false} else {ans1.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans2.correct === true) { ans2.correct = false} else {ans2.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans2.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans3.correct === true) { ans3.correct = false} else {ans3.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans3.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-2">
                   <InputGroup.Checkbox onChange = {((event) => {if (ans4.correct === true) { ans4.correct = false} else {ans4.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans4.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
@@ -212,7 +229,7 @@ function CreateQuiz() {
           <>
             <Button variant="primary" onClick={handleShow}>
               Add Multiple Choice
-            </Button>
+            </Button>{' '}
       
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -220,26 +237,26 @@ function CreateQuiz() {
               </Modal.Header>
               <Modal.Body>
                 <Form hasValidation onSubmit={addQuestion}>
-                  <Form.Group className="mb-3" controlId="formGridAddress1" >
+                  <Form.Group className="mb-2" controlId="formGridAddress1" >
                     
-                    <Form.Control onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                    <Form.Control onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
-                    <InputGroup className="mb-3">
+                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                    <InputGroup className="mb-2">
                       <InputGroup.Radio onChange = {((event) => {ans1.correct = true; ans2.correct = false; ans3.correct = false; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = true; ans3.correct = false; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans2.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = false; ans3.correct = true; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans3.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                     <InputGroup.Radio onChange = {((event) => {ans1.correct = false; ans2.correct = false; ans3.correct = false; ans4.correct = true})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans4.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                     </InputGroup>
@@ -264,7 +281,7 @@ function CreateQuiz() {
       function AddShortAnswer() {
         const [show, setShow] = useState(false);
         let questionContent = "";
-        let questionMark = 0;
+        let questionPoints = 0;
       
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
@@ -275,8 +292,12 @@ function CreateQuiz() {
           let shortQuestion = {
                                 questionContent: questionContent,
                                 questionType: "SHORT_ANSWER",
-                                questionPoints: questionMark,
-                                answers: []
+                                questionPoints: questionPoints,
+                                answers: [
+                                            {answerId: 19,
+                                            content: "Short Answer",
+                                            correct: true}
+                                          ]
                               }
           
           setQuestions((prevState) => [...prevState, shortQuestion]);
@@ -289,7 +310,7 @@ function CreateQuiz() {
           <>
             <Button variant="primary" onClick={handleShow}>
               Add Short Answer
-            </Button>
+            </Button>{' '}
       
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -298,8 +319,8 @@ function CreateQuiz() {
               <Modal.Body>
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                 
-                      <Form.Control onChange={((event) => {questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                      <Form.Control onChange={((event) => {questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />
+                      <Form.Control className="mb-2" onChange={((event) => {questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
+                      <Form.Control onChange={((event) => {questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>
@@ -318,21 +339,21 @@ function CreateQuiz() {
 
       function DetailForm () {
           return (
-            <Form>
+            <Form className= "pt-2">
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.name = event.target.value})} type="email" placeholder="Name" />
+                    <Form.Control onChange={((event) => {startHook.name = event.target.value})} type="name" placeholder="Name" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.duration = event.target.value})}  type="email" placeholder="Duration" />
+                    <Form.Control onChange={((event) => {startHook.duration = event.target.value})}  type="number" placeholder="Duration" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridEmail">
 
-                    <Form.Control onChange={((event) => {startHook.passingMark = event.target.value})} type="email" placeholder="Passing Mark" />
+                    <Form.Control onChange={((event) => {startHook.passingMark = event.target.value})} type="number" placeholder="Passing Mark" />
                     </Form.Group>
 
 
@@ -342,16 +363,10 @@ function CreateQuiz() {
                     <Form.Control onChange={((event) => {startHook.description = event.target.value})}  as="textarea" rows={3} placeholder="Description" />
                 </Form.Group>
                 {console.log("SECOND JSON " + JSON.stringify(hookQuestions))}
-                {hookQuestions.map ((question) => (
 
-                  <div>
-                    {JSON.stringify(question)}
-                  </div>
+                <AddedQuestions/>
 
-                  ))}
-
-
-                <Button variant="primary" type="submit">
+                <Button variant="primary" onClick={submitQuiz}>
                     Submit
                 </Button>
             </Form>
@@ -359,15 +374,65 @@ function CreateQuiz() {
           )
       }
 
+      const AddedQuestions = (() => {
+        return(
+          <div>
+          {hookQuestions.map ((question) => (
+                            //  questionContent: questionContent,
+                            //  questionType: "SHORT_ANSWER",
+                            //  questionMark: questionMark,
+                            //  answers: []
+            <Card>
+              <Card.Header as="h5">{question.questionContent}</Card.Header>
+              <Card.Body>
+                <Card.Subtitle className="mb-2 text-muted">Type: {question.questionType} </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Mark: {question.questionPoints}</Card.Subtitle>
+                <Card.Text>
+                <Card.Subtitle className="mb-2 text-muted">Answers:</Card.Subtitle>
+                <Table striped bordered>
+                  <thead>
+                    <tr>
+                      <th>Answer</th>
+                      <th>Correct</th>
+                    </tr>
+                  </thead>
+                  
+                  {question.answers.map((answer) => (
+                    
+                    <tbody>
+                      <tr>
+                        <td>{answer.content}</td>
+                        <td>{JSON.stringify(answer.correct)}</td>
+                      </tr>
+                    </tbody>
+
+                  ))}
+                </Table>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+
+
+            ))}</div>
+        )
+      })
+
 
 
 
     return (
         <Container>
-            <h3 className="pt-3">Quiz Editor</h3>
-            <AddMultipleChoice/>
-            <AddMultipleSelect/>
-            <AddShortAnswer/>
+              <h3 className="pt-3">Quiz Editor</h3>
+              {/* <Row>
+                <Col><AddMultipleChoice/></Col>
+                <Col><AddMultipleSelect /></Col>
+                <Col><AddShortAnswer /></Col>
+
+              </Row> */}
+              <AddMultipleChoice/>
+              <AddMultipleSelect />
+              <AddShortAnswer />
+
             <DetailForm/>
 
 
@@ -386,6 +451,21 @@ export default CreateQuiz;
     "duration": 0.0,
     "questionCount": 0,
     "passingMark": 0.0,
-    "questions": []
+    "questions": [
+                    {
+                      "questionContent":"1/10a McEvoy Rd Padstow",
+                      "questionType":"MULTIPLE_CHOICE",
+                      "questionMark":"",
+                      "answers":[
+                        {"content":"1/10a McEvoy Rd Padstow","correct":false},
+                        {"content":"Unit 1, 10A McEvoy Rd","correct":true},
+                        {"content":"Unit 1, 10A McEvoy Rd","correct":false},
+                        {"content":"10 Ralph St Alexandria","correct":false}]
+                    },
+                  ]
 }
+*/
+
+/*
+
 */

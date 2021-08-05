@@ -35,7 +35,6 @@ import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
-
 import com.fdm.qualifier.service.UserService;
 
 
@@ -53,10 +52,12 @@ public class QuizController {
 	private ResultService resultService;
 
 	private TraineeService traineeService;
+
 //	private UserService userService;
 
 	@Autowired
 	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService, TraineeService traineeService) {
+
 
 		super();
 		this.quizService = quizService;
@@ -97,8 +98,7 @@ public class QuizController {
 		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
 		boolean marked = true;
 		boolean passed = false;
-
-		
+	
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			userId = Integer.parseInt((String) content.get("userId"));
 			quizId = Integer.parseInt((String) content.get("quizId"));
@@ -137,9 +137,7 @@ public class QuizController {
 			totalMark += unitMark;
 		}
 
-
 		Trainee trainee = traineeService.getTraineeByID(userId);
-		
 
 		if (quizId == -1) {
 			throw new Exception("Quiz id not found");
@@ -150,6 +148,7 @@ public class QuizController {
 		SkillLevel skillLevel = skillLevelService.findByQuizId(quiz);
 		
 
+
 		if (marked && totalMark >= passingMark) {
 			passed = true;
 			List<SkillLevel> skillList = trainee.getSkills();
@@ -158,8 +157,10 @@ public class QuizController {
 
 
 
+
 		
 		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
+
 		System.out.println(result);
 		
 	}
@@ -180,16 +181,16 @@ public class QuizController {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
+//		System.out.println("QUIZ IDDDDD:     " + request);
 		Quiz quiz = quizService.findQuizById(quizId).get();
 		
 		quiz.setName(request.getName());
 		quiz.setDescription(request.getDescription());
 		quiz.setDuration(request.getDuration());
 		quiz.setPassingMark(request.getPassingMark());
-		
 		List<QuestionDTO> questionDTOs = request.getQuestions();
 		for (QuestionDTO questionDTO : questionDTOs) {
-			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), questionDTO.getQuestionType(), questionDTO.getQuestionPoints());
+			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
 			for (Answer answer : questionDTO.getAnswers()) {
 				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
 			}

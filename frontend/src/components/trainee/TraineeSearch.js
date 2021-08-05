@@ -125,9 +125,11 @@ function SearchTrainee() {
                                                         )}
                                                     </ListGroup>
                                                     <ListGroup>
+                                                        {console.log(JSON.stringify(trainee.skills))}
                                                         {trainee.skills.map(
                                                             (skill, index) =>
-                                                                <ListGroup.Item key={"skill-" + skill.skillLevelId}>
+                                                                
+                                                                <ListGroup.Item key={"skill-" + skill.skillLevelId}>                                                                  
                                                                     {skill.skill.name}: {skill.level}
                                                                 </ListGroup.Item>
                                                         )}
