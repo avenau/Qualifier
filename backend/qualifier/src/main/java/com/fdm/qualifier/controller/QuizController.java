@@ -233,7 +233,7 @@ public class QuizController {
 
 	@PostMapping("/submitMarkedResult")
 	public void submitMarkedResult(@RequestBody ResultDTO result) {
-		log.debug(result);
+		log.debug("Result: " + result);
 		Result oldResult = quizService.findResultById(result.getResultId());
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
