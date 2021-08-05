@@ -35,16 +35,16 @@ function TraineeResults(props) {
                     </Col>
                     <Col sm="auto">
                         {
-                            result.quiz.marked ?
+                            result.marked ?
                                 <span>marked</span> :
                                 <span>un-marked</span>
                         }
                     </Col>
                     <Col sm="auto">
                         {
-                            result.quiz.marked ?
-                                <Button>view</Button> :
-                                <Button onClick={() => history.push("/markQuiz/" + result.resultId)}>mark</Button>
+                            result.marked ?
+                                <Button onClick={() => history.push("/viewQuiz/" + result.resultId)}>View</Button> :
+                                <Button onClick={() => history.push("/markQuiz/" + result.resultId)}>Mark</Button>
                         }
                     </Col>
                 </Row>

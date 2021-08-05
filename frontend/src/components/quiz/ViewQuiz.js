@@ -3,7 +3,7 @@ import { Badge, Button, Col, Container, Form, ListGroup, Row } from "react-boots
 import { useHistory, useLocation } from "react-router-dom";
 
 
-function MarkQuiz() {
+function ViewQuiz() {
     let axios = require("axios");
     const history = useHistory();
 
@@ -11,7 +11,6 @@ function MarkQuiz() {
     const [result, setResult] = useState({});
     const [submittedAnswers, setSubmittedAnswers] = useState([]);
     const [questions, setQuestions] = useState([]);
-    const [marksToAdd, setMarksToAdd] = useState([]);
 
     useEffect(() => {
         getResult();
@@ -24,14 +23,12 @@ function MarkQuiz() {
                 setResult(response.data)
                 if (response.data.submittedAnswers != undefined) {
                     setSubmittedAnswers(response.data.submittedAnswers);
-                    setQuestions(response.data.quiz.questions)
-                    let initMarks = [];
-                    response.data.quiz.questions.forEach(element => {
-                        initMarks.push(0);
-                    });
-                    setMarksToAdd(initMarks);
                 } else
                     setSubmittedAnswers([]);
+                if (response.data.quiz.questions != undefined) {
+                    setQuestions(response.data.quiz.questions)
+                } else
+                    setQuestions([]);
             })
             .catch(function (error) {
                 console.log(error);
@@ -39,39 +36,6 @@ function MarkQuiz() {
             .then(function () {
                 console.log("finally");
             })
-    }
-
-    const submitMarkedQuiz = (evt) => {
-        evt.preventDefault();
-        console.log("Submitting quiz");
-        let finishedResult = result;
-        console.log(marksToAdd);
-        marksToAdd.forEach(mark => {
-            finishedResult.mark += mark;
-        })
-        finishedResult.marked = true;
-        finishedResult.passed = finishedResult.mark >= finishedResult.quiz.passingMark;
-        setResult(finishedResult);
-        console.log(finishedResult);
-        axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
-            .then(function (response) {
-                console.log(response);
-                history.push("/traineeResults");
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-
-            })
-    }
-
-    const setMarks = (event, index) => {
-        console.log(event.target.value)
-        let markArray = marksToAdd.slice();
-        console.log(index);
-        markArray[index] = parseInt(event.target.value);
-        setMarksToAdd(markArray);
     }
 
     function getTypeAsPrettyString(questionType) {
@@ -153,14 +117,6 @@ function MarkQuiz() {
                                 <p>{displayShortAnswerQuestionAnswer(question)}</p>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group>
-                                    <Form.Control type="number" min="0" max={question.points} onChange={(e) => setMarks(e, index)} required />
-                                    <Form.Text>Total Marks {question.points}</Form.Text>
-                                </Form.Group>
-                            </Col>
-                        </Row>
                     </Container>
                 );
             case "MULTI_SELECT":
@@ -201,7 +157,6 @@ function MarkQuiz() {
         }
     }
 
-
     const questionsList =
         questions.map(
             (question, index) =>
@@ -216,7 +171,7 @@ function MarkQuiz() {
                                 </h6>
                             </Col>
                             <Col sm="auto">
-                                    <span>Points {question.points}</span>
+                                <span>Points {question.points}</span>
                             </Col>
                         </Row>
                         <Row>
@@ -230,7 +185,7 @@ function MarkQuiz() {
                             </Col>
                         </Row>
                         <Row>
-                            {getViewableAnswers(question, index)}
+                            {getViewableAnswers(question)}
                         </Row>
                     </Container>
                 </ListGroup.Item>
@@ -238,27 +193,34 @@ function MarkQuiz() {
 
     return (
         <Container className="mt-4">
-            <Row>
-                <Col>
+            <Row className="align-items-end">
+                <Col sm>
                     <h4>{result.quiz != undefined ? result.quiz.name : ""}</h4>
                 </Col>
+                <Col sm="auto">
+                    <h6>{result.mark != undefined ? "Marks:" + result.mark : ""}</h6>
+                </Col>
             </Row>
-            <Form onSubmit={submitMarkedQuiz}>
-                <ListGroup>
-                    {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
-                </ListGroup>
-                <Row className="mt-4"> 
-                    <Col sm="auto">
-                        <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
-                    </Col>
-                    <Col sm></Col>
-                    <Col sm="auto">
-                        <Button type="submit">Mark</Button>
-                    </Col>
-                </Row>
-            </Form>
+            <Row>
+                <Col>
+                    <h5>{result.passed != undefined ?
+                        result.passed ? <Badge bg="success">Passed</Badge> : <Badge bg="danger">Failed</Badge>
+                        : ""
+                    }</h5>
+                </Col>
+            </Row>
+            <ListGroup>
+                {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
+            </ListGroup>
+            <Row className="mt-4">
+                <Col sm="auto">
+                    <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
+                </Col>
+                <Col sm></Col>
+
+            </Row>
         </Container>
     )
 }
 
-export default MarkQuiz;
+export default ViewQuiz;

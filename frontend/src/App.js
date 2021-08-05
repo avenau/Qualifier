@@ -28,6 +28,7 @@ import MarkQuiz from './components/quiz/MarkQuiz';
 import CreateQuiz from './components/trainer/CreateQuiz';
 import TraineeResults from './components/trainer/traineeResults';
 import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
+import ViewQuiz from './components/quiz/ViewQuiz';
 
 //To add your page 
 /*
@@ -59,6 +60,7 @@ function App() {
         <Route exact path ='/myskills' component={MySkills}/>
         <Route exact path ='/trainer/createquiz/:skill_level_id' component={CreateQuiz}/>
         <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
+        <Route exact path ='/viewquiz/:result_id' component={ViewQuiz}/>
         <Route exact path = '/traineeResults' component={TraineeResults}/>
         <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>
         <Route path='/login' component={Login} />

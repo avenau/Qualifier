@@ -207,4 +207,44 @@ class QuizServiceTest {
 		verify(mockQuestionRepo, times(1)).save(mockQuestion);
 		verify(mockAnswerRepo, times(1)).save(mockAnswer);
 	}
+	
+	@Test
+	public void test_saveResult_calls_repo_save() {
+		//Arrange
+		when(mockResultRepo.save(mockResult)).thenReturn(mockResult);
+		
+		//Act
+		Result actual = quizService.saveResult(mockResult);
+		
+		//Assert
+		verify(mockResultRepo, times(1)).save(mockResult);
+		assertEquals(mockResult, actual);
+	}
+	
+	@Test
+	public void test_findResultById_returns_result_when_found() {
+		//Arrange
+		int id = 1;
+		when(mockResultRepo.findById(id)).thenReturn(Optional.of(mockResult));
+		
+		//Act
+		Result actual = quizService.findResultById(id);
+		
+		//Assert
+		verify(mockResultRepo, times(1)).findById(id);
+		assertEquals(mockResult, actual);
+	}
+	
+	@Test
+	public void test_findResultById_returns_null_when_not_found() {
+		//Arrange
+		int id = 1;
+		when(mockResultRepo.findById(id)).thenReturn(Optional.of(mockResult).empty());
+		
+		//Act
+		Result actual = quizService.findResultById(id);
+		//Assert
+		verify(mockResultRepo, times(1)).findById(id);
+		assertEquals(null, actual);
+	}
 }

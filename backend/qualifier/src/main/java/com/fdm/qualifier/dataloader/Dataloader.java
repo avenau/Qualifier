@@ -400,9 +400,8 @@ public class Dataloader implements ApplicationRunner {
 			q3.addAnswers(q3a1);
 
 			quiz.addQuestion(q1);
-
-			quiz.addQuestion(q3);
 			quiz.addQuestion(q2);
+			quiz.addQuestion(q3);
 
 			Question q5 = new Question(quiz, "MultiSelectadifsjklfj;lasdkjf;laskdjf;alsdkjf", QuestionType.MULTI_SELECT,
 					4, new ArrayList<Answer>());
@@ -436,10 +435,14 @@ public class Dataloader implements ApplicationRunner {
 					quiz.getQuestions().get(1).getAnswers().get(0), null);
 			SubmittedAnswer sa3 = new SubmittedAnswer(quiz.getQuestions().get(2), null,
 					quiz.getQuestions().get(2).getAnswers().get(0), "answer to short answer type question");
+			SubmittedAnswer sa4 = new SubmittedAnswer(quiz.getQuestions().get(1), null,
+					quiz.getQuestions().get(1).getAnswers().get(1), null);
+
 
 			sa1 = submittedAnswerService.save(sa1);
 			sa2 = submittedAnswerService.save(sa2);
 			sa3 = submittedAnswerService.save(sa3);
+			sa4 = submittedAnswerService.save(sa4);
 			
 			Skill skill = skillService.save(new Skill("resultTest"));
 			log.debug(skill);
@@ -450,11 +453,12 @@ public class Dataloader implements ApplicationRunner {
 			quiz = quizService.saveQuiz(quiz);
 			
 			Result result = new Result(0, false, false, trainee, quiz,
-					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3)));
+					new ArrayList<SubmittedAnswer>(Arrays.asList(sa1, sa2, sa3, sa4)));
 			
 			sa1.setResult(result);
 			sa2.setResult(result);
 			sa3.setResult(result);
+			sa4.setResult(result);
 
 			result = quizService.saveResult(result);
 			

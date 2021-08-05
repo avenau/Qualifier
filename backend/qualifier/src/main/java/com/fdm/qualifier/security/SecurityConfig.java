@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
 //						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult", "/getAllPlacements", "/getAllSkillLevels", "/getAllSkillDTOs", "/quiz/create/*")
 				.antMatchers("/**")
+
 				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
 				// put .antMatcher(route).permitAll() for public access
 				// .antMatchers("/auth/**").permitAll()
