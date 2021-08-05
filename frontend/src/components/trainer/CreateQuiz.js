@@ -61,6 +61,7 @@ function CreateQuiz() {
         let finalQuiz = startHook;
         finalQuiz.questions = hookQuestions;
         console.log(JSON.stringify(finalQuiz));
+        
     })
 
     

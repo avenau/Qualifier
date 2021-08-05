@@ -8,6 +8,8 @@ function TrainerSkillsPage() {
     const axios = require('axios');
     let history = useHistory();
     const [isLoading, setLoading] = useState(true);
+    let updateTextbox = "";
+    let skillId = -5;
     // const [quizzes, setQuizzes] = useState([{
     //     quizId: 0,
     //     name: "",
@@ -106,6 +108,24 @@ function TrainerSkillsPage() {
         // })
     })
 
+    const handleChangeUpdate = ((event) => {
+        updateTextbox = event.target.value;
+        skillId = event.target.id
+        console.log("UPDATE TEXTBOX " + updateTextbox);
+    })
+
+    const submitUpdateName = (() => {
+        axios
+        .post('http://localhost:9999/updateSkillName', { newSkillName:{skillId: skillId, skillName: updateTextbox }} )
+        .then((response) => {
+            console.log("JSON STRING " + JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            console.log("ERROR MESSAGE submite update name: " + error.message)
+            console.log("SkillId: " + JSON.stringify(skillId) + " SkillName: " + updateTextbox)
+        })
+    })
+
 
     
     if (isLoading) {
@@ -172,10 +192,11 @@ function TrainerSkillsPage() {
                                                         <InputGroup className="mb-3 w-100">
                                                             <FormControl
                                                             placeholder={skill.name}
-                                                            aria-label="Recipient's username"
                                                             aria-describedby="basic-addon2"
+                                                            onChange={handleChangeUpdate}
+                                                            id={skill.skillId}
                                                             />
-                                                            <Button variant="outline-secondary" id="button-addon2">
+                                                            <Button variant="outline-secondary" onClick={submitUpdateName}>
                                                                 Update
                                                             </Button>
                                                         </InputGroup>
