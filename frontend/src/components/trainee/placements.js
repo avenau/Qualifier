@@ -84,11 +84,14 @@ function SearchPlacements() {
         })
     }
 
-    const approveRequest = (selectedTrainerID, index) => {
-        axios.post('http://localhost:9999/approveRequest', [selectedTrainerID, placementResult[index].placementId])
+    const approveRequest = (trainee, index) => {
+        axios.post('http://localhost:9999/approveRequest', [trainee.userId, placementResult[index].placementId])
             .then(function (response) {
                 console.log(response);
                 setConfirmationMessage(response.data);
+                let newPlacements = placementResult.slice();
+                newPlacements[index].trainee = trainee;
+                setPlacementResult(newPlacements);
             })
             .catch(function (error) {
                 console.log(error);
@@ -153,50 +156,60 @@ function SearchPlacements() {
                             <Col sm={8}>
                                 <Tab.Content>
                                     {placementResult.map(
-                                        (placement,index) => (
-                                        <Tab.Pane eventKey={'#' + placement.placementId}>
-                                            <Row>
-                                                <Col sm={8}>
-                                                    <h3>{placement.name}</h3>
-                                                    {accountType == "trainee" && placement.trainee == null ?
-                                                    <button value="Apply" onClick={() => applyForPlacement(index)}>Apply</button>
-                                                    : <p></p>}
-                                                    <p>{applicationResult}</p>
-                                                    {placement.trainee != null ? 
-                                                        <p>This position has been filled by {placement.trainee.firstName} {placement.trainee.lastName}</p>
-                                                    :<p></p>}
-                                                    <p>{placement.description}</p>
-                                                    <p>{placement.client.name}</p>
-                                                    <p>{placement.location}</p>
-                                                    <p>Start Date: {placement.startDate}</p>
-                                                    <p>Completion Date: {placement.completionDate}</p>
-                                                    <h3>Skills Required</h3>
-                                                    <ListGroup>
-                                                        {placement.skillsNeeded.map(
-                                                            (skillLevel, index) =>
-                                                                <ListGroup.Item key={"skill-" + skillLevel.skillLevelId}>
-                                                                    {skillLevel.skill.name}: {skillLevel.level}
-                                                                </ListGroup.Item>
-                                                        )}
-                                                    </ListGroup>
-                                                    {accountType == "sales" && placement.trainee == null ? 
-                                                    
-                                                    <ListGroup>
-                                                        <h3>Applied Trainees</h3>
-                                                        {placement.appliedTrainees.map(
-                                                                (trainee, index) =>
-                                                         <ListGroup.Item key={"trainee-" + trainee.userId}>
-                                                        {trainee.firstName} {trainee.lastName}
-                                                          <button onClick={() => approveRequest(trainee.userId, index)}>Approve Request</button>
-                                                        </ListGroup.Item>
-                                                        )}
-                                                    </ListGroup>
-                                                    : <p></p>}
-                                                </Col>
-                                            </Row>
-                                        </Tab.Pane> 
-                                    ))}
-                                    
+                                        (placement, index) => (
+                                            <Tab.Pane eventKey={'#' + placement.placementId}>
+                                                <Row>
+                                                    <Col sm={8}>
+                                                        <h3>{placement.name}</h3>
+                                                        {accountType == "trainee" && placement.trainee == null ?
+                                                            <Button value="Apply" onClick={() => applyForPlacement(index)}>Apply</Button>
+                                                            : <p></p>}
+                                                        <p>{applicationResult}</p>
+                                                        {placement.trainee != null ?
+                                                            <p>This position has been filled by {placement.trainee.firstName} {placement.trainee.lastName}</p>
+                                                            : <p></p>}
+                                                        <p>{placement.description}</p>
+                                                        <p>{placement.client.name}</p>
+                                                        <p>{placement.location}</p>
+                                                        <p>Start Date: {placement.startDate}</p>
+                                                        <p>Completion Date: {placement.completionDate}</p>
+                                                        <h3>Skills Required</h3>
+                                                        <ListGroup>
+                                                            {placement.skillsNeeded.map(
+                                                                (skillLevel, index) =>
+                                                                    <ListGroup.Item key={"skill-" + skillLevel.skillLevelId}>
+                                                                        {skillLevel.skill.name}: {skillLevel.level}
+                                                                    </ListGroup.Item>
+                                                            )}
+                                                        </ListGroup>
+                                                        {accountType == "sales" ?
+
+                                                            <ListGroup>
+                                                                <h3>Applied Trainees</h3>
+                                                                {placement.appliedTrainees.map(
+                                                                    (trainee) =>
+                                                                        <ListGroup.Item key={"trainee-" + trainee.userId}>
+                                                                            <Row className="align-items-center">
+                                                                                <Col sm>
+                                                                                    {trainee.firstName} {trainee.lastName}
+                                                                                </Col>
+                                                                                <Col sm="auto">
+                                                                                    {placement.trainee == null ?
+                                                                                        <Button onClick={() => approveRequest(trainee, index)}>Approve Request</Button>
+                                                                                        : <span></span>
+                                                                                    }
+                                                                                </Col>
+                                                                            </Row>
+
+                                                                        </ListGroup.Item>
+                                                                )}
+                                                            </ListGroup>
+                                                            : <p></p>}
+                                                    </Col>
+                                                </Row>
+                                            </Tab.Pane>
+                                        ))}
+
 
                                 </Tab.Content>
                             </Col>
