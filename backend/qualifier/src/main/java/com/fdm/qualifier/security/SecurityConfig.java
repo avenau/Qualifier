@@ -44,9 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
 						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
 						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
-						"/quiz/submit")
+						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult")
 				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
-
 				// put .antMatcher(route).permitAll() for public access
 				// .antMatchers("/auth/**").permitAll()
 
@@ -61,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(accountDetailsService);
 	}
+
 
 	@Override
 	@Bean
