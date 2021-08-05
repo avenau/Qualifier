@@ -108,30 +108,47 @@ function Profile() {
     );
 
     return (
-        <Container>
-            <h1>{profile.name}</h1>
-            <p>Stream: {profile.stream}</p>
-            <p>Email: {profile.email}</p>
-            <p>Address: {profile.address}</p>
-            <p>Phone Number: {profile.phoneNumber}</p>
-            <p>City: {profile.city}</p>
-            <p>Date of Birth: {profile.dob}</p>
-            <button onClick={() => { history.push('/profile') }}>Edit Profile</button>
-            <br></br>
-            <h1>Skills</h1>
-            <ListGroup>
-                {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
-            </ListGroup>
-            <p></p>
-            <ListGroup>
-                {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
-            </ListGroup>
-            <br></br>
-            <button onClick={() => { history.push('/mySkills') }}>My Skills</button>
-            {accountType == "trainee" ?
-                <TraineeResults traineeId={traineeId}></TraineeResults>
-                : <span></span>}
-        </Container>
+        <div>
+            <Container>
+                <h1>{profile.name}</h1>
+                <ListGroup>
+                    <ListGroup.Item>
+                        <p>Stream: {profile.stream}</p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <p>Email: {profile.email}</p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <p>Address: {profile.address}</p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <p>Phone Number: {profile.phoneNumber}</p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <p>City: {profile.city}</p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <p>Date of Birth: {profile.dob}</p>
+                    </ListGroup.Item>
+                </ListGroup>
+                <Button className="mt-4" onClick={() => { history.push('/profile') }}>Edit Profile</Button>
+            </Container>
+            <Container className="mt-4">
+                <h1>Skills</h1>
+                <ListGroup>
+                    {pinnedSkillsList.length > 0 ? pinnedSkillsList : <ListGroup.Item>No Pinned Skills</ListGroup.Item>}
+                </ListGroup>
+                <p></p>
+                <ListGroup>
+                    {skillsList.length > 0 ? skillsList : <ListGroup.Item>No Skills</ListGroup.Item>}
+                </ListGroup>
+                <br></br>
+                <Button variant="secondary" onClick={() => { history.push('/mySkills') }}>My Skills</Button>
+                {accountType == "trainee" ?
+                    <TraineeResults traineeId={traineeId}></TraineeResults>
+                    : <span></span>}
+            </Container>
+        </div>
     );
 
 }
