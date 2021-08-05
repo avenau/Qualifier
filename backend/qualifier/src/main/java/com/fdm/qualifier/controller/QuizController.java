@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.AnswerDTO;
+import com.fdm.qualifier.dto.AnswerDTO2;
 import com.fdm.qualifier.dto.QuestionDTO;
+import com.fdm.qualifier.dto.QuestionDTO2;
 import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.dto.ResultDTO;
 import com.fdm.qualifier.httpRequest.QuizRequest;
+import com.fdm.qualifier.httpRequest.QuizRequest2;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
@@ -184,10 +188,11 @@ public class QuizController {
 
 	
 	@PostMapping("/createNewQuiz")
-	public Map<String, String> createNewQuizByTrainer(@RequestBody QuizRequest request) {
+	public Map<String, String> createNewQuizByTrainer(@RequestBody QuizRequest2 request) {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
+		System.out.println("QUIZ ID:  " + quizId);
 //		System.out.println("QUIZ IDDDDD:     " + request);
 		Quiz quiz = quizService.findQuizById(quizId).get();
 		
@@ -195,11 +200,11 @@ public class QuizController {
 		quiz.setDescription(request.getDescription());
 		quiz.setDuration(request.getDuration());
 		quiz.setPassingMark(request.getPassingMark());
-		List<QuestionDTO> questionDTOs = request.getQuestions();
-		for (QuestionDTO questionDTO : questionDTOs) {
+		List<QuestionDTO2> questionDTOs = request.getQuestions();
+		for (QuestionDTO2 questionDTO : questionDTOs) {
 			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
-			for (Answer answer : questionDTO.getAnswers()) {
-				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
+			for (AnswerDTO2 answer : questionDTO.getAnswers()) {
+				answerService.createNewAnswer(questionDTO.getQuestionContent(), question, answer.isCorrect());
 			}
 		}
 		status.put("status", "success");
