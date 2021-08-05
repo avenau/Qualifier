@@ -33,9 +33,10 @@ function MySkills() {
     }, []);
 
     function getSkillsOnLoad() {
-        axios.post('http://localhost:9999/getSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getSkills', [traineeId], axiosConfig)
             .then(function (response) {
-                console.log("ID " + traineeId)
+                console.log("ID " + traineeId);
+                console.log(response.data);
                 setSkills(response.data);
                 console.log(skills);
             })
@@ -48,7 +49,7 @@ function MySkills() {
     };
 
     function getPinnedSkillsOnLoad() {
-        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getPinnedSkills', [traineeId], axiosConfig)
             .then(function (response) {
                 console.log(response);
                 setPinnedSkills(response.data);

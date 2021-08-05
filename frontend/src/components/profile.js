@@ -64,7 +64,7 @@ function Profile() {
     }
 
     function getSkillsOnLoad() {
-        axios.post('http://localhost:9999/getSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getSkills', [traineeId], axiosConfig)
             .then(function (response) {
                 console.log("ID " + traineeId)
                 setSkills(response.data);
@@ -79,7 +79,7 @@ function Profile() {
     };
 
     function getPinnedSkillsOnLoad() {
-        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getPinnedSkills', [traineeId], axiosConfig)
             .then(function (response) {
                 console.log(response);
                 setPinnedSkills(response.data);

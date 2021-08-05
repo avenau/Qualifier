@@ -18,7 +18,7 @@ function MarkQuiz() {
     }, []);
 
     function getResult() {
-        axios.post('http://localhost:9999/getResult', { resultId: resultId })
+        axios.post('http://localhost:9999/getResult', [resultId])
             .then(function (response) {
                 console.log(response);
                 setResult(response.data)

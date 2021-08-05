@@ -14,7 +14,7 @@ function TraineeResults(props) {
     const [results, setResults] = useState([]);
 
     useEffect(() => {
-        axios.post('http://localhost:9999/getTraineesResults', { userId: traineeId })
+        axios.post('http://localhost:9999/getTraineesResults', [traineeId])
             .then(function (response) {
                 console.log(response);
                 setResults(response.data);
