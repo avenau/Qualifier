@@ -81,11 +81,14 @@ function SearchPlacements() {
             })
     }
 
-    const approveRequest = (selectedTrainerID, index) => {
-        axios.post('http://localhost:9999/approveRequest', [selectedTrainerID, placementResult[index].placementId])
+    const approveRequest = (trainee, index) => {
+        axios.post('http://localhost:9999/approveRequest', [trainee.userId, placementResult[index].placementId])
             .then(function (response) {
                 console.log(response);
                 setConfirmationMessage(response.data);
+                let newPlacements = placementResult.slice();
+                newPlacements[index].trainee = trainee;
+                setPlacementResult(newPlacements);
             })
             .catch(function (error) {
                 console.log(error);
@@ -183,7 +186,10 @@ function SearchPlacements() {
                                                                                     {trainee.firstName} {trainee.lastName}
                                                                                 </Col>
                                                                                 <Col sm="auto">
-                                                                                    <Button onClick={() => approveRequest(trainee.userId, index)}>Approve Request</Button>
+                                                                                    {placement.trainee == null ?
+                                                                                        <Button onClick={() => approveRequest(trainee, index)}>Approve Request</Button>
+                                                                                        : <span></span>
+                                                                                    }
                                                                                 </Col>
                                                                             </Row>
 
