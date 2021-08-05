@@ -61,7 +61,17 @@ function CreateQuiz() {
         let finalQuiz = startHook;
         finalQuiz.questions = hookQuestions;
         console.log(JSON.stringify(finalQuiz));
-        
+        // /createNewQuiz
+        axios
+        .post('http://localhost:9999/createNewQuiz', finalQuiz)   
+        .then((response) => {
+            let status = response.data.status;
+            console.log(status);
+        })
+        .catch( (error) => {
+
+        })
+
     })
 
     
@@ -78,7 +88,7 @@ function CreateQuiz() {
       let shortQuestion = {
         questionContent: "",
         questionType: "MULTIPLE_SELECT",
-        questionMark: "",
+        questionPoints: "",
         answers: []
       }
       let ans1 = {
@@ -130,7 +140,7 @@ function CreateQuiz() {
                 <Form.Group className="mb-3" controlId="formGridAddress1" >
                   
                   <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                  <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
                   <InputGroup className="mb-2">
                     <InputGroup.Checkbox onChange = {((event) => {if (ans1.correct === true) { ans1.correct = false} else {ans1.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
@@ -178,7 +188,7 @@ function CreateQuiz() {
         let shortQuestion = {
           questionContent: "",
           questionType: "MULTIPLE_CHOICE",
-          questionMark: "",
+          questionPoints: "",
           answers: []
         }
         let ans1 = {
@@ -230,7 +240,7 @@ function CreateQuiz() {
                   <Form.Group className="mb-2" controlId="formGridAddress1" >
                     
                     <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
+                    <Form.Control className="mb-2" onChange={((event) => {shortQuestion.questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
                     <InputGroup className="mb-2">
                       <InputGroup.Radio onChange = {((event) => {ans1.correct = true; ans2.correct = false; ans3.correct = false; ans4.correct = false})} name="multipleChoice" aria-label="Radio button for following text input" />
                       <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
@@ -271,7 +281,7 @@ function CreateQuiz() {
       function AddShortAnswer() {
         const [show, setShow] = useState(false);
         let questionContent = "";
-        let questionMark = 0;
+        let questionPoints = 0;
       
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
@@ -282,7 +292,7 @@ function CreateQuiz() {
           let shortQuestion = {
                                 questionContent: questionContent,
                                 questionType: "SHORT_ANSWER",
-                                questionMark: questionMark,
+                                questionPoints: questionPoints,
                                 answers: []
                               }
           
@@ -306,7 +316,7 @@ function CreateQuiz() {
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                 
                       <Form.Control className="mb-2" onChange={((event) => {questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
-                      <Form.Control onChange={((event) => {questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />
+                      <Form.Control onChange={((event) => {questionPoints = event.target.value})}  type="number" rows={1} placeholder="Mark" />
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>
@@ -372,7 +382,7 @@ function CreateQuiz() {
               <Card.Header as="h5">{question.questionContent}</Card.Header>
               <Card.Body>
                 <Card.Subtitle className="mb-2 text-muted">Type: {question.questionType} </Card.Subtitle>
-                <Card.Subtitle className="mb-2 text-muted">Mark: {question.questionMark}</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Mark: {question.questionPoints}</Card.Subtitle>
                 <Card.Text>
                 <Card.Subtitle className="mb-2 text-muted">Answers:</Card.Subtitle>
                 <Table striped bordered>

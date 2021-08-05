@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fdm.qualifier.dto.QuestionDTO;
 
 @Entity
 public class Question {
@@ -38,7 +39,7 @@ public class Question {
 //	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
-		MUTIPLE_CHOICE,
+		MULTIPLE_CHOICE,
 		MULTI_SELECT,
 		SHORT_ANSWER
 	}
@@ -78,6 +79,15 @@ public class Question {
 		this.points = points;
 		this.answers = answers;
 		this.image = "random".getBytes();
+	}
+	
+	public Question(QuestionDTO questionDTO) {
+		this.questionId = questionDTO.getQuestionId();
+		this.content = questionDTO.getQuestionContent();
+		this.type = QuestionType.valueOf(questionDTO.getQuestionType());
+		this.points = questionDTO.getQuestionPoints();
+		this.image = questionDTO.getQuestionImage();
+		this.answers = questionDTO.getAnswers();
 	}
 
 	public int getQuestionId() {

@@ -504,7 +504,7 @@ public class TraineeServiceTest {
 	@Test
 	public void getTraineeByID_getTrainee() {
 		//Arrange
-		when(traineeRepoMock.getTraineeByuid(1)).thenReturn(traineeMock);
+		when(traineeRepoMock.getTraineeByUid(1)).thenReturn(traineeMock);
 		
 		//Act
 		Trainee result = traineeService.getTraineeByID(1);

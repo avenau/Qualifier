@@ -61,7 +61,7 @@ public class QuizControllerTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		quizController = new QuizController(quizServiceMock, skillLevelServiceMock, questionServiceMock, answerServiceMock, resultServiceMock, submittedAnswerServiceMock, traineeServiceMock);
+//		quizController = new QuizController(quizServiceMock, skillLevelServiceMock, questionServiceMock, answerServiceMock, resultServiceMock, submittedAnswerServiceMock, traineeServiceMock);
 	}
 	
 	@Test
