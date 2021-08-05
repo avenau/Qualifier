@@ -15,6 +15,7 @@ import com.fdm.qualifier.model.Result;
 
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
@@ -47,7 +48,8 @@ public class TraineeService {
 	}
 
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getById(id);
+
+		return traineeRepo.getTraineeByUid(id);
 	}
 
 	/**
@@ -302,6 +304,10 @@ public class TraineeService {
 		return results;
 	}
 
+//	public Trainee findByUser(User user) {
+//		return traineeRepo.findByUser(user);
+//	}
+		
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
 	}

@@ -44,10 +44,12 @@ function AttemptQuiz() {
     // })
 
     useEffect (() => {
+        console.log("ATTEMPT QUIZ ID " + quizId)
         axios
         .get('http://localhost:9999/quiz/get/' + quizId)
         .then((response) =>{
             console.log(response.data);
+            console.log("ATTEMPT QUIZ ID ")
             setQuiz(response.data);
             setLoading(false);
         })
@@ -73,7 +75,7 @@ function AttemptQuiz() {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center">
-                    <Questions quizId={quizId}/>
+                    <Questions quizId={quizId} quiz={quiz}/>
                 </Col>
             </Row>
         </Container>

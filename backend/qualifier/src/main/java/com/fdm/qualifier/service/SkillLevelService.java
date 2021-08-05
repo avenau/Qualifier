@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -79,5 +80,9 @@ public class SkillLevelService {
 	public void save(List<SkillLevel> skillLevels) {
 		skillLevelRepo.saveAll(skillLevels);
 		skillLevelRepo.flush();
+	}
+
+	public SkillLevel findByQuizId(Quiz quiz) {
+		return skillLevelRepo.findByQuiz(quiz);
 	}
 }

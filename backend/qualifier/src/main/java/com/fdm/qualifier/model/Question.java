@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fdm.qualifier.dto.QuestionDTO;
 
 @Entity
 public class Question {
@@ -56,8 +57,9 @@ public class Question {
 		this.quiz = quiz;
 	}
 
-	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers
-			/*List<SubmittedAnswer> submittedAnswers*/) {
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers/*List<SubmittedAnswer> submittedAnswers*/) {
+
+
 		super();
 		this.content = content;
 		this.type = type;
@@ -76,7 +78,16 @@ public class Question {
 		this.type = type;
 		this.points = points;
 		this.answers = answers;
-		this.image = "random".getBytes();;
+		this.image = "random".getBytes();
+	}
+	
+	public Question(QuestionDTO questionDTO) {
+		this.questionId = questionDTO.getQuestionId();
+		this.content = questionDTO.getQuestionContent();
+		this.type = questionDTO.getQuestionType();
+		this.points = questionDTO.getQuestionPoints();
+		this.image = questionDTO.getQuestionImage();
+		this.answers = questionDTO.getAnswers();
 	}
 
 	public int getQuestionId() {

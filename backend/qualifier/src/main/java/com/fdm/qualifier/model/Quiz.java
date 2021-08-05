@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 
 @Entity
@@ -116,10 +117,16 @@ public class Quiz {
 		this.questions = questions;
 	}
 	
+	public void setQuestionsByDTO(List<QuestionDTO> questionDTOs) {
+		for (QuestionDTO questionDTO : questionDTOs) {
+			Question question = new Question(questionDTO);
+			this.questions.add(question);
+		}
+	}
+	
 	public void addQuestion(Question question) {
 		this.questions.add(question);
 	}
-	
 	
 
 	public SkillLevel getSkillLevel() {
@@ -128,6 +135,14 @@ public class Quiz {
 
 	public void setSkillLevel(SkillLevel skillLevel) {
 		this.skillLevel = skillLevel;
+	}
+	
+	public double getFullMark() {
+		double mark = 0.0;
+		for (Question question : questions) {
+			mark += question.getPoints();
+		}
+		return mark;
 	}
 
 	@Override

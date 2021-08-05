@@ -75,13 +75,13 @@ public class QuestionDTO {
 		this.answers = answers;
 	}
 
-	public List<SubmittedAnswer> getSubmittedAnswers() {
-		return submittedAnswers;
-	}
-
-	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-		this.submittedAnswers = submittedAnswers;
-	}
+//	public List<SubmittedAnswer> getSubmittedAnswers() {
+//		return submittedAnswers;
+//	}
+//
+//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+//		this.submittedAnswers = submittedAnswers;
+//	}
 	
 	
 }
