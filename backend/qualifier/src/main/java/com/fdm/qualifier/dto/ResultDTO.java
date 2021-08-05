@@ -1,25 +1,35 @@
 package com.fdm.qualifier.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SubmittedAnswer;
 
 public class ResultDTO {
+	
 	private int resultId;
 	private double mark;
 	private boolean passed;
 	private boolean marked;
 	private int traineeId;
 	private ResultQuizDTO quiz;
-	private List<SubmittedAnswer> submittedAnswers;
+	private List<SubmittedAnswerDTO> submittedAnswers;
 
 	public ResultDTO() {
 		super();
 	}
-
-	public ResultDTO(int resultId, double mark, boolean passed, boolean marked, int traineeId, ResultQuizDTO quiz,
-			List<SubmittedAnswer> submittedAnswers) {
+	
+	@JsonCreator
+	public ResultDTO(@JsonProperty("resultId") int resultId, 
+			@JsonProperty("mark") double mark, 
+			@JsonProperty("passed") boolean passed, 
+			@JsonProperty("marked") boolean marked, 
+			@JsonProperty("traineeId") int traineeId, 
+			@JsonProperty("quiz") ResultQuizDTO quiz,
+			@JsonProperty("submittedAnswers") List<SubmittedAnswerDTO> submittedAnswers) {
 		super();
 		this.resultId = resultId;
 		this.mark = mark;
@@ -30,6 +40,7 @@ public class ResultDTO {
 		this.submittedAnswers = submittedAnswers;
 	}
 
+
 	public ResultDTO(Result result) {
 		this.resultId = result.getResultId();
 		this.mark = result.getMark();
@@ -37,7 +48,10 @@ public class ResultDTO {
 		this.marked = result.isMarked();
 		this.traineeId = result.getTrainee().getUserId();
 		this.quiz = new ResultQuizDTO(result.getQuiz());
-		this.submittedAnswers = result.getSubmittedAnswers();
+		this.submittedAnswers = new ArrayList<SubmittedAnswerDTO>();
+		for(SubmittedAnswer submittedAnswer : result.getSubmittedAnswers()) {
+			this.submittedAnswers.add(new SubmittedAnswerDTO(submittedAnswer));
+		}
 	}
 
 	public int getResultId() {
@@ -88,11 +102,11 @@ public class ResultDTO {
 		this.quiz = quiz;
 	}
 
-	public List<SubmittedAnswer> getSubmittedAnswers() {
+	public List<SubmittedAnswerDTO> getSubmittedAnswers() {
 		return submittedAnswers;
 	}
 
-	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
+	public void setSubmittedAnswers(List<SubmittedAnswerDTO> submittedAnswers) {
 		this.submittedAnswers = submittedAnswers;
 	}
 

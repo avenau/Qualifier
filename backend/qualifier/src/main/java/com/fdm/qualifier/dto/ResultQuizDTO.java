@@ -1,7 +1,10 @@
 package com.fdm.qualifier.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
 
@@ -13,14 +16,21 @@ public class ResultQuizDTO {
 	private int questionCount;
 	private double passingMark;
 	private TraineeSkillLevelDTO skillLevel;
-	private List<Question> questions;
+	private List<ResultQuestionDTO> questions;
 
 	public ResultQuizDTO() {
 		super();
 	}
 
-	public ResultQuizDTO(int quizId, String name, String description, double duration, int questionCount,
-			double passingMark, TraineeSkillLevelDTO skillLevel, List<Question> questions) {
+	@JsonCreator
+	public ResultQuizDTO(@JsonProperty("quizId") int quizId, 
+			@JsonProperty("name") String name, 
+			@JsonProperty("description") String description, 
+			@JsonProperty("duration") double duration, 
+			@JsonProperty("questionCount") int questionCount,
+			@JsonProperty("passingMark") double passingMark, 
+			@JsonProperty("skillLevel") TraineeSkillLevelDTO skillLevel, 
+			@JsonProperty("questions") List<ResultQuestionDTO> questions) {
 		super();
 		this.quizId = quizId;
 		this.name = name;
@@ -41,7 +51,11 @@ public class ResultQuizDTO {
 		this.questionCount = quiz.getQuestionCount();
 		this.passingMark = quiz.getPassingMark();
 		this.skillLevel = new TraineeSkillLevelDTO(quiz.getSkillLevel());
-		this.questions = quiz.getQuestions();
+		List<ResultQuestionDTO> questions = new ArrayList<>();
+		for(Question question : quiz.getQuestions()) {
+			questions.add(new ResultQuestionDTO(question));
+		}
+		this.questions = questions;
 	}
 
 	public int getQuizId() {
@@ -100,11 +114,11 @@ public class ResultQuizDTO {
 		this.skillLevel = skillLevel;
 	}
 
-	public List<Question> getQuestions() {
+	public List<ResultQuestionDTO> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
+	public void setQuestions(List<ResultQuestionDTO> questions) {
 		this.questions = questions;
 	}
 
