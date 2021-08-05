@@ -3,8 +3,9 @@ package com.fdm.qualifier.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,11 @@ import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
 
-import jdk.internal.org.jline.utils.Log;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
 	Logger logger = LogManager.getLogger();
+	Log log = LogFactory.getLog(QuizController.class); 
 
 	private QuizService quizService;
 	private SkillLevelService skillLevelService;
@@ -150,23 +150,24 @@ public class QuizController {
 
 	@PostMapping("/getResult")
 	public Result getResult(@RequestBody Result result) {
-		System.out.println(result);
+		log.debug(result);
+		result = quizService.findResultById(result.getResultId());
 		if (result != null)
-			System.out.println(quizService.findResultById(result.getResultId()).getSubmittedAnswers());
-		return quizService.findResultById(result.getResultId());
+			log.debug(result.getSubmittedAnswers());
+		return result;
 	}
 
 	@PostMapping("/submitMarkedResult")
 	public void submitMarkedResult(@RequestBody Result result) {
-		System.out.println(result);
+		log.debug(result);
 		Result oldResult = quizService.findResultById(result.getResultId());
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
 		result = quizService.saveResult(result);
-		if (result.isPassed() && (skillLevel != null || trainee != null)) {
+		if (result.isPassed() && skillLevel != null && trainee != null) {
 			trainee.addSkill(skillLevel);
 			trainee = traineeService.save(trainee);
-			System.out.println(trainee);
+			log.debug(trainee);
 		}
 	}
 

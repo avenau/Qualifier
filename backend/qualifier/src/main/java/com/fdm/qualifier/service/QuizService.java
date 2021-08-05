@@ -72,7 +72,6 @@ public class QuizService {
 		return newQuiz;
 	}
 
-	// Used in dataloader to save result with submitted answers
 	public Result saveResult(Result result) {
 		return resultRepo.save(result);
 	}
