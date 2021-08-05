@@ -47,7 +47,11 @@ function SearchPlacements(){
             axios.post('http://localhost:9999/searchPlacements', searchTerm, config)
                 .then(function (response) {
                     console.log(response);
-                    setPlacementResult(response.data);
+                    if(response.data.length === 0){
+                        window.alert("No search results");
+                    }else{
+                        setPlacementResult(response.data);
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);

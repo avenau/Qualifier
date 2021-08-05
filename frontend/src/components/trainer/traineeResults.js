@@ -8,7 +8,7 @@ function TraineeResults(props) {
     const axios = require('axios');
     const history = useHistory();
 
-    const traineeId = 14;//CHANGE TO SELECTED TRAINEE ID
+    const traineeId = props.traineeId//14;//CHANGE TO SELECTED TRAINEE ID
     const [results, setResults] = useState([]);
 
     useEffect(() => {

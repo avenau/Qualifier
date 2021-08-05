@@ -40,6 +40,9 @@ function HomePage() {
             <Row className="mt-4">
                 <Button variant="secondary" onClick={() => { history.push('/traineeResults') }}>Trainee Results</Button>
             </Row>
+            <Row className="mt-4">
+                <Button variant="secondary" onClick={() => { history.push('/searchtrainee') }}>Search For Trainees</Button>
+            </Row>
         </Container>
     )
 }

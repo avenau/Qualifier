@@ -37,6 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests()
 				.antMatchers("/**")
+//				.antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails",
+//						"/searchPlacements", "/getAllPlacements", "/searchTrainees",
+//						"/getTraineesResults", "/submitMarkedResult", 						
+//						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
+//						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
+//						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
+//						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult")
 				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
 				// put .antMatcher(route).permitAll() for public access
 				// .antMatchers("/auth/**").permitAll()
@@ -46,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		http.headers().frameOptions().disable();
 	}
+
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -31,14 +31,19 @@ public class TraineeService {
 
 	private TraineeRepository traineeRepo;
 	private SkillLevelRepository skillLevelRepo;
+	private SkillLevelService skillLevelService;
+	private SkillService skillService;
 
 	private Log log = LogFactory.getLog(TraineeService.class);
 
 	@Autowired
-	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo) {
+	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo,
+			SkillLevelService skillLevelService, SkillService skillService) {
 		super();
 		this.traineeRepo = traineeRepo;
 		this.skillLevelRepo = skillLevelRepo;
+		this.skillLevelService = skillLevelService;
+		this.skillService = skillService;
 	}
 
 	public Trainee getTraineeByID(int id) {
@@ -274,14 +279,34 @@ public class TraineeService {
 	 * @return
 	 */
 	public List<Trainee> findTraineeByName(String name) {
-		return traineeRepo.findByFirstNameAndLastName(name);
+		return traineeRepo.findByFirstNameOrLastName(name);
+	}
+	
+	/**
+	 * Finds Trainees by the name of a skill
+	 * @param skillName
+	 * @return
+	 */
+	public List<Trainee> findBySkillName(String skillName){
+		Skill skill = skillService.findByName(skillName);
+		List<SkillLevel> skillLevel = skillLevelService.findBySkill(skill);
+		return findTraineeBySkills(skillLevel);	
 	}
 
-	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
-		return traineeRepo.findTraineeBySkills(skill);
+//	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
+//		return traineeRepo.findTraineeBySkills(skill);
+	
+	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
+		List<Trainee> results = traineeRepo.findTraineeBySkillsIn(skill);
+		results.addAll(traineeRepo.findTraineeByPinnedSkillsIn(skill));
+		return results;
 	}
 
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
+	}
+	
+	public List<Trainee> findByFirstAndLastName(String firstName, String lastName){
+		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 }
