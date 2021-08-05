@@ -176,6 +176,7 @@ public class QuizController {
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
 		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
 		skillLevel.setQuiz(quiz);
+		skillLevelService.save(skillLevel);
 		return quizDTO;
 	}
 
@@ -206,6 +207,12 @@ public class QuizController {
 	@PostMapping("/quiz/update")
 	public QuizDTO updateQuizDetails(@RequestBody QuizRequest request) {
 		return quizService.updateQuiz(request);
+	}
+	
+	@GetMapping("/quiz/remove/{id}")
+	public void updateQuizDetails(@PathVariable("id") String qId) {
+		Quiz requestedQuiz = quizService.findQuizById(Integer.parseInt(qId)).get();
+		quizService.deleteQuiz(requestedQuiz);
 	}
 
 	@GetMapping("/getAllQuizzes")
