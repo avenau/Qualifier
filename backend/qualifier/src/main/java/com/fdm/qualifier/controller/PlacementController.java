@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.PlacementRecieverDTO;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.SkillLevel;
@@ -44,9 +45,10 @@ public class PlacementController {
 	}
 	
 	@PostMapping("/savePlacement")
-	public void save(@RequestBody Placement placement) {
-		log.info("Saving placement: " + placement);
-		placementService.save(placement);
+	public void save(@RequestBody PlacementRecieverDTO placementDTO) {
+		log.info("Saving placement: " + placementDTO);
+		placementService.saveDTO(placementDTO);
+//		placementService.save(placement);
 	}
 	
 

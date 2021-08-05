@@ -38,11 +38,13 @@ public class Trainee extends User {
 	@ManyToMany
 	@JoinTable(name = "trainee_skills")
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JsonManagedReference("trainee-skills")
 	private List<SkillLevel> skills;
 
 	@ManyToMany
 //	@JsonManagedReference
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JsonManagedReference("trainee-pinned-skills")
 	private List<SkillLevel> pinnedSkills;
 
 	public Trainee() {
