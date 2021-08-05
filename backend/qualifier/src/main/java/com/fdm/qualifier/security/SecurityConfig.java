@@ -36,14 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().csrf().disable() // Cross-site request forgery
 
 				.authorizeRequests()
-				.antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails",
-						"/searchPlacements", 
-						"/getTraineesResults", "/submitMarkedResult", 						
-						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
-						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
-						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
-						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult", "/getAllPlacements", "/getAllSkillLevels", "/getAllSkillDTOs", "/quiz/create/*")
-//				.antMatchers("/*")
+//				.antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails",
+//						"/searchPlacements", 
+//						"/getTraineesResults", "/submitMarkedResult", 						
+//						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
+//						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
+//						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
+//						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult", "/getAllPlacements", "/getAllSkillLevels", "/getAllSkillDTOs", "/quiz/create/*")
+				.antMatchers("/**")
 				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
 				// put .antMatcher(route).permitAll() for public access
 				// .antMatchers("/auth/**").permitAll()

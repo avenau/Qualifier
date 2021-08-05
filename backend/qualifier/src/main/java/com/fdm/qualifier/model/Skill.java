@@ -44,6 +44,7 @@ public class Skill {
 	public Skill(String name) {
 		super();
 		this.name = name;
+		this.skilllevels = new ArrayList<SkillLevel>();
 		
 	}
 	
@@ -75,6 +76,9 @@ public class Skill {
 
 	public void setSkilllevels(List<SkillLevel> skilllevels) {
 		this.skilllevels = skilllevels;
+	}
+	public void addSkillLevel(SkillLevel skilllevel) {
+		this.skilllevels.add(skilllevel);
 	}
 
 	@Override
