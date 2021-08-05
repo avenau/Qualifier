@@ -125,22 +125,22 @@ function CreateQuiz() {
                   <Form.Control onChange={((event) => {shortQuestion.questionContent = event.target.value})}  as="textarea" rows={3} placeholder="Question" />
                   <Form.Control onChange={((event) => {shortQuestion.questionMark = event.target.value})}  type="number" rows={1} placeholder="Mark" />          
                   <InputGroup className="mb-3">
-                    <InputGroup.Check onChange = {((event) => {(ans1.correct)? ans1.correct = false : ans1 = true})} name="multipleChoice" aria-label="Radio button for following text input" />
+                    <InputGroup.Checkbox onChange = {((event) => {if (ans1.correct === true) { ans1.correct = false} else {ans1.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans1.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
                   <InputGroup className="mb-3">
-                  <InputGroup.Check onChange = {((event) => {(ans2.correct)? ans2.correct = false : ans2 = true})} name="multipleChoice" aria-label="Radio button for following text input" />
+                  <InputGroup.Checkbox onChange = {((event) => {if (ans2.correct === true) { ans2.correct = false} else {ans2.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans2.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
                   <InputGroup className="mb-3">
-                  <InputGroup.Check onChange = {((event) => {(ans3.correct)? ans3.correct = false : ans3 = true})} name="multipleChoice" aria-label="Radio button for following text input" />
+                  <InputGroup.Checkbox onChange = {((event) => {if (ans3.correct === true) { ans3.correct = false} else {ans3.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans3.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
                   <InputGroup className="mb-3">
-                  <InputGroup.Check onChange = {((event) => {(ans4.correct)? ans4.correct = false : ans4 = true})} name="multipleChoice" aria-label="Radio button for following text input" />
+                  <InputGroup.Checkbox onChange = {((event) => {if (ans4.correct === true) { ans4.correct = false} else {ans4.correct = true}})} name="multipleChoice" aria-label="Radio button for following text input" />
                     <Form.Control onChange={((event) => {ans4.content = event.target.value})} as="textarea" rows={1} placeholder="Answer" />
                   </InputGroup>
 
@@ -160,6 +160,8 @@ function CreateQuiz() {
         </>
       );
     }
+                  
+
 
       function AddMultipleChoice() {
         const [show, setShow] = useState(false);
