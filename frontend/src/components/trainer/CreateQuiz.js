@@ -72,7 +72,7 @@ function CreateQuiz() {
             history.push({
                pathname: '/trainer/finishquiz',
                state: { detail: finalQuiz }
-           });
+            });
  
           console.log("FINISH HISTORY PUSH");
         })

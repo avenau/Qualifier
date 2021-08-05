@@ -66,7 +66,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -87,7 +87,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -107,7 +107,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -133,7 +133,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <NavDropdown title= "Skills" id="nav-dropdown">
@@ -146,7 +146,7 @@ function NavigationBar() {
                         </Nav>
                         
                         <Nav>
-                            <ProfileButton/>
+                            <Nav.Link>{sessionStorage.getItem('username')}</Nav.Link>
                             <Nav.Link><MdNotifications/></Nav.Link> 
                             <LogoutButton/>                          
                         </Nav>
@@ -160,7 +160,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">  
@@ -175,7 +175,7 @@ function NavigationBar() {
                         </Nav>
                         
                         <Nav>
-                            <ProfileButton/>
+                            <Nav.Link>{sessionStorage.getItem('username')}</Nav.Link>
                             <Nav.Link><MdNotifications/></Nav.Link> 
                             <LogoutButton/>                          
                         </Nav>
