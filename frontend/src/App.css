@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #00323F;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,3 +43,15 @@
 /* Neutral = #F2E1C2 */
 /* Light Orange = #F58C47 */
 /* Dark Orange = #F26241 */
+
+html, #root {
+  background-color: #F2E1C2;
+}
+
+.btn-primary {
+  background-color: #F26241;
+}
+
+.btn-secondary {
+  background-color: #F58C47;
+}

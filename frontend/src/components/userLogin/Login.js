@@ -3,6 +3,7 @@ import axios from 'axios';
 import { setAccountSession } from '../../utils/Auth';
 import { BACKEND_LOGIN_URI, UNAUTHORIZED } from '../../utils/Const';
 
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -14,6 +15,7 @@ import { updateAuth } from '../../actions';
 import Notification from '../../utils/Notification';
 
 import { updateAccountType, updateLength } from "../../redux/toolbar";
+import { Container } from 'react-bootstrap';
 
 
 
@@ -87,7 +89,7 @@ function Login(props)
     }
 
     return (
-        <div>
+        <Container className="mt-4">
             <h2>Login page</h2>
             <div className="Auth">
             <Form onSubmit={handleLogin}>
@@ -118,7 +120,7 @@ function Login(props)
                 </Button>
             </Form>
             </div>
-        </div>
+        </Container>
     );
 }
 
