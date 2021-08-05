@@ -16,5 +16,5 @@ public interface SkillLevelRepository extends JpaRepository<SkillLevel, Integer>
 	
 	public SkillLevel findByskillLevelId(int id);
 
-	public SkillLevel findByQuizId(Quiz quiz);
+	public SkillLevel findByQuiz(Quiz quiz);
 }

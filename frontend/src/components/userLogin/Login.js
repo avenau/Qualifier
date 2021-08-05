@@ -13,6 +13,8 @@ import { updateAuth } from '../../actions';
 // utils
 import Notification from '../../utils/Notification';
 
+import { updateAccountType, updateLength } from "../../redux/toolbar";
+
 
 
 function Login(props) 
@@ -28,6 +30,13 @@ function Login(props)
     // React redux stuff
     const dispatch = useDispatch();
 
+    /*
+       const axiosConfig = {
+            headers: { Authorization: `Bearer ${sessionStorage.token}`}
+        };
+        .post(/getPqages, { page:id }, axiosConfig)
+        .catch()
+    */
 
     // handle button click of login form
     const handleLogin = (event) => 
@@ -48,9 +57,12 @@ function Login(props)
                             });
                 return;
             }
-            setAccountSession(response.jwtToken, response.username, response.accountType);
-            sessionStorage.setItem("username", username);
-            sessionStorage.setItem("userId", response.userId);
+            console.log("response data" + response.data.userId);
+            console.log("response " + response);
+            setAccountSession(response.data.jwtToken, response.data.username, response.data.accountType, response.data.userId);
+            dispatch(updateAccountType());
+            dispatch(updateLength());
+
             dispatch(updateAuth());
             
             Notification({  type: 'success',

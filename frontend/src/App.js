@@ -25,6 +25,9 @@ import DoesNotExistPage from './pages/NotExistPage';
 import SearchPlacements from './components/trainee/placements';
 import MySkills from './components/trainee/mySkills';
 import MarkQuiz from './components/quiz/MarkQuiz';
+import CreateQuiz from './components/trainer/CreateQuiz';
+import TraineeResults from './components/trainer/traineeResults';
+import TrainerSkillsPage from './components/trainer/TrainerSkillsPage';
 
 //To add your page 
 /*
@@ -37,21 +40,6 @@ function App() {
   const auth = useSelector(state => state.auth);
   return (
       <Router>
-
-        <div className='nav'>
-          <NavLink to='/login' activeClassName='active'>
-            Login
-          </NavLink>
-        </div>
-
-        <div className='content'>
-          <switch>
-            <PublicRoute path='/login' component={Login} />
-          </switch>
-        </div>
-      
-
-    
       <NavigationBar/>
 
       <Switch>
@@ -65,11 +53,15 @@ function App() {
         <Route exact path ='/quiz/:quiz_id' component={AttemptQuiz}/>
         <Route exact path ='/browsequiz' component={BrowseQuiz}/>
         <Route exact path ='/finishquiz' component={FinishQuiz}/>
-        <Route exact path='/createPlacement' component={CreatePlacement}/>
+        <Route exact path ='/createPlacement' component={CreatePlacement}/>
         <Route exact path='/startquiz' component={QuizStartPage}/>
         <Route exact path ='/trainer/addskills' component={AddSkillPage}/>
         <Route exact path ='/myskills' component={MySkills}/>
-        <Route exact path ='/markquiz' component={MarkQuiz}/>
+        <Route exact path ='/trainer/createquiz/:skill_level_id' component={CreateQuiz}/>
+        <Route exact path ='/markquiz/:result_id' component={MarkQuiz}/>
+        <Route exact path = '/traineeResults' component={TraineeResults}/>
+        <Route exact path = '/trainer/searchskills' component={TrainerSkillsPage}/>
+        <Route path='/login' component={Login} />
         <Route exact path="/*" component={DoesNotExistPage} />
       </Switch>
 

@@ -41,11 +41,11 @@ public class User {
 		super();
 	}
 
-	public User(String username, String password) {
+	public User(String username, String password, String role) {
 		this.username = username;
 		this.password = password;
 		this.isActive = true;
-		this.roles = "admin";
+		this.roles = role;
 	}
 
 	public User(String username, String password, boolean isActive) {
@@ -84,7 +84,7 @@ public class User {
 	// !!! PLACEHOLDER ONLY !!!
 	// !!! PLACEHOLDER ONLY !!!
 	public String getAccountType() {
-		return "admin";
+		return this.roles;
 	}
 
 	// ========================================

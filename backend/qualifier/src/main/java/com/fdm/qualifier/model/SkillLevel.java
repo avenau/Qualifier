@@ -2,6 +2,7 @@ package com.fdm.qualifier.model;
 
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,9 +20,11 @@ public class SkillLevel {
 	private int skillLevelId;
 	private KnowledgeLevel level;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "FK_SKILL")
-	@JsonBackReference(value = "skillLevel")
+
+	@JsonManagedReference(value = "skillLevel")
+	//@JsonBackReference(value = "skillLevel")
 	private Skill skill;
 
 	@OneToOne

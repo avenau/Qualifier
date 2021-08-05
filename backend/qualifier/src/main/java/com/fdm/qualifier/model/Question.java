@@ -28,13 +28,13 @@ public class Question {
 
 	@ManyToOne
 	@JsonBackReference(value = "quiz")
-
 	private Quiz quiz;
 	
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
 //	@OneToMany(mappedBy = "question")
+//  @JsonManagedReference(value = "question-submittedAnswer")
 //	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
@@ -56,8 +56,9 @@ public class Question {
 		this.quiz = quiz;
 	}
 
-	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers
-			/*List<SubmittedAnswer>submittedAnswers*/) {
+	public Question(String content, QuestionType type, int points, byte[] image, Quiz quiz, List<Answer> answers/*List<SubmittedAnswer> submittedAnswers*/) {
+
+
 		super();
 		this.content = content;
 		this.type = type;
@@ -76,7 +77,7 @@ public class Question {
 		this.type = type;
 		this.points = points;
 		this.answers = answers;
-		this.image = "random".getBytes();;
+		this.image = "random".getBytes();
 	}
 
 	public int getQuestionId() {

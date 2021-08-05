@@ -32,8 +32,7 @@ public class SuggestedSkillServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock, skillRepoMock);
-
+	//	suggestedSkillService = new SuggestedSkillService(suggestedSkillRepoMock);
 	}
 	
 	@Test

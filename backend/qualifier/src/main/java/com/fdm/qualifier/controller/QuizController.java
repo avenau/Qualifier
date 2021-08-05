@@ -37,6 +37,8 @@ import com.fdm.qualifier.service.UserService;
 
 import jdk.internal.org.jline.utils.Log;
 
+import jdk.internal.org.jline.utils.Log;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
@@ -74,7 +76,18 @@ public class QuizController {
 	
 	@PostMapping("/quiz/submit")
 	public void submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
-		double totalMark = 100;
+		double totalMark = 0.0;
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
+			int id = Integer.parseInt((String) content.get("quizId"));
+			if (quizService.findQuizById(id).isPresent()) {
+				totalMark = quizService.findQuizById(id).get().getFullMark();
+			} else { 
+				return;
+			}
+			
+			break;
+		}
+		
 		double passingMark = 75;
 		int quizId = -1;
 		Integer userId = null;
@@ -87,7 +100,7 @@ public class QuizController {
 			quizId = Integer.parseInt((String) content.get("quizId"));
 			
 			int questionId = Integer.parseInt((String) content.get("questionId"));
-			Question question = questionService.findById(questionId).get();
+			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
 			String answerContent = (String) content.get("answerContent");
 			
@@ -113,9 +126,7 @@ public class QuizController {
 				}
 			}
 		}
-
-		User user = userService.findById(userId);
-		Trainee trainee = traineeService.findByUserId(user);
+		Trainee trainee = traineeService.getTraineeByID(userId);
 		
 		if (quizId == -1) {
 			throw new Exception("Quiz id not found");
@@ -157,7 +168,34 @@ public class QuizController {
 	
 	@PostMapping("/getResult")
 	public Result getResult(@RequestBody Result result) {
+		System.out.println(result);
+		System.out.println(quizService.findResultById(result.getResultId()).getSubmittedAnswers());
 		return quizService.findResultById(result.getResultId());
 	}
+	
+	@PostMapping("/submitMarkedResult")
+	public void submitMarkedResult(@RequestBody Result result) {
+		Result oldResult = quizService.findResultById(result.getResultId());
+		Trainee trainee = oldResult.getTrainee();
+		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
+		result = quizService.saveResult(result);
+		if(result.isPassed() && (skillLevel != null || trainee != null)) {
+			trainee.addSkill(skillLevel);
+			trainee = traineeService.save(trainee);
+			System.out.println(trainee);
+		}
+	}
+	
+/*	@GetMapping("/loadQuizPage")
+	public Quiz loadQuizPage(int id) {
+		System.out.println("ID adfd: " + id);
+		Optional<Quiz> selectedQuiz = quizService.findQuizById(id);
+		if (!selectedQuiz.isPresent()) {
+			System.out.println("ERROR");
+			return null;
+		}
+		return selectedQuiz.get();
+	}*/
+
 
 }

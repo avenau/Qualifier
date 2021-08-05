@@ -50,4 +50,8 @@ public class UserService {
 		}
 		return user.get();
 	}
+	
+	public User saveUser(User user) {
+		return userRepo.save(user);
+	}
 }

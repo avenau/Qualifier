@@ -1,5 +1,6 @@
 package com.fdm.qualifier.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,8 +26,9 @@ public class Quiz {
 	private double duration;
 	private int questionCount;
 	private double passingMark;
+	
 	@OneToOne
-	@JsonManagedReference(value = "skillLevel")
+	@JsonBackReference(value = "skillLevel")
 	private SkillLevel skillLevel;
 
 	@OneToMany(mappedBy = "quiz")
@@ -44,6 +46,7 @@ public class Quiz {
 		this.duration = duration;
 		this.questionCount = questionCount;
 		this.passingMark = passingMark;
+		this.questions = new ArrayList<>();
 	}
 	
 	public Quiz(String name, String description, double duration, int questionCount, double passingMark,
@@ -117,7 +120,6 @@ public class Quiz {
 		this.questions.add(question);
 	}
 	
-	
 
 	public SkillLevel getSkillLevel() {
 		return skillLevel;
@@ -125,6 +127,14 @@ public class Quiz {
 
 	public void setSkillLevel(SkillLevel skillLevel) {
 		this.skillLevel = skillLevel;
+	}
+	
+	public double getFullMark() {
+		double mark = 0.0;
+		for (Question question : questions) {
+			mark += question.getPoints();
+		}
+		return mark;
 	}
 
 	@Override
