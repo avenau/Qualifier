@@ -23,6 +23,9 @@ function MySkills() {
         getSkillsOnLoad();
         getPinnedSkillsOnLoad();
         getAllSkillsOnLoad();
+        
+        setCannotAddSkillErrorMessage("");
+        setErrorMessage("");
     }, []);
 
     function getSkillsOnLoad() {
@@ -122,7 +125,7 @@ function MySkills() {
                     addedSkills.push(response.data);
                     setSkills(addedSkills);
                 } else {
-                    setCannotAddSkillErrorMessage("Cannot add skill");
+                    setCannotAddSkillErrorMessage("Cannot add skill: You already have a similar skill");
                 }
             })
             .catch(function (error) {

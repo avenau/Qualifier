@@ -367,7 +367,7 @@ public class Dataloader implements ApplicationRunner {
 //		for (Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
 //			log.debug(t);
 //		}
-//		log.info("Finished Data Setup");
+		log.info("Finished Data Setup");
 	}
 
 	private void createResult() {

@@ -51,15 +51,14 @@ function Profile() {
 
     function getUserOnLoad() {
         axios
-        .get('http://localhost:9999/getUser', {   
-            params: {
-                username:sessionStorage.getItem("username")
-            },
-        }).then(response => {
-            setUser(response.data)
-        })
-        .catch(() => {});  
-
+            .get('http://localhost:9999/getUser', {
+                params: {
+                    username: sessionStorage.getItem("username")
+                },
+            }).then(response => {
+                setUser(response.data)
+            })
+            .catch(() => { });
     }
 
     function getSkillsOnLoad() {
