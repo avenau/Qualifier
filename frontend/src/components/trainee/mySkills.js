@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Dropdown, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 function MySkills() {
     const axios = require('axios');
 
     const traineeId = sessionStorage.getItem('uId');
+
+    const history = useHistory();
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -230,16 +233,21 @@ function MySkills() {
                 </ListGroup>
             </Row>
 
-            <Row>
-                <Dropdown className="mt-4">
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Add Skill
-                    </Dropdown.Toggle>
+            <Row className="mt-4">
+                <Col sm>
+                    <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
+                </Col>
+                <Col sm="auto">
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Add Skill
+                        </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        {allSkillsList}
-                    </Dropdown.Menu>
-                </Dropdown>
+                        <Dropdown.Menu>
+                            {allSkillsList}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Col>
             </Row>
 
             <Row>
