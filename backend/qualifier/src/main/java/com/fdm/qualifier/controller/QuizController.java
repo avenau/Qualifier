@@ -38,6 +38,7 @@ import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
+
 /**
  * Quiz Controller
  * 
@@ -100,7 +101,7 @@ public class QuizController {
 			int id = Integer.parseInt((String) content.get("quizId"));
 			if (quizService.findQuizById(id).isPresent()) {
 
-			} else { 
+			} else {
 				Result badResult = new Result();
 				badResult.setResultId(-5);
 				return badResult;
@@ -190,10 +191,10 @@ public class QuizController {
 		SkillLevel skillLevel = skillLevelService.findById(skillLevelId).get();
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
 		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
-		
+
 		skillLevel.setQuiz(quiz);
 		skillLevelService.save(skillLevel);
-		
+
 		return quizDTO;
 	}
 
@@ -267,9 +268,11 @@ public class QuizController {
 	public ResultDTO getResult(@RequestBody int[] resultId) {
 		log.debug(resultId);
 		Result result = quizService.findResultById(resultId[0]);
-		if (result != null)
+		if (result != null) {
 			log.debug(result.getSubmittedAnswers());
-		return new ResultDTO(result);
+			return new ResultDTO(result);
+		}
+		return null;
 	}
 
 	/**
