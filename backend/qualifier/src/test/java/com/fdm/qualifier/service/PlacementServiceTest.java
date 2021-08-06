@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fdm.qualifier.dto.ClientDTO;
+import com.fdm.qualifier.dto.PlacementRecieverDTO;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
@@ -48,6 +50,9 @@ class PlacementServiceTest {
 	@Mock
 	SkillLevelRepository skillLevelRepoMock;
 	
+	@Mock
+	PlacementRecieverDTO placementRecieverDTOMock;
+	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
@@ -81,6 +86,7 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_findById_returns_null() {
+		when(placementRepoMock.findById(1)).thenReturn(null);
 		Placement result = placementService.findById(1);
 		verify(placementRepoMock).findById(1);
 		assertEquals(null, result);
@@ -139,6 +145,15 @@ class PlacementServiceTest {
 		placementService.findByClientName(clientName);
 		verify(clientServiceMock).findByName(clientName);
 		verify(placementRepoMock).findByClient(client);
+	}
+	
+	@Test
+	void test_savePlacement() {
+		when(placementRecieverDTOMock.getClient()).thenReturn(new ClientDTO (5, "hello"));
+		when(clientRepoMock.getById(5)).thenReturn(new Client("hello"));
+		
+		placementService.saveDTO(placementRecieverDTOMock);
+		verify(placementRecieverDTOMock).getClient();
 	}
 
 }
