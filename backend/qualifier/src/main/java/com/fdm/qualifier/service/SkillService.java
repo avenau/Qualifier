@@ -1,10 +1,12 @@
 package com.fdm.qualifier.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.dto.SkillDTO;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.repository.SkillRepository;
 
@@ -28,6 +30,10 @@ public class SkillService {
 		skillRepo.flush();
 	}
 	
+	public void deleteById(int id) {
+		skillRepo.deleteById(id);
+	}
+	
 	public Skill findByName(String name) {
 		return skillRepo.findByName(name);
 	}
@@ -41,9 +47,9 @@ public class SkillService {
 	}
 	
 	public Skill save(Skill skill) {
-		Skill skillFound = findByName(skill.getName());
-		if(skillFound != null)
-			skill = skillFound;		
+//		Skill skillFound = findByName(skill.getName());
+//		if(skillFound != null)
+//			skill = skillFound;		
 		return skillRepo.save(skill);
 	}
 	
@@ -60,5 +66,15 @@ public class SkillService {
 			return false;
 		}
 		return true;
+	}
+
+	public List<SkillDTO> findAllSkillDTOs() {
+		List<SkillDTO> skillDTOs = new ArrayList<SkillDTO>();
+		List<Skill> skills = skillRepo.findAll();
+		for (Skill skill : skills) {
+			SkillDTO skillDTO = new SkillDTO(skill);
+			skillDTOs.add(skillDTO);
+		}
+		return skillDTOs;
 	}
 }

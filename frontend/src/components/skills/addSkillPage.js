@@ -22,7 +22,6 @@ function AddSkillPage() {
         .catch((error) => {
 
         })
-        console.log("Skill Length " + suggestedSkills.length);
     }, [suggestedSkills.length])
 
     const addingSkill = (() => {
@@ -82,8 +81,9 @@ function AddSkillPage() {
         .then((response) => {
 
         })
-        .catch(() => {
-            
+        .catch((error) => {
+            console.log(error.message);
+            window.alert("ERROR");
         })
         .finally(() => {
             
@@ -94,6 +94,10 @@ function AddSkillPage() {
         .then((response) => {
             console.log("ALL PROMISE " + response);
 
+        })
+        .catch((error) => {
+            console.log(error.message);
+            window.alert("ERROR");
         })
     })
     const declineSuggestedSkill = ((event) =>{
@@ -113,6 +117,10 @@ function AddSkillPage() {
             setAlertMessage(<p>Successfully declined <strong>{name}</strong>!</p>);
             setAlertColor("success");
 
+        })
+        .catch((error) => {
+            console.log(error.message);
+            window.alert("ERROR");
         })
 
     })

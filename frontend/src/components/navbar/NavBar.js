@@ -66,7 +66,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -87,7 +87,7 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -107,12 +107,12 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => {history.push('/placements')} } >Placements</Nav.Link>  
-                            <Nav.Link >Trainees</Nav.Link>  
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>  
                             <Nav.Link onClick={() => {history.push('/browsequiz')} }>Quizzes</Nav.Link>
                             
                                             
@@ -133,21 +133,20 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <NavDropdown title= "Skills" id="nav-dropdown">
                         <NavDropdown.Item onClick={() => {history.push('/trainer/addskills')} }>Add Skills</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Search Skills</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => {history.push('/trainer/searchskills')} }>Search Skills</NavDropdown.Item>
                     </NavDropdown>
                         <Nav className="me-auto">  
-                            <Nav.Link>Trainees</Nav.Link>
-                            <Nav.Link>Quizzes</Nav.Link>
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>
                                             
                         </Nav>
                         
                         <Nav>
-                            <ProfileButton/>
+                            <Nav.Link>{sessionStorage.getItem('username')}</Nav.Link>
                             <Nav.Link><MdNotifications/></Nav.Link> 
                             <LogoutButton/>                          
                         </Nav>
@@ -161,18 +160,22 @@ function NavigationBar() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand onClick={() => {history.push('/')} }>Qualifier</Navbar.Brand>
+                    <Navbar.Brand onClick={() => {history.push('/')} }>SkillUp</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">  
-                            <Nav.Link >Placements</Nav.Link>  
-                            <Nav.Link onClick={() => {history.push('/browsequiz')} }>Trainees</Nav.Link>
+                        <NavDropdown title= "Placements" id="nav-dropdown">
+                            <NavDropdown.Item onClick={() => { history.push('/placements') }}>Browse Placements</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {history.push('/createPlacement')} }>Create Placements</NavDropdown.Item>
+                        </NavDropdown>
+                              
+                            <Nav.Link onClick={() => { history.push('/searchtrainee') }}>Trainees</Nav.Link>
                             
                                             
                         </Nav>
                         
                         <Nav>
-                            <ProfileButton/>
+                            <Nav.Link>{sessionStorage.getItem('username')}</Nav.Link>
                             <Nav.Link><MdNotifications/></Nav.Link> 
                             <LogoutButton/>                          
                         </Nav>

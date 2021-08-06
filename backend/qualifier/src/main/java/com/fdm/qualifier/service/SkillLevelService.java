@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -36,9 +37,9 @@ public class SkillLevelService {
 	public boolean isSufficientLevel(SkillLevel traineeSL, SkillLevel requiredSL) {
 		if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.UNVERIFIED) {
 			return false;
-		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.BEGINNER && requiredSL.getLevel() 
+		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.BEGINNER && (requiredSL.getLevel() 
 				== SkillLevel.KnowledgeLevel.INTERMEDIATE || requiredSL.getLevel() 
-						== SkillLevel.KnowledgeLevel.EXPERT) {
+						== SkillLevel.KnowledgeLevel.EXPERT)) {
 			return false;
 		} else if (traineeSL.getLevel() == SkillLevel.KnowledgeLevel.INTERMEDIATE && requiredSL.getLevel()
 				== SkillLevel.KnowledgeLevel.EXPERT) {
@@ -79,5 +80,9 @@ public class SkillLevelService {
 	public void save(List<SkillLevel> skillLevels) {
 		skillLevelRepo.saveAll(skillLevels);
 		skillLevelRepo.flush();
+	}
+
+	public SkillLevel findByQuizId(Quiz quiz) {
+		return skillLevelRepo.findByQuiz(quiz);
 	}
 }

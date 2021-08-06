@@ -1,0 +1,60 @@
+/* Custom Styling */
+
+/* Dark Blue = #00323F */
+
+/* Light Blue = #00706C */
+
+/* Neutral = #F2E1C2 */
+
+/* Light Orange = #F58C47 */
+
+/* Dark Orange = #F26241 */
+
+html, #root, body {
+    background-color: #F2E1C2!important;
+}
+
+.btn-primary {
+    background-color: #F26241!important;
+    border-color: #F26241!important;
+}
+
+.btn-secondary {
+    background-color: #F58C47!important;
+    border-color: #F26241!important;
+    color: black!important;
+}
+
+.navbar.bg-dark {
+    background-color: #00323F!important;
+}
+
+.bg-dark {
+    background-color: #00323F!important;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #00706C!important;
+    border-color: #00706C!important;
+}
+
+h5.card-header {
+    background-color: #00706C;
+    color: white;
+}
+
+#button-addon2 {
+    background-color: #F26241;
+    color: black;
+    border-color: #222;
+}
+
+.input-group > .form-control {
+    border-color: #222;
+}
+
+.list-group-item.active {
+    background-color: #F58C47!important;
+    border-color: #F58C47!important;
+    color: black!important;
+}
