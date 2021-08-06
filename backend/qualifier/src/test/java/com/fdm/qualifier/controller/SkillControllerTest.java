@@ -39,7 +39,7 @@ class SkillControllerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
-		skillController = new SkillController(mockSkillService, mockSkillLevelService);
+		skillController = new SkillController(mockSkillService);
 	}
 	
 	@Test

@@ -49,15 +49,14 @@ class PlacementServiceTest {
 
 	@Mock
 	SkillLevelRepository skillLevelRepoMock;
-	
 	@Mock
 	PlacementRecieverDTO placementRecieverDTOMock;
+
 	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-//		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock);
-		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock, clientRepoMock, skillLevelRepoMock);
+		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, clientRepoMock, skillLevelRepoMock);
 	}
 	
 	@Test
@@ -86,9 +85,10 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_findById_returns_null() {
-		when(placementRepoMock.findById(1)).thenReturn(null);
+		when(placementRepoMock.findById(1)).thenReturn(Optional.of(placementMock).empty());
 		Placement result = placementService.findById(1);
-		verify(placementRepoMock).findById(1);
+
+		verify(placementRepoMock).findById(1);		
 		assertEquals(null, result);
 	}
 	

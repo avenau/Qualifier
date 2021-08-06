@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.qualifier.service.ClientService;
 import com.fdm.qualifier.model.Client;
 
+/**
+ * Client Controller
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class ClientController {
@@ -21,6 +26,10 @@ public class ClientController {
 		this.clientService = clientService;
 	}
 	
+	/**
+	 * Gets all clients
+	 * @return
+	 */
 	@GetMapping("/getAllClients")
 	public List<Client> getAllClients(){
 		return clientService.getAllClients();

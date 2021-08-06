@@ -34,13 +34,13 @@ class TraineeControllerTest {
 		MockitoAnnotations.openMocks(this);
 		traineeController = new TraineeController(traineeServiceMock, skillLevelServiceMock, skillServiceMock);
 	}
-	
-	@Test
-	void test_changeOinnedSkills_returns_trainee() {
-		Trainee trainee = new Trainee();
-		Trainee result = traineeController.changePinnedSkills(trainee);
-		assertEquals(trainee, result);
-	}
+//	
+//	@Test
+//	void test_changeOinnedSkills_returns_trainee() {
+//		Trainee trainee = new Trainee();
+//		Trainee result = traineeController.changePinnedSkills(trainee);
+//		assertEquals(trainee, result);
+//	}
 	
 	@Test
 	void test_getAllTrainees() {

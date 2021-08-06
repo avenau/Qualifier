@@ -53,7 +53,7 @@ public class ResultDTO {
 			this.submittedAnswers.add(new SubmittedAnswerDTO(submittedAnswer));
 		}
 	}
-
+	
 	public int getResultId() {
 		return resultId;
 	}

@@ -18,6 +18,11 @@ import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
+/**
+ * Trainee Service
+ * @author William
+ *
+ */
 
 @Service
 public class TraineeService {
@@ -47,6 +52,11 @@ public class TraineeService {
 		this.skillService = skillService;
 	}
 
+	/**
+	 * Get a trainee from repo based on id
+	 * @param id
+	 * @return
+	 */
 	public Trainee getTraineeByID(int id) {
 
 		return traineeRepo.getTraineeByUid(id);
@@ -301,6 +311,11 @@ public class TraineeService {
 	
 	/**
 	 * Returns trainees from a skill level
+=======
+
+	/**
+	 * Find a trainee from repo by skills
+>>>>>>> origin/cleanup
 	 * @param skill
 	 * @return
 	 */
@@ -312,26 +327,36 @@ public class TraineeService {
 
 
 	/**
+<<<<<<< HEAD
 	 * 
+=======
+	 * Get all results from repo
+>>>>>>> origin/cleanup
 	 * @param userId
 	 * @return
 	 */
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
 	}
-	
-	
+
+
 	/**
-	 * Finds trainees by their first and last name
+	 * Get all trainees with first and last name from repo
 	 * @param firstName
 	 * @param lastName
 	 * @return
 	 */
-	public List<Trainee> findByFirstAndLastName(String firstName, String lastName){
+
+	public List<Trainee> findByFirstAndLastName(String firstName, String lastName) {
 		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 
-	
+	/**
+	 * Get trainees pinned skills a DTO from repo by id
+	 * @param userId
+	 * @return
+	 */
+
 	public List<TraineeSkillLevelDTO> getPinnedSkillsAsDTO(int userId) {
 		List<SkillLevel> traineeSkills = getPinnedSkills(userId);
 		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();
@@ -342,7 +367,12 @@ public class TraineeService {
 
 		return traineeSkillsAsDTO;
 	}
-
+	
+	/**
+	 * Get trainees skills a DTO from repo by id
+	 * @param userId
+	 * @return
+	 */
 	public List<TraineeSkillLevelDTO> getSkillsAsDTO(int userId) {
 		List<SkillLevel> traineeSkills = getSkills(userId);
 		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();

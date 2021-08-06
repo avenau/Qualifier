@@ -3,7 +3,6 @@ package com.fdm.qualifier.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 

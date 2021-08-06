@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Quiz;
-import com.fdm.qualifier.model.SkillLevel;
-import com.fdm.qualifier.model.SkillLevel.KnowledgeLevel;
 
 public class QuizDTO {
 	

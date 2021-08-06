@@ -1,6 +1,5 @@
 package com.fdm.qualifier.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.logging.Log;
@@ -13,6 +12,11 @@ import com.fdm.qualifier.model.AuthRequest;
 import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.repository.UserRepository;
 
+/**
+ * User Service
+ * @author William
+ *
+ */
 @Service
 public class UserService {
 	private Log log = LogFactory.getLog(UserService.class);
@@ -27,6 +31,11 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	/**
+	 * Get a user from repo by username
+	 * @param username
+	 * @return
+	 */
 	public User getUserByUsername(String username)
 	{
 	    Optional<User> user = userRepo.findByUsername(username);
@@ -35,6 +44,11 @@ public class UserService {
 	    return null;
 	}
 	
+	/**
+	 * Checks if user exists in repo
+	 * @param authRequest
+	 * @return
+	 */
 	public boolean userExists(AuthRequest authRequest)
     {
         Optional<User> checker = userRepo.findByUsername(authRequest.getUsername());
@@ -43,6 +57,11 @@ public class UserService {
         return true;
     }
 
+	/**
+	 * Get a user from repo by Id
+	 * @param userId
+	 * @return
+	 */
 	public User findById(Integer userId) {
 		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
@@ -51,6 +70,11 @@ public class UserService {
 		return user.get();
 	}
 	
+	/**
+	 * Save a user to repo
+	 * @param user
+	 * @return
+	 */
 	public User saveUser(User user) {
 		return userRepo.save(user);
 	}
