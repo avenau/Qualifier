@@ -85,19 +85,15 @@ public class QuizController {
 
 	@PostMapping("/quiz/submit")
 	public Result submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
-		System.out.println("DSFLSDJF");
 		double totalMark = 0.0;
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			int id = Integer.parseInt((String) content.get("quizId"));
 			if (quizService.findQuizById(id).isPresent()) {
-//				totalMark = quizService.findQuizById(id).get().getFullMark();
 			} else { 
 				Result badResult = new Result();
 				badResult.setResultId(-5);
 				return badResult;
 			}
-			
-			
 			break;
 		}
 		
@@ -174,7 +170,6 @@ public class QuizController {
 		log.debug("ABOUT TO SAVE TRAINEE");
 		traineeService.save(trainee);
 
-		System.out.println("Submit Result Return " + result);
 		return result;
 		
 	}
@@ -185,8 +180,10 @@ public class QuizController {
 		SkillLevel skillLevel = skillLevelService.findById(skillLevelId).get();
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
 		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
+		
 		skillLevel.setQuiz(quiz);
 		skillLevelService.save(skillLevel);
+		
 		return quizDTO;
 	}
 
@@ -196,8 +193,6 @@ public class QuizController {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
-		System.out.println("QUIZ ID:  " + quizId);
-//		System.out.println("QUIZ IDDDDD:     " + request);
 		Quiz quiz = quizService.findQuizById(quizId).get();
 		
 		quiz.setName(request.getName());
@@ -208,7 +203,6 @@ public class QuizController {
 		for (QuestionDTO2 questionDTO : questionDTOs) {
 			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
 			for (AnswerDTO2 answer : questionDTO.getAnswers()) {
-//				answerService.createNewAnswer(questionDTO.getQuestionContent(), question, answer.isCorrect());
 				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
 			}
 		}
@@ -250,7 +244,6 @@ public class QuizController {
 		oldResult.setMark(result[1]);
 		oldResult.setMarked(true);
 		oldResult.setPassed(oldResult.getMark() >= oldResult.getQuiz().getPassingMark());
-//		result = quizService.saveResult(result);
 		if (oldResult.isPassed() && skillLevel != null && trainee != null) {
 			trainee.removeSkill(skillLevel.getSkill());
 			trainee.removePinnedSkill(skillLevel.getSkill());
@@ -260,12 +253,5 @@ public class QuizController {
 		}
 		quizService.saveResult(oldResult);
 	}
-
-	/*
-	 * @GetMapping("/loadQuizPage") public Quiz loadQuizPage(int id) {
-	 * System.out.println("ID adfd: " + id); Optional<Quiz> selectedQuiz =
-	 * quizService.findQuizById(id); if (!selectedQuiz.isPresent()) {
-	 * System.out.println("ERROR"); return null; } return selectedQuiz.get(); }
-	 */
 
 }

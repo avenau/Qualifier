@@ -5,14 +5,21 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fdm.qualifier.dto.ResultDTO;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;
@@ -64,25 +71,32 @@ public class QuizControllerTest {
 
 		quizController = new QuizController(quizServiceMock, skillLevelServiceMock, questionServiceMock, answerServiceMock, submittedAnswerServiceMock, resultServiceMock, traineeServiceMock);
 	}
-//	
-//	@Test
-//	public void test_getResult_returns_result_when_found() {
-//		//Arrange
-//		int id = 1;
-//		when(resultMock.getResultId()).thenReturn(id);
-//		when(quizServiceMock.findResultById(id)).thenReturn(resultMock);
-//		
-//		//Act
-//		Result actual = quizController.getResult(resultMock);
-//		
-//		//Assert
-//		verify(resultMock, times(1)).getResultId();
-//		verify(quizServiceMock, times(1)).findResultById(id);
-//		assertEquals(resultMock, actual);
-//	}
+	
+	@Test
+	public void getAllQuizzes_returnList() {
+		List<Quiz> expected = new ArrayList<Quiz>();
+		when(quizServiceMock.findAllQuiz()).thenReturn(expected);
+		
+		List<Quiz> result = quizController.getAllQuizzes();
+		
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void submitMarkedResult_verifyPasssingResult() {
+		double[] resultTest = {1, 80.23};
+		when(quizServiceMock.findResultById(1)).thenReturn(resultMock);
+		when(resultMock.getTrainee()).thenReturn(traineeMock);
+		when(resultMock.getQuiz()).thenReturn(quizMock);
+		when(quizMock.getSkillLevel()).thenReturn(skillLevelMock);
+		when(quizMock.getPassingMark()).thenReturn(75.00);
+		when(traineeServiceMock.save(traineeMock)).thenReturn(traineeMock);
+		
+		quizController.submitMarkedResult(resultTest);
+		
+	}
 	
 //	@Test
-
 //	public void test_getResult_returns_null_when_not_found() {
 //		//Arrange
 //				int id = 1;
