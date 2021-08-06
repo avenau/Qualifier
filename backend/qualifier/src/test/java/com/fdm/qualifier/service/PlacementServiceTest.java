@@ -16,7 +16,9 @@ import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.repository.ClientRepository;
 import com.fdm.qualifier.repository.PlacementRepository;
+import com.fdm.qualifier.repository.SkillLevelRepository;
 
 class PlacementServiceTest {
 
@@ -39,11 +41,17 @@ class PlacementServiceTest {
 	
 	@Mock
 	TraineeService traineeServiceMock;
+
+	@Mock
+	ClientRepository clientRepoMock;
+
+	@Mock
+	SkillLevelRepository skillLevelRepoMock;
 	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-//		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock);
+		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock, clientRepoMock, skillLevelRepoMock);
 	}
 	
 	@Test
@@ -72,8 +80,11 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_findById_returns_null() {
+		when(placementRepoMock.findById(1)).thenReturn(Optional.of(placementMock).empty());
+		
 		Placement result = placementService.findById(1);
-		verify(placementRepoMock).findById(1);
+
+		verify(placementRepoMock).findById(1);		
 		assertEquals(null, result);
 	}
 	
