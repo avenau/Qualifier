@@ -19,6 +19,11 @@ import com.fdm.qualifier.repository.ClientRepository;
 import com.fdm.qualifier.repository.PlacementRepository;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 
+/**
+ * Placement Service
+ * @author William
+ *
+ */
 @Service
 public class PlacementService {
 	private Log log = LogFactory.getLog(PlacementService.class);
@@ -28,23 +33,26 @@ public class PlacementService {
 	private SkillLevelService skillLevelService;
 	private SkillService skillService;
 	private ClientService clientService;
-	private TraineeService traineeService;
 	private SkillLevelRepository skillLevelRepo;
 
 	@Autowired
 	public PlacementService(PlacementRepository placementRepo, SkillLevelService skillLevelService,
-			SkillService skillService, ClientService clientService, TraineeService traineeService,
+			SkillService skillService, ClientService clientService,
 			ClientRepository clientRepo, SkillLevelRepository skillLevelRepo) {
 		super();
 		this.placementRepo = placementRepo;
 		this.skillLevelService = skillLevelService;
 		this.skillService = skillService;
 		this.clientService = clientService;
-		this.traineeService = traineeService;
 		this.clientRepo = clientRepo;
 		this.skillLevelRepo = skillLevelRepo;
 	}
 
+	/**
+	 * Gets placement from repo by id
+	 * @param id
+	 * @return
+	 */
 	public Placement findById(int id) {
 		Optional<Placement> placement = placementRepo.findById(id);
 		if (placement.isEmpty()) {
@@ -53,41 +61,82 @@ public class PlacementService {
 		return placement.get();
 	}
 
+	/**
+	 * Finds placements from repo by location
+	 * @param location
+	 * @return
+	 */
 	public List<Placement> findByLocation(String location) {
 		return placementRepo.findByLocation(location);
 	}
 
+	/**
+	 * Finds placements from repo by name
+	 * @param name
+	 * @return
+	 */
 	public List<Placement> findByName(String name) {
 		return placementRepo.findByName(name);
 	}
 
+	/**
+	 * Finds placement from repo by skill name
+	 * @param skillName
+	 * @return
+	 */
 	public List<Placement> findBySkillName(String skillName) {
 		Skill skill = skillService.findByName(skillName);
 		List<SkillLevel> skillLevel = skillLevelService.findBySkill(skill);
 		return findBySkillLevelIn(skillLevel);
 	}
 
+	/**
+	 * Finds placement from repo by skill level in list
+	 * @param skillLevelList
+	 * @return
+	 */
 	public List<Placement> findBySkillLevelIn(List<SkillLevel> skillLevelList) {
 		return placementRepo.findBySkillsNeededIn(skillLevelList);
 	}
 
+	/**
+	 * Finds placement from repo by client name
+	 * @param clientName
+	 * @return
+	 */
 	public List<Placement> findByClientName(String clientName) {
 		Client client = clientService.findByName(clientName);
 		return placementRepo.findByClient(client);
 	}
 
+	/**
+	 * Finds all placements
+	 * @return
+	 */
 	public List<Placement> findAll() {
 		return placementRepo.findAll();
 	}
 
+	/**
+	 * Delete placement by Id
+	 * @param id
+	 */
 	public void deleteById(int id) {
 		placementRepo.deleteById(id);
 	}
 
+	/**
+	 * Deletes all placements
+	 */
 	public void deleteAll() {
 		placementRepo.deleteAll();
 	}
 
+	/**
+	 * Save a placement
+	 * @param placement
+	 * @return
+	 */
 	public Placement save(Placement placement) {
 		return placementRepo.save(placement);
 	}
@@ -103,17 +152,17 @@ public class PlacementService {
 		// update placement
 		placement.setTrainee(trainee);
 		// update trainee
-//        List<Placement> traineePlacements= trainee.getPlacements();
-//        traineePlacements.add(placement);
-//        trainee.setPlacements(traineePlacements);
-//        traineeService.save(trainee);
 		return placementRepo.save(placement);
 	}
 
+	/**
+	 * Saves a placement from a PlacementDTO
+	 * @param placementDTO
+	 * @return
+	 */
 	public Placement saveDTO(PlacementRecieverDTO placementDTO) {
 		log.debug("Saving placementDTO");
 		Client client = clientRepo.getById(placementDTO.getClient().getClientId());
-//		log.debug("got client");
 		
 		Placement placement = new Placement(placementDTO.getName(), placementDTO.getStartDate(),
 				placementDTO.getCompletionDate(), placementDTO.getDescription(), placementDTO.getLocation(), client,

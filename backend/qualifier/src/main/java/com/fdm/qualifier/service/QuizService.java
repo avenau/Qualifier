@@ -24,6 +24,11 @@ import com.fdm.qualifier.repository.QuestionRepository;
 import com.fdm.qualifier.repository.QuizRepository;
 import com.fdm.qualifier.repository.ResultRepository;
 
+/**
+ * Quiz Service
+ * @author William
+ *
+ */
 @Service
 public class QuizService {
 	private ResultRepository resultRepo;
@@ -54,6 +59,13 @@ public class QuizService {
 		this.resultService = resultService;
 	}
 
+	/**
+	 * Saves a quiz result to repo
+	 * @param finishedQuiz
+	 * @param mark
+	 * @param trainee
+	 * @return
+	 */
 	public Result saveQuizResult(Quiz finishedQuiz, double mark, Trainee trainee) {
 		boolean passed = mark >= finishedQuiz.getPassingMark();
 		Result result = resultRepo.save(new Result(mark, trainee, finishedQuiz, passed));

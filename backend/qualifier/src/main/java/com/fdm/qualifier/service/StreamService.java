@@ -9,38 +9,74 @@ import org.springframework.stereotype.Service;
 import com.fdm.qualifier.model.Stream;
 import com.fdm.qualifier.repository.StreamRepository;
 
+/**
+ * Stream Service
+ * 
+ * @author William
+ *
+ */
 @Service
 public class StreamService {
 	private StreamRepository streamRepo;
-	
+
 	@Autowired
 	public StreamService(StreamRepository streamRepo) {
 		this.streamRepo = streamRepo;
 	}
-	
-	public Optional<Stream> findById(int id){
+
+	/**
+	 * Get Stream by id from repo
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Optional<Stream> findById(int id) {
 		return streamRepo.findById(id);
 	}
-	
-	public List<Stream> findByName(String name){
+
+	/**
+	 * Get streams by name from repo
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public List<Stream> findByName(String name) {
 		return streamRepo.findByName(name);
 	}
-	
-	public List<Stream> findAll(){
+
+	/**
+	 * Get all streams from repo
+	 * 
+	 * @return
+	 */
+	public List<Stream> findAll() {
 		return streamRepo.findAll();
 	}
-	
+
+	/**
+	 * Delete stream by Id from repo
+	 * 
+	 * @param id
+	 */
 	public void deleteById(int id) {
 		streamRepo.deleteById(id);
 	}
-	
+
+	/**
+	 * Delete all streams from repo
+	 */
 	public void deleteAll() {
 		streamRepo.deleteAll();
 	}
-	
+
+	/**
+	 * Save stream to repo
+	 * 
+	 * @param stream
+	 * @return
+	 */
 	public Stream save(Stream stream) {
 		return streamRepo.save(stream);
 	}
-	
-	
+
 }

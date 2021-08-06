@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.service.TrainerService;
 
+/**
+ * Trainer Controller
+ * @author William
+ *
+ */
 @RestController
 public class TrainerController {
 	private TrainerService trainerService;

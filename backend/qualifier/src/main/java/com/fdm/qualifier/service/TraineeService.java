@@ -18,6 +18,11 @@ import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
+/**
+ * Trainee Service
+ * @author William
+ *
+ */
 @Service
 public class TraineeService {
 	protected static final String SKILL_DOESN_T_EXIST_IN_DATABASE_MESSAGE = "Skill doesn't exist in database";
@@ -46,6 +51,11 @@ public class TraineeService {
 		this.skillService = skillService;
 	}
 
+	/**
+	 * Get a trainee from repo based on id
+	 * @param id
+	 * @return
+	 */
 	public Trainee getTraineeByID(int id) {
 
 		return traineeRepo.getTraineeByUid(id);
@@ -297,27 +307,43 @@ public class TraineeService {
 		return findTraineeBySkills(skillLevel);
 	}
 
-//	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
-//		return traineeRepo.findTraineeBySkills(skill);
 
+	/**
+	 * Find a trainee from repo by skills
+	 * @param skill
+	 * @return
+	 */
 	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
 		List<Trainee> results = traineeRepo.findTraineeBySkillsIn(skill);
 		results.addAll(traineeRepo.findTraineeByPinnedSkillsIn(skill));
 		return results;
 	}
 
-//	public Trainee findByUser(User user) {
-//		return traineeRepo.findByUser(user);
-//	}
 
+	/**
+	 * Get all results from repo
+	 * @param userId
+	 * @return
+	 */
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
 	}
 
+	/**
+	 * Get all trainees with first and last name from repo
+	 * @param firstName
+	 * @param lastName
+	 * @return
+	 */
 	public List<Trainee> findByFirstAndLastName(String firstName, String lastName) {
 		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 
+	/**
+	 * Get trainees pinned skills a DTO from repo by id
+	 * @param userId
+	 * @return
+	 */
 	public List<TraineeSkillLevelDTO> getPinnedSkillsAsDTO(int userId) {
 		List<SkillLevel> traineeSkills = getPinnedSkills(userId);
 		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();
@@ -328,7 +354,12 @@ public class TraineeService {
 
 		return traineeSkillsAsDTO;
 	}
-
+	
+	/**
+	 * Get trainees skills a DTO from repo by id
+	 * @param userId
+	 * @return
+	 */
 	public List<TraineeSkillLevelDTO> getSkillsAsDTO(int userId) {
 		List<SkillLevel> traineeSkills = getSkills(userId);
 		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();

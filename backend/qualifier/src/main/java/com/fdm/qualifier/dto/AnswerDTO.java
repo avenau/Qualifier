@@ -2,6 +2,11 @@ package com.fdm.qualifier.dto;
 
 import com.fdm.qualifier.model.Answer;
 
+/**
+ * Answer DTO
+ * @author William
+ *
+ */
 public class AnswerDTO {
 	private int answerId;
 	private String answerContent;

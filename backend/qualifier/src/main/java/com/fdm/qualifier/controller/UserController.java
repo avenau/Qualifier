@@ -21,6 +21,11 @@ import com.fdm.qualifier.service.AccountDetailsService;
 import com.fdm.qualifier.service.UserService;
 import com.fdm.qualifier.util.JwtUtil;
 
+/**
+ * User Controller
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
@@ -41,6 +46,12 @@ public class UserController {
 		this.jwtUtil = jwtUtil;
 	}
 
+	/**
+	 * Generates token for front end
+	 * @param authRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@CrossOrigin
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
@@ -57,6 +68,11 @@ public class UserController {
 		return response;
 	}
 	
+	/**
+	 * Get a user from username
+	 * @param username
+	 * @return
+	 */
 	@GetMapping("/getUser")
 	public User getLoggedInUser(String username) {
 		return userService.getUserByUsername(username);

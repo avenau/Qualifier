@@ -35,7 +35,9 @@ public class AccountDetailsService implements UserDetailsService
 	}
 
 
-
+	/**
+	 * Loads user based on username
+	 */
 	@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
     {

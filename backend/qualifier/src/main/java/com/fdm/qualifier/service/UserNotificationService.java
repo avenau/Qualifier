@@ -10,13 +10,18 @@ import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.repository.TraineeRepository;
 import com.fdm.qualifier.repository.UserNotificationRepository;
 
+/**
+ * UserNotification Service
+ * @author William
+ *
+ */
 @Service
 public class UserNotificationService {
 	private Log log = LogFactory.getLog(UserNotificationService.class);
-	
+
 	private UserNotificationRepository userNotificationRepo;
 	private TraineeRepository traineeRepo;
-	
+
 	@Autowired
 	public UserNotificationService(UserNotificationRepository userNotificationRepo, TraineeRepository traineeRepo) {
 		super();
@@ -25,13 +30,6 @@ public class UserNotificationService {
 	}
 
 	public void createNotificationsForTraineesWithSkills(Placement placement, Notification notification) {
-//		log.trace("createNotificationsForTraineesWithSkills() called");
-//		List<SkillLevel> placementSkillsNeeded = placement.getSkillsNeeded();
-//		log.debug("Placement Skills Needed: " + placementSkillsNeeded);
-//		List<Trainee> traineesWithSkillsNeeded = traineeRepo.getAllWithSkills(placementSkillsNeeded);
-//		log.debug("Trainees Found: " + traineesWithSkillsNeeded);
 	}
-	
-	
-	
+
 }

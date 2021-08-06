@@ -51,7 +51,7 @@ class PlacementServiceTest {
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock, clientRepoMock, skillLevelRepoMock);
+		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, clientRepoMock, skillLevelRepoMock);
 	}
 	
 	@Test
