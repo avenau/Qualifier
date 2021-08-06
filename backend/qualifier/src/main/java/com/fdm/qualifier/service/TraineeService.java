@@ -18,6 +18,7 @@ import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
+
 @Service
 public class TraineeService {
 	protected static final String SKILL_DOESN_T_EXIST_IN_DATABASE_MESSAGE = "Skill doesn't exist in database";
@@ -219,7 +220,7 @@ public class TraineeService {
 		return traineeRepo.findAll();
 	}
 	
-	/**Adds the specified Skill Level to the specified trainer
+	/**Adds the specified Skill Level to the specified trainee
 	 * 
 	 * @param skill
 	 * @param traineeId
@@ -229,7 +230,7 @@ public class TraineeService {
 		foundTrainee.addSkill(skill);
 	}
 	
-	/** Removes the specified skill from the specified trainer 
+	/** Removes the specified skill from the specified trainee 
 	 * 
 	 * @param skill
 	 * @param traineeId
@@ -251,7 +252,7 @@ public class TraineeService {
 	}
 	
 	/**
-	 * Finds Trainees by the name of a skill
+	 * Finds Trainees by the name of a skill by passing a skill level into findTraineeBySkills
 	 * @param skillName
 	 * @return
 	 */
@@ -261,16 +262,33 @@ public class TraineeService {
 		return findTraineeBySkills(skillLevel);	
 	}
 	
+	/**
+	 * Returns trainees from a skill level
+	 * @param skill
+	 * @return
+	 */
 	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
 		List<Trainee> results = traineeRepo.findTraineeBySkillsIn(skill);
 		results.addAll(traineeRepo.findTraineeByPinnedSkillsIn(skill));
 		return results;
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
 	}
 	
+	
+	/**
+	 * Finds trainees by their first and last name
+	 * @param firstName
+	 * @param lastName
+	 * @return
+	 */
 	public List<Trainee> findByFirstAndLastName(String firstName, String lastName){
 		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}

@@ -69,6 +69,7 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_findById_returns_null() {
+		when(placementRepoMock.findById(1)).thenReturn(null);
 		Placement result = placementService.findById(1);
 		verify(placementRepoMock).findById(1);
 		assertEquals(null, result);

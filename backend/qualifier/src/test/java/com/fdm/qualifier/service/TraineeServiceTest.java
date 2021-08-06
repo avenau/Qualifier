@@ -518,4 +518,10 @@ public class TraineeServiceTest {
 		//Assert
 		assertEquals(traineeMock, result);
 	}
+	
+	@Test
+	void test_findTraineeBySkillName_returns_trainee() {
+		String skillName = "Ruby";
+		
+	}
 }
