@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
+import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.repository.ResultRepository;
 
 class ResultServiceTest {
@@ -52,5 +53,15 @@ class ResultServiceTest {
 		List<Result> result = resultService.findByQuiz(mockQuiz);
 		
 		assertEquals(answers, result);
+	}
+	
+	@Test
+	void test_createNewResult() {
+		 List<SubmittedAnswer> list = new ArrayList<SubmittedAnswer>();
+		
+		resultService.createNewResult(5, false, false, null, mockQuiz, list);
+		Result result = new Result(5, false, false, null, mockQuiz, list);
+		
+		
 	}
 }
