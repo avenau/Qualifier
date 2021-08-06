@@ -3,11 +3,8 @@ package com.fdm.qualifier.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
-import com.fdm.qualifier.model.Question.QuestionType;
-import com.fdm.qualifier.model.SubmittedAnswer;
 
 public class QuestionDTO2 {
 	private int questionId;

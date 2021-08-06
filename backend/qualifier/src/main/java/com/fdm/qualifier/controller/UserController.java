@@ -11,18 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fdm.qualifier.httpResponse.LoginResponse;
 import com.fdm.qualifier.model.AuthRequest;
 import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.security.AccountDetails;
-import com.fdm.qualifier.model.Trainee;
-import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.service.AccountDetailsService;
 import com.fdm.qualifier.service.UserService;
 import com.fdm.qualifier.util.JwtUtil;

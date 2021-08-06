@@ -3,10 +3,6 @@ package com.fdm.qualifier.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fdm.qualifier.model.Client;
-import com.fdm.qualifier.model.Placement;
-import com.fdm.qualifier.model.Trainee;
-
 public class PlacementRecieverDTO {
 	private String name;
 	private LocalDate startDate;

@@ -1,6 +1,5 @@
 package com.fdm.qualifier.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.logging.Log;

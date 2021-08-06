@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.fdm.qualifier.model.Trainee;
-import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SkillLevel;
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.service.SuggestedSkillService;
 

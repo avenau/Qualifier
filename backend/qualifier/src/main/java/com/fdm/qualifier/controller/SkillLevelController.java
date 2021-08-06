@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.service.SkillLevelService;
-import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.model.SkillLevel;
 
 @RestController

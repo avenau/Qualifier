@@ -13,7 +13,6 @@ import com.fdm.qualifier.model.Question.QuestionType;
 
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.repository.QuestionRepository;
-import com.fdm.qualifier.repository.QuizRepository;
 
 @Service
 public class QuestionService {

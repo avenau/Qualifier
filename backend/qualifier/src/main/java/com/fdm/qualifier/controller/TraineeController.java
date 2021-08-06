@@ -2,8 +2,6 @@ package com.fdm.qualifier.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.fdm.qualifier.model.Skill;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.SkillLevelService;

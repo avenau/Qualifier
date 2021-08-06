@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 
-import com.fdm.qualifier.model.Question.QuestionType;
-
 import com.fdm.qualifier.repository.AnswerRepository;
 
 @Service

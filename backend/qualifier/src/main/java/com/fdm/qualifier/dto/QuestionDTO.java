@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
-import com.fdm.qualifier.model.Question.QuestionType;
-import com.fdm.qualifier.model.SubmittedAnswer;
 
 public class QuestionDTO {
 	private int questionId;
