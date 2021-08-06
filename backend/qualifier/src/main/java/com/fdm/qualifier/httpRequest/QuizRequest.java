@@ -2,18 +2,19 @@ package com.fdm.qualifier.httpRequest;
 
 import java.util.List;
 
-import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.dto.QuestionDTO;
 
-public class UpdateQuizRequest {
+
+public class QuizRequest {
 	private int quizId;
 	private String name;
 	private String description;
 	private double duration;
 	private int questionCount;
 	private double passingMark;
-	private List<Question> questions;
-	public UpdateQuizRequest(int quizId, String name, String description, double duration, int questionCount,
-			double passingMark, List<Question> questions) {
+	private List<QuestionDTO> questions;
+	public QuizRequest(int quizId, String name, String description, double duration, int questionCount,
+			double passingMark, List<QuestionDTO> questionDTOs) {
 		super();
 		this.quizId = quizId;
 		this.name = name;
@@ -21,7 +22,7 @@ public class UpdateQuizRequest {
 		this.duration = duration;
 		this.questionCount = questionCount;
 		this.passingMark = passingMark;
-		this.questions = questions;
+		this.questions = questionDTOs;
 	}
 	public int getQuizId() {
 		return quizId;
@@ -59,10 +60,17 @@ public class UpdateQuizRequest {
 	public void setPassingMark(double passingMark) {
 		this.passingMark = passingMark;
 	}
-	public List<Question> getQuestions() {
+	public List<QuestionDTO> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public void setQuestions(List<QuestionDTO> questionDTOs) {
+		this.questions = questionDTOs;
 	}
+	@Override
+	public String toString() {
+		return "QuizRequest [quizId=" + quizId + ", name=" + name + ", description=" + description + ", duration="
+				+ duration + ", questionCount=" + questionCount + ", passingMark=" + passingMark + "]";
+	}
+	
+	
 }

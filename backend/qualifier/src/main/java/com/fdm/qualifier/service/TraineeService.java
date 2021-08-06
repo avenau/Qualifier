@@ -1,5 +1,6 @@
 package com.fdm.qualifier.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-
 import com.fdm.qualifier.model.Skill;
-
+import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Result;
 
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
+import com.fdm.qualifier.model.User;
 import com.fdm.qualifier.repository.SkillLevelRepository;
 import com.fdm.qualifier.repository.TraineeRepository;
 
@@ -32,18 +33,24 @@ public class TraineeService {
 
 	private TraineeRepository traineeRepo;
 	private SkillLevelRepository skillLevelRepo;
+	private SkillLevelService skillLevelService;
+	private SkillService skillService;
 
 	private Log log = LogFactory.getLog(TraineeService.class);
 
 	@Autowired
-	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo) {
+	public TraineeService(TraineeRepository traineeRepo, SkillLevelRepository skillLevelRepo,
+			SkillLevelService skillLevelService, SkillService skillService) {
 		super();
 		this.traineeRepo = traineeRepo;
 		this.skillLevelRepo = skillLevelRepo;
+		this.skillLevelService = skillLevelService;
+		this.skillService = skillService;
 	}
-	
+
 	public Trainee getTraineeByID(int id) {
-		return traineeRepo.getTraineeByuid(id);
+
+		return traineeRepo.getTraineeByUid(id);
 	}
 
 	/**
@@ -188,6 +195,8 @@ public class TraineeService {
 					trainee.setPinnedSkills(pinnedSkills);
 					traineeRepo.save(trainee);
 					log.debug("After updating pinned skills and skills: " + trainee);
+					log.debug(trainee.getPinnedSkills());
+					log.debug(trainee.getSkills());
 				}
 			}
 		}
@@ -208,49 +217,128 @@ public class TraineeService {
 
 	/**
 	 * Gets all trainees
+	 * 
 	 * @return
 	 */
 	public List<Trainee> getAllTrainees() {
 		log.trace("getAllTrainees() called");
 		return traineeRepo.findAll();
 	}
-	
-	/**Adds the specified Skill Level to the specified trainer
+
+	/**
+	 * Adds the specified Skill Level to the specified trainee. Returns true if
+	 * skill was added
 	 * 
-	 * @param skill
+	 * @param skillLevel
 	 * @param traineeId
+	 * @return skillAdded
 	 */
-	public void addSkillToTrainee(SkillLevel skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
-		foundTrainee.addSkill(skill);
+	public boolean addSkillToTrainee(SkillLevel skillLevel, int traineeId) {
+		boolean addedSkill = true;
+		Trainee foundTrainee = getTraineeByID(traineeId);
+
+		if (foundTrainee != null && !foundTrainee.getSkills().contains(skillLevel)
+				&& !foundTrainee.getPinnedSkills().contains(skillLevel)) {
+
+			Skill skill = skillLevel.getSkill();
+			boolean hasSkillAtDifferentLevel = false;
+
+			for (SkillLevel sl : foundTrainee.getSkills()) {
+				if (sl.getSkill().equals(skill))
+					hasSkillAtDifferentLevel = true;
+			}
+
+			for (SkillLevel sl : foundTrainee.getPinnedSkills()) {
+				if (sl.getSkill().equals(skill))
+					hasSkillAtDifferentLevel = true;
+			}
+
+			if (hasSkillAtDifferentLevel) {
+				addedSkill = false;
+			} else {
+				foundTrainee.addSkill(skillLevel);
+				addedSkill = true;
+			}
+		} else {
+			addedSkill = false;
+		}
+
+		return addedSkill;
 	}
-	
-	/** Removes the specified skill from the specified trainer 
+
+	/**
+	 * Removes the specified skill from the specified trainer
 	 * 
 	 * @param skill
 	 * @param traineeId
 	 */
 	public void removeSkillFromTrainee(Skill skill, int traineeId) {
-		Trainee foundTrainee = traineeRepo.getById(traineeId);
+		Trainee foundTrainee = getTraineeByID(traineeId);
 		foundTrainee.removeSkill(skill);
 	}
-	
+
 	/**
-	 * Gets trainees that match the string in
-	 * their first or last name
+	 * Gets trainees that match the string in their first or last name
 	 * 
 	 * @param name
 	 * @return
 	 */
 	public List<Trainee> findTraineeByName(String name) {
-		return traineeRepo.findByFirstNameAndLastName(name);
+		return traineeRepo.findByFirstNameOrLastName(name);
 	}
-	
-	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
-		return traineeRepo.findTraineeBySkills(skill);
+
+	/**
+	 * Finds Trainees by the name of a skill
+	 * 
+	 * @param skillName
+	 * @return
+	 */
+	public List<Trainee> findBySkillName(String skillName) {
+		Skill skill = skillService.findByName(skillName);
+		List<SkillLevel> skillLevel = skillLevelService.findBySkill(skill);
+		return findTraineeBySkills(skillLevel);
 	}
+
+//	public List<Trainee> findTraineeBySkills(SkillLevel skill) {
+//		return traineeRepo.findTraineeBySkills(skill);
+
+	public List<Trainee> findTraineeBySkills(List<SkillLevel> skill) {
+		List<Trainee> results = traineeRepo.findTraineeBySkillsIn(skill);
+		results.addAll(traineeRepo.findTraineeByPinnedSkillsIn(skill));
+		return results;
+	}
+
+//	public Trainee findByUser(User user) {
+//		return traineeRepo.findByUser(user);
+//	}
 
 	public List<Result> getAllResults(int userId) {
 		return traineeRepo.getResultsByUid(userId);
+	}
+
+	public List<Trainee> findByFirstAndLastName(String firstName, String lastName) {
+		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
+	}
+
+	public List<TraineeSkillLevelDTO> getPinnedSkillsAsDTO(int userId) {
+		List<SkillLevel> traineeSkills = getPinnedSkills(userId);
+		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();
+
+		for (SkillLevel traineeSkill : traineeSkills) {
+			traineeSkillsAsDTO.add(new TraineeSkillLevelDTO(traineeSkill));
+		}
+
+		return traineeSkillsAsDTO;
+	}
+
+	public List<TraineeSkillLevelDTO> getSkillsAsDTO(int userId) {
+		List<SkillLevel> traineeSkills = getSkills(userId);
+		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();
+
+		for (SkillLevel traineeSkill : traineeSkills) {
+			traineeSkillsAsDTO.add(new TraineeSkillLevelDTO(traineeSkill));
+		}
+
+		return traineeSkillsAsDTO;
 	}
 }

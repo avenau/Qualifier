@@ -1,10 +1,24 @@
 package com.fdm.qualifier.model;
 
+
+import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.OneToMany;
+
 
 @Entity
 public class Skill {
@@ -12,6 +26,17 @@ public class Skill {
 	@GeneratedValue
 	private int skillId;
 	private String name;
+	
+//<<<<<<< HEAD
+//	@OneToMany(cascade = CascadeType.PERSIST,mappedBy = "skill")
+//	@JsonBackReference(value = "skillLevel")
+//	private List<SkillLevel> skillLevels;
+//=======
+//	@JsonManagedReference(value = "skillLevel2")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="skill")
+	@JsonBackReference(value = "skillToSkillLevel")
+	private List<SkillLevel> skilllevels;
+
 
 	public Skill() {
 		super();
@@ -20,6 +45,14 @@ public class Skill {
 	public Skill(String name) {
 		super();
 		this.name = name;
+		this.skilllevels = new ArrayList<SkillLevel>();
+		
+	}
+	
+	public Skill(String name, List<SkillLevel> skilllevels) {
+		super();
+		this.name = name;
+		this.skilllevels = skilllevels;
 	}
 
 	public int getSkillId() {
@@ -36,6 +69,17 @@ public class Skill {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<SkillLevel> getSkilllevels() {
+		return skilllevels;
+	}
+
+	public void setSkilllevels(List<SkillLevel> skilllevels) {
+		this.skilllevels = skilllevels;
+	}
+	public void addSkillLevel(SkillLevel skilllevel) {
+		this.skilllevels.add(skilllevel);
 	}
 
 	@Override

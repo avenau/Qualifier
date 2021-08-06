@@ -1,5 +1,6 @@
 package com.fdm.qualifier.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,19 +53,26 @@ public class TraineeController {
 	}
 	
 	@PostMapping("/addUnverifiedSkill")
-	public void addUnverifiedSkill(@RequestBody Integer[] ids) {
+	public SkillLevel addUnverifiedSkill(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		List<SkillLevel> skill = skillLevelService.findBySkill(skillService.findById(ids[1]));
 		SkillLevel unverifiedSkill = null;
+		boolean addedSkill = false;
+		
 		for (SkillLevel sl: skill) {
 			if (sl.getLevel()==SkillLevel.KnowledgeLevel.UNVERIFIED) {
 				unverifiedSkill = sl;
 			}
 		}
-		traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
-		traineeService.save(foundTrainee);	
+		
+		addedSkill = traineeService.addSkillToTrainee(unverifiedSkill, ids[0]);
+		traineeService.save(foundTrainee);
+		log.debug(foundTrainee.getSkills());
+		log.debug(unverifiedSkill);
+
+		return addedSkill ? unverifiedSkill : null;
 	}
-	
+	 
 	@PostMapping("/removeTraineeSkill")
 	public void removeTraineeSkill(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
@@ -86,15 +95,15 @@ public class TraineeController {
 	}
 	
 	@PostMapping("/getPinnedSkills")
-	public List<SkillLevel> getPinnedSkills(@RequestBody Trainee trainee) {
-		log.debug(trainee);
-		return traineeService.getPinnedSkills(trainee.getUserId());
+	public List<TraineeSkillLevelDTO> getPinnedSkills(@RequestBody int[] traineeId) {
+		log.debug("Getting Pinned Skills of traineeId: " + traineeId);
+		return traineeService.getPinnedSkillsAsDTO(traineeId[0]);
 	}
 	
 	@PostMapping("/getSkills")
-	public List<SkillLevel> getSkills(@RequestBody Trainee trainee) {
-		log.debug(trainee);
-		return traineeService.getSkills(trainee.getUserId());
+	public List<TraineeSkillLevelDTO> getSkills(@RequestBody int[] traineeId) {
+		log.debug("Getting Skills of traineeId: " + traineeId);
+		return traineeService.getSkillsAsDTO(traineeId[0]);
 	}
 	
 	@PostMapping("/pinSkill")
@@ -108,10 +117,23 @@ public class TraineeController {
 		return traineeService.unpinSkill(ids[0], ids[1]);
 	}
 	
+
+	@PostMapping("/searchTrainees")
+	public List<Trainee> searchTrainees(@RequestBody String searchTerm){
+		List<Trainee> result = new ArrayList<>();
+		result.addAll(traineeService.findTraineeByName(searchTerm));
+		result.addAll(traineeService.findBySkillName(searchTerm));
+		if(searchTerm.split(" ").length ==2) {
+			String[] splitName = searchTerm.split(" ");
+			result.addAll(traineeService.findByFirstAndLastName(splitName[0], splitName[1]));
+		}
+		return result;
+	}
+
 	@PostMapping("/getTraineesResults")
-	public List<Result> getTraineeResults(@RequestBody Trainee trainee) {
-		log.debug(trainee);
-		List<Result> results = traineeService.getAllResults(trainee.getUserId());
+	public List<Result> getTraineeResults(@RequestBody int[] traineeId) {
+		log.debug(traineeId);
+		List<Result> results = traineeService.getAllResults(traineeId[0]);
 		log.debug(results);
 		return results;
 	}
