@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fdm.qualifier.dto.AnswerDTO;
 import com.fdm.qualifier.dto.AnswerDTO2;
-import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.dto.QuestionDTO2;
 import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.dto.ResultDTO;
@@ -40,7 +38,6 @@ import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
-import com.fdm.qualifier.service.UserService;
 
 
 @RestController
@@ -194,6 +191,7 @@ public class QuizController {
 		
 		int quizId = request.getQuizId();
 		Quiz quiz = quizService.findQuizById(quizId).get();
+		System.out.println(quiz);
 		
 		quiz.setName(request.getName());
 		quiz.setDescription(request.getDescription());

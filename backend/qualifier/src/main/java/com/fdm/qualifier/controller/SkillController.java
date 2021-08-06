@@ -67,9 +67,7 @@ public class SkillController {
 	
 	@GetMapping("/skill/remove/{id}")
 	public void deleteSkill(@PathVariable("id") String id) {
-		System.out.println("REMOVE CHECKING");
 		int skillId = Integer.parseInt(id);
-		System.out.println("SKILL ID: " + skillId);
 		skillService.deleteById(skillId);
 	}
 	
@@ -78,9 +76,7 @@ public class SkillController {
 		if (skillname.charAt(skillname.length() -1) == '=') {
 			skillname = skillname.substring(0, skillname.length() - 1);
 		}
-		
-		System.out.println("Skill Name: " + skillname);
-		
+				
 		Map<String, String> status = new HashMap<String, String>();
 		status.put("status", "failed");
 		if (skillService.skillExist(skillname)) {
