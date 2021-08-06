@@ -150,8 +150,8 @@ public class Dataloader implements ApplicationRunner {
 		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT,
 		// python, null);
 		log.debug("Creating Quiz");
-		Quiz quiz1 = new Quiz();
-		quizService.saveQuiz(quiz1);
+//		Quiz quiz1 = new Quiz();
+//		quizService.saveQuiz(quiz1);
 
 		log.debug("Creating SkillLevels");
 		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
@@ -373,12 +373,12 @@ public class Dataloader implements ApplicationRunner {
 	private void createResult() {
 		log.debug("Creating Result");
 		try {
-			Quiz quiz = new Quiz("Test Quiz For Results", "For testing trainer marking", 1000, 5, 3.0);
+			Quiz quiz = new Quiz("Quick Test", "Just a quick quiz", 1000, 5, 3.0);
 					
-			Question q1 = new Question(quiz, "Test Quiz", QuestionType.MULTIPLE_CHOICE, 4, new ArrayList<Answer>());
-			Answer q1a = new Answer("Answer 1", q1, false);
-			Answer q1a1 = new Answer("Answer 2", q1, true);
-			Answer q1a2 = new Answer("Answer 3", q1, false);
+			Question q1 = new Question(quiz, "What index does array start with?", QuestionType.MULTIPLE_CHOICE, 4, new ArrayList<Answer>());
+			Answer q1a = new Answer("1", q1, false);
+			Answer q1a1 = new Answer("0", q1, true);
+			Answer q1a2 = new Answer("16", q1, false);
 			q1.addAnswers(q1a);
 			q1.addAnswers(q1a1);
 			q1.addAnswers(q1a2);
@@ -387,15 +387,15 @@ public class Dataloader implements ApplicationRunner {
 			quizService.saveAnswer(q1a2);
 			quizService.saveQuestion(q1);
 
-			Question q2 = new Question(quiz, "MultiSelect", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
-			Answer q2a = new Answer("Answer 1", q2, true);
-			Answer q2a1 = new Answer("Answer 2", q2, false);
-			Answer q2a2 = new Answer("Answer 3", q2, true);
+			Question q2 = new Question(quiz, "Which of the following are programming languages?", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
+			Answer q2a = new Answer("C++", q2, true);
+			Answer q2a1 = new Answer("John Smith", q2, false);
+			Answer q2a2 = new Answer("Java", q2, true);
 			q2.addAnswers(q2a);
 			q2.addAnswers(q2a1);
 			q2.addAnswers(q2a2);
 
-			Question q3 = new Question(quiz, "Short Answer", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
+			Question q3 = new Question(quiz, "What is software development?", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
 			Answer q3a1 = new Answer("Short Answer", q3, true);
 			q3.addAnswers(q3a1);
 
@@ -403,11 +403,11 @@ public class Dataloader implements ApplicationRunner {
 			quiz.addQuestion(q2);
 			quiz.addQuestion(q3);
 
-			Question q5 = new Question(quiz, "MultiSelectadifsjklfj;lasdkjf;laskdjf;alsdkjf", QuestionType.MULTI_SELECT,
+			Question q5 = new Question(quiz, "Which of the following are frontend frameworks/libraries?", QuestionType.MULTI_SELECT,
 					4, new ArrayList<Answer>());
-			Answer q5a = new Answer("Answer 1", q5, true);
-			Answer q5a1 = new Answer("Answer 2", q5, false);
-			Answer q5a2 = new Answer("Answer 3", q5, true);
+			Answer q5a = new Answer("React", q5, true);
+			Answer q5a1 = new Answer("Spring Boot", q5, false);
+			Answer q5a2 = new Answer("Vuejs", q5, true);
 			q5.addAnswers(q5a);
 			q5.addAnswers(q5a1);
 			q5.addAnswers(q5a2);

@@ -90,7 +90,7 @@ public class QuizController {
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			int id = Integer.parseInt((String) content.get("quizId"));
 			if (quizService.findQuizById(id).isPresent()) {
-				totalMark = quizService.findQuizById(id).get().getFullMark();
+//				totalMark = quizService.findQuizById(id).get().getFullMark();
 			} else { 
 				Result badResult = new Result();
 				badResult.setResultId(-5);
@@ -121,6 +121,7 @@ public class QuizController {
 			if	(questionType.equals(QuestionType.SHORT_ANSWER)) {
 
 				marked = false;
+				totalMark -= unitMark;
 				SubmittedAnswer submittedAnswer = submittedAnswerService.createNewShortAnswer(question, answerContent);
 				submittedAnswers.add(submittedAnswer);
 			} else {
@@ -207,7 +208,8 @@ public class QuizController {
 		for (QuestionDTO2 questionDTO : questionDTOs) {
 			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
 			for (AnswerDTO2 answer : questionDTO.getAnswers()) {
-				answerService.createNewAnswer(questionDTO.getQuestionContent(), question, answer.isCorrect());
+//				answerService.createNewAnswer(questionDTO.getQuestionContent(), question, answer.isCorrect());
+				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
 			}
 		}
 		status.put("status", "success");

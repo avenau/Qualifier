@@ -39,6 +39,7 @@ function Questions(props) {
         // console.log("PROPS " + props);
         // console.log("PROP QUIZ ID " + props.quizId);
         // console.log("PROPS QUIZ "  + props.quiz);
+        console.log(JSON.stringify(props.quiz.questions))
     }, [])
 
     /*
@@ -66,6 +67,8 @@ function Questions(props) {
         let {name, id, value} = event.target;
         let newResults = [];
         let checked = false;
+
+        console.log("ANSWER CONTENT VALUE SHORT: " + value);
 
         if (results.length === 0){
             newResults.push({
