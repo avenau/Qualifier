@@ -106,6 +106,7 @@ public class QuizControllerTest {
 
 	}
 
+	@Test
 	public void test_getResult_returns_result_when_found() {
 		// Arrange
 		int[] id = { 1 };
@@ -126,12 +127,12 @@ public class QuizControllerTest {
 
 		// Assert
 		verify(quizServiceMock, times(1)).findResultById(id[0]);
-		verify(resultMock, times(1)).setMark(resultMock.getMark());
-		verify(resultMock, times(1)).setMarked(resultMock.isMarked());
+		verify(resultMock, times(2)).setMark(resultMock.getMark());
+		verify(resultMock, times(2)).setMarked(resultMock.isMarked());
 		verify(resultMock, times(2)).getMark();
-		verify(quizMock, times(1)).getPassingMark();
+		verify(quizMock, times(2)).getPassingMark();
 		assertEquals(expected.getMark(), actual.getMark());
-		assertEquals(expected.getQuiz(), actual.getQuiz());
+		assertEquals(expected.getQuiz().getQuizId(), actual.getQuiz().getQuizId());
 		assertEquals(expected.getResultId(), actual.getResultId());
 		assertEquals(expected.getSubmittedAnswers(), actual.getSubmittedAnswers());
 		assertEquals(expected.getTraineeId(), actual.getTraineeId());
