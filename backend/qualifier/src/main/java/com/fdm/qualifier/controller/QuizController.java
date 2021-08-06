@@ -163,6 +163,7 @@ public class QuizController {
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
 		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
 		skillLevel.setQuiz(quiz);
+		System.out.println(skillLevel);
 		return quizDTO;
 	}
 
@@ -172,8 +173,8 @@ public class QuizController {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
-//		System.out.println("QUIZ IDDDDD:     " + request);
 		Quiz quiz = quizService.findQuizById(quizId).get();
+		System.out.println(quiz);
 		
 		quiz.setName(request.getName());
 		quiz.setDescription(request.getDescription());
