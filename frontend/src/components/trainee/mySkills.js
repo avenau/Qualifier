@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { Dropdown, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import SuggestSkill from './suggestSkill';
 
 function MySkills() {
     const axios = require('axios');
 
     const traineeId = sessionStorage.getItem('uId');
+
+    const history = useHistory();
 
     const [pinnedSkills, setPinnedSkills] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -29,9 +33,10 @@ function MySkills() {
     }, []);
 
     function getSkillsOnLoad() {
-        axios.post('http://localhost:9999/getSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getSkills', [traineeId], axiosConfig)
             .then(function (response) {
-                console.log("ID " + traineeId)
+                console.log("ID " + traineeId);
+                console.log(response.data);
                 setSkills(response.data);
                 console.log(skills);
             })
@@ -44,7 +49,7 @@ function MySkills() {
     };
 
     function getPinnedSkillsOnLoad() {
-        axios.post('http://localhost:9999/getPinnedSkills', { userId: traineeId }, axiosConfig)
+        axios.post('http://localhost:9999/getPinnedSkills', [traineeId], axiosConfig)
             .then(function (response) {
                 console.log(response);
                 setPinnedSkills(response.data);
@@ -230,21 +235,28 @@ function MySkills() {
                 </ListGroup>
             </Row>
 
-            <Row>
-                <Dropdown className="mt-4">
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Add Skill
-                    </Dropdown.Toggle>
+            <Row className="mt-4">
+                <Col sm>
+                    <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
+                </Col>
+                <Col sm="auto">
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Add Skill
+                        </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        {allSkillsList}
-                    </Dropdown.Menu>
-                </Dropdown>
+                        <Dropdown.Menu>
+                            {allSkillsList}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Col>
             </Row>
 
             <Row>
                 <div>{cannotAddSkillErrorMessage}</div>
             </Row>
+
+            <SuggestSkill/>
         </Container>
     );
 

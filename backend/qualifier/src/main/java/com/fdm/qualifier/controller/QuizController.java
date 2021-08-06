@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fdm.qualifier.dto.QuestionDTO;
+import com.fdm.qualifier.dto.AnswerDTO2;
+import com.fdm.qualifier.dto.QuestionDTO2;
 import com.fdm.qualifier.dto.QuizDTO;
+import com.fdm.qualifier.dto.ResultDTO;
 import com.fdm.qualifier.httpRequest.QuizRequest;
+import com.fdm.qualifier.httpRequest.QuizRequest2;
 import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
@@ -35,7 +38,6 @@ import com.fdm.qualifier.service.ResultService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SubmittedAnswerService;
 import com.fdm.qualifier.service.TraineeService;
-import com.fdm.qualifier.service.UserService;
 
 
 @RestController
@@ -52,10 +54,12 @@ public class QuizController {
 	private ResultService resultService;
 
 	private TraineeService traineeService;
-	private UserService userService;
+
+//	private UserService userService;
 
 	@Autowired
-	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService, TraineeService traineeService, UserService UserService) {
+	public QuizController(QuizService quizService, SkillLevelService skillLevelService, QuestionService questionService, AnswerService answerService, SubmittedAnswerService submittedAnswerService, ResultService resultService, TraineeService traineeService) {
+
 
 		super();
 		this.quizService = quizService;
@@ -65,7 +69,7 @@ public class QuizController {
 		this.submittedAnswerService = submittedAnswerService;
 		this.resultService = resultService;
 		this.traineeService = traineeService;
-		this.userService = userService;
+//		this.userService = userService;
 	}
 
 	@GetMapping("/quiz/get/{id}")
@@ -77,15 +81,19 @@ public class QuizController {
 	}
 
 	@PostMapping("/quiz/submit")
-	public void submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
+	public Result submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
+		System.out.println("DSFLSDJF");
 		double totalMark = 0.0;
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			int id = Integer.parseInt((String) content.get("quizId"));
 			if (quizService.findQuizById(id).isPresent()) {
-				totalMark = quizService.findQuizById(id).get().getFullMark();
+//				totalMark = quizService.findQuizById(id).get().getFullMark();
 			} else { 
-				return;
+				Result badResult = new Result();
+				badResult.setResultId(-5);
+				return badResult;
 			}
+			
 			
 			break;
 		}
@@ -96,20 +104,21 @@ public class QuizController {
 		List<SubmittedAnswer> submittedAnswers = new ArrayList<SubmittedAnswer>();
 		boolean marked = true;
 		boolean passed = false;
-		
+	
 		for (Map<String, Object> content : (ArrayList<Map<String, Object>>)payload.get("payload")) {
 			userId = Integer.parseInt((String) content.get("userId"));
-
 			quizId = Integer.parseInt((String) content.get("quizId"));
+
 			int questionId = Integer.parseInt((String) content.get("questionId"));
 			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
 			String answerContent = (String) content.get("answerContent");
-
-			
+	
 			double unitMark = question.getPoints();
 			if	(questionType.equals(QuestionType.SHORT_ANSWER)) {
+
 				marked = false;
+				totalMark -= unitMark;
 				SubmittedAnswer submittedAnswer = submittedAnswerService.createNewShortAnswer(question, answerContent);
 				submittedAnswers.add(submittedAnswer);
 			} else {
@@ -136,6 +145,7 @@ public class QuizController {
 		}
 
 		Trainee trainee = traineeService.getTraineeByID(userId);
+
 		if (quizId == -1) {
 			throw new Exception("Quiz id not found");
 		}
@@ -144,15 +154,25 @@ public class QuizController {
 
 		SkillLevel skillLevel = skillLevelService.findByQuizId(quiz);
 		
+
+
 		if (marked && totalMark >= passingMark) {
 			passed = true;
 			List<SkillLevel> skillList = trainee.getSkills();
 			skillList.add(skillLevel);
+			traineeService.save(trainee);
 		}
+
+
+
+
 		
 		Result result = resultService.createNewResult(totalMark, passed, marked, trainee, quiz, submittedAnswers);
+		log.debug("ABOUT TO SAVE TRAINEE");
+		traineeService.save(trainee);
 
-		System.out.println(result);
+		System.out.println("Submit Result Return " + result);
+		return result;
 		
 	}
 
@@ -163,13 +183,13 @@ public class QuizController {
 		QuizDTO quizDTO = quizService.createNewQuizDTO(null, null, 0, 0, 0);
 		Quiz quiz = quizService.findQuizById(quizDTO.getQuizId()).get();
 		skillLevel.setQuiz(quiz);
-		System.out.println(skillLevel);
+		skillLevelService.save(skillLevel);
 		return quizDTO;
 	}
 
 	
 	@PostMapping("/createNewQuiz")
-	public Map<String, String> createNewQuizByTrainer(@RequestBody QuizRequest request) {
+	public Map<String, String> createNewQuizByTrainer(@RequestBody QuizRequest2 request) {
 		Map<String, String> status = new HashMap<String, String>();
 		
 		int quizId = request.getQuizId();
@@ -180,10 +200,10 @@ public class QuizController {
 		quiz.setDescription(request.getDescription());
 		quiz.setDuration(request.getDuration());
 		quiz.setPassingMark(request.getPassingMark());
-		List<QuestionDTO> questionDTOs = request.getQuestions();
-		for (QuestionDTO questionDTO : questionDTOs) {
+		List<QuestionDTO2> questionDTOs = request.getQuestions();
+		for (QuestionDTO2 questionDTO : questionDTOs) {
 			Question question = questionService.createNewQuestion(quiz, questionDTO.getQuestionContent(), QuestionType.valueOf(questionDTO.getQuestionType()), questionDTO.getQuestionPoints());
-			for (Answer answer : questionDTO.getAnswers()) {
+			for (AnswerDTO2 answer : questionDTO.getAnswers()) {
 				answerService.createNewAnswer(answer.getContent(), question, answer.isCorrect());
 			}
 		}
@@ -195,6 +215,12 @@ public class QuizController {
 	public QuizDTO updateQuizDetails(@RequestBody QuizRequest request) {
 		return quizService.updateQuiz(request);
 	}
+	
+	@GetMapping("/quiz/remove/{id}")
+	public void updateQuizDetails(@PathVariable("id") String qId) {
+		Quiz requestedQuiz = quizService.findQuizById(Integer.parseInt(qId)).get();
+		quizService.deleteQuiz(requestedQuiz);
+	}
 
 	@GetMapping("/getAllQuizzes")
 	public List<Quiz> getAllQuizzes() {
@@ -202,35 +228,31 @@ public class QuizController {
 	}
 
 	@PostMapping("/getResult")
-	public Result getResult(@RequestBody Result result) {
-		log.debug(result);
-		result = quizService.findResultById(result.getResultId());
+	public ResultDTO getResult(@RequestBody int[] resultId) {
+		log.debug(resultId);
+		Result result = quizService.findResultById(resultId[0]);
 		if (result != null)
 			log.debug(result.getSubmittedAnswers());
-		return result;
+		return new ResultDTO(result);
 	}
 
 	@PostMapping("/submitMarkedResult")
-	public void submitMarkedResult(@RequestBody Result result) {
-		log.debug(result);
-		Result oldResult = quizService.findResultById(result.getResultId());
+	public void submitMarkedResult(@RequestBody double[] result) {
+		log.debug("Result: " + result);
+		Result oldResult = quizService.findResultById((int)result[0]);
 		Trainee trainee = oldResult.getTrainee();
 		SkillLevel skillLevel = oldResult.getQuiz().getSkillLevel();
-		result = quizService.saveResult(result);
-		if (result.isPassed() && skillLevel != null && trainee != null) {
+		oldResult.setMark(result[1]);
+		oldResult.setMarked(true);
+		oldResult.setPassed(oldResult.getMark() >= oldResult.getQuiz().getPassingMark());
+		if (oldResult.isPassed() && skillLevel != null && trainee != null) {
 			trainee.removeSkill(skillLevel.getSkill());
 			trainee.removePinnedSkill(skillLevel.getSkill());
 			trainee.addSkill(skillLevel);
 			trainee = traineeService.save(trainee);
 			log.debug(trainee);
 		}
+		quizService.saveResult(oldResult);
 	}
-
-	/*
-	 * @GetMapping("/loadQuizPage") public Quiz loadQuizPage(int id) {
-	 * System.out.println("ID adfd: " + id); Optional<Quiz> selectedQuiz =
-	 * quizService.findQuizById(id); if (!selectedQuiz.isPresent()) {
-	 * System.out.println("ERROR"); return null; } return selectedQuiz.get(); }
-	 */
 
 }

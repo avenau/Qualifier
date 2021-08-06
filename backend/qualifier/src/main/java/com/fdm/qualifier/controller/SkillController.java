@@ -46,7 +46,7 @@ public class SkillController {
 		return skillService.findAllSkillDTOs();
 	}
 	
-	@GetMapping("/updateSkillName")
+	@PostMapping("/updateSkillName")
 	public Map<String, String> updateSkillName(@RequestBody Map<String, Object> newSkillName) {
 		int skillId = Integer.parseInt((String)newSkillName.get("skillId"));
 		String skillName = (String) newSkillName.get("skillName");
@@ -76,9 +76,7 @@ public class SkillController {
 		if (skillname.charAt(skillname.length() -1) == '=') {
 			skillname = skillname.substring(0, skillname.length() - 1);
 		}
-		
-		System.out.println("Skill Name: " + skillname);
-		
+				
 		Map<String, String> status = new HashMap<String, String>();
 		status.put("status", "failed");
 		if (skillService.skillExist(skillname)) {

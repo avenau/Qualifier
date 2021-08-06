@@ -25,23 +25,26 @@ public class Trainee extends User {
 	private Stream stream;
 
 	@ManyToMany
+	//@JsonManagedReference(value = "trainee-placement")
 	private List<Placement> placements;
 
 	@ManyToMany
 	private List<Placement> appliedPlacements;
 
 	@OneToMany
-	@JsonManagedReference(value = "trainee-result")
+	//@JsonManagedReference(value = "trainee-result")
 	private List<Result> results;
 
 	@ManyToMany
 	@JoinTable(name = "trainee_skills")
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JsonManagedReference("trainee-skills")
 	private List<SkillLevel> skills;
 
 	@ManyToMany
 //	@JsonManagedReference
 //	@JoinColumn(name = "FK_SKILL_LEVEL")
+//	@JsonManagedReference("trainee-pinned-skills")
 	private List<SkillLevel> pinnedSkills;
 
 	public Trainee() {
@@ -163,6 +166,10 @@ public class Trainee extends User {
 
 	public void setPinnedSkills(List<SkillLevel> pinnedSkills) {
 		this.pinnedSkills = pinnedSkills;
+	}
+	
+	public void addResults(Result results) {
+		this.results.add(results);
 	}
 
 	@Override

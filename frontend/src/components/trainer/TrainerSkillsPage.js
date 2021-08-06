@@ -9,7 +9,9 @@ function TrainerSkillsPage() {
     let history = useHistory();
     const [isLoading, setLoading] = useState(true);
     let updateTextbox = "";
-    let skillId = -5;
+    const [skillName, setName] = useState("");
+    const [skillId, setSkillId] = useState(-5);
+    const [quizId, setQuizId]  = useState(-5);
     // const [quizzes, setQuizzes] = useState([{
     //     quizId: 0,
     //     name: "",
@@ -46,7 +48,8 @@ function TrainerSkillsPage() {
             history.push("/*");
         })
 
-    }, [skills.length])
+    }, [skillName, quizId])
+    
 
     function hasSkillLevel(skillLevels, level) {
         let flag = false;
@@ -86,6 +89,20 @@ function TrainerSkillsPage() {
         return flag;
     }
 
+    function getQuizIdCreate(skillLevels, level) {
+        let flag = null;
+        skillLevels.map((skillLevel) => {
+            if (skillLevel.knowledgelevel == level){
+
+                flag = skillLevel.quizId;
+                
+                
+            }
+        })
+
+        return flag;
+    }
+
     const handleCreate = ((str) => {
         console.log("EVENT TARGET ID " + str.target.id)
         if (str.target.id == ""){
@@ -110,23 +127,80 @@ function TrainerSkillsPage() {
 
     const handleChangeUpdate = ((event) => {
         updateTextbox = event.target.value;
-        skillId = event.target.id
+        setSkillId(event.target.id);
         console.log("UPDATE TEXTBOX " + updateTextbox);
+        console.log("UPDATE SKILLID " + skillId);
+    })
+
+    const handleChangeId = ((event) => {
+        updateTextbox = event.target.value;
+        setSkillId(event.target.id)
+        console.log("UPDATE TEXTBOX " + updateTextbox);
+        console.log("UPDATE SKILLID " + skillId);
     })
 
     const submitUpdateName = (() => {
+        let newSkillName = {
+                                skillId: skillId, 
+                                skillName: updateTextbox 
+                            }
         axios
-        .post('http://localhost:9999/updateSkillName', { newSkillName:{skillId: skillId, skillName: updateTextbox }} )
+        .post('http://localhost:9999/updateSkillName', newSkillName )
         .then((response) => {
             console.log("JSON STRING " + JSON.stringify(response.data));
+            setName(updateTextbox);
+            if (response.data.status == "already exist"){
+                window.alert("The skill name already exist!");
+            }
+
         })
         .catch((error) => {
             console.log("ERROR MESSAGE submite update name: " + error.message)
             console.log("SkillId: " + JSON.stringify(skillId) + " SkillName: " + updateTextbox)
         })
+        .finally (() => {
+            document.getElementById(skillId).value = "";
+        })
     })
 
+    const deleteSkill = (() => {
+        // /skill/remove/{id}
+        console.log("SKILL ID BEFORE DELETE " + {id: skillId})
+        axios
+        .get('http://localhost:9999/skill/remove/' + skillId)
+        .then((response) => {
+            setSkills(response.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            window.alert("WRONG SKILL ID");
+            console.log(error.message);
+        })
+    })
 
+    function deleteQuiz(event) {
+        console.log("QUIZ ID: " + event.target.id);
+        setQuizId(event.target.id);
+        console.log("QUIZ HOOK " + quizId);
+        let qId = event.target.id;
+
+        axios
+        .get('http://localhost:9999/quiz/remove/'+ qId)
+        .then((response) => {
+            
+            console.log("HELLO RESPONSE " + response.data);
+            setQuizId(event.target.id);
+
+            
+        })
+        .catch((error) => {
+            
+            console.log(error.message);
+        })
+    }
+
+
+    // "/quiz/remove"
     
     if (isLoading) {
         return <div className="App">Loading...</div>;
@@ -166,7 +240,7 @@ function TrainerSkillsPage() {
                                 <Col sm={4}>
                                     <ListGroup>
                                         {skills.map(skill => (
-                                            <ListGroup.Item action href= {'#' + skill.skillId}>
+                                            <ListGroup.Item onClick={(() => {setSkillId(skill.skillId); console.log("CHANGING THE SKILL ID: " + skill.skillId + " " + skillId)})} action href= {'#' + skill.skillId}>
                                                 {skill.name}
                                             </ListGroup.Item>  
                                         ))}
@@ -174,6 +248,7 @@ function TrainerSkillsPage() {
                                 </Col>
                                 <Col sm={8}>
                                     <Tab.Content>
+                                    {console.log("ALL " + JSON.stringify(skills))}
                                         {skills.map(skill => (
                                             
                                             <Tab.Pane eventKey={'#' + skill.skillId}>
@@ -184,9 +259,6 @@ function TrainerSkillsPage() {
                                                         <Row className="pb-2">
                                                             <Col>
                                                                 <h6 class="mb-2 text-muted">Skill Name: {skill.name}</h6>
-                                                            </Col>
-                                                            <Col>
-                                                                <Button variant="danger"><ImBin/></Button>
                                                             </Col>
                                                         </Row>
                                                         <InputGroup className="mb-3 w-100">
@@ -210,8 +282,9 @@ function TrainerSkillsPage() {
                                                                 <tr>
                                                                 <td>Beginner</td>
                                                                 <td>
+                                                                {/* {console.log("ALL " + JSON.stringify(skill))} */}
                                                                     {hasSkillLevel(skill.skillLevels, "BEGINNER")
-                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "BEGINNER")} ><Button type = "submit"  >Delete</Button></form>
+                                                                        ? <form id={ getQuizIdCreate(skill.skillLevels, "BEGINNER")} onSubmit={ deleteQuiz.bind(this)}></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "BEGINNER")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
@@ -220,7 +293,7 @@ function TrainerSkillsPage() {
                                                                 <td>Intermediate</td>
                                                                 <td>
                                                                     {hasSkillLevel(skill.skillLevels, "INTERMEDIATE")
-                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} ><Button type = "submit"  >Delete</Button></form>
+                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} ></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "INTERMEDIATE")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
@@ -229,22 +302,13 @@ function TrainerSkillsPage() {
                                                                 <td>Expert</td>
                                                                 <td>
                                                                     {hasSkillLevel(skill.skillLevels, "EXPERT")
-                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} ><Button type = "submit"  >Delete</Button></form>
+                                                                        ? <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} ></form>
                                                                         : <form id = {getSkillLevelIdCreate(skill.skillLevels, "EXPERT")} onSubmit={handleCreate.bind(this)}><Button type = "submit"  >Create</Button></form>
                                                                     }
                                                                 </td>
                                                                 </tr>
                                                             </tbody>
                                                         </Table>
-
-
-                                                        {/* <Button variant="primary" onClick={(()=>{
-                                                            history.push('/startquiz/' + quiz.quizId);
-                                                        })}>Take Quiz</Button> */}
-                                                        {/* <p class="pt-2"><strong>Time Limit: </strong>{quiz.duration} sec<br/>
-                                                        <strong>No. Questions: </strong>{quiz.questionCount}<br/>
-                                                        <strong>Pass Mark: </strong>{quiz.passingMark}% */}
-                                                        {/* </p> */}
                                                     </Col>
                                                 </Row>
                                             </Tab.Pane> 

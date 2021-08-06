@@ -18,7 +18,7 @@ function MarkQuiz() {
     }, []);
 
     function getResult() {
-        axios.post('http://localhost:9999/getResult', { resultId: resultId })
+        axios.post('http://localhost:9999/getResult', [resultId])
             .then(function (response) {
                 console.log(response);
                 setResult(response.data)
@@ -53,10 +53,11 @@ function MarkQuiz() {
         finishedResult.passed = finishedResult.mark >= finishedResult.quiz.passingMark;
         setResult(finishedResult);
         console.log(finishedResult);
-        axios.post('http://localhost:9999/submitMarkedResult', finishedResult)
+        let returnArray = [ finishedResult.resultId, finishedResult.mark ]
+        axios.post('http://localhost:9999/submitMarkedResult', returnArray)
             .then(function (response) {
                 console.log(response);
-                history.push("/traineeResults");
+                history.goBack();
             })
             .catch(function (error) {
                 console.log(error);
@@ -76,7 +77,7 @@ function MarkQuiz() {
 
     function getTypeAsPrettyString(questionType) {
         switch (questionType) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return "Multiple Choice";
             case "SHORT_ANSWER":
                 return "Short Answer";
@@ -120,7 +121,7 @@ function MarkQuiz() {
 
     function getViewableAnswers(question, index) {
         switch (question.type) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return (
                     <Container>
                         {question.answers.map(
@@ -168,21 +169,22 @@ function MarkQuiz() {
                     <Container>
                         {question.answers.map(
                             (answer) => {
-                                return (<Row>
-                                    {answer.correct ?
-                                        <Col sm={2}>
-                                            <Badge bg="success">Correct</Badge>
+                                return (
+                                    <Row>
+                                        {answer.correct ?
+                                            <Col sm={2}>
+                                                <Badge bg="success">Correct</Badge>
+                                            </Col>
+                                            : <Col sm={2}>
+                                            </Col>
+                                        }
+                                        <Col sm>
+                                            {answer.content}
                                         </Col>
-                                        : <Col sm={2}>
+                                        <Col sm>
+                                            {displayIfAnswerIsSelected(question, answer)}
                                         </Col>
-                                    }
-                                    <Col sm>
-                                        {answer.content}
-                                    </Col>
-                                    <Col sm>
-                                        {displayIfAnswerIsSelected(question, answer)}
-                                    </Col>
-                                </Row>);
+                                    </Row>);
                             }
                         )
                         }
@@ -216,7 +218,7 @@ function MarkQuiz() {
                                 </h6>
                             </Col>
                             <Col sm="auto">
-                                    <span>Points {question.points}</span>
+                                <span>Points {question.points}</span>
                             </Col>
                         </Row>
                         <Row>
@@ -247,7 +249,7 @@ function MarkQuiz() {
                 <ListGroup>
                     {questionsList.length > 0 ? questionsList : <div>NO RESULT FOUND</div>}
                 </ListGroup>
-                <Row className="mt-4"> 
+                <Row className="mt-4">
                     <Col sm="auto">
                         <Button variant="secondary" onClick={() => history.goBack()}>Back</Button>
                     </Col>

@@ -29,7 +29,9 @@ public class ResultService {
 
 	public Result createNewResult(double mark, boolean passed, boolean marked, Trainee trainee, Quiz quiz, List<SubmittedAnswer> submittedAnswers) {
 		Result result = new Result(mark, passed, marked, trainee, quiz, submittedAnswers);
-		resultRepository.save(result);
+		result = resultRepository.save(result);
+		trainee.addResults(result);
+		
 		return result;
 	}
 	

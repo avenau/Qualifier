@@ -39,6 +39,7 @@ function Questions(props) {
         // console.log("PROPS " + props);
         // console.log("PROP QUIZ ID " + props.quizId);
         // console.log("PROPS QUIZ "  + props.quiz);
+        console.log(JSON.stringify(props.quiz.questions))
     }, [])
 
     /*
@@ -49,11 +50,14 @@ function Questions(props) {
         axios
         .post('http://localhost:9999/quiz/submit',{ payload: results})
         .then((response) => {
-
-            history.push('/finishquiz');
+            console.log("Submit Quiz " + JSON.stringify(response.data));
+            history.push({
+                pathname: '/finishquiz',
+                state: { detail: response.data }
+            });
         })
-        .catch(()=>{
-            
+        .catch((error)=>{
+            console.log(error.message);
         })
     })
 
@@ -63,6 +67,8 @@ function Questions(props) {
         let {name, id, value} = event.target;
         let newResults = [];
         let checked = false;
+
+        console.log("ANSWER CONTENT VALUE SHORT: " + value);
 
         if (results.length === 0){
             newResults.push({
@@ -106,7 +112,7 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
                 userId: userId
@@ -126,7 +132,7 @@ function Questions(props) {
             newResults.push({
                 questionId: name,
                 answerId: [id],
-                questionType: "MUTIPLE_CHOICE",
+                questionType: "MULTIPLE_CHOICE",
                 answerContent: "",
                 quizId: props.quizId,
                 userId: userId
@@ -193,7 +199,7 @@ function Questions(props) {
 
                             {question.answers.map(answer =>{
                  
-                                if (question.questionType === "MUTIPLE_CHOICE") {
+                                if (question.questionType === "MULTIPLE_CHOICE") {
                                     
                                     return( 
                                         <Form.Check

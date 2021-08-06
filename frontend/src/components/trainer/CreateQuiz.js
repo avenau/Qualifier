@@ -1,8 +1,10 @@
 
 import { Redirect, useHistory, useLocation } from "react-router-dom";
+import {browserHistory} from 'react-router'
 import { useEffect, useState } from "react";
 import {Modal, Container, Button, Form, Col, Row, InputGroup, FormControl, Card, Table} from 'react-bootstrap';
 function CreateQuiz() {
+    const history = useHistory();
     const axios = require('axios');
     const skillLevelId = useLocation().pathname.split("/")[3];
     const [isLoading, setLoading] = useState(true);
@@ -67,9 +69,16 @@ function CreateQuiz() {
         .then((response) => {
             let status = response.data.status;
             console.log(status);
+            history.push({
+               pathname: '/trainer/finishquiz',
+               state: { detail: finalQuiz }
+            });
+ 
+          console.log("FINISH HISTORY PUSH");
         })
         .catch( (error) => {
-
+            console.log(error.message)
+            window.alert("Quiz not submitted!")
         })
 
     })
@@ -87,7 +96,7 @@ function CreateQuiz() {
       const handleShow = () => setShow(true);
       let shortQuestion = {
         questionContent: "",
-        questionType: "MULTIPLE_SELECT",
+        questionType: "MULTI_SELECT",
         questionPoints: "",
         answers: []
       }
@@ -293,7 +302,11 @@ function CreateQuiz() {
                                 questionContent: questionContent,
                                 questionType: "SHORT_ANSWER",
                                 questionPoints: questionPoints,
-                                answers: []
+                                answers: [
+                                            {answerId: 19,
+                                            content: "Short Answer",
+                                            correct: true}
+                                          ]
                               }
           
           setQuestions((prevState) => [...prevState, shortQuestion]);

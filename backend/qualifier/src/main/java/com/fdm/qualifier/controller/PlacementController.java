@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fdm.qualifier.dto.PlacementRecieverDTO;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.SkillLevel;
@@ -44,9 +45,10 @@ public class PlacementController {
 	}
 	
 	@PostMapping("/savePlacement")
-	public void save(@RequestBody Placement placement) {
-		log.info("Saving placement: " + placement);
-		placementService.save(placement);
+	public void save(@RequestBody PlacementRecieverDTO placementDTO) {
+		log.info("Saving placement: " + placementDTO);
+		placementService.saveDTO(placementDTO);
+//		placementService.save(placement);
 	}
 	
 
@@ -83,10 +85,13 @@ public class PlacementController {
 	}
 	
 	@PostMapping("/approveRequest")
-	public void approveREquest(@RequestBody Integer[] ids) {
+	public String approveREquest(@RequestBody Integer[] ids) {
+		System.out.println("Passed in trainee ID is:" + ids[0]);
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
 		Placement foundPlacement = placementService.findById(ids[1]);
-		
+		System.out.println("Adding trainee " + foundTrainee.getFirstName() + " to placement: " + foundPlacement.getName());
+		placementService.placeApprovedTrainee(foundPlacement, foundTrainee);
+		return foundTrainee.getFirstName() + " " + foundTrainee.getLastName() + " was successfully placed";
 	}
 	
 	

@@ -17,7 +17,7 @@ function ViewQuiz() {
     }, []);
 
     function getResult() {
-        axios.post('http://localhost:9999/getResult', { resultId: resultId })
+        axios.post('http://localhost:9999/getResult', [resultId])
             .then(function (response) {
                 console.log(response);
                 setResult(response.data)
@@ -40,7 +40,7 @@ function ViewQuiz() {
 
     function getTypeAsPrettyString(questionType) {
         switch (questionType) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return "Multiple Choice";
             case "SHORT_ANSWER":
                 return "Short Answer";
@@ -84,7 +84,7 @@ function ViewQuiz() {
 
     function getViewableAnswers(question, index) {
         switch (question.type) {
-            case "MUTIPLE_CHOICE":
+            case "MULTIPLE_CHOICE":
                 return (
                     <Container>
                         {question.answers.map(
@@ -191,6 +191,34 @@ function ViewQuiz() {
                 </ListGroup.Item>
         )
 
+    function getPassFailOrUnmarkedBadge() {
+        let badge = <span></span>
+
+        if (result.passed != undefined && result.marked != undefined) {
+            if (!result.marked)
+                badge = <Badge bg="dark">Unmarked</Badge>
+            else {
+                if (result.passed)
+                    badge = <Badge bg="success">Passed</Badge>
+                else
+                    badge = <Badge bg="danger">Failed</Badge>
+            }
+        }
+
+        return badge;
+    }
+
+    function getMarksIfMarked() {
+        let returnString = "";
+
+        if(result.mark != undefined && result.marked != undefined) {
+            if(result.marked)
+                returnString = "Marks:" + result.mark;
+        }
+        
+        return returnString;
+    }
+
     return (
         <Container className="mt-4">
             <Row className="align-items-end">
@@ -198,15 +226,14 @@ function ViewQuiz() {
                     <h4>{result.quiz != undefined ? result.quiz.name : ""}</h4>
                 </Col>
                 <Col sm="auto">
-                    <h6>{result.mark != undefined ? "Marks:" + result.mark : ""}</h6>
+                    <h6>{getMarksIfMarked()}</h6>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <h5>{result.passed != undefined ?
-                        result.passed ? <Badge bg="success">Passed</Badge> : <Badge bg="danger">Failed</Badge>
-                        : ""
-                    }</h5>
+                    <h5>
+                        {getPassFailOrUnmarkedBadge()}
+                    </h5>
                 </Col>
             </Row>
             <ListGroup>
