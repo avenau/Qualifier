@@ -48,7 +48,6 @@ public class TraineeController {
 	@PostMapping("/changePinnedSkill")
 	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
 		log.trace("changePinnedSkills() called");
-//		traineeService.changePinnedSkills(trainee);
 		return trainee;
 	}
 	
@@ -81,13 +80,6 @@ public class TraineeController {
 		traineeService.removeSkillFromTrainee(skill, ids[0]);
 		traineeService.save(foundTrainee);
 	}
-
-//	@PostMapping("/changePinnedSkill")
-//	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
-//		log.trace("changePinnedSkills() called");
-////		traineeService.changePinnedSkills(trainee);
-//		return trainee;
-//	}
 
 	@GetMapping("/getAllTrainees")
 	public List<Trainee> getAllTrainees() {

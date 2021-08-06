@@ -344,8 +344,8 @@ public class TraineeServiceTest {
 		//Assert
 		verify(traineeRepoMock, times(1)).findById(traineeMock.getUserId());
 		verify(skillLevelRepoMock, times(1)).findById(skill.getSkillLevelId());
-		verify(traineeMock, times(1)).getSkills();
-		verify(traineeMock, times(1)).getPinnedSkills();
+		verify(traineeMock, times(2)).getSkills();
+		verify(traineeMock, times(2)).getPinnedSkills();
 		verify(pinnedSkillsMock, times(1)).size();
 		verify(pinnedSkillsMock, times(1)).contains(skill);
 		verify(pinnedSkillsMock, times(1)).remove(skill);
@@ -522,6 +522,26 @@ public class TraineeServiceTest {
 	@Test
 	void test_findTraineeBySkillName_returns_trainee() {
 		String skillName = "Ruby";
-		
+		Skill skill = new Skill();
+		when(skillServiceMock.findByName(skillName)).thenReturn(skill);
+		traineeService.findBySkillName(skillName);
+		verify(skillServiceMock).findByName(skillName);
+		verify(skillLevelServiceMock).findBySkill(skill);		
 	}
+	
+	@Test
+	void test_getAllResults() {
+		int userId = 1;
+		traineeService.getAllResults(userId);
+		verify(traineeRepoMock).getResultsByUid(userId);
+	}
+	
+	@Test
+	void test_findTraineeByFirstAndLastName() {
+		String fName = "test1";
+		String lName = "test2";
+		traineeService.findByFirstAndLastName(fName, lName);
+		verify(traineeRepoMock).findByFirstNameAndLastName(fName, lName);
+	}
+	
 }

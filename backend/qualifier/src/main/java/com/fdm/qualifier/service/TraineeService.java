@@ -331,6 +331,7 @@ public class TraineeService {
 		return traineeRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 
+	
 	public List<TraineeSkillLevelDTO> getPinnedSkillsAsDTO(int userId) {
 		List<SkillLevel> traineeSkills = getPinnedSkills(userId);
 		List<TraineeSkillLevelDTO> traineeSkillsAsDTO = new ArrayList<>();
