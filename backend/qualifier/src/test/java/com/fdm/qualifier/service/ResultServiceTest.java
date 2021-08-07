@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.SubmittedAnswer;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.ResultRepository;
 
 class ResultServiceTest {
@@ -29,6 +30,9 @@ class ResultServiceTest {
 
 	@Mock
 	private Quiz mockQuiz;
+
+	@Mock
+	private Trainee traineeMock;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -58,7 +62,7 @@ class ResultServiceTest {
 	void test_createNewResult() {
 		 List<SubmittedAnswer> list = new ArrayList<SubmittedAnswer>();
 		
-		resultService.createNewResult(5, false, false, null, mockQuiz, list);
+		resultService.createNewResult(5, false, false, traineeMock, mockQuiz, list);
 		Result result = new Result(5, false, false, null, mockQuiz, list);
 		
 		
