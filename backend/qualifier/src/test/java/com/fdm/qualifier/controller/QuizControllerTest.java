@@ -10,13 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fdm.qualifier.dto.AnswerDTO2;
+import com.fdm.qualifier.dto.QuestionDTO2;
+import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.dto.ResultDTO;
+import com.fdm.qualifier.httpRequest.QuizRequest2;
+import com.fdm.qualifier.model.Question;
+import com.fdm.qualifier.model.Question.QuestionType;
 import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
@@ -72,6 +79,21 @@ public class QuizControllerTest {
 
 	@Mock
 	Skill skillMock;
+
+	@Mock
+	QuizRequest2 quizRequest2Mock;
+	
+	@Mock
+	QuestionDTO2 questionDTO2Mock;
+
+	@Mock
+	AnswerDTO2 answerDTO2Mock;
+
+	@Mock
+	Question questionMock;
+
+	@Mock
+	QuizDTO quizDTOMock;
 
 	@BeforeEach
 	public void setup() {
@@ -167,31 +189,79 @@ public class QuizControllerTest {
 		assertEquals(null, actual);
 	}
 
-//	@Test
-//	public void test_submitMarkedResult_adds_skill_to_trainee_when_passed_and_non_nulls() {
-//		//Arrange
-//		int id = 1;
-//		when(resultMock.getResultId()).thenReturn(id);
-//		when(quizServiceMock.findResultById(id)).thenReturn(resultMock);
-//		when(resultMock.getTrainee()).thenReturn(traineeMock);
-//		when(resultMock.getQuiz()).thenReturn(quizMock);
-//		when(resultMock.getQuiz().getSkillLevel()).thenReturn(skillLevelMock);
-//		when(quizServiceMock.saveResult(resultMock)).thenReturn(resultMock);
-//		when(traineeServiceMock.save(traineeMock)).thenReturn(traineeMock);
-//		when(resultMock.isPassed()).thenReturn(true);
-//		
-//		//Act
-//		quizController.submitMarkedResult(resultMock);
-//		
-//		//Assert
-//		verify(quizServiceMock, times(1)).findResultById(id);
-//		verify(resultMock, times(1)).getTrainee();
-//		verify(resultMock, times(2)).getQuiz();
-//		verify(quizMock, times(1)).getSkillLevel();
-//		verify(quizServiceMock, times(1)).saveResult(resultMock);
-//		verify(traineeMock, times(1)).addSkill(skillLevelMock);
-//		verify(traineeServiceMock, times(1)).save(traineeMock);
-//	}
+	@Test
+	public void test_submitMarkedResult_adds_skill_to_trainee_when_passed_and_non_nulls() {
+		//Arrange
+		double[] result = {5,25};
+		when(quizServiceMock.findResultById((int)result[0])).thenReturn(resultMock);
+		when(resultMock.getTrainee()).thenReturn(traineeMock);
+		when(resultMock.getQuiz()).thenReturn(quizMock);
+		when(resultMock.getQuiz().getSkillLevel()).thenReturn(skillLevelMock);
+		when(quizServiceMock.saveResult(resultMock)).thenReturn(resultMock);
+		when(traineeServiceMock.save(traineeMock)).thenReturn(traineeMock);
+		when(resultMock.isPassed()).thenReturn(true);
+		
+		//Act
+		quizController.submitMarkedResult(result);
+		
+		//Assert
+		verify(quizServiceMock, times(1)).findResultById((int)result[0]);
+		verify(resultMock, times(1)).getTrainee();
+		verify(resultMock, times(3)).getQuiz();
+		verify(quizMock, times(1)).getSkillLevel();
+		verify(quizServiceMock, times(1)).saveResult(resultMock);
+		verify(traineeMock, times(1)).addSkill(skillLevelMock);
+		verify(traineeServiceMock, times(1)).save(traineeMock);
+	}
+	
+	@Test
+	public void test_createNewQuizByTrainer() {
+		int quizId = 0;
+		String questionType= "MULTIPLE_CHOICE";
+		String questionContent= "Question Content";
+		String answerContent = "Answer Content";
+		int questionPoint = 5;
+		List<QuestionDTO2> list = new ArrayList<QuestionDTO2> ();
+		list.add(questionDTO2Mock);
+		List<AnswerDTO2> answerList = new ArrayList<AnswerDTO2> ();
+		answerList.add(answerDTO2Mock);
+		
+		when(questionDTO2Mock.getQuestionType()).thenReturn(questionType);
+		when(questionDTO2Mock.getQuestionPoints()).thenReturn(questionPoint);
+		when(questionDTO2Mock.getQuestionContent()).thenReturn(questionContent);
+		when(quizRequest2Mock.getQuizId()).thenReturn(quizId);
+		when(quizServiceMock.findQuizById(quizId)).thenReturn(Optional.of(quizMock));
+		when (quizRequest2Mock.getQuestions()).thenReturn(list);
+		when(questionDTO2Mock.getAnswers()).thenReturn(answerList);
+		when(answerDTO2Mock.isCorrect()).thenReturn(true);
+		when(answerDTO2Mock.getContent()).thenReturn(answerContent);
+		when(questionServiceMock.createNewQuestion(quizMock, questionContent, QuestionType.MULTIPLE_CHOICE, questionPoint)).thenReturn(questionMock);
+		quizController.createNewQuizByTrainer(quizRequest2Mock);
+		
+		verify(questionServiceMock, times(1)).createNewQuestion(quizMock, questionContent, QuestionType.MULTIPLE_CHOICE, questionPoint);
+		verify(answerServiceMock, times(1)).createNewAnswer(answerContent, questionMock, true);
+	}
+	
+	@Test
+	public void test_createQuizDetails() {
+		//ASSIGN
+		String idString = "5";
+		int id = 5;
+		int quizId = 10;
+		
+		//ACT
+		when(skillLevelServiceMock.findById(id)).thenReturn(Optional.of(skillLevelMock));
+		when(quizServiceMock.createNewQuizDTO(null, null, 0, 0, 0)).thenReturn(quizDTOMock);
+		when(quizServiceMock.findQuizById(quizId)).thenReturn(Optional.of(quizMock));
+		when(quizDTOMock.getQuizId()).thenReturn(quizId);
+		QuizDTO result = quizController.createQuizDetails(idString);
+		
+		//ASSERT
+		
+		verify(skillLevelMock, times(1)).setQuiz(quizMock);
+		verify(skillLevelServiceMock, times(1)).save(skillLevelMock);
+		assertEquals(result, quizDTOMock);	
+	}
 //	
 //	@Test
 //	public void test_getResult_returns_result_when_found() {
