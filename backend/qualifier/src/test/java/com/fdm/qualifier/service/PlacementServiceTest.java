@@ -18,6 +18,7 @@ import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.ClientRepository;
 import com.fdm.qualifier.repository.PlacementRepository;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -49,8 +50,12 @@ class PlacementServiceTest {
 
 	@Mock
 	SkillLevelRepository skillLevelRepoMock;
+
 	@Mock
 	PlacementRecieverDTO placementRecieverDTOMock;
+
+	@Mock
+	Trainee traineeMock;
 
 	
 	@BeforeEach
@@ -156,4 +161,20 @@ class PlacementServiceTest {
 		verify(placementRecieverDTOMock).getClient();
 	}
 
+	@Test
+	public void test_placeApprovedTrainee_sets_trainee_saves_repo() {
+		//Arrange
+		when(placementRepoMock.save(placementMock)).thenReturn(placementMock);
+		
+		//Act
+		Placement actual = placementService.placeApprovedTrainee(placementMock, traineeMock);
+	
+		//Assert
+		verify(placementMock, times(1)).setTrainee(traineeMock);
+		verify(placementRepoMock, times(1)).save(placementMock);
+		assertEquals(placementMock, actual);
+	}
+	
+//	@Test
+//	public void test_saveDTO_
 }
