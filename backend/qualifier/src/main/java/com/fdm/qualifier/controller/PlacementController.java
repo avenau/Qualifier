@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.dto.PlacementRecieverDTO;
-import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
@@ -24,6 +23,11 @@ import com.fdm.qualifier.service.PlacementService;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.TraineeService;
 
+/**
+ * Placement Controller
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class PlacementController {
@@ -43,15 +47,22 @@ public class PlacementController {
 		this.traineeService = traineeService;
 		this.skillLevelService = skillLevelService;
 	}
-	
+
+	/**
+	 * Saves placement from PlacementDTO
+	 * @param placementDTO
+	 */
 	@PostMapping("/savePlacement")
 	public void save(@RequestBody PlacementRecieverDTO placementDTO) {
 		log.info("Saving placement: " + placementDTO);
 		placementService.saveDTO(placementDTO);
-//		placementService.save(placement);
 	}
 	
-
+	/**
+	 * Searches placements by searchTerm and returns List
+	 * @param searchTerm
+	 * @return
+	 */
 	@PostMapping("/searchPlacements")
 	public List<Placement> searchPlacements(@RequestBody String searchTerm) {
 		List<Placement> resultList = new ArrayList<>();
@@ -61,12 +72,21 @@ public class PlacementController {
 		resultList.addAll(placementService.findByLocation(searchTerm));
 		return resultList;
 	}
-	
+
+	/**
+	 * Gets all placements
+	 * @return
+	 */
 	@GetMapping("/getAllPlacements")
 	public List<Placement> getAllPlacements(){
 		return placementService.findAll();
 	}
 	
+	/**
+	 * Adds trainee to placements applied trainees list from id
+	 * @param ids
+	 * @return
+	 */
 	@PostMapping("/applyForPlacement")
 	public String applyForPlacement(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
@@ -83,7 +103,12 @@ public class PlacementController {
 			return "You are not eligible for this position. Please check you possess the required skills";
 		}
 	}
-	
+
+	/**
+	 * Approves trainee for applied placement using traineeId and placementId
+	 * @param ids
+	 * @return
+	 */
 	@PostMapping("/approveRequest")
 	public String approveREquest(@RequestBody Integer[] ids) {
 		System.out.println("Passed in trainee ID is:" + ids[0]);

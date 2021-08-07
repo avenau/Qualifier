@@ -10,6 +10,11 @@ import com.fdm.qualifier.dto.SkillDTO;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.repository.SkillRepository;
 
+/**
+ * Skill Service
+ * @author William
+ *
+ */
 @Service
 public class SkillService {
 	private SkillRepository skillRepo;
@@ -20,6 +25,10 @@ public class SkillService {
 		this.skillRepo = skillRepo;
 	}
 
+	/**
+	 * Save all skills to repo
+	 * @param skills
+	 */
 	public void save(List<Skill> skills) {
 		for(Skill skill : skills) {
 			Skill foundSkill = findByName(skill.getName());
@@ -30,29 +39,54 @@ public class SkillService {
 		skillRepo.flush();
 	}
 	
+	/**
+	 * Delete skill by id from repo
+	 * @param id
+	 */
 	public void deleteById(int id) {
 		skillRepo.deleteById(id);
 	}
 	
+	/**
+	 * Find skill based on name from repo
+	 * @param name
+	 * @return
+	 */
 	public Skill findByName(String name) {
 		return skillRepo.findByName(name);
 	}
 	
+	/**
+	 * Find skill by id from repo
+	 * @param id
+	 * @return
+	 */
 	public Skill findById(int id) {
 		return skillRepo.findBySkillId(id);
 	}
 	
+	/**
+	 * Get all skills from repo
+	 * @return
+	 */
 	public List<Skill> findAll(){
 		return skillRepo.findAll();
 	}
-	
+
+	/**
+	 * Save a skill to repo
+	 * @param skill
+	 * @return
+	 */
 	public Skill save(Skill skill) {
-//		Skill skillFound = findByName(skill.getName());
-//		if(skillFound != null)
-//			skill = skillFound;		
 		return skillRepo.save(skill);
 	}
 	
+	/**
+	 * Save skill by Name to repo
+	 * @param name
+	 * @return
+	 */
 	public Skill saveByName(String name) {
 		Skill skillFound = findByName(name);
 		if(skillFound != null)
@@ -60,7 +94,11 @@ public class SkillService {
 		return skillRepo.save(new Skill(name));
 	}
 	
-	
+	/**
+	 * Checks if skill in repo
+	 * @param name
+	 * @return
+	 */
 	public boolean skillExist(String name) {
 		if (findByName(name) == null) {
 			return false;
@@ -68,6 +106,10 @@ public class SkillService {
 		return true;
 	}
 
+	/**
+	 * Get all skills as SkillDTO
+	 * @return
+	 */
 	public List<SkillDTO> findAllSkillDTOs() {
 		List<SkillDTO> skillDTOs = new ArrayList<SkillDTO>();
 		List<Skill> skills = skillRepo.findAll();

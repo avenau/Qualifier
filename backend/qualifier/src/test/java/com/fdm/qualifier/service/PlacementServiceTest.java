@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fdm.qualifier.dto.ClientDTO;
+import com.fdm.qualifier.dto.PlacementRecieverDTO;
 import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.repository.ClientRepository;
 import com.fdm.qualifier.repository.PlacementRepository;
+import com.fdm.qualifier.repository.SkillLevelRepository;
 
 class PlacementServiceTest {
 
@@ -39,11 +43,20 @@ class PlacementServiceTest {
 	
 	@Mock
 	TraineeService traineeServiceMock;
+
+	@Mock
+	ClientRepository clientRepoMock;
+
+	@Mock
+	SkillLevelRepository skillLevelRepoMock;
+	@Mock
+	PlacementRecieverDTO placementRecieverDTOMock;
+
 	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
-//		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, traineeServiceMock);
+		placementService = new PlacementService(placementRepoMock, skillLevelServiceMock, skillServiceMock, clientServiceMock, clientRepoMock, skillLevelRepoMock);
 	}
 	
 	@Test
@@ -72,8 +85,10 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_findById_returns_null() {
+		when(placementRepoMock.findById(1)).thenReturn(Optional.of(placementMock).empty());
 		Placement result = placementService.findById(1);
-		verify(placementRepoMock).findById(1);
+
+		verify(placementRepoMock).findById(1);		
 		assertEquals(null, result);
 	}
 	
@@ -130,6 +145,15 @@ class PlacementServiceTest {
 		placementService.findByClientName(clientName);
 		verify(clientServiceMock).findByName(clientName);
 		verify(placementRepoMock).findByClient(client);
+	}
+	
+	@Test
+	void test_savePlacement() {
+		when(placementRecieverDTOMock.getClient()).thenReturn(new ClientDTO (5, "hello"));
+		when(clientRepoMock.getById(5)).thenReturn(new Client("hello"));
+		
+		placementService.saveDTO(placementRecieverDTOMock);
+		verify(placementRecieverDTOMock).getClient();
 	}
 
 }

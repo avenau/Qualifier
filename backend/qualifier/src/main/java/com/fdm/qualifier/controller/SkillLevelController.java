@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.service.SkillLevelService;
-import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.model.SkillLevel;
 
+/**
+ * SkillLevel Controller
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class SkillLevelController {
@@ -23,6 +27,10 @@ public class SkillLevelController {
 		this.skillLevelService = skillLevelService;
 	}
 	
+	/**
+	 * Get all skill levels
+	 * @return
+	 */
 	@GetMapping("/getAllSkillLevels")
 	public List<SkillLevel> getAllSkillLevels(){
 		return skillLevelService.findAll();

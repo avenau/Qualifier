@@ -5,6 +5,11 @@ import org.springframework.stereotype.Controller;
 
 import com.fdm.qualifier.service.UserNotificationService;
 
+/**
+ * UserNotification Controller
+ * @author William
+ *
+ */
 @Controller
 public class UserNotificationController {
 

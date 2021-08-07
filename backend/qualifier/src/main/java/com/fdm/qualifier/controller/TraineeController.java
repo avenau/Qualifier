@@ -2,8 +2,6 @@ package com.fdm.qualifier.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.fdm.qualifier.model.Skill;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.SkillLevelService;
 import com.fdm.qualifier.service.SkillService;
 import com.fdm.qualifier.service.TraineeService;
 
+/**
+ * Trainee Controller
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class TraineeController {
@@ -45,13 +42,13 @@ public class TraineeController {
 		this.skillService = skillService;
 	}
 
-	@PostMapping("/changePinnedSkill")
-	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
-		log.trace("changePinnedSkills() called");
-//		traineeService.changePinnedSkills(trainee);
-		return trainee;
-	}
-	
+
+	/**
+	 * Adds a unverified skill to a trainee
+	 * @param ids
+	 * @return
+	 */
+
 	@PostMapping("/addUnverifiedSkill")
 	public SkillLevel addUnverifiedSkill(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
@@ -73,6 +70,10 @@ public class TraineeController {
 		return addedSkill ? unverifiedSkill : null;
 	}
 	 
+	/**
+	 * Remove a skill from a trainee
+	 * @param ids
+	 */
 	@PostMapping("/removeTraineeSkill")
 	public void removeTraineeSkill(@RequestBody Integer[] ids) {
 		Trainee foundTrainee = traineeService.getTraineeByID(ids[0]);
@@ -82,42 +83,66 @@ public class TraineeController {
 		traineeService.save(foundTrainee);
 	}
 
-//	@PostMapping("/changePinnedSkill")
-//	public Trainee changePinnedSkills(@RequestBody Trainee trainee) {
-//		log.trace("changePinnedSkills() called");
-////		traineeService.changePinnedSkills(trainee);
-//		return trainee;
-//	}
+
+
+	/**
+	 * Get all trainees
+	 * @return
+	 */
 
 	@GetMapping("/getAllTrainees")
 	public List<Trainee> getAllTrainees() {
 		return traineeService.getAllTrainees();
 	}
 	
+	/**
+	 * Get a trainees pinned skills
+	 * @param traineeId
+	 * @return
+	 */
 	@PostMapping("/getPinnedSkills")
 	public List<TraineeSkillLevelDTO> getPinnedSkills(@RequestBody int[] traineeId) {
 		log.debug("Getting Pinned Skills of traineeId: " + traineeId);
 		return traineeService.getPinnedSkillsAsDTO(traineeId[0]);
 	}
 	
+	/**
+	 * Get a trainees skills
+	 * @param traineeId
+	 * @return
+	 */
 	@PostMapping("/getSkills")
 	public List<TraineeSkillLevelDTO> getSkills(@RequestBody int[] traineeId) {
 		log.debug("Getting Skills of traineeId: " + traineeId);
 		return traineeService.getSkillsAsDTO(traineeId[0]);
 	}
 	
+	/**
+	 * Pin skill to trainee
+	 * @param ids
+	 * @return
+	 */
 	@PostMapping("/pinSkill")
 	public String pinSkill(@RequestBody Integer[] ids) {
 		log.debug(ids[0] + " " + ids[1]);
 		return traineeService.pinSkill(ids[0], ids[1]);
 	}
 
+	/**
+	 * Unpin skill from trainee
+	 * @param ids
+	 * @return
+	 */
 	@PostMapping("/unpinSkill")
 	public String unpinSkill(@RequestBody Integer[] ids) {
 		return traineeService.unpinSkill(ids[0], ids[1]);
 	}
 	
-
+	/**
+	 * Search trainee by searchTerm
+	 * @param searchTerm
+	 * @return
+	 */
 	@PostMapping("/searchTrainees")
 	public List<Trainee> searchTrainees(@RequestBody String searchTerm){
 		List<Trainee> result = new ArrayList<>();
@@ -130,6 +155,11 @@ public class TraineeController {
 		return result;
 	}
 
+	/**
+	 * Get a trainees results
+	 * @param traineeId
+	 * @return
+	 */
 	@PostMapping("/getTraineesResults")
 	public List<Result> getTraineeResults(@RequestBody int[] traineeId) {
 		log.debug(traineeId);

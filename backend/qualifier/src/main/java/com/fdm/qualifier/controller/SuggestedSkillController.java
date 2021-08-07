@@ -13,15 +13,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SuggestedSkill;
 import com.fdm.qualifier.service.SuggestedSkillService;
 
+/**
+ * Suggested Skill Controller
+ * 
+ * @author William
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class SuggestedSkillController {
 	private SuggestedSkillService suggestedSkillService;
-	
+
 	private Log log = LogFactory.getLog(SuggestedSkillController.class);
 
 	@Autowired
@@ -30,25 +35,39 @@ public class SuggestedSkillController {
 		this.suggestedSkillService = suggestedSkillService;
 	}
 
+	/**
+	 * Save suggested skill
+	 * @param suggestedSkill
+	 * @return
+	 */
 	@PostMapping("/saveSuggestedSkill")
 	public String save(@RequestBody SuggestedSkill suggestedSkill) {
 		log.trace("save() called");
 		log.info("Saving suggested skill: " + suggestedSkill);
 		return suggestedSkillService.save(suggestedSkill);
 	}
-	
+
+	/**
+	 * Get all suggestedSkills
+	 * @return
+	 */
 	@GetMapping("/getAllSuggestedSkills")
 	public List<SuggestedSkill> getAll() {
 		log.trace("getAll() called");
 		return suggestedSkillService.getAll();
 	}
-	
+
+	/**
+	 * remove a suggestedSkill
+	 * @param skillname
+	 * @return
+	 */
 	@PostMapping("/removeSuggestedSkill")
 	public Map<String, String> removeSuggestedSkill(@RequestBody String skillname) {
-		if (skillname.charAt(skillname.length() -1) == '=') {
+		if (skillname.charAt(skillname.length() - 1) == '=') {
 			skillname = skillname.substring(0, skillname.length() - 1);
 		}
-		
+
 		System.out.println("SkillName " + skillname);
 		Map<String, String> status = new HashMap<String, String>();
 		if (suggestedSkillService.findByName(skillname).isEmpty()) {
@@ -58,6 +77,6 @@ public class SuggestedSkillController {
 		SuggestedSkill suggestedSkill = suggestedSkillService.findByName(skillname).get(0);
 		suggestedSkillService.declineSuggestedSkill(suggestedSkill);
 		status.put("status", "success");
-		return status;		
+		return status;
 	}
 }

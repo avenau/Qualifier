@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fdm.qualifier.model.Answer;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.repository.SubmittedAnswerRepository;
@@ -24,6 +25,12 @@ class SubmittedAnswerServiceTest {
 
 	@Mock
 	private SubmittedAnswer mockSubmittedAnswer;
+
+	@Mock
+	private Question questionMock;
+
+	@Mock
+	private Answer answerMock;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -67,5 +74,35 @@ class SubmittedAnswerServiceTest {
 		List<SubmittedAnswer> result = submitAnswerServ.findByQuestion(test);
 		
 		assertEquals(testList, result);
+	}
+	
+	@Test
+	void test_createNewShortAnswer_returns_new_submitted_answer() {
+		String answerContent = "test";
+		SubmittedAnswer expected = new SubmittedAnswer(questionMock, answerContent);
+		
+		SubmittedAnswer actual = submitAnswerServ.createNewShortAnswer(questionMock, answerContent);
+
+		verify(mockSubmitAnswerRepo, times(1)).save(isA(SubmittedAnswer.class));
+		assertEquals(expected.getSubmittedAnswer_id(), actual.getSubmittedAnswer_id());
+		assertEquals(expected.getAnswer(), actual.getAnswer());
+		assertEquals(expected.getAnswerContent(), actual.getAnswerContent());
+		assertEquals(expected.getQuestion(), actual.getQuestion());
+		assertEquals(expected.getResult(), actual.getResult());
+	}
+	
+	@Test
+	void test_createNewSelectedAnswer_returns_new_submitted_answer() {
+		String answerContent = "test";
+		SubmittedAnswer expected = new SubmittedAnswer(questionMock, answerMock, answerContent);
+		
+		SubmittedAnswer actual = submitAnswerServ.createNewSelectedAnswer(questionMock, answerMock, answerContent);
+
+		verify(mockSubmitAnswerRepo, times(1)).save(isA(SubmittedAnswer.class));
+		assertEquals(expected.getSubmittedAnswer_id(), actual.getSubmittedAnswer_id());
+		assertEquals(expected.getAnswer(), actual.getAnswer());
+		assertEquals(expected.getAnswerContent(), actual.getAnswerContent());
+		assertEquals(expected.getQuestion(), actual.getQuestion());
+		assertEquals(expected.getResult(), actual.getResult());
 	}
 }

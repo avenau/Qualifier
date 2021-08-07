@@ -2,7 +2,6 @@ package com.fdm.qualifier.httpRequest;
 
 import java.util.List;
 
-import com.fdm.qualifier.dto.QuestionDTO;
 import com.fdm.qualifier.dto.QuestionDTO2;
 
 

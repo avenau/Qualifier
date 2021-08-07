@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.qualifier.service.QuestionService;
 
+/**
+ * Question Controller
+ * @author William
+ *
+ */
 @RestController
 public class QuestionController {
 	private QuestionService questionService;

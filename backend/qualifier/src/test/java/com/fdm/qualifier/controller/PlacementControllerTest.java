@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fdm.qualifier.dto.PlacementRecieverDTO;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
@@ -115,5 +116,22 @@ class PlacementControllerTest {
 		placementController.applyForPlacement(id);
 		
 		verify(mockPlacementService, times(0)).save(mockPlacement);
+	}
+	
+	@Test
+	void test_save() {
+		PlacementRecieverDTO placementDTO = new PlacementRecieverDTO();
+		placementController.save(placementDTO);
+		verify(mockPlacementService).saveDTO(placementDTO);
+	}
+	
+	@Test
+	void test_approveREquest() {
+		PlacementRecieverDTO placementDTO = new PlacementRecieverDTO();
+		Integer[] test = {1, 2, 3};
+		when(mockTraineeService.getTraineeByID(1)).thenReturn(mockTrainee);
+		when(mockPlacementService.findById(2)).thenReturn(mockPlacement);
+		placementController.approveREquest(test);
+		
 	}
 }
