@@ -36,6 +36,9 @@ class SkillControllerTest {
 	@Mock
 	private SkillLevelService mockSkillLevelService;
 
+	@Mock
+	private Map<String, Object> newSkillNameMock;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this);
@@ -67,21 +70,6 @@ class SkillControllerTest {
 		verify(mockSkillService, times(1)).findAllSkillDTOs();
 		assertEquals(result, skillDTOs);
 	}
-
-//	@Test - issue with stubbing a Map<String, Object>
-//	void test_updateSkillName_returns_Map_with_status_fail_when_newSkillName_already_existed() {
-//		Map<String, Object> input = new HashMap<String, Object>();
-//		Object skillId = 9;
-//		Object skillName = "C++";
-//		input.put("skillId", skillId);
-//		input.put("skillName", skillName);
-//		Map<String, String> status = new HashMap<String, String>();
-//		status.put("status", "failed");
-//		when(mockSkillService.skillExist("C++")).thenReturn(true);
-//		Map<String, String> result = skillController.updateSkillName(input);
-//		verify(mockSkillService, times(1)).skillExist("C++");
-//		assertEquals(result, status);
-//	}
 	
 	@Test
 	void test_deleteSkill() {
@@ -96,7 +84,9 @@ class SkillControllerTest {
 		status.put("status", "already exist");
 		String skillname = "java";
 		when(mockSkillService.skillExist(skillname)).thenReturn(true);
+		
 		Map<String, String> result = skillController.addSkill(skillname);
+		
 		verify(mockSkillService, times(1)).skillExist(skillname);
 		assertEquals(result, status);
 	}
@@ -107,7 +97,71 @@ class SkillControllerTest {
 		status.put("status", "success");
 		String skillname = "java";
 		when(mockSkillService.skillExist(skillname)).thenReturn(false);
+		
 		Map<String, String> result = skillController.addSkill(skillname);
+
+		verify(mockSkillService, times(1)).skillExist(skillname);
+		assertEquals(result, status);
+	}
+	
+	@Test
+	public void test_updateSkillName_saves_when_skill_name_available() {
+		//Arrange
+		String idAsString = "1";
+		int id = Integer.parseInt(idAsString);
+		String name = "test";
+		when(newSkillNameMock.get(SkillController.SKILL_ID_KEY)).thenReturn(idAsString);
+		when(newSkillNameMock.get(SkillController.SKILL_NAME_KEY)).thenReturn(name);
+		when(mockSkillService.skillExist(name)).thenReturn(false);
+		when(mockSkillService.findById(id)).thenReturn(mockSkill);
+		
+		//Act
+		Map<String, String> actual = skillController.updateSkillName(newSkillNameMock);
+		
+		//Assert
+		verify(newSkillNameMock, times(1)).get(SkillController.SKILL_ID_KEY);
+		verify(newSkillNameMock, times(1)).get(SkillController.SKILL_NAME_KEY);
+		verify(mockSkillService, times(1)).skillExist(name);
+		verify(mockSkillService, times(1)).findById(id);
+		verify(mockSkill, times(1)).setName(name);
+		verify(mockSkillService, times(1)).save(mockSkill);
+		assertEquals(SkillController.SUCCESS_STRING, actual.get(SkillController.STATUS_KEY));
+	}
+
+	@Test
+	public void test_updateSkillName_saves_when_skill_name_taken() {
+		//Arrange
+		String idAsString = "1";
+		int id = Integer.parseInt(idAsString);
+		String name = "test";
+		when(newSkillNameMock.get(SkillController.SKILL_ID_KEY)).thenReturn(idAsString);
+		when(newSkillNameMock.get(SkillController.SKILL_NAME_KEY)).thenReturn(name);
+		when(mockSkillService.skillExist(name)).thenReturn(true);
+		when(mockSkillService.findById(id)).thenReturn(mockSkill);
+		
+		//Act
+		Map<String, String> actual = skillController.updateSkillName(newSkillNameMock);
+		
+		//Assert
+		verify(newSkillNameMock, times(1)).get(SkillController.SKILL_ID_KEY);
+		verify(newSkillNameMock, times(1)).get(SkillController.SKILL_NAME_KEY);
+		verify(mockSkillService, times(1)).skillExist(name);
+		verify(mockSkillService, times(0)).findById(id);
+		verify(mockSkill, times(0)).setName(name);
+		verify(mockSkillService, times(0)).save(mockSkill);
+		assertEquals(SkillController.ALREADY_EXIST_STRING, actual.get(SkillController.STATUS_KEY));
+	}
+
+	@Test
+	public void test_addSkill_changes_skillName_when_last_char_is_equals() {
+		Map<String, String> status = new HashMap<String, String>();
+		status.put("status", "success");
+		String skillname = "java";
+		String skillNameWithEquals = skillname + "=";
+		when(mockSkillService.skillExist(skillname)).thenReturn(false);
+
+		Map<String, String> result = skillController.addSkill(skillNameWithEquals);
+		
 		verify(mockSkillService, times(1)).skillExist(skillname);
 		assertEquals(result, status);
 	}

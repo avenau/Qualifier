@@ -28,6 +28,13 @@ import com.fdm.qualifier.service.SkillService;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class SkillController {
+	protected static final String SUCCESS_STRING = "success";
+	protected static final String ALREADY_EXIST_STRING = "already exist";
+	protected static final String FAILED_STRING = "failed";
+	protected static final String STATUS_KEY = "status";
+	protected static final String SKILL_NAME_KEY = "skillName";
+	protected static final String SKILL_ID_KEY = "skillId";
+	
 	private SkillService skillService;
 
 	@Autowired
@@ -64,15 +71,15 @@ public class SkillController {
 	 */
 	@PostMapping("/updateSkillName")
 	public Map<String, String> updateSkillName(@RequestBody Map<String, Object> newSkillName) {
-		int skillId = Integer.parseInt((String) newSkillName.get("skillId"));
-		String skillName = (String) newSkillName.get("skillName");
+		int skillId = Integer.parseInt((String) newSkillName.get(SKILL_ID_KEY));
+		String skillName = (String) newSkillName.get(SKILL_NAME_KEY);
 
 		Map<String, String> status = new HashMap<String, String>();
-		status.put("status", "failed");
+		status.put(STATUS_KEY, FAILED_STRING);
 		if (skillService.skillExist(skillName)) {
-			status.put("status", "already exist");
+			status.put(STATUS_KEY, ALREADY_EXIST_STRING);
 		} else {
-			status.put("status", "success");
+			status.put(STATUS_KEY, SUCCESS_STRING);
 			Skill skill = skillService.findById(skillId);
 			skill.setName(skillName);
 			skillService.save(skill);
@@ -105,11 +112,11 @@ public class SkillController {
 		}
 
 		Map<String, String> status = new HashMap<String, String>();
-		status.put("status", "failed");
+		status.put(STATUS_KEY, FAILED_STRING);
 		if (skillService.skillExist(skillname)) {
-			status.put("status", "already exist");
+			status.put(STATUS_KEY, ALREADY_EXIST_STRING);
 		} else {
-			status.put("status", "success");
+			status.put(STATUS_KEY, SUCCESS_STRING);
 			Skill skill = new Skill(skillname);
 			SkillLevel beginner = new SkillLevel(KnowledgeLevel.BEGINNER, skill, null);
 			SkillLevel intermediate = new SkillLevel(KnowledgeLevel.INTERMEDIATE, skill, null);
