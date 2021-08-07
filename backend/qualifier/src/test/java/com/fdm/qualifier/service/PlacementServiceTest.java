@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,15 @@ class PlacementServiceTest {
 
 	@Mock
 	Trainee traineeMock;
+
+	@Mock
+	List<Integer> skillsIdMock;
+
+	@Mock
+	Iterator<Integer> skillsIdIteratorMock;
+
+	@Mock
+	SkillLevel skillLevelMock;
 
 	
 	@BeforeEach
@@ -154,10 +164,17 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_savePlacement() {
+		int id = 1;
 		when(placementRecieverDTOMock.getClient()).thenReturn(new ClientDTO (5, "hello"));
 		when(clientRepoMock.getById(5)).thenReturn(new Client("hello"));
+		when(placementRecieverDTOMock.getSkillsNeeded()).thenReturn(skillsIdMock);
+		when(skillsIdMock.iterator()).thenReturn(skillsIdIteratorMock);
+		when(skillsIdIteratorMock.hasNext()).thenReturn(true, false);
+		when(skillsIdIteratorMock.next()).thenReturn(id);
+		when(skillLevelRepoMock.findById(id)).thenReturn(Optional.of(skillLevelMock));
 		
 		placementService.saveDTO(placementRecieverDTOMock);
+
 		verify(placementRecieverDTOMock).getClient();
 	}
 
@@ -174,7 +191,4 @@ class PlacementServiceTest {
 		verify(placementRepoMock, times(1)).save(placementMock);
 		assertEquals(placementMock, actual);
 	}
-	
-//	@Test
-//	public void test_saveDTO_
 }
