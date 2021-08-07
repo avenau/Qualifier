@@ -1,11 +1,15 @@
 package com.fdm.qualifier.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
 import com.fdm.qualifier.model.Trainee;
@@ -43,6 +48,18 @@ public class TraineeServiceTest {
 
 	@Mock
 	List<SkillLevel> pinnedSkillsMock;
+
+	@Mock
+	SkillLevel skillLevelMock;
+
+	@Mock
+	Skill skillMock;
+
+	@Mock
+	Iterator<SkillLevel> skillsIteratorMock;
+
+	@Mock
+	Iterator<SkillLevel> pinnedSkillsIteratorMock;
 
 	
 	@BeforeEach
@@ -542,4 +559,236 @@ public class TraineeServiceTest {
 		verify(traineeRepoMock).findByFirstNameAndLastName(fName, lName);
 	}
 	
+	
+	@Test
+	void test_addSkillToTrainee_returns_true_when_trainee_doesn_not_have_skill() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(false);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(2)).getSkills();
+		verify(traineeMock, times(2)).getPinnedSkills();
+		verify(skillsMock, times(1)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(1)).contains(skillLevelMock);
+		verify(traineeMock, times(1)).addSkill(skillLevelMock);
+		assertTrue(result);
+	}
+	
+	@Test
+	void test_addSkillToTrainee_returns_false_when_trainee_null() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(null);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(false);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(0)).getSkills();
+		verify(traineeMock, times(0)).getPinnedSkills();
+		verify(skillsMock, times(0)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(0)).contains(skillLevelMock);
+		verify(traineeMock, times(0)).addSkill(skillLevelMock);
+		assertFalse(result);
+	}
+
+	@Test
+	void test_addSkillToTrainee_returns_false_when_trainee_skills_contains_skill() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(true);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(false);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(1)).getSkills();
+		verify(traineeMock, times(0)).getPinnedSkills();
+		verify(skillsMock, times(1)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(0)).contains(skillLevelMock);
+		verify(traineeMock, times(0)).addSkill(skillLevelMock);
+		assertFalse(result);
+	}
+
+	@Test
+	void test_addSkillToTrainee_returns_false_when_trainee_pinnedSkills_contains_skill() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(true);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(false);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(1)).getSkills();
+		verify(traineeMock, times(1)).getPinnedSkills();
+		verify(skillsMock, times(1)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(1)).contains(skillLevelMock);
+		verify(traineeMock, times(0)).addSkill(skillLevelMock);
+		assertFalse(result);
+	}
+
+	@Test
+	void test_addSkillToTrainee_returns_false_when_trainee_skills_has_skill_at_different_level() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(true, false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(false);
+		when(skillsIteratorMock.next()).thenReturn(skillLevelMock);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(2)).getSkills();
+		verify(traineeMock, times(2)).getPinnedSkills();
+		verify(skillsMock, times(1)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(1)).contains(skillLevelMock);
+		verify(traineeMock, times(0)).addSkill(skillLevelMock);
+		assertFalse(result);
+	}
+	
+	@Test
+	void test_addSkillToTrainee_returns_false_when_trainee_pinnedSkills_has_skill_at_different_level() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+		when(traineeMock.getSkills()).thenReturn(skillsMock);
+		when(traineeMock.getPinnedSkills()).thenReturn(pinnedSkillsMock);
+		when(skillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(pinnedSkillsMock.contains(skillLevelMock)).thenReturn(false);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(false);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(true, false);
+		when(skillsIteratorMock.next()).thenReturn(skillLevelMock);
+		when(pinnedSkillsIteratorMock.next()).thenReturn(skillLevelMock);
+		
+		//Act
+		boolean result = traineeService.addSkillToTrainee(skillLevelMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(2)).getSkills();
+		verify(traineeMock, times(2)).getPinnedSkills();
+		verify(skillsMock, times(1)).contains(skillLevelMock);
+		verify(pinnedSkillsMock, times(1)).contains(skillLevelMock);
+		verify(traineeMock, times(0)).addSkill(skillLevelMock);
+		assertFalse(result);
+	}
+	
+	@Test
+	public void test_removeSkillFromTrainee_calls_repo_removes_skill() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getTraineeByUid(id)).thenReturn(traineeMock);
+
+		//Act
+		traineeService.removeSkillFromTrainee(skillMock, id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getTraineeByUid(id);
+		verify(traineeMock, times(1)).removeSkill(skillMock);
+	}
+	
+	@Test
+	public void test_getPinnedSkillsAsDTO_returns_DTO_list() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getPinnedSkillsByUid(id)).thenReturn(pinnedSkillsMock);
+		when(pinnedSkillsMock.iterator()).thenReturn(pinnedSkillsIteratorMock);
+		when(pinnedSkillsIteratorMock.hasNext()).thenReturn(true, false);
+		when(pinnedSkillsIteratorMock.next()).thenReturn(skillLevelMock);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+
+		TraineeSkillLevelDTO skillLevelAsDTO = new TraineeSkillLevelDTO(skillLevelMock);
+		
+		//Act
+		List<TraineeSkillLevelDTO> actual = traineeService.getPinnedSkillsAsDTO(id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getPinnedSkillsByUid(id);
+		assertEquals(skillLevelAsDTO.getSkillLevelId(), actual.get(0).getSkillLevelId());
+		assertEquals(skillLevelAsDTO.getLevel(), actual.get(0).getLevel());
+		assertEquals(skillLevelAsDTO.getSkill().getSkillId(), actual.get(0).getSkill().getSkillId());
+		assertEquals(skillLevelAsDTO.getSkill().getName(), actual.get(0).getSkill().getName());
+	}
+	
+	@Test
+	public void test_getSkillsAsDTO_returns_DTO_list() {
+		//Arrange
+		int id = 1;
+		when(traineeRepoMock.getSkillsByUid(id)).thenReturn(skillsMock);
+		when(skillsMock.iterator()).thenReturn(skillsIteratorMock);
+		when(skillsIteratorMock.hasNext()).thenReturn(true, false);
+		when(skillsIteratorMock.next()).thenReturn(skillLevelMock);
+		when(skillLevelMock.getSkill()).thenReturn(skillMock);
+
+		TraineeSkillLevelDTO skillLevelAsDTO = new TraineeSkillLevelDTO(skillLevelMock);
+		
+		//Act
+		List<TraineeSkillLevelDTO> actual = traineeService.getSkillsAsDTO(id);
+		
+		//Assert
+		verify(traineeRepoMock, times(1)).getSkillsByUid(id);
+		assertEquals(skillLevelAsDTO.getSkillLevelId(), actual.get(0).getSkillLevelId());
+		assertEquals(skillLevelAsDTO.getLevel(), actual.get(0).getLevel());
+		assertEquals(skillLevelAsDTO.getSkill().getSkillId(), actual.get(0).getSkill().getSkillId());
+		assertEquals(skillLevelAsDTO.getSkill().getName(), actual.get(0).getSkill().getName());
+	}
+
 }
