@@ -21,6 +21,7 @@ import com.fdm.qualifier.dto.AnswerDTO2;
 import com.fdm.qualifier.dto.QuestionDTO2;
 import com.fdm.qualifier.dto.QuizDTO;
 import com.fdm.qualifier.dto.ResultDTO;
+import com.fdm.qualifier.httpRequest.QuizRequest;
 import com.fdm.qualifier.httpRequest.QuizRequest2;
 import com.fdm.qualifier.model.Question;
 import com.fdm.qualifier.model.Question.QuestionType;
@@ -94,6 +95,9 @@ public class QuizControllerTest {
 
 	@Mock
 	QuizDTO quizDTOMock;
+
+	@Mock
+	private QuizRequest quizRequestDTO;
 
 	@BeforeEach
 	public void setup() {
@@ -262,6 +266,48 @@ public class QuizControllerTest {
 		verify(skillLevelServiceMock, times(1)).save(skillLevelMock);
 		assertEquals(result, quizDTOMock);	
 	}
+	
+	@Test
+	public void test_getQuizDetails() {
+		//Assign
+		String idStr = "5";
+		int id = 5;
+		
+		//Act
+		when(quizServiceMock.findQuizDTOById(id)).thenReturn(quizDTOMock);
+		QuizDTO result = quizController.getQuizDetails(idStr);
+		
+		//Assert
+		assertEquals(result, quizDTOMock);
+	}
+	
+	@Test
+	public void test_updateQuizDetails() {
+		//Assign
+		
+		//Act
+		when(quizServiceMock.updateQuiz(quizRequestDTO)).thenReturn(quizDTOMock);
+		QuizDTO result = quizController.updateQuizDetails(quizRequestDTO);
+		//Assert
+		assertEquals(quizDTOMock, result);
+	}
+	
+	@Test
+	public void test_removeQuiz() {
+		//Assign
+		String idStr = "10";
+		int id = 10;
+		
+		//Act
+		when(quizServiceMock.findQuizById(id)).thenReturn(Optional.of(quizMock));	
+		quizController.updateQuizDetails(idStr);
+		//Assert
+		verify(quizServiceMock, times(1)).deleteQuiz(quizMock);
+		
+		
+	}
+	
+	
 //	
 //	@Test
 //	public void test_getResult_returns_result_when_found() {
