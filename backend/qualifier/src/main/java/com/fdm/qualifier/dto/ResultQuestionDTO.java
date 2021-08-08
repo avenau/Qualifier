@@ -18,7 +18,6 @@ public class ResultQuestionDTO {
 
 	public ResultQuestionDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ResultQuestionDTO(int questionId, String content, QuestionType type, int points, byte[] image, int quizId,

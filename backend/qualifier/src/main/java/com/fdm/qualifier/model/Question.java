@@ -32,9 +32,6 @@ public class Question {
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
-//	@OneToMany(mappedBy = "question")
-//  @JsonManagedReference(value = "question-submittedAnswer")
-//	private List<SubmittedAnswer> submittedAnswers;
 	
 	public enum QuestionType {
 		MULTIPLE_CHOICE,
@@ -65,7 +62,6 @@ public class Question {
 		this.image = image;
 		this.quiz = quiz;
 		this.answers = answers;
-//		this.submittedAnswers = submittedAnswers;
 	}
 
 	public Question(Quiz quiz, String content, QuestionType type, int points,
@@ -148,14 +144,6 @@ public class Question {
 		this.answers.add(answer);
 	}
 	
-
-//	public List<SubmittedAnswer> getSubmittedAnswers() {
-//		return submittedAnswers;
-//	}
-//
-//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-//		this.submittedAnswers = submittedAnswers;
-//	}
 
 	@Override
 	public String toString() {

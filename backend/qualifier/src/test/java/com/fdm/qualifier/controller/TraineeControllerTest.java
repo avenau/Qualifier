@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.fdm.qualifier.dto.TraineeSkillLevelDTO;
 import com.fdm.qualifier.model.Result;
@@ -63,13 +62,6 @@ class TraineeControllerTest {
 		MockitoAnnotations.openMocks(this);
 		traineeController = new TraineeController(traineeServiceMock, skillLevelServiceMock, skillServiceMock);
 	}
-//	
-//	@Test
-//	void test_changeOinnedSkills_returns_trainee() {
-//		Trainee trainee = new Trainee();
-//		Trainee result = traineeController.changePinnedSkills(trainee);
-//		assertEquals(trainee, result);
-//	}
 	
 	@Test
 	void test_getAllTrainees() {

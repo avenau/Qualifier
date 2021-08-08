@@ -6,7 +6,6 @@ public class ClientDTO {
 
 	public ClientDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ClientDTO(int clientId, String name) {

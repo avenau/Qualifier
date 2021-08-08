@@ -36,18 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests()
 				.antMatchers("/**")
-//				.antMatchers("/", "/getUser", "/saveSuggestedSkill", "/getAllSuggestedSkills", "/getQuizDetails",
-//						"/searchPlacements", "/getAllPlacements", "/searchTrainees",
-//						"/getTraineesResults", "/submitMarkedResult", 						
-//						"/getQuizQuestions", "/submitQuiz", "/getAllQuizzes", "/getPinnedSkills", "/savePlacement", "/getStartQuizDetails",
-//						"/getSkills", "/addUnverifiedSkill", "/addSkill", "/getAllSkills", "/getAllTrainees",
-//						"/pinSkill", "/unpinSkill", "/getResult", "/h2-console/**", "/auth/**", "/quiz/get/*",
-//						"/quiz/submit", "/getTraineesResults", "/submitMarkedResult")
 
 
-				.permitAll() // !!CHANGE THIS WHEN LOGIN IS FUNCTIONAL!!
-				// put .antMatcher(route).permitAll() for public access
-				// .antMatchers("/auth/**").permitAll()
+				.permitAll()
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -68,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(10);
 		return NoOpPasswordEncoder.getInstance();
 	}
 }

@@ -10,7 +10,6 @@ public class AnswerDTO2 {
 	
 	public AnswerDTO2() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AnswerDTO2(Answer answer) {

@@ -17,17 +17,14 @@ public class Trainer extends User {
 
 	public Trainer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Trainer(String username, String password, boolean isActive, String roles) {
 		super(username, password, isActive, roles);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Trainer(String username, String password, boolean isActive) {
 		super(username, password, isActive);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Trainer(String username, String password, String email, String address, int phoneNumber, String city,
@@ -35,12 +32,10 @@ public class Trainer extends User {
 			String roles) {
 		super(username, password, email, address, phoneNumber, city, firstName, lastName, dob, userNotification,
 				isActive, roles);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Trainer(String username, String password) {
 		super(username, password, "trainer");
-		// TODO Auto-generated constructor stub
 	}
 
 	public Trainer(String username, String password, String email, String address, int phoneNumber, String city,

@@ -181,7 +181,6 @@ public class PlacementService {
 		placement = save(placement);
 		
 		log.debug("Saved placement: " + placement);
-//		log.debug("Saved placement skillsNeeded: " + placement.getSkillsNeeded());
 		return placement;
 	}
 }
