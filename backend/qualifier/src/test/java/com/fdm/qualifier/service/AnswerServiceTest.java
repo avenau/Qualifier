@@ -50,4 +50,32 @@ class AnswerServiceTest {
 		
 		verify(mockAnswerRepo, times(1)).delete(mockAnswer);
 	}
+	
+	@Test
+	public void test_createNewAnswer_calls_repo_save() {
+		//Arrange
+		String content = "content";
+		boolean isCorrect = true;
+		
+		//Act
+		Answer actual = answerService.createNewAnswer(content, mockQuestion, isCorrect);
+		
+		//Assert
+		verify(mockAnswerRepo, times(1)).save(isA(Answer.class));
+		assertEquals(content, actual.getContent());
+		assertEquals(isCorrect, actual.isCorrect());
+		assertEquals(mockQuestion, actual.getQuestion());
+	}
+	
+	@Test
+	public void test_finById_calls_repo_findById() {
+		//Arrange
+		int id = 1;
+
+		//Act
+		answerService.finById(id);
+		
+		//Assert
+		verify(mockAnswerRepo, times(1)).findById(id);
+	}
 }

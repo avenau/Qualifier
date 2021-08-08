@@ -69,22 +69,4 @@ public class AnswerService {
 		answerRepository.delete(answer);
 	}
 	
-	
-//=======
-//	private AnswerRepository answerRepo;
-//
-//	@Autowired
-//	public AnswerService(AnswerRepository answerRepo) {
-//		super();
-//		this.answerRepo = answerRepo;
-//	}
-//	
-//	public List<Answer> findByQuestion(Question question) {
-//		return answerRepo.findByQuestion(question);
-//	}
-//	
-//	public void delete(Answer answer) {
-//		answerRepo.delete(answer);
-//	}
-//>>>>>>> origin/CRUD_Quiz_Service
 }
