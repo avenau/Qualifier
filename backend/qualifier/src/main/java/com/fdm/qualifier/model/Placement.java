@@ -26,7 +26,6 @@ public class Placement {
 	private Client client;
 	
 	@OneToOne
-	//@JsonBackReference(value = "trainee-placement")
 	private Trainee trainee;
 	
 	@ManyToMany
@@ -158,9 +157,6 @@ public class Placement {
 				+ (description != null ? "description=" + description + ", " : "")
 				+ (location != null ? "location=" + location + ", " : "")
 				+ (client != null ? "client=" + client + ", " : "")  + "]";
-				//+ (trainee != null ? "trainee=" + trainee + ", " : "")
-				//+ (appliedTrainees != null ? "appliedTrainees=" + appliedTrainees + ", " : "")
-				//+ (skillsNeeded != null ? "skillsNeeded=" + skillsNeeded : "")
 	}
 	
 	

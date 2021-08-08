@@ -28,7 +28,6 @@ public class Result {
 	private Trainee trainee;
 
 	@OneToOne(cascade = CascadeType.MERGE)
-//	@JsonManagedReference(value = "quiz-result")
 	private Quiz quiz;
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "result")

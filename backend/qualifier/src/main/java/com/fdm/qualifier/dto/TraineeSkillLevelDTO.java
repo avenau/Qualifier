@@ -13,7 +13,6 @@ public class TraineeSkillLevelDTO {
 
 	public TraineeSkillLevelDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@JsonCreator

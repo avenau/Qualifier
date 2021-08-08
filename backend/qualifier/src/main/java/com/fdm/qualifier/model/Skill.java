@@ -23,12 +23,6 @@ public class Skill {
 	private int skillId;
 	private String name;
 	
-//<<<<<<< HEAD
-//	@OneToMany(cascade = CascadeType.PERSIST,mappedBy = "skill")
-//	@JsonBackReference(value = "skillLevel")
-//	private List<SkillLevel> skillLevels;
-//=======
-//	@JsonManagedReference(value = "skillLevel2")
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy="skill")
 	@JsonBackReference(value = "skillToSkillLevel")
 	private List<SkillLevel> skilllevels;

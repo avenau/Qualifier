@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ import com.fdm.qualifier.model.Quiz;
 import com.fdm.qualifier.model.Result;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
-import com.fdm.qualifier.model.SubmittedAnswer;
 import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.service.AnswerService;
 import com.fdm.qualifier.service.QuestionService;

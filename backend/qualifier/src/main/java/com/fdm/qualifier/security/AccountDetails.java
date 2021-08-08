@@ -35,7 +35,6 @@ public class AccountDetails implements UserDetails
         this.password = user.getPassword();
         this.isActive = user.isActive();
         this.accountType = user.getAccountType();
-        // CAN BE DONE, LATER 
         this.authorities = Arrays.stream(user.getAccountType().split(","))
                                     .map(SimpleGrantedAuthority::new)
                                     .collect(Collectors.toList());

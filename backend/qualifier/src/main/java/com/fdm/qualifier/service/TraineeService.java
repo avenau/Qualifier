@@ -311,11 +311,6 @@ public class TraineeService {
 	
 	/**
 	 * Returns trainees from a skill level
-=======
-
-	/**
-	 * Find a trainee from repo by skills
->>>>>>> origin/cleanup
 	 * @param skill
 	 * @return
 	 */
@@ -327,11 +322,7 @@ public class TraineeService {
 
 
 	/**
-<<<<<<< HEAD
-	 * 
-=======
 	 * Get all results from repo
->>>>>>> origin/cleanup
 	 * @param userId
 	 * @return
 	 */

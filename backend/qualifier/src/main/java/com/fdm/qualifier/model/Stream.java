@@ -19,7 +19,6 @@ public class Stream {
 
 	public Stream() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Stream(String name, List<Trainee> trainees) {

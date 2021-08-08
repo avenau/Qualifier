@@ -14,10 +14,8 @@ public class QuestionDTO2 {
 	private byte[] questionImage;
 	private List<AnswerDTO2> answers;
 
-//	private List<SubmittedAnswer> submittedAnswers;
 	public QuestionDTO2() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public QuestionDTO2(Question question) {
@@ -28,7 +26,6 @@ public class QuestionDTO2 {
 		this.questionPoints = question.getPoints();
 		this.questionImage = question.getImage();
 		this.answers = answerListToDTOList(question.getAnswers());
-//		this.submittedAnswers = question.getSubmittedAnswers();
 	}
 
 	public int getQuestionId() {
@@ -87,15 +84,6 @@ public class QuestionDTO2 {
 	public void setAnswers(List<AnswerDTO2> answers) {
 		this.answers = answers;
 	}
-	
 
-//	public List<SubmittedAnswer> getSubmittedAnswers() {
-//		return submittedAnswers;
-//	}
-//
-//	public void setSubmittedAnswers(List<SubmittedAnswer> submittedAnswers) {
-//		this.submittedAnswers = submittedAnswers;
-//	}
-	
 	
 }

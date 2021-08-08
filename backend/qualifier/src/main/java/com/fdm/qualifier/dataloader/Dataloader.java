@@ -108,15 +108,7 @@ public class Dataloader implements ApplicationRunner {
 		cs = skillService.save(cs);
 		python = skillService.save(python);
 
-		// SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER,
-		// java, null);
-		// SkillLevel skillLevel2 = new
-		// SkillLevel(SkillLevel.KnowledgeLevel.INTERMEDIATE, cs, null);
-		// SkillLevel skillLevel3 = new SkillLevel(SkillLevel.KnowledgeLevel.EXPERT,
-		// python, null);
 		log.debug("Creating Quiz");
-//		Quiz quiz1 = new Quiz();
-//		quizService.saveQuiz(quiz1);
 
 		log.debug("Creating SkillLevels");
 		SkillLevel skillLevel1 = new SkillLevel(SkillLevel.KnowledgeLevel.BEGINNER, java, null);
@@ -199,8 +191,7 @@ public class Dataloader implements ApplicationRunner {
 		placementService.save(placement2);
 		placementService.save(placement3);
 
-		log.info("quiz init started");
-//		byte[] imageBytes = Files.readAllBytes(Paths.get("C:\\Users\\shirl\\Desktop\\against.jpg"));		
+		log.info("quiz init started");	
 		Quiz javaBeginner = quizService.loadNewQuiz("Java Beginner Level Quiz", "Following quiz provides Multiple Choice and Multi Select Questions related to Core Java (Beginner Level). You will have to read all the given answers and click over the correct answer.", 600, 0, 75, skillLevel1);
 		skillLevel1.setQuiz(javaBeginner);
 		Question javaBq1 = questionService.createNewQuestion(javaBeginner, "Q 1 - Which of the following is false about String?", Question.QuestionType.MULTIPLE_CHOICE, 5);
@@ -305,33 +296,7 @@ public class Dataloader implements ApplicationRunner {
 		Answer javaBq20aD = answerService.createNewAnswer("D - @Retention is one of the meta annotation in java.", javaBq20, true);
 		log.info("quiz init finished");
 
-//		log.debug("Find by Java");
-//		for (Placement p : placementService.findBySkillName("Java")) {
-//			log.debug(p);
-//		}
-//		log.debug("Find by name " + placementService.findByName("Placement1"));
-//		log.debug("Display all ");
-//		for (Placement p : placementService.findAll()) {
-//			log.debug(p);
-//		}
-//		log.debug("Find by client name");
-//		for (Placement p : placementService.findByClientName("ANZ")) {
-//			log.debug(p);
-//		}
-//		log.debug("Find by Location Sydney");
-//		for (Placement p : placementService.findByLocation("Sydney")) {
-//			log.debug(p);
-//		}
-//
-//		log.debug("find trainee by name");
-//		for (Trainee t : traineeService.findTraineeByName("Mancy")) {
-//			log.debug(t);
-//		}
-//
-//		log.debug("find trainee by skill");
-//		for (Trainee t : traineeService.findTraineeBySkills(skillLevel1)) {
-//			log.debug(t);
-//		}
+
 		log.info("Finished Data Setup");
 	}
 
@@ -427,10 +392,6 @@ public class Dataloader implements ApplicationRunner {
 
 			result = quizService.saveResult(result);
 			
-
-//			sa1 = submittedAnswerService.save(sa1);
-//			sa2 = submittedAnswerService.save(sa2);
-//			sa3 = submittedAnswerService.save(sa3);
 			
 			List<Result> results = trainee.getResults();
 			results.add(result);
@@ -443,74 +404,6 @@ public class Dataloader implements ApplicationRunner {
 		}
 	}
 
-	public void createQuiz() {
-
-//		Quiz quiz = new Quiz("Java Quiz", "For Java Students", 1000, 5, 50.0,new ArrayList<Question>());
-//		
-//		Question q1 = new Question(quiz,"Test Quiz", QuestionType.MULTIPLE_CHOICE, 4, new ArrayList<Answer>());
-//		Answer q1a = new Answer("Answer 1", q1, false);
-//		Answer q1a1 = new Answer("Answer 2", q1, true);
-//		Answer q1a2 = new Answer("Answer 3", q1, false);
-//		q1.addAnswers(q1a);
-//		q1.addAnswers(q1a1);
-//		q1.addAnswers(q1a2);
-//		quizService.saveAnswer(q1a);
-//		quizService.saveAnswer(q1a1);
-//		quizService.saveAnswer(q1a2);
-//		quizService.saveQuestion(q1);
-//		
-//		Question q2 = new Question(quiz,"MultiSelect", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
-//		Answer q2a = new Answer("Answer 1", q2, true);
-//		Answer q2a1 = new Answer("Answer 2", q2, false);
-//		Answer q2a2 = new Answer("Answer 3", q2, true);	
-//		q2.addAnswers(q2a);
-//		q2.addAnswers(q2a1);
-//		q2.addAnswers(q2a2);
-//
-//		
-//		
-//		Question q3 = new Question(quiz,"Short Answer", QuestionType.SHORT_ANSWER, 10, new ArrayList<Answer>());
-//		Answer q3a1 = new Answer("Short Answer", q3, true);
-//		q3.addAnswers(q3a1);
-//		
-//		quiz.addQuestion(q1);
-//		
-//		quiz.addQuestion(q3);
-//		quiz.addQuestion(q2);
-//		
-//		Question q5 = new Question(quiz,"MultiSelectadifsjklfj;lasdkjf;laskdjf;alsdkjf", QuestionType.MULTI_SELECT, 4, new ArrayList<Answer>());
-//		Answer q5a = new Answer("Answer 1", q5, true);
-//		Answer q5a1 = new Answer("Answer 2", q5, false);
-//		Answer q5a2 = new Answer("Answer 3", q5, true);	
-//		q5.addAnswers(q5a);
-//		q5.addAnswers(q5a1);
-//		q5.addAnswers(q5a2);
-//		
-//		
-//		quizService.saveAnswer(q3a1);
-//		quizService.saveQuestion(q3);
-//		
-//		quizService.saveAnswer(q2a);
-//		quizService.saveAnswer(q2a1);
-//		quizService.saveAnswer(q2a2);
-//		quizService.saveQuestion(q2);
-//		quizService.saveAnswer(q5a2);
-//		quizService.saveAnswer(q5a1);
-//		quizService.saveAnswer(q5a);
-//		quizService.saveQuestion(q5);
-//		Quiz cpp = new Quiz("C++", "For C++ Students", 10, 5, 50.0,new ArrayList<Question>());
-//		Quiz linux = new Quiz("Linux Quiz", "Debian and linux for the bois", 10, 5, 50.0,new ArrayList<Question>());
-//		
-//		
-//
-//		
-//		Quiz savedQuiz = quizService.saveQuiz(quiz);
-//		quizService.saveQuiz(linux);
-//		quizService.saveQuiz(cpp);
-//		log.info("SAVED QUIZ ID: " + savedQuiz.getQuizId());
-//		log.info("Questions: " + savedQuiz.getQuestions());
-
-	}
 
 	public void createTrainee() {
 		// Create Suggested Skills
