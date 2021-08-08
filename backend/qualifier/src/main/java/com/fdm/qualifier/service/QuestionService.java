@@ -45,15 +45,6 @@ public class QuestionService {
 		return question;
 	}
 
-	/**
-	 * Gets an optional question by id from repo
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Optional<Question> findById1(int id) {
-		return questionRepository.findById(id);
-	}
 
 	/**
 	 * Find all questions based on quiz id from repo
@@ -83,7 +74,7 @@ public class QuestionService {
 	public Question findById(int id) {
 		Optional<Question> question = questionRepository.findById(id);
 
-		if (question.get() == null) {
+		if (question.isEmpty()) {
 			return null;
 		} else {
 			return question.get();
