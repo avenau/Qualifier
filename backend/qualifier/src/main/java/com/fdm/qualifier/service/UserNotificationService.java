@@ -29,7 +29,4 @@ public class UserNotificationService {
 		this.traineeRepo = traineeRepo;
 	}
 
-	public void createNotificationsForTraineesWithSkills(Placement placement, Notification notification) {
-	}
-
 }
