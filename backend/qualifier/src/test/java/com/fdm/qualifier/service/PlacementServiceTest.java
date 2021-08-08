@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import com.fdm.qualifier.model.Client;
 import com.fdm.qualifier.model.Placement;
 import com.fdm.qualifier.model.Skill;
 import com.fdm.qualifier.model.SkillLevel;
+import com.fdm.qualifier.model.Trainee;
 import com.fdm.qualifier.repository.ClientRepository;
 import com.fdm.qualifier.repository.PlacementRepository;
 import com.fdm.qualifier.repository.SkillLevelRepository;
@@ -49,8 +51,21 @@ class PlacementServiceTest {
 
 	@Mock
 	SkillLevelRepository skillLevelRepoMock;
+
 	@Mock
 	PlacementRecieverDTO placementRecieverDTOMock;
+
+	@Mock
+	Trainee traineeMock;
+
+	@Mock
+	List<Integer> skillsIdMock;
+
+	@Mock
+	Iterator<Integer> skillsIdIteratorMock;
+
+	@Mock
+	SkillLevel skillLevelMock;
 
 	
 	@BeforeEach
@@ -149,11 +164,31 @@ class PlacementServiceTest {
 	
 	@Test
 	void test_savePlacement() {
+		int id = 1;
 		when(placementRecieverDTOMock.getClient()).thenReturn(new ClientDTO (5, "hello"));
 		when(clientRepoMock.getById(5)).thenReturn(new Client("hello"));
+		when(placementRecieverDTOMock.getSkillsNeeded()).thenReturn(skillsIdMock);
+		when(skillsIdMock.iterator()).thenReturn(skillsIdIteratorMock);
+		when(skillsIdIteratorMock.hasNext()).thenReturn(true, false);
+		when(skillsIdIteratorMock.next()).thenReturn(id);
+		when(skillLevelRepoMock.findById(id)).thenReturn(Optional.of(skillLevelMock));
 		
 		placementService.saveDTO(placementRecieverDTOMock);
+
 		verify(placementRecieverDTOMock).getClient();
 	}
 
+	@Test
+	public void test_placeApprovedTrainee_sets_trainee_saves_repo() {
+		//Arrange
+		when(placementRepoMock.save(placementMock)).thenReturn(placementMock);
+		
+		//Act
+		Placement actual = placementService.placeApprovedTrainee(placementMock, traineeMock);
+	
+		//Assert
+		verify(placementMock, times(1)).setTrainee(traineeMock);
+		verify(placementRepoMock, times(1)).save(placementMock);
+		assertEquals(placementMock, actual);
+	}
 }

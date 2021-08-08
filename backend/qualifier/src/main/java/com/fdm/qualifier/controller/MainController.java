@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/")
 public class MainController 
 {
-    private Log log = LogFactory.getLog(MainController.class);
+    protected static final String RETURNING_MAIN_PAGE_MESSAGE = "returning main page";
+	private Log log = LogFactory.getLog(MainController.class);
 
     /**
      * Gets Home page
@@ -26,6 +27,6 @@ public class MainController
     public ResponseEntity<?> mainpage_GET()
     {
         log.info("accessing index route");
-        return ResponseEntity.ok("returning main page");
+        return ResponseEntity.ok(RETURNING_MAIN_PAGE_MESSAGE);
     }
 }

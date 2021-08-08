@@ -48,6 +48,12 @@ import com.fdm.qualifier.service.TraineeService;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
+	protected static final String ANSWER_ID_KEY = "answerId";
+	protected static final String ANSWER_CONTENT_KEY = "answerContent";
+	protected static final String QUESTION_ID_KEY = "questionId";
+	protected static final String USER_ID_KEY = "userId";
+	protected static final String QUIZ_ID_KEY = "quizId";
+	protected static final String PAYLOAD_KEY = "payload";
 	Logger logger = LogManager.getLogger();
 	Log log = LogFactory.getLog(QuizController.class);
 
@@ -97,8 +103,8 @@ public class QuizController {
 	@PostMapping("/quiz/submit")
 	public Result submitQuiz(@RequestBody Map<String, Object> payload) throws Exception {
 		double totalMark = 0.0;
-		for (Map<String, Object> content : (ArrayList<Map<String, Object>>) payload.get("payload")) {
-			int id = Integer.parseInt((String) content.get("quizId"));
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>) payload.get(PAYLOAD_KEY)) {
+			int id = Integer.parseInt((String) content.get(QUIZ_ID_KEY));
 			if (quizService.findQuizById(id).isPresent()) {
 
 			} else {
@@ -116,14 +122,16 @@ public class QuizController {
 		boolean marked = true;
 		boolean passed = false;
 
-		for (Map<String, Object> content : (ArrayList<Map<String, Object>>) payload.get("payload")) {
-			userId = Integer.parseInt((String) content.get("userId"));
-			quizId = Integer.parseInt((String) content.get("quizId"));
+		for (Map<String, Object> content : (ArrayList<Map<String, Object>>) payload.get(PAYLOAD_KEY)) {
+			log.debug("getting userId");
+			userId = Integer.parseInt((String) content.get(USER_ID_KEY));
+			quizId = Integer.parseInt((String) content.get(QUIZ_ID_KEY));
+			log.debug("quizId: " + quizId);
 
-			int questionId = Integer.parseInt((String) content.get("questionId"));
+			int questionId = Integer.parseInt((String) content.get(QUESTION_ID_KEY));
 			Question question = questionService.findById(questionId);
 			Question.QuestionType questionType = question.getType();
-			String answerContent = (String) content.get("answerContent");
+			String answerContent = (String) content.get(ANSWER_CONTENT_KEY);
 
 			double unitMark = question.getPoints();
 			if (questionType.equals(QuestionType.SHORT_ANSWER)) {
@@ -134,7 +142,7 @@ public class QuizController {
 				submittedAnswers.add(submittedAnswer);
 			} else {
 
-				for (Object id : (ArrayList<Object>) content.get("answerId")) {
+				for (Object id : (ArrayList<Object>) content.get(ANSWER_ID_KEY)) {
 					int answerId = Integer.parseInt((String) id);
 					Answer answer = answerService.finById(answerId).get();
 
